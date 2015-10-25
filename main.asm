@@ -1,4 +1,3 @@
-INCLUDE "charmap.asm"
 INCLUDE "macros.asm"
 INCLUDE "constants.asm"
 
@@ -33,7 +32,7 @@ SECTION "rst 60", ROM0 [$60]
 
 SECTION "Entry", ROM0 [$100]
 
-Entry: ; 0x100
+Entry: ; 0100 (0:0100) 
 	nop
 	jp Start
 
@@ -45,7 +44,7 @@ SECTION "Header", ROM0 [$104]
 
 SECTION "Main", ROM0
 
-Start: ; 0x150
+Start: ; 0150 (0:0150) 
     ld [hGameBoyColorFlag], a
     ld sp, hGameBoyColorFlag
     di
@@ -157,7 +156,7 @@ Start: ; 0x150
     ld a, Bank(Func_1ffc)
     ld hl, Func_1ffc
     call BankSwitchSimple
-Func_23b: ; 0x23b
+Func_23b: ; 023b (0:023b) 
     ld a, [hGameBoyColorFlag]
     cp $11
     jr nz, .asm_248
@@ -173,7 +172,7 @@ Func_23b: ; 0x23b
 
 INCBIN "baserom.gbc",$24e,$2f2 - $24e
 
-Func_2f2: ; 0x2f2
+Func_2f2: ; 02f2 (0:02f2) 
     push af
     push bc
     push de
@@ -303,7 +302,7 @@ Func_2f2: ; 0x2f2
 
 INCBIN "baserom.gbc",$3c3,$3ec - $3c3
 
-Func_3ec: ; 0x3ec
+Func_3ec: ; 03ec (0:03ec) 
     push af
     push bc
     push de
@@ -319,7 +318,7 @@ Func_3ec: ; 0x3ec
     ld l, a
     jp [hl]
 
-Func_3ff: ; 0x3ff
+Func_3ff: ; 03ff (0:03ff) 
     ld a, $1
     ld [$ffb5], a
     pop hl
@@ -328,7 +327,7 @@ Func_3ff: ; 0x3ff
     pop af
     reti
 
-PointerTable_408: ; 0x408
+PointerTable_408: ; 0408 (0:0408) 
     dw Func_fbc
     dw Func_fbf
     dw Func_fea
@@ -338,7 +337,7 @@ PointerTable_408: ; 0x408
     dw Func_10a4
     dw Func_10a7
 
-Func_418: ; 0x418
+Func_418: ; 0418 (0:0418) 
     ei
     push af
     push bc
@@ -368,7 +367,7 @@ Func_418: ; 0x418
     pop af
     reti
 
-Func_445: ; 0x445
+Func_445: ; 0445 (0:0445) 
     push af
     push bc
     push de
@@ -389,10 +388,10 @@ Func_445: ; 0x445
 
 INCBIN "baserom.gbc",$45d,$467 - $45d
 
-Func_467: ; 0x467
+Func_467: ; 0467 (0:0467) 
     reti
 
-Func_468: ; 0x468
+Func_468: ; 0468 (0:0468) 
     ld a, [$ff40]
     bit 7, a
     ret z
@@ -405,7 +404,7 @@ Func_468: ; 0x468
     jr z, .asm_472
     ret
 
-JumpToFuncInTable: ; 0x477
+JumpToFuncInTable: ; 0477 (0:0477) 
 ; Jumps to a function in the pointer table immediately following
 ; a "rst $18" call.  Function must be in the same Bank as the pointer table.
 ; input:  a = index of function in table
@@ -423,7 +422,7 @@ JumpToFuncInTable: ; 0x477
     pop de
     jp [hl]
 
-Func_486: ; 0x486
+Func_486: ; 0486 (0:0486) 
     rlca
     add l
     ld l, a
@@ -435,7 +434,7 @@ Func_486: ; 0x486
     ld l, a
     ret
 
-Func_490: ; 0x490
+Func_490: ; 0490 (0:0490) 
     ld a, [hLoadedROMBank]
     push af
     ld a, [wCurrentSongBank]
@@ -451,7 +450,7 @@ Func_490: ; 0x490
     ld [$2000], a
     ret
 
-PlaySoundEffect: ; 0x4af
+PlaySoundEffect: ; 04af (0:04af) 
 ; input:  de = sound effect id?  I think d specifies something special and e holds the id
     ld a, [$dead]
     and a
@@ -477,7 +476,7 @@ PlaySoundEffect: ; 0x4af
     ld [$2000], a
     ret
 
-Func_4d8: ; 0x4d8
+Func_4d8: ; 04d8 (0:04d8) 
     push bc
     push de
     push hl
@@ -493,7 +492,7 @@ Func_4d8: ; 0x4d8
     pop bc
     ret
 
-Func_4ef: ; 0x4ef
+Func_4ef: ; 04ef (0:04ef) 
     ld a, [hLoadedROMBank]
     push af
     ld a, [wCurrentSongBank]
@@ -505,7 +504,7 @@ Func_4ef: ; 0x4ef
     ld [$2000], a
     ret
 
-Func_504: ; 0x504
+Func_504: ; 0504 (0:0504) 
     ld a, [hLoadedROMBank]
     push af
     ld a, [wCurrentSongBank]
@@ -527,13 +526,13 @@ Func_504: ; 0x504
     ld [$d800], a
     ret
 
-SetSongBank: ; 0x52c
+SetSongBank: ; 052c (0:052c) 
     di
     ld [wCurrentSongBank], a
     ei
     ret
 
-CallInFollowingTable: ; 0x532
+CallInFollowingTable: ; 0532 (0:0532) 
 ; Calls a function in a table located immediately after a call to this function.
 ; Inputs:  a = entry in the table
     ld e, a
@@ -553,13 +552,13 @@ CallInFollowingTable: ; 0x532
     ld l, e
     jp BankSwitch
 
-BankSwitchSimple: ; 0x549
+BankSwitchSimple: ; 0549 (0:0549) 
 ; Switches to Bank in register a and jumps to hl.
     ld [hLoadedROMBank], a
     ld [$2000], a  ; Load Bank
     jp [hl]
 
-BankSwitch: ; 0x54f
+BankSwitch: ; 054f (0:054f) 
     ld e, a
     ld a, [hLoadedROMBank]  ; currently-loaded Bank
     cp e
@@ -588,7 +587,7 @@ BankSwitch: ; 0x54f
     ld a, [$ff8a]
     jp [hl]
 
-Func_576: ; 0x576
+Func_576: ; 0576 (0:0576) 
     ld a, [$ff40]
     bit 7, a
     ret z
@@ -601,7 +600,7 @@ Func_576: ; 0x576
     jr nz, .asm_581
     ret
 
-Func_588: ; 0x588
+Func_588: ; 0588 (0:0588) 
     ld a, [$ffc4]
     and a
     call nz, Func_597
@@ -611,7 +610,7 @@ Func_588: ; 0x588
     ld [$ff9e], a
     ret
 
-Func_597: ; 0x597
+Func_597: ; 0597 (0:0597) 
     ld de, $ff68
     ld a, $80
     ld [de], a
@@ -636,7 +635,7 @@ Func_597: ; 0x597
     jr nz, .asm_5b2
     ret
 
-Func_5c2: ; 0x5c2
+Func_5c2: ; 05c2 (0:05c2) 
     push bc
     ld b, $4
 .asm_5c5
@@ -663,7 +662,7 @@ Func_5c2: ; 0x5c2
 
 INCBIN "baserom.gbc",$5e1,$5f7 - $5e1
 
-WriteDMACodeToHRAM: ; 0x5f7
+WriteDMACodeToHRAM: ; 05f7 (0:05f7) 
 ; Initializes registers $ff80 - $ff8a
     ld c, $80
     ld b, $a  ; number of bytes to load
@@ -686,7 +685,7 @@ DMARoutine:
     jr nz, .waitLoop
     ret
 
-WaitForLCD: ; 0x60f
+WaitForLCD: ; 060f (0:060f) 
 ; Wait for LCD controller to stop reading from both OAM and VRAM because
 ; CPU can't access OAM, VRAM, or palette data ($ff69, $ff6b) during this time.
     ld a, [$ff41]    ; LCDC Status register
@@ -698,7 +697,7 @@ WaitForLCD: ; 0x60f
     jr nz, .delay10Cycles
     ret
 
-Func_61b: ; 0x61b
+Func_61b: ; 061b (0:061b) 
     ld a, [$ff44]  ; LY register (LCDC Y-Coordinate)
     cp $40
     jr c, .asm_625
@@ -724,7 +723,7 @@ Func_61b: ; 0x61b
 .asm_63d
     ret
 
-Func_63e: ; 0xc3e
+Func_63e: ; 0c3e (0:0c3e) 
     dec bc
 .asm_63f
     ld [hli], a
@@ -735,7 +734,7 @@ Func_63e: ; 0xc3e
 
 INCBIN "baserom.gbc",$646,$654 - $646
 
-ClearData: ; 0x654
+ClearData: ; 0654 (0:0654) 
 ; Clears bc bytes starting at hl.
 ; bc can be a maximum of $7fff, since it checks bit 7 of b when looping.
     xor a
@@ -747,7 +746,7 @@ ClearData: ; 0x654
     jr z, .clearLoop
     ret
 
-Func_65d: ; 0x65d
+Func_65d: ; 065d (0:065d) 
     ld a, [hli]
     ld [de], a
     inc de
@@ -757,7 +756,7 @@ Func_65d: ; 0x65d
     jr nz, Func_65d
     ret
 
-CopyDataToRAM: ; 0x666 spooky
+CopyDataToRAM: ; 0666 (0:0666) spooky
 ; Copies data from any bank to either working RAM or video RAM
 ; Input: hl = address of data to copy
 ;        a  = bank of data to copy
@@ -793,7 +792,7 @@ CopyDataToRAM: ; 0x666 spooky
     ld [$2000], a
     ret
 
-ReadByteFromBank: ; 0x68f
+ReadByteFromBank: ; 068f (0:068f) 
 ; Input: a  = bank
 ;        hl = address of byte to read
 ; Output: a = byte at a:hl
@@ -812,7 +811,7 @@ ReadByteFromBank: ; 0x68f
     pop de
     ret
 
-LoadVideoData: ; 0x6a4
+LoadVideoData: ; 06a4 (0:06a4) 
 ; Input:
 ;     hl = address of pointer table
 ;      a = index of item to load in pointer table
@@ -850,13 +849,13 @@ LoadVideoData: ; 0x6a4
     add hl, bc
     jr .loadItem
 
-Func_6cb: ; 0x6cb
+Func_6cb: ; 06cb (0:06cb) 
     srl b
     rr c
     jp c, Func_6fd  ; if lowest bit of bc is set
     jp Func_6d5 ; This jumps to the next instruction... Strange.
 
-Func_6d5: ; 0x6d5
+Func_6d5: ; 06d5 (0:06d5) 
     ld [$fffa], a  ; save bank of data to be loaded
     ld a, [hLoadedROMBank]
     push af
@@ -883,7 +882,7 @@ Func_6d5: ; 0x6d5
     ld [$2000], a  ; reload the previous ROM Bank
     ret
 
-Func_6fd: ; 0x6fd
+Func_6fd: ; 06fd (0:06fd) 
     ld [$fffa], a  ; save bank of data to be loaded
     ld a, [hLoadedROMBank]
     push af
@@ -906,7 +905,7 @@ Func_6fd: ; 0x6fd
     ld [$2000], a
     ret
 
-Func_724: ; 0x724
+Func_724: ; 0724 (0:0724) 
     res 6, a
     ld b, a
     set 7, a
@@ -922,14 +921,14 @@ Func_724: ; 0x724
     jr z, .copyByte
     ret
 
-Func_735: ; 0x735
+Func_735: ; 0735 (0:0735) 
     push hl
     ld hl, $ff40
     bit 7, [hl]
     pop hl
     jp z, CopyDataToRAM
     ; fall through
-LoadVRAMData: ; 0x73f
+LoadVRAMData: ; 073f (0:073f) 
 ; This loads some data into VRAM. It waits for the LCD H-Blank to copy the data 4 bytes at a time.
 ; input:  hl = source of data
 ;          a = bank of data to load
@@ -999,7 +998,7 @@ LoadVRAMData: ; 0x73f
     ld [$2000], a
     ret
 
-Func_790: ; 0x790
+Func_790: ; 0790 (0:0790) 
     push hl
     ld hl, $ff40
     bit 7, [hl]
@@ -1053,7 +1052,7 @@ Func_790: ; 0x790
     ld [$2000], a
     ret
 
-Func_7dc: ; 0x7dc
+Func_7dc: ; 07dc (0:07dc) 
     bit 7, h
     jr nz, .asm_7ef
     ld [$fffa], a
@@ -1136,7 +1135,7 @@ Func_7dc: ; 0x7dc
     ld [$2000], a
     ret
 
-PutTileInVRAM: ; 0x848
+PutTileInVRAM: ; 0848 (0:0848) 
 ; Puts a tile in VRAM.
 ; input:  a = tile number
 ;        hl = pointer to VRAM location where tile should be placed
@@ -1151,7 +1150,7 @@ PutTileInVRAM: ; 0x848
     ld [hl], a  ; Store tile number in VRAM background map
     ret
 
-Func_858: ; 0x858
+Func_858: ; 0858 (0:0858) 
     push af
     call WaitForLCD
     call Func_61b
@@ -1167,7 +1166,7 @@ Func_858: ; 0x858
     ld [$ff4f], a
     ret
 
-Func_86f: ; 0x86f
+Func_86f: ; 086f (0:086f) 
     ld [$fffa], a
     ld a, [hLoadedROMBank]
     push af
@@ -1248,7 +1247,7 @@ Func_86f: ; 0x86f
     ld [$2000], a
     ret
 
-Func_8e1: ; 0x8e1
+Func_8e1: ; 08e1 (0:08e1) 
     ld [$fffa], a
     ld a, [hLoadedROMBank]
     push af
@@ -1285,9 +1284,9 @@ Func_8e1: ; 0x8e1
     ld [$2000], a
     ret
 
-ClearOAMBuffer: ; 0x916
+ClearOAMBuffer: ; 0916 (0:0916) 
 ; Clears the OAM buffer by loading $f0 into all of the entries.
-    ld hl, wOAMBuffer ; 0xd000
+    ld hl, wOAMBuffer ; d000 (3:5000) 
     ld b, 4 * 40  ; wOAMBuffer is 4 * 40 bytes long (40 OAM entries, 4 bytes each)
     ld a, $f0  ; byte to write
 .loop
@@ -1298,7 +1297,7 @@ ClearOAMBuffer: ; 0x916
     ld [$d802], a
     ret
 
-Func_926: ; 0x926
+Func_926: ; 0926 (0:0926) 
     ld a, [$d802]
     cp $a0
     jr nc, .asm_93a
@@ -1317,7 +1316,7 @@ Func_926: ; 0x926
     ld [$d802], a
     ret
 
-Func_93f: ; 0x93f
+Func_93f: ; 093f (0:093f) 
     push bc
     rst $10
     pop bc
@@ -1327,7 +1326,7 @@ Func_93f: ; 0x93f
     jr nz, Func_93f
     ret
 
-Func_948: ; 0x948
+Func_948: ; 0948 (0:0948) 
     ld de, $06d6
 .asm_94b
     nop
@@ -1343,7 +1342,7 @@ Func_948: ; 0x948
     jr nz, Func_948
     ret
 
-GenRandom: ; 0x959
+GenRandom: ; 0959 (0:0959) 
     push bc
     push de
     push hl
@@ -1366,7 +1365,7 @@ GenRandom: ; 0x959
     pop bc
     ret
 
-Func_97a: ; 0x97a
+Func_97a: ; 097a (0:097a) 
     ld a, [$d810]
     ld d, a
     ld a, $0
@@ -1413,7 +1412,7 @@ Func_97a: ; 0x97a
 
 INCBIN "baserom.gbc",$9c4,$9fa - $9c4
 
-Func_9fa: ; 0x9fa
+Func_9fa: ; 09fa (0:09fa) 
     ld a, [$d810]
     ld d, a
     ld bc, $d812
@@ -1442,7 +1441,7 @@ Func_9fa: ; 0x9fa
     jr nz, .asm_a17
     ret
 
-Func_a21: ; 0xa21
+Func_a21: ; 0a21 (0:0a21) 
     push bc
     push hl
     ld c, a
@@ -1461,7 +1460,7 @@ Func_a21: ; 0xa21
 
 INCBIN "baserom.gbc",$a38,$ab8 - $a38
 
-ReadJoypad: ; 0xab8
+ReadJoypad: ; 0ab8 (0:0ab8) 
 ; Reads the current state of the joypad and saves the state into
 ; some registers the game uses during gameplay. It remembers the joypad state
 ; from the current frame, previous frame, and two frames ago.
@@ -1534,7 +1533,7 @@ ReadJoypad: ; 0xab8
     ld [hli], a
     ret
 
-Func_b2e: ; 0xb2e
+Func_b2e: ; 0b2e (0:0b2e) 
     ld hl, $d808
     xor a
     ld [hli], a
@@ -1542,7 +1541,7 @@ Func_b2e: ; 0xb2e
     ld [hl], a
     ret
 
-IsKeyPressed2: ; 0xb36
+IsKeyPressed2: ; 0b36 (0:0b36) 
     ld a, [hJoypadState]
     and [hl]
     jr z, .asm_b3e
@@ -1562,7 +1561,7 @@ IsKeyPressed2: ; 0xb36
     and a
     ret
 
-IsKeyPressed: ; 0xb4c
+IsKeyPressed: ; 0b4c (0:0b4c) 
 ; Checks if a key for the specified key config is pressed.
 ; input:   hl = pointer to key config byte pair (e.g. wKeyConfigLeftFlipper)
 ; output:  zero flag is set if a corresponding key is pressed
@@ -1589,7 +1588,7 @@ IsKeyPressed: ; 0xb4c
     xor a
     ret
 
-Func_b66: ; 0xb66
+Func_b66: ; 0b66 (0:0b66) 
     ld a, [hGameBoyColorFlag]
     and a
     jr nz, .asm_b73
@@ -1652,7 +1651,7 @@ Func_b66: ; 0xb66
     jr nz, .asm_ba8
     ret
 
-Func_bbe: ; 0xbbe
+Func_bbe: ; 0bbe (0:0bbe) 
     ld a, [hGameBoyColorFlag]
     and a
     jp nz, Func_c19
@@ -1707,7 +1706,7 @@ Func_bbe: ; 0xbbe
     call Func_93f
     ret
 
-Func_c19: ; 0xc19
+Func_c19: ; 0c19 (0:0c19) 
     ld b, $10
 .asm_c1b
     push bc
@@ -1720,7 +1719,7 @@ Func_c19: ; 0xc19
     jr nz, .asm_c1b
     ret
 
-Func_c2d: ; 0xc2d
+Func_c2d: ; 0c2d (0:0c2d) 
     ld a, b
     cp $1
     jr z, .asm_c49
@@ -1762,7 +1761,7 @@ Func_c2d: ; 0xc2d
     jr nz, .asm_c4b
     ret
 
-Func_c60: ; 0xc60
+Func_c60: ; 0c60 (0:0c60) 
     push hl
     ld a, [de]
     and $1f
@@ -1828,7 +1827,7 @@ Func_c60: ; 0xc60
 
 INCBIN "baserom.gbc",$cb5,$cb5 - $cb5
 
-Func_cb5: ; 0xcb5
+Func_cb5: ; 0cb5 (0:0cb5) 
     ld a, [hGameBoyColorFlag]
     and a
     jp nz, Func_cee
@@ -1867,7 +1866,7 @@ Func_cb5: ; 0xcb5
     call Func_93f
     ret
 
-Func_cee: ; 0xcee
+Func_cee: ; 0cee (0:0cee) 
     ld hl, $d280
     ld de, $ff68
     call Func_d9d
@@ -1885,7 +1884,7 @@ Func_cee: ; 0xcee
     jr nz, .asm_d02
     ret
 
-Func_d11: ; 0xd11
+Func_d11: ; 0d11 (0:0d11) 
     ld b, $40
 .asm_d13
     ld a, [hl]
@@ -1988,7 +1987,7 @@ Func_d61: ; 0d61
     ld [$ffff], a
     ret
 
-Func_d9d: ; 0xd9d
+Func_d9d: ; 0d9d (0:0d9d) 
     ld b, $0
     ld c, e
     inc c
@@ -2037,7 +2036,7 @@ Func_d9d: ; 0xd9d
     jr nz, .asm_da4
     ret
 
-Func_dd4: ; 0xdd4
+Func_dd4: ; 0dd4 (0:0dd4) 
     push bc
     ld c, l
     ld b, $0
@@ -2091,7 +2090,7 @@ Func_dd4: ; 0xdd4
     pop bc
     ret
 
-ConvertHexByteToDecWord: ; 0xe21
+ConvertHexByteToDecWord: ; 0e21 (0:0e21) 
 ; Convert the base-16 value in register a into a Binary Coded Decimal (base-10) word.
 ; Example:  If a = $97, de = $0151.
     ld b, a
@@ -2115,7 +2114,7 @@ ConvertHexByteToDecWord: ; 0xe21
     jr nz, .asm_e28
     ret
 
-PowersOfTwo: ; 0xe3a
+PowersOfTwo: ; 0e3a (0:0e3a) 
     dw $0001
     dw $0002
     dw $0004
@@ -2125,7 +2124,7 @@ PowersOfTwo: ; 0xe3a
     dw $0064
     dw $0128
 
-Func_e4a: ; 0xe4a
+Func_e4a: ; 0e4a (0:0e4a) 
     ld a, [hl]
     cp $64
     jr z, .asm_e53
@@ -2137,7 +2136,7 @@ Func_e4a: ; 0xe4a
     and a
     ret
 
-Func_e55: ; 0xe55
+Func_e55: ; 0e55 (0:0e55) 
     cp c
     jr c, .asm_e5b
     sub c
@@ -2146,7 +2145,7 @@ Func_e55: ; 0xe55
     and a
     ret
 
-Func_e5d: ; 0xe5d
+Func_e5d: ; 0e5d (0:0e5d) 
     ld a, $1
     ld [$d84a], a
 .asm_e62
@@ -2155,7 +2154,7 @@ Func_e5d: ; 0xe5d
     jr nz, .asm_e62
     ret
 
-Func_e69: ; 0xe69
+Func_e69: ; 0e69 (0:0e69) 
     ld a, [$ff44]
     cp $90
     jr nc, Func_e69
@@ -2221,7 +2220,7 @@ Func_e69: ; 0xe69
     pop hl
     ret
 
-Func_eef: ; 0xeef
+Func_eef: ; 0eef (0:0eef) 
     ld a, [hli]
     ld b, a
     ld a, [hli]
@@ -2232,7 +2231,7 @@ Func_eef: ; 0xeef
     ld e, a
     ret
 
-Func_ef8: ; 0xef8
+Func_ef8: ; 0ef8 (0:0ef8) 
     ld a, [$ff41]
     and $3
     jr nz, Func_ef8
@@ -2250,7 +2249,7 @@ Func_ef8: ; 0xef8
     jr nz, .asm_f08
     ret
 
-Func_f0c: ; 0xf0c
+Func_f0c: ; 0f0c (0:0f0c) 
     call Func_f34
     ret nc
 .asm_f10
@@ -2264,7 +2263,7 @@ Func_f0c: ; 0xf0c
     scf
     ret
 
-SaveData: ; 0xf1a
+SaveData: ; 0f1a (0:0f1a) 
 ; Input: hl = data to save
 ;        bc = number of bytes to save
 ;        de = destination for saved data
@@ -2289,7 +2288,7 @@ SaveData: ; 0xf1a
     call Func_f4c
     ret
 
-Func_f34: ; 0xf34
+Func_f34: ; 0f34 (0:0f34) 
     call Func_f62
     jr nc, .asm_f3f
     call Func_f7e
@@ -2306,7 +2305,7 @@ Func_f34: ; 0xf34
     call Func_f7e
     ret
 
-Func_f4c: ; 0xf4c
+Func_f4c: ; 0f4c (0:0f4c) 
     push bc
     push hl
     push de
@@ -2330,7 +2329,7 @@ Func_f4c: ; 0xf4c
     pop bc
     ret
 
-Func_f62: ; 0xf62
+Func_f62: ; 0f62 (0:0f62) 
     push hl
     add hl, bc
     ld a, [hli]
@@ -2347,7 +2346,7 @@ Func_f62: ; 0xf62
     pop hl
     ret
 
-Func_f74: ; 0xf74
+Func_f74: ; 0f74 (0:0f74) 
     push hl
     add hl, bc
     ld a, $4e
@@ -2357,7 +2356,7 @@ Func_f74: ; 0xf74
     pop hl
     ret
 
-Func_f7e: ; 0xf7e
+Func_f7e: ; 0f7e (0:0f7e) 
     push bc
     push de
     push hl
@@ -2391,7 +2390,7 @@ Func_f7e: ; 0xf7e
     pop bc
     ret
 
-Func_fa1: ; 0xfa1
+Func_fa1: ; 0fa1 (0:0fa1) 
     push bc
     push de
     push hl
@@ -2418,10 +2417,10 @@ Func_fa1: ; 0xfa1
     pop bc
     ret
 
-Func_fbc: ; 0xfbc
+Func_fbc: ; 0fbc (0:0fbc) 
     jp Func_3ff
 
-Func_fbf: ; 0xfbf
+Func_fbf: ; 0fbf (0:0fbf) 
     ld hl, $ffa8
     ld c, [hl]
     ld a, [$ff44]
@@ -2448,7 +2447,7 @@ Func_fbf: ; 0xfbf
     ld [$ff40], a
     jp Func_3ff
 
-Func_fea: ; 0xfea
+Func_fea: ; 0fea (0:0fea) 
     ld hl, $ffa8
     ld a, [$ffaa]
     cp [hl]
@@ -2517,7 +2516,7 @@ Func_fea: ; 0xfea
     ld [$ff42], a
     jp Func_3ff
 
-Func_105d: ; 0x105d
+Func_105d: ; 105d (0:105d) 
     ld hl, $ffa8
     ld a, [$ff44]
     cp [hl]
@@ -2560,19 +2559,19 @@ Func_105d: ; 0x105d
     ld [$ff42], a
     jp Func_3ff
 
-Func_109e: ; 0x109e
+Func_109e: ; 109e (0:109e) 
     jp Func_3ff
 
-Func_10a1: ; 0x10a1
+Func_10a1: ; 10a1 (0:10a1) 
     jp Func_3ff
 
-Func_10a4: ; 0x10a4
+Func_10a4: ; 10a4 (0:10a4) 
     jp Func_3ff
 
-Func_10a7: ; 0x10a7
+Func_10a7: ; 10a7 (0:10a7) 
     jp Func_3ff
 
-Func_10aa: ; 0x10aa
+Func_10aa: ; 10aa (0:10aa) 
     ld c, a
     ld a, [hli]
     ld b, a
@@ -2599,7 +2598,7 @@ Func_10aa: ; 0x10aa
     jr nz, .asm_10ad
     ret
 
-Func_10c5: ; 0x10c5
+Func_10c5: ; 10c5 (0:10c5) 
     push af
     ld a, [$ff40]
     bit 7, a
@@ -2665,12 +2664,12 @@ Func_10c5: ; 0x10c5
     ld [$ffff], a
     ret
 
-Func_1129: ; 0x1129
+Func_1129: ; 1129 (0:1129) 
     ld a, [$d7fb]
     ld [$d7fc], a
     ret
 
-Func_1130: ; 0x1130
+Func_1130: ; 1130 (0:1130) 
     push hl
     ld a, [$d7fb]
     ld hl, $d7fc
@@ -2678,7 +2677,7 @@ Func_1130: ; 0x1130
     pop hl
     ret
 
-Func_113a: ; 0x113a
+Func_113a: ; 113a (0:113a) 
     ld hl, $d7fc
     ld a, [$d7fb]
     cp [hl]
@@ -2723,10 +2722,10 @@ Func_113a: ; 0x113a
     ld [$d7fa], a
     ret
 
-Func_117a: ; 0x117a
+Func_117a: ; 117a (0:117a) 
     jp [hl]
 
-LoadTileLists: ; 0x117b
+LoadTileLists: ; 117b (0:117b) 
 ; Loads a series of defined tile ids into VRAM
 ; input:  de = pointer to data structure
 ; data structure:  list of VRAM tile data with the following format
@@ -2750,7 +2749,7 @@ LoadTileLists: ; 0x117b
     jr nz, .loadTileData
     jr .loadTileSequence
 
-Func_118d: ; 0x118d
+Func_118d: ; 118d (0:118d) 
     ld a, $1
     ld [$ff4f], a
     call LoadTileLists
@@ -2760,7 +2759,7 @@ Func_118d: ; 0x118d
 
 INCBIN "baserom.gbc",$1198,$12a1 - $1198
 
-Func_12a1: ; 0x12a1
+Func_12a1: ; 12a1 (0:12a1) 
     ld [$fffa], a
     ld a, [hLoadedROMBank]
     push af
@@ -2812,7 +2811,7 @@ Func_12a1: ; 0x12a1
     ld [$2000], a
     ret
 
-Func_12ec ; 0x12ec
+Func_12ec ; 12ec (0:12ec) 
     ld de, $1b58
 .asm_12ef
     nop
@@ -2824,7 +2823,7 @@ Func_12ec ; 0x12ec
     jr nz, .asm_12ef
     ret
 
-Func_12f8: ; 0x12f8
+Func_12f8: ; 12f8 (0:12f8) 
     ld a, $e
     ld hl, $4010 ; todo
     call Func_12a1
@@ -2870,7 +2869,7 @@ Func_12f8: ; 0x12f8
     scf
     ret
 
-Func_1353: ; 0x1353
+Func_1353: ; 1353 (0:1353) 
     ld [$fffa], a
     ld a, [hLoadedROMBank]
     push af
@@ -2917,7 +2916,7 @@ Func_1353: ; 0x1353
     ld [$2000], a
     ret
 
-Func_13a8: ; 0x13a8
+Func_13a8: ; 13a8 (0:13a8) 
     ld a, [$fffb]
     and a
     ret z
@@ -3001,7 +3000,7 @@ Func_13a8: ; 0x13a8
     call Func_948
     ret
 
-Func_1489: ; 0x1489
+Func_1489: ; 1489 (0:1489) 
     ld a, [$fffb]
     and a
     ret z
@@ -3017,7 +3016,7 @@ Func_1489: ; 0x1489
     ld [$fffc], a
     ret
 
-Func_14a4: ; 0x14a4
+Func_14a4: ; 14a4 (0:14a4) 
     ld a, [$fffb]
     and a
     ret z
@@ -3037,7 +3036,7 @@ Func_14a4: ; 0x14a4
 
 INCBIN "baserom.gbc",$14c4,$167b - $14c4
 
-Func_167b: ; 0x167b
+Func_167b: ; 167b (0:167b) 
     ld a, [$d8ad]
     cp $1
     ret nz
@@ -3060,7 +3059,7 @@ Func_167b: ; 0x167b
 
 INCBIN "baserom.gbc",$169d,$16a2 - $169d
 
-Func_16a2: ; 0x16a2
+Func_16a2: ; 16a2 (0:16a2) 
     xor a
     ld [$ff01], a
     ld [$ff02], a
@@ -3071,13 +3070,13 @@ Func_16a2: ; 0x16a2
     call Func_16b5
     ret
 
-Func_16b5: ; 0x16b5
+Func_16b5: ; 16b5 (0:16b5) 
     xor a
     ld [$d8c5], a
     ld [$d8ca], a
     ld [$d8db], a
     ; fall through
-Func_16bf: ; 0x16bf
+Func_16bf: ; 16bf (0:16bf) 
     xor a
     ld [$d8af], a
     ld [$d8b0], a
@@ -3092,7 +3091,7 @@ Func_16bf: ; 0x16bf
     ld [$d8e2], a
     ret
 
-Func_16e2: ; 0x16e2
+Func_16e2: ; 16e2 (0:16e2) 
     ld a, [$d8db]
     and a
     jr z, .asm_16ec
@@ -3108,7 +3107,7 @@ Func_16e2: ; 0x16e2
     call Func_1925
     jp Func_19e5
 
-Func_16fd: ; 0x16fd
+Func_16fd: ; 16fd (0:16fd) 
     ld a, [$d8c5]
     cp $2
     jr nz, .asm_173c
@@ -3150,7 +3149,7 @@ Func_16fd: ; 0x16fd
     ld a, $f0
     ret
 
-Func_1740: ; 0x1740
+Func_1740: ; 1740 (0:1740) 
     ld a, [$d8ad]
     cp $1
     jr z, .asm_1752
@@ -3184,7 +3183,7 @@ Func_1740: ; 0x1740
     call Func_1932
     jp Func_19e5
 
-Func_1779: ; 0x1779
+Func_1779: ; 1779 (0:1779) 
     ld c, a
     ld a, [$d8ad]
     and a
@@ -3331,7 +3330,7 @@ Func_1779: ; 0x1779
 
 INCBIN "baserom.gbc",$1879,$18ac - $1879
 
-Func_18ac: ; 0x18ac
+Func_18ac: ; 18ac (0:18ac) 
     ld a, [$d8ad]
     cp $1
     jr z, .asm_18be
@@ -3355,7 +3354,7 @@ Func_18ac: ; 0x18ac
     call Func_19ca
     jp Func_19e5
 
-Func_18d4: ; 0x18d4
+Func_18d4: ; 18d4 (0:18d4) 
     ld [$d8cb], a
     ld a, d
     ld [$d8cc], a
@@ -3378,14 +3377,14 @@ Func_18d4: ; 0x18d4
 
 INCBIN "baserom.gbc",$18ff,$1925 - $18ff
 
-Func_1925: ; 0x1925
+Func_1925: ; 1925 (0:1925) 
     ld a, $1
     ld d, $0
     ld hl, $1901 ; todo
     ld bc, $0008
     jp Func_18d4
 
-Func_1932: ; 0x19332
+Func_1932: ; 19332 (6:5332) 
     ld a, $2
     ld d, $0
     ld hl, $d8cd
@@ -3417,7 +3416,7 @@ Func_1932: ; 0x19332
     ld [$d8d8], a
     ret
 
-Func_1982: ; 0x1982
+Func_1982: ; 1982 (0:1982) 
     add e
     ld e, a
     ld a, d
@@ -3425,7 +3424,7 @@ Func_1982: ; 0x1982
     ld d, a
     ret
 
-Func_1989: ; 0x1989
+Func_1989: ; 1989 (0:1989) 
     ld a, l
     ld [$d8bf], a
     ld a, h
@@ -3453,14 +3452,14 @@ Func_1989: ; 0x1989
 
 INCBIN "baserom.gbc",$19bd,$19ca - $19bd
 
-Func_19ca: ; 0x19ca
+Func_19ca: ; 19ca (0:19ca) 
     ld a, $5
     ld d, $0
     ld hl, $191d ; todo
     ld bc, $0008
     jp Func_18d4
 
-Func_19d7: ; 0x19d7
+Func_19d7: ; 19d7 (0:19d7) 
     ld a, $6
     ld d, $1
     ld hl, $190d ; todo
@@ -3469,7 +3468,7 @@ Func_19d7: ; 0x19d7
 
 INCBIN "baserom.gbc",$19e4,$19e5 - $19e4
 
-Func_19e5: ; 0x19e5
+Func_19e5: ; 19e5 (0:19e5) 
     ld a, [$d8ad]
     cp $1
     jr z, .asm_19f8
@@ -3502,7 +3501,7 @@ Func_19e5: ; 0x19e5
     ld a, $f0
     ret
 
-Func_1a21: ; 0x1a21
+Func_1a21: ; 1a21 (0:1a21) 
     call Func_1a59
     call Func_1a89
     jr c, .asm_1a3f
@@ -3520,7 +3519,7 @@ Func_1a21: ; 0x1a21
     call Func_1ba7
     ret
 
-Func_1a43: ; 0x1a43
+Func_1a43: ; 1a43 (0:1a43) 
     xor a
     ld [$d86e], a
     call Func_1a59
@@ -3534,7 +3533,7 @@ Func_1a43: ; 0x1a43
 
     ret ; unused instruction?
 
-Func_1a59: ; 0x1a59
+Func_1a59: ; 1a59 (0:1a59) 
     ld [$d86a], a
     ld a, h
     ld [$d869], a
@@ -3557,7 +3556,7 @@ Func_1a59: ; 0x1a59
     ld [$d8e1], a
     ret
 
-Func_1a89: ; 0x1a89
+Func_1a89: ; 1a89 (0:1a89) 
     call Func_16e2
     cp $f0
     jr z, .asm_1a9f
@@ -3575,7 +3574,7 @@ Func_1a89: ; 0x1a89
     rst $10
     jr Func_1a89
 
-Func_1aa9: ; 0x1aa9
+Func_1aa9: ; 1aa9 (0:1aa9) 
     ld a, [$d866]
     ld l, a
     ld a, [$d867]
@@ -3611,7 +3610,7 @@ Func_1aa9: ; 0x1aa9
 .asm_1ae1
     ret
 
-Func_1ae2: ; 0x1ae2
+Func_1ae2: ; 1ae2 (0:1ae2) 
     push bc
     push hl
     xor $80
@@ -3687,7 +3686,7 @@ Func_1ae2: ; 0x1ae2
     pop bc
     ret
 
-Func_1b3d: ; 0x1b3d
+Func_1b3d: ; 1b3d (0:1b3d) 
     ld a, [$d86c]
     ld [$d8dd], a
     ld hl, wc000
@@ -3706,7 +3705,7 @@ Func_1b3d: ; 0x1b3d
     rst $10
     jr Func_1b3d
 
-Func_1b60: ; 0x1b60
+Func_1b60: ; 1b60 (0:1b60) 
     ld a, $1
     ld [$d8a8], a
     ld a, $13
@@ -3727,7 +3726,7 @@ Func_1b60: ; 0x1b60
     rst $10
     jr Func_1b60
 
-Func_1b88: ; 0x1b88
+Func_1b88: ; 1b88 (0:1b88) 
     ld a, [$d8c7]
     ld b, a
     cp $ff
@@ -3746,7 +3745,7 @@ Func_1b88: ; 0x1b88
     rst $10
     jr Func_1b88
 
-Func_1ba7: ; 0x1ba7
+Func_1ba7: ; 1ba7 (0:1ba7) 
     ld hl, $ffff
     res 3, [hl]
     xor a
@@ -3754,7 +3753,7 @@ Func_1ba7: ; 0x1ba7
     and a
     ret
 
-Func_1bb2: ; 0x1bb2
+Func_1bb2: ; 1bb2 (0:1bb2) 
     ld hl, $1bcf ; todo
     ld a, [$d8c7]
     cp $ff
@@ -3775,7 +3774,7 @@ Func_1bb2: ; 0x1bb2
 
 INCBIN "baserom.gbc",$1bcf,$1bd3 - $1bcf
 
-Func_1bd3: ; 0x1bd3
+Func_1bd3: ; 1bd3 (0:1bd3) 
     ld de, $0001
     call PlaySoundEffect
     ld a, $5
@@ -3784,7 +3783,7 @@ Func_1bd3: ; 0x1bd3
     scf
     ret
 
-Func_1be3: ; 0x1be3
+Func_1be3: ; 1be3 (0:1be3) 
     ld a, $c0
     ld [$ff56], a
     ld a, $ff
@@ -3822,7 +3821,7 @@ Func_1be3: ; 0x1be3
     ld [hl], $5
     ret
 
-Func_1c1b: ; 0x1c1b
+Func_1c1b: ; 1c1b (0:1c1b) 
     inc d
     ret z
     ld a, [$ff00+c]
@@ -3830,7 +3829,7 @@ Func_1c1b: ; 0x1c1b
     jr z, Func_1c1b
     ret
 
-Func_1c23: ; 0x1c23
+Func_1c23: ; 1c23 (0:1c23) 
     inc d
     ret z
     ld a, [$ff00+c]
@@ -3838,7 +3837,7 @@ Func_1c23: ; 0x1c23
     jr nz, Func_1c23
     ret
 
-Func_1c2b: ; 0x1c2b
+Func_1c2b: ; 1c2b (0:1c2b) 
     ld a, $c1
     ld [$ff00+c], a
 .asm_1c2e
@@ -3846,7 +3845,7 @@ Func_1c2b: ; 0x1c2b
     jr nz, .asm_1c2e
     ret
 
-Func_1c32: ; 0x1c32
+Func_1c32: ; 1c32 (0:1c32) 
     ld a, $c0
     ld [$ff00+c], a
 .asm_1c35
@@ -3856,7 +3855,7 @@ Func_1c32: ; 0x1c32
 
 INCBIN "baserom.gbc",$1c39,$1c50 - $1c39
 
-Func_1c50: ; 0x1c50
+Func_1c50: ; 1c50 (0:1c50) 
     ld a, $1
     ld [$d8e9], a
     ld b, $1a
@@ -3898,7 +3897,7 @@ Func_1c50: ; 0x1c50
     call Func_1c32
     ret
 
-Func_1ca1: ; 0x1ca1
+Func_1ca1: ; 1ca1 (0:1ca1) 
     ld a, $2
     ld [$d8e9], a
     ld b, $1a
@@ -3942,7 +3941,7 @@ Func_1ca1: ; 0x1ca1
 
 INCBIN "baserom.gbc",$1cef,$1cf8 - $1cef
 
-Func_1cf8: ; 0x1cf8
+Func_1cf8: ; 1cf8 (0:1cf8) 
     xor a
     ld [$d8e4], a
     ld [$d8e5], a
@@ -3977,7 +3976,7 @@ Func_1cf8: ; 0x1cf8
     ld [$d8e5], a
     ret
 
-Func_1d44: ; 0x1d44
+Func_1d44: ; 1d44 (0:1d44) 
     ld a, [$d8ea]
     cp $0
     ret nz
@@ -4045,20 +4044,20 @@ Func_1d44: ; 0x1d44
     call Func_1c32
     ret
 
-Func_1dc2: ; 0x1dc2
+Func_1dc2: ; 1dc2 (0:1dc2) 
     ld a, $2
     ld [$d8ea], a
     ret
 
 INCBIN "baserom.gbc",$1dc8,$1dd1 - $1dc8
 
-Func_1dd1: ; 0x1dd1
+Func_1dd1: ; 1dd1 (0:1dd1) 
     ld a, [$d8ea]
     or $4
     ld [$d8ea], a
     ret
 
-Func_1dda: ; 0x1dda
+Func_1dda: ; 1dda (0:1dda) 
     xor a
     ld [$d8e4], a
     ld [$d8e5], a
@@ -4109,7 +4108,7 @@ Func_1dda: ; 0x1dda
     ret z
     ret
 
-Func_1e3b: ; 0x1e3b
+Func_1e3b: ; 1e3b (0:1e3b) 
     ld a, [$d8ea]
     cp $0
     ret nz
@@ -4194,10 +4193,10 @@ Func_1e3b: ; 0x1e3b
 
 INCBIN "baserom.gbc",$1ec9,$1ed3 - $1ec9
 
-Func_1ed3: ; 0x1ed3
+Func_1ed3: ; 1ed3 (0:1ed3) 
     ret
 
-Func_1ed4: ; 0x1ed4
+Func_1ed4: ; 1ed4 (0:1ed4) 
     jr z, .asm_1ed6
 .asm_1ed6
     jr nz, .asm_1ed8
@@ -4206,7 +4205,7 @@ Func_1ed4: ; 0x1ed4
 
 INCBIN "baserom.gbc",$1ed9,$1f0b - $1ed9
 
-LoadOAMData2: ; 0x1f0b
+LoadOAMData2: ; 1f0b (0:1f0b) 
 ; This function loads OAM data, but it adds b and c to the x and y values
 ; input:  a = OAM data id (see OAMDataPointers2)
     push bc
@@ -4224,7 +4223,7 @@ LoadOAMData2: ; 0x1f0b
     ld hl, OAMDataPointers2
     jr asm_1f3b
 
-LoadOAMData: ; 0x1f24
+LoadOAMData: ; 1f24 (0:1f24) 
 ; This function loads OAM data, but it adds b and c to the x and y values
 ; input:  a = OAM data id (see OAMDataPointers)
     push bc
@@ -4240,7 +4239,7 @@ LoadOAMData: ; 0x1f24
     ld [hLoadedROMBank], a
     ld [$2000], a
     ld hl, OAMDataPointers
-asm_1f3b: ; 0x1f3b
+asm_1f3b: ; 1f3b (0:1f3b) 
     add hl, de  ; hl points to oam pointer in OAMDataPointers
     ld a, [hli]
     ld e, a
@@ -4280,7 +4279,7 @@ asm_1f3b: ; 0x1f3b
 
 INCBIN "baserom.gbc",$1f68,$1ffc - $1f68
 
-Func_1ffc: ; 0x1ffc
+Func_1ffc: ; 1ffc (0:1ffc) 
     ld a, $b
     ld [$d806], a
     ld a, $4
@@ -4305,7 +4304,7 @@ Func_1ffc: ; 0x1ffc
     rst $10
     jr .asm_2025
 
-Func_2034: ; 0x2034
+Func_2034: ; 2034 (0:2034) 
     ld a, [$d804]
     and a
     jr z, .asm_203f
@@ -4316,10 +4315,10 @@ Func_2034: ; 0x2034
     ld [$d803], a
     ret
 
-Func_2043: ; 0x2043
+Func_2043: ; 2043 (0:2043) 
     ld a, [wCurrentScreen]
     call CallInFollowingTable
-CallTable_2049: ; 0x2049
+CallTable_2049: ; 2049 (0:2049) 
 ; First two bytes is function pointer.
 ; Third byte is bank of function.
 ; Fourth byte seems to be unused.
@@ -4359,7 +4358,7 @@ CallTable_2049: ; 0x2049
     db Bank(HandleFieldSelectScreen), $00
     ; end of call table
 
-Func_206d: ; 0x206d
+Func_206d: ; 206d (0:206d) 
     ld a, [hLoadedROMBank]
     push af
     ld a, Bank(Func_8d17)
@@ -4379,7 +4378,7 @@ Func_206d: ; 0x206d
     scf
     ret
 
-Func_208c: ; 0x208c
+Func_208c: ; 208c (0:208c) 
     ld a, [hLoadedROMBank]
     push af
     ld a, Bank(Func_8ee0)
@@ -4399,7 +4398,7 @@ Func_208c: ; 0x208c
     scf
     ret
 
-Func_20ab: ; 0x20ab
+Func_20ab: ; 20ab (0:20ab) 
     push af
     xor a
     ld [$ffb6], a
@@ -4485,7 +4484,7 @@ Func_20ab: ; 0x20ab
     pop af
     ret
 
-Func_210b: ; 0x210b
+Func_210b: ; 210b (0:210b) 
     push af
     push hl
     ld a, b
@@ -4533,10 +4532,10 @@ Func_210b: ; 0x210b
     pop af
     ret
 
-Func_2147: ; 0x2147
+Func_2147: ; 2147 (0:2147) 
     add $40
     ; fall through
-Func_2149: ; 0x2149
+Func_2149: ; 2149 (0:2149) 
     push hl
     ld [$ffb6], a
     and $7f
@@ -4558,7 +4557,7 @@ Func_2149: ; 0x2149
     ld d, $ff
     ret
 
-ApplyGravityToBall: ; 0x2168
+ApplyGravityToBall: ; 2168 (0:2168) 
 ; Adds a constant to the pinball's y velocity.
     ld a, [$d549]
     and a
@@ -4575,7 +4574,7 @@ ApplyGravityToBall: ; 0x2168
     ld [wBallYVelocity + 1], a
     ret
 
-LimitBallVelocity: ; 0x2180
+LimitBallVelocity: ; 2180 (0:2180) 
 ; Ensures that the ball's x and y velocity are kept under a threshold.
 ; The ball can travel at a higher max speed when moving diagonally, since it
 ; limits the x and y components independently.
@@ -4583,7 +4582,7 @@ LimitBallVelocity: ; 0x2180
     call _LimitBallVelocity
     ld hl, wBallYVelocity + 1
     ; fall through
-_LimitBallVelocity: ; 0x2189
+_LimitBallVelocity: ; 2189 (0:2189) 
     ld a, [hl]
     bit 7, a  ; is it negative velocity?  (left or up)
     jr nz, .negativeVelocity
@@ -4599,7 +4598,7 @@ _LimitBallVelocity: ; 0x2189
     ld [hl], a
     ret
 
-MoveBallPosition: ; 0x219c
+MoveBallPosition: ; 219c (0:219c) 
 ; Updates the ball's position according to its velocity
     ld a, [wBallXPos]
     ld [wPreviousBallXPos], a
@@ -4616,7 +4615,7 @@ MoveBallPosition: ; 0x219c
     ld hl, wBallYPos
     ; fall through
 
-AddVelocityToPosition: ; 0x21c3
+AddVelocityToPosition: ; 21c3 (0:21c3) 
     ld a, [de]
     bit 7, a
     jr nz, .asm_21d1
@@ -4643,11 +4642,11 @@ AddVelocityToPosition: ; 0x21c3
     ld [hl], a
     ret
 
-Func_21e5: ; 0x21e5
+Func_21e5: ; 21e5 (0:21e5) 
     cpl
     inc a
     ; fall through
-Func_21e7: ; 0x21e7
+Func_21e7: ; 21e7 (0:21e7) 
     push hl
     push bc
     push de
@@ -4695,7 +4694,7 @@ Func_21e7: ; 0x21e7
     pop hl
     ret
 
-Func_222b: ; 0x222b
+Func_222b: ; 222b (0:222b) 
     push hl
     ld hl, $d7f8
     ld [hl], $ff
@@ -4766,7 +4765,7 @@ Func_222b: ; 0x222b
     pop hl
     ret
 
-LoadBallVelocity: ; 0x2299
+LoadBallVelocity: ; 2299 (0:2299) 
 ; Loads velocity of the ball into bc and de
 ; bc = x velocity
 ; de = y velocity
@@ -4783,7 +4782,7 @@ LoadBallVelocity: ; 0x2299
     pop hl
     ret
 
-SetBallVelocity: ; 0x22a7
+SetBallVelocity: ; 22a7 (0:22a7) 
 ; Sets the x and y velocities of the ball.
 ; bc = x velocity
 ; de = y velocity
@@ -4800,7 +4799,7 @@ SetBallVelocity: ; 0x22a7
     pop hl
     ret
 
-Func_22b5: ; 0x22b5
+Func_22b5: ; 22b5 (0:22b5) 
     ld a, [wBallXPos + 1]
     sub $4
     push af
@@ -5091,7 +5090,7 @@ Func_22b5: ; 0x22b5
     ld [$d7f7], a
     ret
 
-Func_248a: ; 0x248a
+Func_248a: ; 248a (0:248a) 
     push af
     ld a, [wCurrentStage]
     bit 0, a
@@ -5173,7 +5172,7 @@ Func_248a: ; 0x248a
 
 INCBIN "baserom.gbc",$250a,$252e - $250a
 
-SubTileXPos_CollisionDataPointers: ; 0x252e
+SubTileXPos_CollisionDataPointers: ; 252e (0:252e) 
     dw SubTileXPos_CollisionData0
     dw SubTileXPos_CollisionData1
     dw SubTileXPos_CollisionData2
@@ -5183,7 +5182,7 @@ SubTileXPos_CollisionDataPointers: ; 0x252e
     dw SubTileXPos_CollisionData6
     dw SubTileXPos_CollisionData7
 
-SubTileXPos_CollisionData0: ; 0x253e
+SubTileXPos_CollisionData0: ; 253e (0:253e) 
     db $00, $10, $0B
     db $00, $08, $0C
     db $00, $04, $0D
@@ -5201,7 +5200,7 @@ SubTileXPos_CollisionData0: ; 0x253e
     db $08, $08, $04
     db $08, $04, $03
 
-SubTileXPos_CollisionData1: ; 0x256e
+SubTileXPos_CollisionData1: ; 256e (0:256e) 
     db $00, $08, $0B
     db $00, $04, $0C
     db $00, $02, $0D
@@ -5219,7 +5218,7 @@ SubTileXPos_CollisionData1: ; 0x256e
     db $08, $04, $04
     db $08, $02, $03
 
-SubTileXPos_CollisionData2: ; 0x259e
+SubTileXPos_CollisionData2: ; 259e (0:259e) 
     db $00, $04, $0B
     db $00, $02, $0C
     db $00, $01, $0D
@@ -5237,7 +5236,7 @@ SubTileXPos_CollisionData2: ; 0x259e
     db $08, $02, $04
     db $08, $01, $03
 
-SubTileXPos_CollisionData3: ; 0x25ce
+SubTileXPos_CollisionData3: ; 25ce (0:25ce) 
     db $00, $02, $0B
     db $00, $01, $0C
     db $10, $80, $0D
@@ -5255,7 +5254,7 @@ SubTileXPos_CollisionData3: ; 0x25ce
     db $08, $01, $04
     db $18, $80, $03
 
-SubTileXPos_CollisionData4: ; 0x25fe
+SubTileXPos_CollisionData4: ; 25fe (0:25fe) 
     db $00, $01, $0B
     db $10, $80, $0C
     db $10, $40, $0D
@@ -5273,7 +5272,7 @@ SubTileXPos_CollisionData4: ; 0x25fe
     db $18, $80, $04
     db $18, $40, $03
 
-SubTileXPos_CollisionData5: ; 0x262e
+SubTileXPos_CollisionData5: ; 262e (0:262e) 
     db $10, $80, $0B
     db $10, $40, $0C
     db $10, $20, $0D
@@ -5291,7 +5290,7 @@ SubTileXPos_CollisionData5: ; 0x262e
     db $18, $40, $04
     db $18, $20, $03
 
-SubTileXPos_CollisionData6: ; 0x265e
+SubTileXPos_CollisionData6: ; 265e (0:265e) 
     db $10, $40, $0B
     db $10, $20, $0C
     db $10, $10, $0D
@@ -5309,7 +5308,7 @@ SubTileXPos_CollisionData6: ; 0x265e
     db $18, $20, $04
     db $18, $10, $03
 
-SubTileXPos_CollisionData7: ; 0x268e
+SubTileXPos_CollisionData7: ; 268e (0:268e) 
     db $10, $20, $0B
     db $10, $10, $0C
     db $10, $08, $0D
@@ -5329,7 +5328,7 @@ SubTileXPos_CollisionData7: ; 0x268e
 
 INCBIN "baserom.gbc",$26be,$2720 - $26be
 
-Func_2720: ; 0x2720
+Func_2720: ; 2720 (0:2720) 
     ld a, $ff
     ld [$d4ea], a
     call Func_272f
@@ -5337,11 +5336,11 @@ Func_2720: ; 0x2720
     ld [$d4ec], a
     ret
 
-Func_272f: ; 0x272f
+Func_272f: ; 272f (0:272f) 
 ; not collisions
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_2735: ; 0x2735
+CallTable_2735: ; 2735 (0:2735) 
     ; STAGE_RED_FIELD_TOP
     dw Func_143e1
     db Bank(Func_143e1), $00
@@ -5404,7 +5403,7 @@ CallTable_2735: ; 0x2735
     dw Func_25bbc
     db Bank(Func_25bbc), $00
 
-Func_2775: ; 0x2775
+Func_2775: ; 2775 (0:2775) 
     ld a, [$d4ea]
     inc a
     jr nz, .asm_27a2
@@ -5434,7 +5433,7 @@ Func_2775: ; 0x2775
     and a
     ret
 
-Func_27a4: ; 0x27a4
+Func_27a4: ; 27a4 (0:27a4) 
     xor a
     ld [$d4eb], a
     ld a, [hli]
@@ -5474,7 +5473,7 @@ Func_27a4: ; 0x27a4
     scf
     ret
 
-Func_27da: ; 0x27da
+Func_27da: ; 27da (0:27da) 
     ld a, [hli]
     and a
     jr z, .asm_27e8
@@ -5502,7 +5501,7 @@ Func_27da: ; 0x27da
     scf
     ret
 
-PinballCollideWithPoints: ; 0x27fd
+PinballCollideWithPoints: ; 27fd (0:27fd) 
 ; Checks if pinball collides with any of the (x, y) points in the given list.
 ; Saves the index of the collided point.
 ; Input:  hl = pointer to array of (x, y) points
@@ -5529,10 +5528,10 @@ PinballCollideWithPoints: ; 0x27fd
     ld [$d578], a
     ret
 
-Func_281c: ; 0x281c
+Func_281c: ; 281c (0:281c) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_2822: ; 0x2822
+CallTable_2822: ; 2822 (0:2822) 
 ; not collisions
     ; STAGE_RED_FIELD_TOP
     dw Func_1460e
@@ -5596,7 +5595,7 @@ CallTable_2822: ; 0x2822
     dw Func_25c5a
     db Bank(Func_25c5a), $00
 
-Func_2862: ; 0x2862
+Func_2862: ; 2862 (0:2862) 
     ld a, [$d7be]
     and a
     jr nz, .asm_287c
@@ -5624,7 +5623,7 @@ Func_2862: ; 0x2862
 
 INCBIN "baserom.gbc",$2890,$28a0 - $2890
 
-CopyHLToDE: ; 0x28a0
+CopyHLToDE: ; 28a0 (0:28a0) 
 ; Places [hl] into [de]
 ; Also places $0 into [de + 2]
     ld a, [hli]
@@ -5637,7 +5636,7 @@ CopyHLToDE: ; 0x28a0
     ld [de], a
     ret
 
-Func_28a9: ; 0x28a9
+Func_28a9: ; 28a9 (0:28a9) 
     ld a, [de]
     and a
     ret z
@@ -5670,7 +5669,7 @@ Func_28a9: ; 0x28a9
 
 INCBIN "baserom.gbc",$28c9,$30db - $28c9
 
-Func_30db: ; 0x30db
+Func_30db: ; 30db (0:30db) 
     ld a, $86
     ld [$ffa6], a
     ld a, $1
@@ -5678,7 +5677,7 @@ Func_30db: ; 0x30db
     ld [$d5cb], a
     ret
 
-Func_30e8: ; 0x30e8
+Func_30e8: ; 30e8 (0:30e8) 
     ld a, $81
     ld hl, $c600
     ld b, $40
@@ -5698,7 +5697,7 @@ Func_30e8: ; 0x30e8
     ld [$d5ee], a
     ret
 
-Func_310a: ; 0x310a
+Func_310a: ; 310a (0:310a) 
     ld a, $81
     ld hl, $c640
     ld b, $5
@@ -5720,13 +5719,13 @@ Func_310a: ; 0x310a
     jr nz, .asm_311d
     ret
 
-Func_3125: ; 0x3125
+Func_3125: ; 3125 (0:3125) 
     ld b, $1
     jr asm_312b
 
-Func_3129: ; 0x3129
+Func_3129: ; 3129 (0:3129) 
     ld b, $0
-asm_312b: ; 0x312b
+asm_312b: ; 312b (0:312b) 
     ld a, [$d805]
     and a
     jp nz, Func_3268
@@ -5838,7 +5837,7 @@ asm_312b: ; 0x312b
     inc e
     jp .asm_3132
 
-Func_31e1: ; 0x31e1
+Func_31e1: ; 31e1 (0:31e1) 
     push bc
     push de
     push hl
@@ -5876,7 +5875,7 @@ Func_31e1: ; 0x31e1
 
 INCBIN "baserom.gbc",$320e,$3268 - $320e
 
-Func_3268: ; 0x3268
+Func_3268: ; 3268 (0:3268) 
     ld a, [hli]
     and a
     ret z
@@ -5926,7 +5925,7 @@ Func_3268: ; 0x3268
     inc e
     jr Func_3268
 
-Func_32aa: ; 0x32aa
+Func_32aa: ; 32aa (0:32aa) 
     ld a, $1
     ld [hli], a
     ld a, [de]
@@ -5960,7 +5959,7 @@ Func_32aa: ; 0x32aa
     jr nz, .asm_32c5
     ret
 
-Func_32cc: ; 0x32cc
+Func_32cc: ; 32cc (0:32cc) 
     ld a, $1
     ld [hli], a
     ld a, [de]
@@ -6009,7 +6008,7 @@ Func_32cc: ; 0x32cc
     ld [de], a
     ret
 
-Func_3309: ; 0x3309
+Func_3309: ; 3309 (0:3309) 
     jr nz, .asm_3312
     ld a, b
     dec a
@@ -6033,7 +6032,7 @@ Func_3309: ; 0x3309
     inc de
     ret
 
-Func_3325: ; 0x3325
+Func_3325: ; 3325 (0:3325) 
     ld a, [hli]
     and a
     ret z
@@ -6080,7 +6079,7 @@ Func_3325: ; 0x3325
     ld [hl], $0
     ret
 
-Func_3357: ; 0x3357
+Func_3357: ; 3357 (0:3357) 
     ld a, $1
     ld [hli], a
     ld a, [de]
@@ -6107,7 +6106,7 @@ Func_3357: ; 0x3357
     jr nz, .asm_336b
     ret
 
-Func_3372: ; 0x3372
+Func_3372: ; 3372 (0:3372) 
     ld a, $1
     ld [hli], a
     ld a, [de]
@@ -6148,7 +6147,7 @@ Func_3372: ; 0x3372
     ld [de], a
     ret
 
-Func_33a7: ; 0x33a7
+Func_33a7: ; 33a7 (0:33a7) 
     jr nz, .asm_33b0
     ld a, b
     dec a
@@ -6172,7 +6171,7 @@ Func_33a7: ; 0x33a7
     inc de
     ret
 
-Func_33c3: ; 0x33c3
+Func_33c3: ; 33c3 (0:33c3) 
     ld a, [hli]
     and a
     ret z
@@ -6200,7 +6199,7 @@ Func_33c3: ; 0x33c3
     ld [hl], $0
     ret
 
-Func_33e3: ; 0x33e3
+Func_33e3: ; 33e3 (0:33e3) 
     ld a, [$d5ca]
     and a
     jr nz, .asm_33ed
@@ -6284,7 +6283,7 @@ Func_33e3: ; 0x33e3
     call Func_735
     ret
 
-Func_3475: ; 0x3475
+Func_3475: ; 3475 (0:3475) 
     xor a
     ld [hJoypadState], a
     ld [hNewlyPressedButtons], a
@@ -6310,7 +6309,7 @@ Func_3475: ; 0x3475
 
 INCBIN "baserom.gbc",$34a6,$351c - $34a6
 
-Func_351c: ; 0x351c
+Func_351c: ; 351c (0:351c) 
     ld hl, $d464
     ld a, e
     ld [hli], a
@@ -6330,7 +6329,7 @@ Func_351c: ; 0x351c
     call BankSwitch
     ret
 
-Func_3538: ; 0x3538
+Func_3538: ; 3538 (0:3538) 
     ld hl, $d47a
     ld a, [hl]
     add e
@@ -6357,7 +6356,7 @@ Func_3538: ; 0x3538
     ld [hli], a
     ret
 
-Func_3556: ; 0x3556
+Func_3556: ; 3556 (0:3556) 
     ld a, [$d47a]
     ld e, a
     ld a, [$d47b]
@@ -6370,7 +6369,7 @@ Func_3556: ; 0x3556
 
 INCBIN "baserom.gbc",$3567,$3579 - $3567
 
-Func_3579: ; 0x3579
+Func_3579: ; 3579 (0:3579) 
     ld hl, $d47a
     xor a
     ld [hli], a
@@ -6379,13 +6378,13 @@ Func_3579: ; 0x3579
     ld [hli], a
     ret
 
-HandleTilts: ; 0x3582
+HandleTilts: ; 3582 (0:3582) 
     call HandleLeftTilt
     call HandleRightTilt
     call HandleUpperTilt
     ret
 
-HandleLeftTilt: ; 0x358c
+HandleLeftTilt: ; 358c (0:358c) 
     ld a, [wLeftTiltReset]
     and a
     jr nz, .tiltCoolDown
@@ -6439,7 +6438,7 @@ HandleLeftTilt: ; 0x358c
     ld [wLeftTiltReset], a
     ret
 
-HandleRightTilt: ; 0x35f3
+HandleRightTilt: ; 35f3 (0:35f3) 
     ld a, [wRightTiltReset]
     and a
     jr nz, .tiltCoolDown
@@ -6493,7 +6492,7 @@ HandleRightTilt: ; 0x35f3
     ld [wRightTiltReset], a
     ret
 
-HandleUpperTilt: ; 0x365a
+HandleUpperTilt: ; 365a (0:365a) 
     ld a, [wUpperTiltReset]
     and a
     jr nz, .tiltCoolDown
@@ -6547,7 +6546,7 @@ HandleUpperTilt: ; 0x365a
     ld [wUpperTiltReset], a
     ret
 
-ApplyTiltForces: ; 0x36c1
+ApplyTiltForces: ; 36c1 (0:36c1) 
     ld a, [$d548]
     ld hl, $d549
     and [hl]
@@ -6609,7 +6608,7 @@ INCBIN "baserom.gbc",$372d,$4000 - $372d
 
 SECTION "bank1", ROMX, BANK[$1]
 
-OAMDataPointers: ; 0x4000
+OAMDataPointers: ; 4000 (1:4000) 
     dw BallSpin0OAM
     dw BallSpin1OAM
     dw BallSpin2OAM
@@ -6860,112 +6859,112 @@ OAMDataPointers: ; 0x4000
     dw OAMData_f7
     dw OAMData_f8
 
-BallSpin0OAM: ; 0x41f2
+BallSpin0OAM: ; 41f2 (1:41f2) 
     db $08, $08, $42, $00
     db $08, $00, $40, $00
     db $80 ; terminator
 
-BallSpin1OAM: ; 0x41fb
+BallSpin1OAM: ; 41fb (1:41fb) 
     db $08, $08, $46, $00
     db $08, $00, $44, $00
     db $80 ; terminator
 
-BallSpin2OAM: ; 0x4204
+BallSpin2OAM: ; 4204 (1:4204) 
     db $08, $08, $4a, $00
     db $08, $00, $48, $00
     db $80 ; terminator
 
-BallSpin3OAM: ; 0x420d
+BallSpin3OAM: ; 420d (1:420d) 
     db $08, $08, $4e, $00
     db $08, $00, $4c, $00
     db $80 ; terminator
 
-BallSpin4OAM: ; 0x4216
+BallSpin4OAM: ; 4216 (1:4216) 
     db $08, $08, $52, $00
     db $08, $00, $50, $00
     db $80 ; terminator
 
-BallSpin5OAM: ; 0x421f
+BallSpin5OAM: ; 421f (1:421f) 
     db $08, $08, $56, $00
     db $08, $00, $54, $00
     db $80 ; terminator
 
-BallSpin6OAM: ; 0x4228
+BallSpin6OAM: ; 4228 (1:4228) 
     db $08, $08, $5a, $00
     db $08, $00, $58, $00
     db $80 ; terminator
 
-BallSpin7OAM: ; 0x4231
+BallSpin7OAM: ; 4231 (1:4231) 
     db $08, $08, $5e, $00
     db $08, $00, $5c, $00
     db $80 ; terminator
 
-OAMData_8: ; 0x423a
+OAMData_8: ; 423a (1:423a) 
     db $0c, $05, $64, $02
     db $0a, $fd, $62, $02
     db $14, $f5, $60, $02
     db $80 ; terminator
 
-OAMData_9: ; 0x4247
+OAMData_9: ; 4247 (1:4247) 
     db $0c, $05, $6a, $02
     db $04, $fd, $68, $02
     db $0c, $f5, $66, $02
     db $80 ; terminator
 
-OAMData_a: ; 0x4254
+OAMData_a: ; 4254 (1:4254) 
     db $0a, $05, $70, $02
     db $03, $fd, $6e, $02
     db $fd, $f5, $6c, $02
     db $80 ; terminator
 
-OAMData_b: ; 0x4261
+OAMData_b: ; 4261 (1:4261) 
     db $0c, $03, $64, $22
     db $0a, $0b, $62, $22
     db $14, $13, $60, $22
     db $80 ; terminator
 
-OAMData_c: ; 0x426e
+OAMData_c: ; 426e (1:426e) 
     db $0c, $03, $6a, $22
     db $04, $0b, $68, $22
     db $0c, $13, $66, $22
     db $80 ; terminator
 
-OAMData_d: ; 0x427b
+OAMData_d: ; 427b (1:427b) 
     db $0a, $03, $70, $22
     db $03, $0b, $6e, $22
     db $fd, $13, $6c, $22
     db $80 ; terminator
 
-OAMData_e: ; 0x4288
+OAMData_e: ; 4288 (1:4288) 
     db $00, $09, $74, $04
     db $00, $01, $72, $04
     db $80 ; terminator
 
-OAMData_f: ; 0x4291
+OAMData_f: ; 4291 (1:4291) 
     db $00, $01, $76, $04
     db $00, $09, $78, $04
     db $80 ; terminator
 
-OAMData_10: ; 0x429a
+OAMData_10: ; 429a (1:429a) 
     db $00, $09, $7c, $04
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_11: ; 0x42a3
+OAMData_11: ; 42a3 (1:42a3) 
     db $f5, $01, $3d, $51
     db $f1, $06, $3e, $31
     db $00, $09, $7c, $04
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_12: ; 0x42b4
+OAMData_12: ; 42b4 (1:42b4) 
     db $f1, $07, $3c, $11
     db $f1, $02, $3e, $11
     db $00, $09, $7c, $04
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_13: ; 0x42c5
+OAMData_13: ; 42c5 (1:42c5) 
     db $e9, $06, $3e, $31
     db $e9, $01, $3c, $31
     db $f1, $00, $3e, $31
@@ -6974,7 +6973,7 @@ OAMData_13: ; 0x42c5
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_14: ; 0x42de
+OAMData_14: ; 42de (1:42de) 
     db $e8, $01, $3e, $11
     db $e8, $06, $3c, $11
     db $f3, $01, $3c, $31
@@ -6983,7 +6982,7 @@ OAMData_14: ; 0x42de
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_15: ; 0x42f7
+OAMData_15: ; 42f7 (1:42f7) 
     db $e5, $09, $3e, $11
     db $f1, $07, $3c, $11
     db $e9, $02, $3f, $51
@@ -6992,7 +6991,7 @@ OAMData_15: ; 0x42f7
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_16: ; 0x4310
+OAMData_16: ; 4310 (1:4310) 
     db $e8, $01, $3d, $51
     db $f5, $00, $3f, $71
     db $f2, $06, $3e, $31
@@ -7001,24 +7000,24 @@ OAMData_16: ; 0x4310
     db $00, $01, $7a, $04
     db $80 ; terminator
 
-OAMData_17: ; 0x4329
+OAMData_17: ; 4329 (1:4329) 
     db $0c, $05, $64, $11
     db $0a, $fd, $62, $11
     db $14, $f5, $60, $11
     db $80 ; terminator
 
-OAMData_18: ; 0x4336
+OAMData_18: ; 4336 (1:4336) 
     db $0c, $03, $64, $31
     db $0a, $0b, $62, $31
     db $14, $13, $60, $31
     db $80 ; terminator
 
-OAMData_19: ; 0x4343
+OAMData_19: ; 4343 (1:4343) 
     db $00, $08, $a2, $02
     db $00, $00, $a0, $02
     db $80 ; terminator
 
-OAMData_1a: ; 0x434c
+OAMData_1a: ; 434c (1:434c) 
     db $00, $10, $9e, $02
     db $00, $08, $9c, $02
     db $00, $00, $9a, $02
@@ -7029,7 +7028,7 @@ OAMData_1a: ; 0x434c
     db $f0, $f8, $90, $02
     db $80 ; terminator
 
-OAMData_1b: ; 0x436d
+OAMData_1b: ; 436d (1:436d) 
     db $01, $0f, $a7, $62
     db $ff, $f7, $7f, $62
     db $e7, $07, $7e, $02
@@ -7049,7 +7048,7 @@ OAMData_1b: ; 0x436d
     db $f5, $01, $40, $00
     db $80 ; terminator
 
-OAMData_1c: ; 0x43b2
+OAMData_1c: ; 43b2 (1:43b2) 
     db $02, $11, $7f, $42
     db $e6, $f9, $7e, $22
     db $e6, $0f, $7e, $02
@@ -7061,52 +7060,52 @@ OAMData_1c: ; 0x43b2
     db $01, $f7, $7f, $62
     db $80 ; terminator
 
-OAMData_1d: ; 0x43d7
+OAMData_1d: ; 43d7 (1:43d7) 
     db $ee, $09, $42, $00
     db $ee, $01, $40, $00
     db $80 ; terminator
 
-OAMData_1e: ; 0x43e0
+OAMData_1e: ; 43e0 (1:43e0) 
     db $ed, $09, $42, $00
     db $ed, $01, $40, $00
     db $80 ; terminator
 
-OAMData_1f: ; 0x43e9
+OAMData_1f: ; 43e9 (1:43e9) 
     db $ee, $09, $42, $00
     db $ee, $01, $40, $00
     db $80 ; terminator
 
-OAMData_20: ; 0x43f2
+OAMData_20: ; 43f2 (1:43f2) 
     db $f0, $09, $42, $00
     db $f0, $01, $40, $00
     db $80 ; terminator
 
-OAMData_21: ; 0x43fb
+OAMData_21: ; 43fb (1:43fb) 
     db $f5, $09, $42, $00
     db $f5, $01, $40, $00
     db $80 ; terminator
 
-OAMData_22: ; 0x4404
+OAMData_22: ; 4404 (1:4404) 
     db $fb, $09, $42, $00
     db $fb, $01, $40, $00
     db $80 ; terminator
 
-OAMData_23: ; 0x440d
+OAMData_23: ; 440d (1:440d) 
     db $02, $09, $42, $00
     db $02, $01, $40, $00
     db $80 ; terminator
 
-OAMData_24: ; 0x4416
+OAMData_24: ; 4416 (1:4416) 
     db $01, $09, $42, $00
     db $01, $01, $40, $00
     db $80 ; terminator
 
-OAMData_25: ; 0x441f
+OAMData_25: ; 441f (1:441f) 
     db $02, $0a, $3a, $00
     db $02, $02, $38, $00
     db $80 ; terminator
 
-OAMData_26: ; 0x4428
+OAMData_26: ; 4428 (1:4428) 
     db $fb, $0a, $9e, $15
     db $fb, $02, $9c, $15
     db $ff, $15, $9a, $13
@@ -7117,7 +7116,7 @@ OAMData_26: ; 0x4428
     db $ef, $00, $90, $13
     db $80 ; terminator
 
-OAMData_27: ; 0x4449
+OAMData_27: ; 4449 (1:4449) 
     db $fc, $0a, $1c, $15
     db $fc, $02, $1a, $15
     db $fe, $15, $9a, $13
@@ -7128,7 +7127,7 @@ OAMData_27: ; 0x4449
     db $ef, $00, $a0, $13
     db $80 ; terminator
 
-OAMData_28: ; 0x446a
+OAMData_28: ; 446a (1:446a) 
     db $ff, $08, $2e, $15
     db $ff, $00, $2c, $15
     db $ff, $10, $2a, $13
@@ -7140,7 +7139,7 @@ OAMData_28: ; 0x446a
     db $ef, $00, $1e, $13
     db $80 ; terminator
 
-OAMData_29: ; 0x448f
+OAMData_29: ; 448f (1:448f) 
     db $ef, $03, $92, $15
     db $f3, $0b, $94, $15
     db $f3, $fb, $90, $15
@@ -7152,7 +7151,7 @@ OAMData_29: ; 0x448f
     db $00, $f9, $96, $13
     db $80 ; terminator
 
-OAMData_2a: ; 0x44b4
+OAMData_2a: ; 44b4 (1:44b4) 
     db $f0, $04, $a4, $15
     db $f3, $0c, $a6, $15
     db $f3, $fc, $a2, $15
@@ -7162,7 +7161,7 @@ OAMData_2a: ; 0x44b4
     db $00, $fa, $a8, $13
     db $80 ; terminator
 
-OAMData_2b: ; 0x44d1
+OAMData_2b: ; 44d1 (1:44d1) 
     db $f8, $10, $26, $15
     db $f3, $08, $24, $15
     db $f3, $00, $22, $15
@@ -7173,7 +7172,7 @@ OAMData_2b: ; 0x44d1
     db $00, $f8, $28, $13
     db $80 ; terminator
 
-OAMData_2c: ; 0x44f2
+OAMData_2c: ; 44f2 (1:44f2) 
     db $00, $10, $9e, $13
     db $00, $08, $9c, $13
     db $00, $00, $9a, $13
@@ -7184,7 +7183,7 @@ OAMData_2c: ; 0x44f2
     db $f0, $f8, $90, $13
     db $80 ; terminator
 
-OAMData_2d: ; 0x4513
+OAMData_2d: ; 4513 (1:4513) 
     db $00, $10, $1e, $13
     db $00, $08, $1c, $13
     db $00, $00, $1a, $13
@@ -7195,7 +7194,7 @@ OAMData_2d: ; 0x4513
     db $f0, $f8, $a0, $13
     db $80 ; terminator
 
-OAMData_2e: ; 0x4534
+OAMData_2e: ; 4534 (1:4534) 
     db $00, $10, $2e, $13
     db $00, $08, $2c, $13
     db $00, $00, $2a, $13
@@ -7206,7 +7205,7 @@ OAMData_2e: ; 0x4534
     db $f0, $f8, $20, $13
     db $80 ; terminator
 
-OAMData_2f: ; 0x4555
+OAMData_2f: ; 4555 (1:4555) 
     db $00, $10, $9e, $13
     db $00, $08, $9c, $13
     db $00, $00, $9a, $13
@@ -7217,7 +7216,7 @@ OAMData_2f: ; 0x4555
     db $f0, $f8, $90, $13
     db $80 ; terminator
 
-OAMData_30: ; 0x4576
+OAMData_30: ; 4576 (1:4576) 
     db $00, $10, $1e, $13
     db $00, $08, $1c, $13
     db $00, $00, $1a, $13
@@ -7228,7 +7227,7 @@ OAMData_30: ; 0x4576
     db $f0, $f8, $a0, $13
     db $80 ; terminator
 
-OAMData_31: ; 0x4597
+OAMData_31: ; 4597 (1:4597) 
     db $01, $10, $2e, $13
     db $01, $08, $2c, $13
     db $01, $00, $2a, $13
@@ -7239,123 +7238,123 @@ OAMData_31: ; 0x4597
     db $f1, $f8, $20, $13
     db $80 ; terminator
 
-OAMData_32: ; 0x45b8
+OAMData_32: ; 45b8 (1:45b8) 
     db $10, $08, $30, $06
     db $80 ; terminator
 
-OAMData_33: ; 0x45bd
+OAMData_33: ; 45bd (1:45bd) 
     db $10, $08, $30, $26
     db $80 ; terminator
 
-OAMData_34: ; 0x45c2
+OAMData_34: ; 45c2 (1:45c2) 
     db $10, $08, $32, $06
     db $80 ; terminator
 
-OAMData_35: ; 0x45c7
+OAMData_35: ; 45c7 (1:45c7) 
     db $10, $08, $32, $26
     db $80 ; terminator
 
-OAMData_36: ; 0x45cc
+OAMData_36: ; 45cc (1:45cc) 
     db $10, $08, $34, $06
     db $80 ; terminator
 
-OAMData_37: ; 0x45d1
+OAMData_37: ; 45d1 (1:45d1) 
     db $10, $08, $34, $26
     db $80 ; terminator
 
-OAMData_38: ; 0x45d6
+OAMData_38: ; 45d6 (1:45d6) 
     db $10, $08, $36, $06
     db $80 ; terminator
 
-OAMData_39: ; 0x45db
+OAMData_39: ; 45db (1:45db) 
     db $08, $08, $37, $46
     db $80 ; terminator
 
-OAMData_3a: ; 0x45e0
+OAMData_3a: ; 45e0 (1:45e0) 
     db $10, $08, $90, $06
     db $80 ; terminator
 
-OAMData_3b: ; 0x45e5
+OAMData_3b: ; 45e5 (1:45e5) 
     db $10, $08, $92, $06
     db $80 ; terminator
 
-OAMData_3c: ; 0x45ea
+OAMData_3c: ; 45ea (1:45ea) 
     db $10, $08, $94, $06
     db $80 ; terminator
 
-OAMData_3d: ; 0x45ef
+OAMData_3d: ; 45ef (1:45ef) 
     db $10, $08, $96, $17
     db $80 ; terminator
 
-OAMData_3e: ; 0x45f4
+OAMData_3e: ; 45f4 (1:45f4) 
     db $10, $08, $98, $17
     db $80 ; terminator
 
-OAMData_3f: ; 0x45f9
+OAMData_3f: ; 45f9 (1:45f9) 
     db $10, $08, $9a, $06
     db $80 ; terminator
 
-OAMData_40: ; 0x45fe
+OAMData_40: ; 45fe (1:45fe) 
     db $10, $08, $9c, $06
     db $80 ; terminator
 
-OAMData_41: ; 0x4603
+OAMData_41: ; 4603 (1:4603) 
     db $10, $08, $20, $06
     db $80 ; terminator
 
-OAMData_42: ; 0x4608
+OAMData_42: ; 4608 (1:4608) 
     db $10, $08, $22, $06
     db $80 ; terminator
 
-OAMData_43: ; 0x460d
+OAMData_43: ; 460d (1:460d) 
     db $10, $08, $24, $06
     db $80 ; terminator
 
-OAMData_44: ; 0x4612
+OAMData_44: ; 4612 (1:4612) 
     db $10, $08, $26, $17
     db $80 ; terminator
 
-OAMData_45: ; 0x4617
+OAMData_45: ; 4617 (1:4617) 
     db $10, $08, $28, $17
     db $80 ; terminator
 
-OAMData_46: ; 0x461c
+OAMData_46: ; 461c (1:461c) 
     db $10, $08, $2a, $06
     db $80 ; terminator
 
-OAMData_47: ; 0x4621
+OAMData_47: ; 4621 (1:4621) 
     db $10, $08, $2c, $06
     db $80 ; terminator
 
-OAMData_48: ; 0x4626
+OAMData_48: ; 4626 (1:4626) 
     db $10, $08, $60, $06
     db $80 ; terminator
 
-OAMData_49: ; 0x462b
+OAMData_49: ; 462b (1:462b) 
     db $10, $08, $62, $06
     db $80 ; terminator
 
-OAMData_4a: ; 0x4630
+OAMData_4a: ; 4630 (1:4630) 
     db $10, $08, $64, $06
     db $80 ; terminator
 
-OAMData_4b: ; 0x4635
+OAMData_4b: ; 4635 (1:4635) 
     db $10, $08, $66, $17
     db $80 ; terminator
 
-OAMData_4c: ; 0x463a
+OAMData_4c: ; 463a (1:463a) 
     db $10, $08, $68, $17
     db $80 ; terminator
 
-OAMData_4d: ; 0x463f
+OAMData_4d: ; 463f (1:463f) 
     db $10, $08, $6a, $06
     db $80 ; terminator
 
-OAMData_4e: ; 0x4644
+OAMData_4e: ; 4644 (1:4644) 
     db $10, $08, $6c, $06
     db $80 ; terminator
 
-OAMData_4f: ; 0x4649
+OAMData_4f: ; 4649 (1:4649) 
     db $1f, $19, $20, $37
     db $1f, $21, $1e, $37
     db $0f, $19, $1c, $37
@@ -7366,7 +7365,7 @@ OAMData_4f: ; 0x4649
     db $0f, $08, $1a, $17
     db $80 ; terminator
 
-OAMData_50: ; 0x466a
+OAMData_50: ; 466a (1:466a) 
     db $1f, $19, $28, $37
     db $1f, $21, $26, $37
     db $0f, $19, $24, $37
@@ -7377,7 +7376,7 @@ OAMData_50: ; 0x466a
     db $0f, $08, $22, $17
     db $80 ; terminator
 
-OAMData_51: ; 0x468b
+OAMData_51: ; 468b (1:468b) 
     db $1f, $19, $38, $37
     db $1f, $10, $38, $17
     db $1f, $21, $2e, $37
@@ -7388,17 +7387,17 @@ OAMData_51: ; 0x468b
     db $0f, $08, $2a, $17
     db $80 ; terminator
 
-OAMData_52: ; 0x46ac
+OAMData_52: ; 46ac (1:46ac) 
     db $08, $f8, $60, $00
     db $80 ; terminator
 
-OAMData_53: ; 0x46b1
+OAMData_53: ; 46b1 (1:46b1) 
     db $08, $08, $60, $00
     db $08, $00, $60, $00
     db $08, $f8, $60, $00
     db $80 ; terminator
 
-OAMData_54: ; 0x46be
+OAMData_54: ; 46be (1:46be) 
     db $08, $20, $60, $00
     db $08, $18, $60, $00
     db $08, $10, $60, $00
@@ -7407,7 +7406,7 @@ OAMData_54: ; 0x46be
     db $08, $f8, $60, $00
     db $80 ; terminator
 
-OAMData_55: ; 0x46d7
+OAMData_55: ; 46d7 (1:46d7) 
     db $10, $20, $60, $00
     db $10, $18, $60, $00
     db $10, $10, $60, $00
@@ -7422,7 +7421,7 @@ OAMData_55: ; 0x46d7
     db $08, $f8, $60, $00
     db $80 ; terminator
 
-OAMData_56: ; 0x4708
+OAMData_56: ; 4708 (1:4708) 
     db $10, $20, $60, $40
     db $10, $18, $60, $40
     db $10, $10, $60, $40
@@ -7443,7 +7442,7 @@ OAMData_56: ; 0x4708
     db $08, $00, $55, $00
     db $80 ; terminator
 
-OAMData_57: ; 0x4751
+OAMData_57: ; 4751 (1:4751) 
     db $18, $20, $60, $40
     db $18, $18, $60, $40
     db $18, $10, $60, $40
@@ -7464,7 +7463,7 @@ OAMData_57: ; 0x4751
     db $08, $00, $55, $00
     db $80 ; terminator
 
-OAMData_58: ; 0x479a
+OAMData_58: ; 479a (1:479a) 
     db $18, $f8, $60, $40
     db $10, $f8, $5a, $00
     db $08, $f8, $54, $00
@@ -7485,7 +7484,7 @@ OAMData_58: ; 0x479a
     db $08, $00, $55, $00
     db $80 ; terminator
 
-OAMData_59: ; 0x47e3
+OAMData_59: ; 47e3 (1:47e3) 
     db $08, $f8, $60, $40
     db $18, $f8, $67, $00
     db $10, $f8, $66, $00
@@ -7506,7 +7505,7 @@ OAMData_59: ; 0x47e3
     db $08, $00, $55, $00
     db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame1OAM: ; 0x482c
+TitlescreenPikachuBlinkFrame1OAM: ; 482c (1:482c) 
     db $10, $28, $3f, $00
     db $10, $20, $3e, $00
     db $10, $18, $3d, $00
@@ -7514,13 +7513,13 @@ TitlescreenPikachuBlinkFrame1OAM: ; 0x482c
     db $10, $08, $3b, $00
     db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame2OAM: ; 0x4841
+TitlescreenPikachuBlinkFrame2OAM: ; 4841 (1:4841) 
     db $18, $09, $44, $00
     db $10, $10, $41, $00
     db $10, $08, $40, $00
     db $80 ; terminator
 
-TitlescreenPikachuBlinkFrame3OAM: ; 0x484e
+TitlescreenPikachuBlinkFrame3OAM: ; 484e (1:484e) 
     db $18, $09, $45, $00
     db $10, $10, $43, $00
     db $10, $08, $42, $00
@@ -7528,42 +7527,42 @@ TitlescreenPikachuBlinkFrame3OAM: ; 0x484e
 
 ; These next 5 OAM entries are for the individual frames of the
 ; bouncing pokeball on the titlescreen.
-TitlescreenPokeball1OAM: ; 0x485b
+TitlescreenPokeball1OAM: ; 485b (1:485b) 
     db $14, $00, $4c, $02
     db $0c, $00, $46, $31
     db $14, $f8, $47, $02
     db $0c, $f8, $46, $11
     db $80 ; terminator
 
-TitlescreenPokeball2OAM: ; 0x486c
+TitlescreenPokeball2OAM: ; 486c (1:486c) 
     db $15, $00, $4d, $02
     db $0d, $00, $48, $31
     db $15, $f8, $49, $02
     db $0d, $f8, $48, $11
     db $80 ; terminator
 
-TitlescreenPokeball3OAM: ; 0x487d
+TitlescreenPokeball3OAM: ; 487d (1:487d) 
     db $13, $00, $4c, $02
     db $0b, $00, $46, $31
     db $13, $f8, $47, $02
     db $0b, $f8, $46, $11
     db $80 ; terminator
 
-TitlescreenPokeball4OAM: ; 0x488e
+TitlescreenPokeball4OAM: ; 488e (1:488e) 
     db $11, $00, $4e, $02
     db $09, $00, $4a, $31
     db $11, $f8, $4b, $02
     db $09, $f8, $4a, $11
     db $80 ; terminator
 
-TitlescreenPokeball5OAM: ; 0x489f
+TitlescreenPokeball5OAM: ; 489f (1:489f) 
     db $11, $00, $4c, $02
     db $09, $00, $46, $31
     db $11, $f8, $47, $02
     db $09, $f8, $46, $11
     db $80 ; terminator
 
-OAMData_62: ; 0x48b0
+OAMData_62: ; 48b0 (1:48b0) 
     db $10, $20, $53, $11
     db $10, $18, $52, $11
     db $08, $20, $51, $11
@@ -7571,40 +7570,40 @@ OAMData_62: ; 0x48b0
     db $10, $0c, $4f, $11
     db $80 ; terminator
 
-OAMData_63: ; 0x48c5
+OAMData_63: ; 48c5 (1:48c5) 
     db $10, $08, $70, $11
     db $80 ; terminator
 
-OAMData_64: ; 0x48ca
+OAMData_64: ; 48ca (1:48ca) 
     db $10, $10, $71, $31
     db $10, $08, $71, $11
     db $80 ; terminator
 
-OAMData_65: ; 0x48d3
+OAMData_65: ; 48d3 (1:48d3) 
     db $10, $18, $74, $17
     db $10, $10, $73, $00
     db $10, $08, $72, $17
     db $80 ; terminator
 
-OAMData_66: ; 0x48e0
+OAMData_66: ; 48e0 (1:48e0) 
     db $10, $18, $77, $17
     db $10, $10, $76, $00
     db $10, $08, $75, $17
     db $80 ; terminator
 
-OAMData_67: ; 0x48ed
+OAMData_67: ; 48ed (1:48ed) 
     db $10, $08, $78, $00
     db $80 ; terminator
 
-OAMData_68: ; 0x48f2
+OAMData_68: ; 48f2 (1:48f2) 
     db $10, $08, $79, $00
     db $80 ; terminator
 
-OAMData_69: ; 0x48f7
+OAMData_69: ; 48f7 (1:48f7) 
     db $10, $08, $79, $11
     db $80 ; terminator
 
-PokeDexTextOAM: ; 0x48fc
+PokeDexTextOAM: ; 48fc (1:48fc) 
 ; "POKeDEX" in the top-right corner of the Pokedex screen
     db $12, $34, $7f, $11
     db $12, $2c, $7e, $11
@@ -7614,68 +7613,68 @@ PokeDexTextOAM: ; 0x48fc
     db $12, $0c, $7a, $11
     db $80 ; terminator
 
-OAMData_6b: ; 0x4915
+OAMData_6b: ; 4915 (1:4915) 
     db $10, $08, $6f, $11
     db $80 ; terminator
 
-Digit0OAM: ; 0x491a
+Digit0OAM: ; 491a (1:491a) 
     db $10, $08, $53, $11
     db $80 ; terminator
 
-Digit1OAM: ; 0x491f
+Digit1OAM: ; 491f (1:491f) 
     db $10, $08, $54, $11
     db $80 ; terminator
 
-Digit2OAM: ; 0x4924
+Digit2OAM: ; 4924 (1:4924) 
     db $10, $08, $55, $11
     db $80 ; terminator
 
-Digit3OAM: ; 0x4929
+Digit3OAM: ; 4929 (1:4929) 
     db $10, $08, $56, $11
     db $80 ; terminator
 
-Digit4OAM: ; 0x492e
+Digit4OAM: ; 492e (1:492e) 
     db $10, $08, $57, $11
     db $80 ; terminator
 
-Digit5OAM: ; 0x4933
+Digit5OAM: ; 4933 (1:4933) 
     db $10, $08, $58, $11
     db $80 ; terminator
 
-Digit6OAM: ; 0x4938
+Digit6OAM: ; 4938 (1:4938) 
     db $10, $08, $59, $11
     db $80 ; terminator
 
-Digit7OAM: ; 0x493d
+Digit7OAM: ; 493d (1:493d) 
     db $10, $08, $5a, $11
     db $80 ; terminator
 
-Digit8OAM: ; 0x4942
+Digit8OAM: ; 4942 (1:4942) 
     db $10, $08, $5b, $11
     db $80 ; terminator
 
-Digit9OAM: ; 0x4947
+Digit9OAM: ; 4947 (1:4947) 
     db $10, $08, $5c, $11
     db $80 ; terminator
 
-SlashCharacterOAM: ; 0x494c
+SlashCharacterOAM: ; 494c (1:494c) 
 ; "/" (used to separate seen/own count on the pokedex screen)
     db $10, $08, $5e, $11
     db $80 ; terminator
 
-OAMData_77: ; 0x4951
+OAMData_77: ; 4951 (1:4951) 
     db $11, $07, $34, $00
     db $80 ; terminator
 
-OAMData_78: ; 0x4956
+OAMData_78: ; 4956 (1:4956) 
     db $0f, $07, $36, $00
     db $80 ; terminator
 
-OAMData_79: ; 0x495b
+OAMData_79: ; 495b (1:495b) 
     db $0f, $07, $38, $00
     db $80 ; terminator
 
-OAMData_7a: ; 0x4960
+OAMData_7a: ; 4960 (1:4960) 
     db $f4, $18, $26, $13
     db $f4, $10, $24, $13
     db $f4, $08, $22, $13
@@ -7684,7 +7683,7 @@ OAMData_7a: ; 0x4960
     db $08, $08, $3c, $00
     db $80 ; terminator
 
-OAMData_7b: ; 0x4979
+OAMData_7b: ; 4979 (1:4979) 
     db $10, $28, $78, $00
     db $10, $08, $5c, $02
     db $10, $10, $5e, $02
@@ -7702,7 +7701,7 @@ OAMData_7b: ; 0x4979
     db $30, $28, $76, $02
     db $80 ; terminator
 
-OAMData_7c: ; 0x49b6
+OAMData_7c: ; 49b6 (1:49b6) 
     db $11, $29, $7a, $02
     db $11, $09, $40, $02
     db $11, $11, $42, $02
@@ -7720,53 +7719,53 @@ OAMData_7c: ; 0x49b6
     db $31, $29, $5a, $02
     db $80 ; terminator
 
-OAMData_7d: ; 0x49f3
+OAMData_7d: ; 49f3 (1:49f3) 
     db $0c, $10, $2a, $04
     db $0c, $08, $28, $04
     db $80 ; terminator
 
-OAMData_7e: ; 0x49fc
+OAMData_7e: ; 49fc (1:49fc) 
     db $0d, $10, $2e, $04
     db $0d, $08, $2c, $04
     db $80 ; terminator
 
-OAMData_7f: ; 0x4a05
+OAMData_7f: ; 4a05 (1:4a05) 
     db $0b, $10, $2a, $04
     db $0b, $08, $28, $04
     db $80 ; terminator
 
-OAMData_80: ; 0x4a0e
+OAMData_80: ; 4a0e (1:4a0e) 
     db $09, $10, $32, $04
     db $09, $08, $30, $04
     db $80 ; terminator
 
-OAMData_81: ; 0x4a17
+OAMData_81: ; 4a17 (1:4a17) 
     db $09, $10, $2a, $04
     db $09, $08, $28, $04
     db $80 ; terminator
 
-OAMData_82: ; 0x4a20
+OAMData_82: ; 4a20 (1:4a20) 
     db $10, $08, $7c, $00
     db $80 ; terminator
 
-OAMData_83: ; 0x4a25
+OAMData_83: ; 4a25 (1:4a25) 
     db $10, $08, $7c, $20
     db $80 ; terminator
 
-OAMData_84: ; 0x4a2a
+OAMData_84: ; 4a2a (1:4a2a) 
     db $10, $08, $7e, $11
     db $80 ; terminator
 
-OAMData_85: ; 0x4a2f
+OAMData_85: ; 4a2f (1:4a2f) 
     db $10, $08, $20, $13
     db $80 ; terminator
 
-OAMData_86: ; 0x4a34
+OAMData_86: ; 4a34 (1:4a34) 
     db $18, $08, $7f, $00
     db $10, $08, $7e, $00
     db $80 ; terminator
 
-OAMData_87: ; 0x4a3d
+OAMData_87: ; 4a3d (1:4a3d) 
     db $20, $25, $15, $02
     db $18, $25, $0f, $02
     db $10, $25, $0a, $02
@@ -7784,43 +7783,43 @@ OAMData_87: ; 0x4a3d
     db $20, $05, $11, $02
     db $80 ; terminator
 
-OAMData_88: ; 0x4a7a
+OAMData_88: ; 4a7a (1:4a7a) 
     db $20, $f5, $10, $02
     db $18, $f5, $02, $02
     db $10, $f5, $01, $02
     db $80 ; terminator
 
-OAMData_89: ; 0x4a87
+OAMData_89: ; 4a87 (1:4a87) 
     db $10, $f5, $10, $42
     db $18, $f5, $02, $42
     db $20, $f5, $01, $42
     db $80 ; terminator
 
-OAMData_8a: ; 0x4a94
+OAMData_8a: ; 4a94 (1:4a94) 
     db $20, $fd, $00, $02
     db $18, $fd, $00, $02
     db $10, $fd, $00, $02
     db $80 ; terminator
 
-OAMData_8b: ; 0x4aa1
+OAMData_8b: ; 4aa1 (1:4aa1) 
     db $20, $fd, $00, $02
     db $18, $fd, $04, $02
     db $10, $fd, $03, $02
     db $80 ; terminator
 
-OAMData_8c: ; 0x4aae
+OAMData_8c: ; 4aae (1:4aae) 
     db $10, $fd, $00, $02
     db $18, $fd, $04, $42
     db $20, $fd, $03, $42
     db $80 ; terminator
 
-OAMData_8d: ; 0x4abb
+OAMData_8d: ; 4abb (1:4abb) 
     db $18, $fd, $05, $02
     db $20, $fd, $03, $42
     db $10, $fd, $03, $02
     db $80 ; terminator
 
-OAMData_8e: ; 0x4ac8
+OAMData_8e: ; 4ac8 (1:4ac8) 
     db $0e, $2f, $1f, $02
     db $0e, $27, $1e, $02
     db $16, $2f, $29, $02
@@ -7843,7 +7842,7 @@ OAMData_8e: ; 0x4ac8
     db $0e, $e7, $16, $02
     db $80 ; terminator
 
-OAMData_8f: ; 0x4b19
+OAMData_8f: ; 4b19 (1:4b19) 
     db $0e, $2f, $1f, $02
     db $0e, $27, $1e, $02
     db $16, $2f, $3b, $02
@@ -7866,7 +7865,7 @@ OAMData_8f: ; 0x4b19
     db $0e, $e7, $2a, $02
     db $80 ; terminator
 
-OAMData_90: ; 0x4b6a
+OAMData_90: ; 4b6a (1:4b6a) 
     db $1d, $14, $48, $02
     db $1d, $0c, $47, $02
     db $15, $1c, $45, $02
@@ -7889,7 +7888,7 @@ OAMData_90: ; 0x4b6a
     db $0d, $fc, $3c, $02
     db $80 ; terminator
 
-OAMData_91: ; 0x4bbb
+OAMData_91: ; 4bbb (1:4bbb) 
     db $1d, $14, $49, $02
     db $1d, $0c, $47, $02
     db $15, $1c, $45, $02
@@ -7912,7 +7911,7 @@ OAMData_91: ; 0x4bbb
     db $0d, $fc, $3c, $02
     db $80 ; terminator
 
-OAMData_92: ; 0x4c0c
+OAMData_92: ; 4c0c (1:4c0c) 
     db $1d, $14, $4a, $02
     db $1d, $0c, $47, $02
     db $15, $1c, $45, $02
@@ -7935,7 +7934,7 @@ OAMData_92: ; 0x4c0c
     db $0d, $fc, $3c, $02
     db $80 ; terminator
 
-OAMData_93: ; 0x4c5d
+OAMData_93: ; 4c5d (1:4c5d) 
     db $1d, $14, $4b, $02
     db $1d, $0c, $47, $02
     db $15, $1c, $45, $02
@@ -7958,7 +7957,7 @@ OAMData_93: ; 0x4c5d
     db $0d, $fc, $3c, $02
     db $80 ; terminator
 
-OAMData_94: ; 0x4cae
+OAMData_94: ; 4cae (1:4cae) 
     db $28, $eb, $10, $02
     db $20, $2b, $00, $02
     db $20, $eb, $00, $02
@@ -8001,21 +8000,21 @@ OAMData_94: ; 0x4cae
     db $28, $f3, $6a, $02
     db $80 ; terminator
 
-HighScoresRightArrowOAM: ; 0x4d4f
+HighScoresRightArrowOAM: ; 4d4f (1:4d4f) 
     db $18, $18, $7d, $11
     db $18, $10, $7c, $11
     db $18, $08, $7b, $11
     db $10, $10, $7a, $11
     db $80 ; terminator
 
-HighScoresLeftArrowOAM: ; 0x4d60
+HighScoresLeftArrowOAM: ; 4d60 (1:4d60) 
     db $18, $08, $7d, $31
     db $18, $10, $7c, $31
     db $18, $18, $7b, $31
     db $10, $10, $7a, $31
     db $80 ; terminator
 
-OAMData_97: ; 0x4d71
+OAMData_97: ; 4d71 (1:4d71) 
     db $16, $30, $8b, $02
     db $16, $28, $8a, $02
     db $16, $20, $89, $02
@@ -8038,49 +8037,49 @@ OAMData_97: ; 0x4d71
     db $0e, $e8, $72, $02
     db $80 ; terminator
 
-OAMData_98: ; 0x4dc2
+OAMData_98: ; 4dc2 (1:4dc2) 
     db $18, $10, $8f, $04
     db $18, $08, $8e, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_99: ; 0x4dd3
+OAMData_99: ; 4dd3 (1:4dd3) 
     db $18, $10, $91, $04
     db $18, $08, $90, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_9a: ; 0x4de4
+OAMData_9a: ; 4de4 (1:4de4) 
     db $18, $10, $93, $04
     db $18, $08, $92, $04
     db $10, $10, $8d, $04
     db $10, $08, $8c, $04
     db $80 ; terminator
 
-OAMData_9b: ; 0x4df5
+OAMData_9b: ; 4df5 (1:4df5) 
     db $10, $10, $95, $04
     db $10, $08, $94, $04
     db $18, $10, $93, $04
     db $18, $08, $92, $04
     db $80 ; terminator
 
-OAMData_9c: ; 0x4e06
+OAMData_9c: ; 4e06 (1:4e06) 
     db $18, $10, $97, $04
     db $18, $08, $96, $04
     db $10, $10, $95, $04
     db $10, $08, $94, $04
     db $80 ; terminator
 
-OAMData_9d: ; 0x4e17
+OAMData_9d: ; 4e17 (1:4e17) 
     db $18, $10, $8f, $04
     db $18, $08, $8e, $04
     db $10, $10, $95, $04
     db $10, $08, $94, $04
     db $80 ; terminator
 
-FieldSelectRedStageBorderOAM: ; 0x4e28
+FieldSelectRedStageBorderOAM: ; 4e28 (1:4e28) 
     db $36, $1c, $71, $40
     db $26, $24, $72, $60
     db $2e, $24, $72, $60
@@ -8121,7 +8120,7 @@ FieldSelectRedStageBorderOAM: ; 0x4e28
     db $e2, $e8, $70, $00
     db $80 ; terminator
 
-FieldSelectBlueStageBorderOAM: ; 0x4ec1
+FieldSelectBlueStageBorderOAM: ; 4ec1 (1:4ec1) 
     db $36, $1c, $74, $40
     db $26, $24, $75, $60
     db $2e, $24, $75, $60
@@ -8162,7 +8161,7 @@ FieldSelectBlueStageBorderOAM: ; 0x4ec1
     db $e2, $e8, $73, $00
     db $80 ; terminator
 
-OAMData_a0: ; 0x4f5a
+OAMData_a0: ; 4f5a (1:4f5a) 
     db $36, $1c, $77, $40
     db $26, $24, $78, $60
     db $2e, $24, $78, $60
@@ -8203,23 +8202,23 @@ OAMData_a0: ; 0x4f5a
     db $e2, $e8, $76, $00
     db $80 ; terminator
 
-OAMData_a1: ; 0x4ff3
+OAMData_a1: ; 4ff3 (1:4ff3) 
     db $10, $08, $7c, $08
     db $80 ; terminator
 
-OAMData_a2: ; 0x4ff8
+OAMData_a2: ; 4ff8 (1:4ff8) 
     db $08, $08, $7d, $48
     db $80 ; terminator
 
-OAMData_a3: ; 0x4ffd
+OAMData_a3: ; 4ffd (1:4ffd) 
     db $10, $08, $7e, $08
     db $80 ; terminator
 
-OAMData_a4: ; 0x5002
+OAMData_a4: ; 5002 (1:5002) 
     db $10, $08, $7e, $28
     db $80 ; terminator
 
-OAMData_a5: ; 0x5007
+OAMData_a5: ; 5007 (1:5007) 
     db $03, $0a, $0f, $1d
     db $fb, $0a, $0e, $1d
     db $03, $02, $0d, $1d
@@ -8238,7 +8237,7 @@ OAMData_a5: ; 0x5007
     db $ef, $00, $00, $1b
     db $80 ; terminator
 
-OAMData_a6: ; 0x5048
+OAMData_a6: ; 5048 (1:5048) 
     db $04, $0a, $1d, $1d
     db $fc, $0a, $1c, $1d
     db $04, $02, $1b, $1d
@@ -8257,7 +8256,7 @@ OAMData_a6: ; 0x5048
     db $ef, $00, $10, $1b
     db $80 ; terminator
 
-OAMData_a7: ; 0x5089
+OAMData_a7: ; 5089 (1:5089) 
     db $07, $08, $2f, $1d
     db $ff, $08, $2e, $1d
     db $07, $00, $2d, $1d
@@ -8278,7 +8277,7 @@ OAMData_a7: ; 0x5089
     db $ef, $00, $1e, $1b
     db $80 ; terminator
 
-OAMData_a8: ; 0x50d2
+OAMData_a8: ; 50d2 (1:50d2) 
     db $15, $01, $0b, $0a
     db $ef, $03, $02, $1d
     db $f7, $03, $03, $1d
@@ -8298,7 +8297,7 @@ OAMData_a8: ; 0x50d2
     db $00, $f9, $06, $1b
     db $80 ; terminator
 
-OAMData_a9: ; 0x5117
+OAMData_a9: ; 5117 (1:5117) 
     db $f8, $04, $15, $1d
     db $f0, $04, $14, $1d
     db $fb, $0c, $17, $1d
@@ -8315,7 +8314,7 @@ OAMData_a9: ; 0x5117
     db $00, $fa, $18, $1b
     db $80 ; terminator
 
-OAMData_aa: ; 0x5150
+OAMData_aa: ; 5150 (1:5150) 
     db $00, $10, $27, $1d
     db $f8, $10, $26, $1d
     db $fb, $08, $25, $1d
@@ -8334,7 +8333,7 @@ OAMData_aa: ; 0x5150
     db $00, $f8, $28, $1b
     db $80 ; terminator
 
-OAMData_ab: ; 0x5191
+OAMData_ab: ; 5191 (1:5191) 
     db $08, $10, $0f, $1b
     db $00, $10, $0e, $1b
     db $08, $08, $0d, $1b
@@ -8353,7 +8352,7 @@ OAMData_ab: ; 0x5191
     db $f0, $f8, $00, $1b
     db $80 ; terminator
 
-OAMData_ac: ; 0x51d2
+OAMData_ac: ; 51d2 (1:51d2) 
     db $08, $10, $1f, $1b
     db $00, $10, $1e, $1b
     db $08, $08, $1d, $1b
@@ -8372,7 +8371,7 @@ OAMData_ac: ; 0x51d2
     db $f0, $f8, $10, $1b
     db $80 ; terminator
 
-OAMData_ad: ; 0x5213
+OAMData_ad: ; 5213 (1:5213) 
     db $08, $10, $2f, $1b
     db $00, $10, $2e, $1b
     db $08, $08, $2d, $1b
@@ -8391,7 +8390,7 @@ OAMData_ad: ; 0x5213
     db $f0, $f8, $20, $1b
     db $80 ; terminator
 
-OAMData_ae: ; 0x5254
+OAMData_ae: ; 5254 (1:5254) 
     db $08, $10, $0f, $1d
     db $00, $10, $0e, $1b
     db $08, $08, $0d, $1d
@@ -8410,7 +8409,7 @@ OAMData_ae: ; 0x5254
     db $f0, $f8, $00, $1b
     db $80 ; terminator
 
-OAMData_af: ; 0x5295
+OAMData_af: ; 5295 (1:5295) 
     db $08, $10, $1f, $1d
     db $00, $10, $1e, $1b
     db $08, $08, $1d, $1d
@@ -8429,7 +8428,7 @@ OAMData_af: ; 0x5295
     db $f0, $f8, $10, $1b
     db $80 ; terminator
 
-OAMData_b0: ; 0x52d6
+OAMData_b0: ; 52d6 (1:52d6) 
     db $09, $10, $2f, $1d
     db $01, $10, $2e, $1b
     db $09, $08, $2d, $1d
@@ -8448,115 +8447,115 @@ OAMData_b0: ; 0x52d6
     db $f1, $f8, $20, $1b
     db $80 ; terminator
 
-Timer0DigitOAM: ; 0x5317
+Timer0DigitOAM: ; 5317 (1:5317) 
     db $10, $08, $60, $08
     db $80 ; terminator
 
-Timer1DigitOAM: ; 0x531c
+Timer1DigitOAM: ; 531c (1:531c) 
     db $10, $08, $62, $08
     db $80 ; terminator
 
-Timer2DigitOAM: ; 0x5321
+Timer2DigitOAM: ; 5321 (1:5321) 
     db $10, $08, $64, $08
     db $80 ; terminator
 
-Timer3DigitOAM: ; 0x5326
+Timer3DigitOAM: ; 5326 (1:5326) 
     db $10, $08, $66, $08
     db $80 ; terminator
 
-Timer4DigitOAM: ; 0x532b
+Timer4DigitOAM: ; 532b (1:532b) 
     db $10, $08, $68, $08
     db $80 ; terminator
 
-Timer5DigitOAM: ; 0x5330
+Timer5DigitOAM: ; 5330 (1:5330) 
     db $10, $08, $6a, $08
     db $80 ; terminator
 
-Timer6DigitOAM: ; 0x5335
+Timer6DigitOAM: ; 5335 (1:5335) 
     db $10, $08, $6c, $08
     db $80 ; terminator
 
-Timer7DigitOAM: ; 0x533a
+Timer7DigitOAM: ; 533a (1:533a) 
     db $10, $08, $6e, $08
     db $80 ; terminator
 
-Timer8DigitOAM: ; 0x533f
+Timer8DigitOAM: ; 533f (1:533f) 
     db $10, $08, $70, $08
     db $80 ; terminator
 
-Timer9DigitOAM: ; 0x5344
+Timer9DigitOAM: ; 5344 (1:5344) 
     db $10, $08, $72, $08
     db $80 ; terminator
 
-TimerColonOAM: ; 0x5349
+TimerColonOAM: ; 5349 (1:5349) 
     db $10, $08, $74, $08
     db $80 ; terminator
 
-OAMData_bc: ; 0x534e
+OAMData_bc: ; 534e (1:534e) 
     db $10, $10, $30, $11
     db $10, $08, $2e, $11
     db $80 ; terminator
 
-OAMData_bd: ; 0x5357
+OAMData_bd: ; 5357 (1:5357) 
     db $10, $10, $34, $11
     db $10, $08, $32, $11
     db $80 ; terminator
 
-OAMData_be: ; 0x5360
+OAMData_be: ; 5360 (1:5360) 
     db $12, $10, $66, $15
     db $02, $10, $64, $15
     db $12, $08, $62, $15
     db $02, $08, $60, $15
     db $80 ; terminator
 
-OAMData_bf: ; 0x5371
+OAMData_bf: ; 5371 (1:5371) 
     db $00, $0a, $68, $15
     db $10, $10, $6c, $15
     db $10, $08, $6a, $15
     db $80 ; terminator
 
-OAMData_c0: ; 0x537e
+OAMData_c0: ; 537e (1:537e) 
     db $0f, $10, $70, $15
     db $0f, $08, $6e, $15
     db $80 ; terminator
 
-OAMData_c1: ; 0x5387
+OAMData_c1: ; 5387 (1:5387) 
     db $00, $0b, $72, $15
     db $10, $10, $76, $15
     db $10, $08, $74, $15
     db $80 ; terminator
 
-OAMData_c2: ; 0x5394
+OAMData_c2: ; 5394 (1:5394) 
     db $08, $0f, $78, $22
     db $08, $07, $78, $02
     db $80 ; terminator
 
-OAMData_c3: ; 0x539d
+OAMData_c3: ; 539d (1:539d) 
     db $08, $0f, $7b, $62
     db $08, $07, $7b, $42
     db $80 ; terminator
 
-OAMData_c4: ; 0x53a6
+OAMData_c4: ; 53a6 (1:53a6) 
     db $08, $0f, $7d, $62
     db $08, $07, $7d, $42
     db $80 ; terminator
 
-OAMData_c5: ; 0x53af
+OAMData_c5: ; 53af (1:53af) 
     db $08, $0f, $7e, $22
     db $08, $07, $7e, $02
     db $80 ; terminator
 
-OAMData_c6: ; 0x53b8
+OAMData_c6: ; 53b8 (1:53b8) 
     db $08, $0f, $7c, $22
     db $08, $07, $7c, $02
     db $80 ; terminator
 
-OAMData_c7: ; 0x53c1
+OAMData_c7: ; 53c1 (1:53c1) 
     db $08, $0f, $7a, $22
     db $08, $07, $7a, $02
     db $80 ; terminator
 
-OAMData_c8: ; 0x53ca
+OAMData_c8: ; 53ca (1:53ca) 
     db $18, $11, $96, $02
     db $20, $29, $a6, $02
     db $30, $21, $a4, $02
@@ -8571,7 +8570,7 @@ OAMData_c8: ; 0x53ca
     db $18, $09, $90, $02
     db $80 ; terminator
 
-OAMData_c9: ; 0x53fb
+OAMData_c9: ; 53fb (1:53fb) 
     db $18, $21, $2c, $02
     db $18, $19, $28, $02
     db $30, $09, $20, $02
@@ -8583,118 +8582,118 @@ OAMData_c9: ; 0x53fb
     db $10, $09, $1c, $02
     db $80 ; terminator
 
-OAMData_ca: ; 0x5420
+OAMData_ca: ; 5420 (1:5420) 
     db $30, $08, $1a, $02
     db $20, $08, $a8, $02
     db $80 ; terminator
 
-OAMData_cb: ; 0x5429
+OAMData_cb: ; 5429 (1:5429) 
     db $10, $18, $06, $1b
     db $20, $10, $04, $1b
     db $10, $10, $02, $1b
     db $10, $08, $00, $1b
     db $80 ; terminator
 
-OAMData_cc: ; 0x543a
+OAMData_cc: ; 543a (1:543a) 
     db $20, $11, $0e, $0c
     db $10, $11, $0c, $0c
     db $22, $09, $0a, $0c
     db $12, $09, $08, $0c
     db $80 ; terminator
 
-OAMData_cd: ; 0x544b
+OAMData_cd: ; 544b (1:544b) 
     db $0f, $11, $30, $11
     db $0f, $09, $2e, $11
     db $80 ; terminator
 
-OAMData_ce: ; 0x5454
+OAMData_ce: ; 5454 (1:5454) 
     db $10, $0f, $30, $11
     db $10, $07, $2e, $11
     db $80 ; terminator
 
-OAMData_cf: ; 0x545d
+OAMData_cf: ; 545d (1:545d) 
     db $11, $11, $30, $11
     db $11, $09, $2e, $11
     db $80 ; terminator
 
-OAMData_d0: ; 0x5466
+OAMData_d0: ; 5466 (1:5466) 
     db $10, $17, $16, $1b
     db $1f, $0f, $14, $1b
     db $0f, $0f, $12, $1b
     db $0f, $07, $10, $1b
     db $80 ; terminator
 
-OAMData_d1: ; 0x5477
+OAMData_d1: ; 5477 (1:5477) 
     db $10, $08, $36, $06
     db $80 ; terminator
 
-OAMData_d2: ; 0x547c
+OAMData_d2: ; 547c (1:547c) 
     db $08, $08, $37, $46
     db $80 ; terminator
 
-OAMData_d3: ; 0x5481
+OAMData_d3: ; 5481 (1:5481) 
     db $10, $08, $38, $06
     db $80 ; terminator
 
-OAMData_d4: ; 0x5486
+OAMData_d4: ; 5486 (1:5486) 
     db $10, $08, $3a, $06
     db $80 ; terminator
 
-OAMData_d5: ; 0x548b
+OAMData_d5: ; 548b (1:548b) 
     db $10, $08, $3c, $06
     db $80 ; terminator
 
-OAMData_d6: ; 0x5490
+OAMData_d6: ; 5490 (1:5490) 
     db $10, $08, $3e, $06
     db $80 ; terminator
 
-OAMData_d7: ; 0x5495
+OAMData_d7: ; 5495 (1:5495) 
     db $10, $08, $b0, $00
     db $80 ; terminator
 
-OAMData_d8: ; 0x549a
+OAMData_d8: ; 549a (1:549a) 
     db $10, $08, $b2, $00
     db $80 ; terminator
 
-OAMData_d9: ; 0x549f
+OAMData_d9: ; 549f (1:549f) 
     db $10, $08, $b4, $00
     db $80 ; terminator
 
-OAMData_da: ; 0x54a4
+OAMData_da: ; 54a4 (1:54a4) 
     db $10, $08, $b6, $00
     db $80 ; terminator
 
-OAMData_db: ; 0x54a9
+OAMData_db: ; 54a9 (1:54a9) 
     db $10, $08, $38, $00
     db $80 ; terminator
 
-OAMData_dc: ; 0x54ae
+OAMData_dc: ; 54ae (1:54ae) 
     db $10, $08, $3a, $00
     db $80 ; terminator
 
-OAMData_dd: ; 0x54b3
+OAMData_dd: ; 54b3 (1:54b3) 
     db $10, $08, $7e, $00
     db $80 ; terminator
 
-OAMData_de: ; 0x54b8
+OAMData_de: ; 54b8 (1:54b8) 
     db $10, $08, $bc, $00
     db $80 ; terminator
 
-OAMData_df: ; 0x54bd
+OAMData_df: ; 54bd (1:54bd) 
     db $10, $08, $a8, $00
     db $80 ; terminator
 
-OAMData_e0: ; 0x54c2
+OAMData_e0: ; 54c2 (1:54c2) 
     db $10, $10, $92, $13
     db $10, $08, $90, $13
     db $80 ; terminator
 
-OAMData_e1: ; 0x54cb
+OAMData_e1: ; 54cb (1:54cb) 
     db $10, $10, $96, $13
     db $10, $08, $94, $13
     db $80 ; terminator
 
-OAMData_e2: ; 0x54d4
+OAMData_e2: ; 54d4 (1:54d4) 
     db $20, $18, $1e, $11
     db $20, $10, $1c, $11
     db $20, $08, $1a, $11
@@ -8703,7 +8702,7 @@ OAMData_e2: ; 0x54d4
     db $10, $08, $98, $11
     db $80 ; terminator
 
-OAMData_e3: ; 0x54ed
+OAMData_e3: ; 54ed (1:54ed) 
     db $10, $18, $a2, $11
     db $10, $10, $a0, $11
     db $10, $08, $9e, $11
@@ -8712,7 +8711,7 @@ OAMData_e3: ; 0x54ed
     db $20, $08, $1a, $11
     db $80 ; terminator
 
-OAMData_e4: ; 0x5506
+OAMData_e4: ; 5506 (1:5506) 
     db $10, $1a, $a8, $11
     db $10, $12, $a6, $11
     db $10, $0a, $a4, $11
@@ -8721,7 +8720,7 @@ OAMData_e4: ; 0x5506
     db $20, $08, $1a, $11
     db $80 ; terminator
 
-OAMData_e5: ; 0x551f
+OAMData_e5: ; 551f (1:551f) 
     db $20, $18, $2a, $13
     db $20, $10, $28, $13
     db $20, $08, $26, $13
@@ -8730,7 +8729,7 @@ OAMData_e5: ; 0x551f
     db $10, $08, $20, $13
     db $80 ; terminator
 
-OAMData_e6: ; 0x5538
+OAMData_e6: ; 5538 (1:5538) 
     db $20, $18, $36, $13
     db $20, $10, $34, $13
     db $20, $08, $32, $13
@@ -8739,7 +8738,7 @@ OAMData_e6: ; 0x5538
     db $10, $08, $2c, $13
     db $80 ; terminator
 
-OAMData_e7: ; 0x5551
+OAMData_e7: ; 5551 (1:5551) 
     db $20, $10, $76, $13
     db $20, $08, $74, $13
     db $10, $10, $72, $13
@@ -8748,81 +8747,81 @@ OAMData_e7: ; 0x5551
     db $10, $18, $24, $13
     db $80 ; terminator
 
-OAMData_e8: ; 0x556a
+OAMData_e8: ; 556a (1:556a) 
     db $10, $10, $78, $22
     db $10, $08, $78, $02
     db $80 ; terminator
 
-OAMData_e9: ; 0x5573
+OAMData_e9: ; 5573 (1:5573) 
     db $10, $10, $7b, $62
     db $10, $08, $7b, $42
     db $80 ; terminator
 
-OAMData_ea: ; 0x557c
+OAMData_ea: ; 557c (1:557c) 
     db $10, $10, $7d, $62
     db $10, $08, $7d, $42
     db $80 ; terminator
 
-OAMData_eb: ; 0x5585
+OAMData_eb: ; 5585 (1:5585) 
     db $10, $10, $7e, $22
     db $10, $08, $7e, $02
     db $80 ; terminator
 
-OAMData_ec: ; 0x558e
+OAMData_ec: ; 558e (1:558e) 
     db $10, $10, $7c, $22
     db $10, $08, $7c, $02
     db $80 ; terminator
 
-OAMData_ed: ; 0x5597
+OAMData_ed: ; 5597 (1:5597) 
     db $10, $10, $7a, $22
     db $10, $08, $7a, $02
     db $80 ; terminator
 
-OAMData_ee: ; 0x55a0
+OAMData_ee: ; 55a0 (1:55a0) 
     db $10, $08, $38, $06
     db $80 ; terminator
 
-OAMData_ef: ; 0x55a5
+OAMData_ef: ; 55a5 (1:55a5) 
     db $10, $08, $3a, $06
     db $80 ; terminator
 
-OAMData_f0: ; 0x55aa
+OAMData_f0: ; 55aa (1:55aa) 
     db $10, $08, $3a, $26
     db $80 ; terminator
 
-OAMData_f1: ; 0x55af
+OAMData_f1: ; 55af (1:55af) 
     db $10, $08, $3c, $06
     db $80 ; terminator
 
-OAMData_f2: ; 0x55b4
+OAMData_f2: ; 55b4 (1:55b4) 
     db $10, $08, $3e, $06
     db $80 ; terminator
 
-OAMData_f3: ; 0x55b9
+OAMData_f3: ; 55b9 (1:55b9) 
     db $10, $08, $3e, $26
     db $80 ; terminator
 
-OAMData_f4: ; 0x55be
+OAMData_f4: ; 55be (1:55be) 
     db $08, $08, $39, $46
     db $80 ; terminator
 
-OAMData_f5: ; 0x55c3
+OAMData_f5: ; 55c3 (1:55c3) 
     db $10, $08, $72, $00
     db $80 ; terminator
 
-OAMData_f6: ; 0x55c8
+OAMData_f6: ; 55c8 (1:55c8) 
     db $10, $08, $74, $00
     db $80 ; terminator
 
-OAMData_f7: ; 0x55cd
+OAMData_f7: ; 55cd (1:55cd) 
     db $10, $08, $76, $00
     db $80 ; terminator
 
-OAMData_f8: ; 0x55d2
+OAMData_f8: ; 55d2 (1:55d2) 
     db $10, $08, $78, $00
     db $80 ; terminator
 
-OAMDataPointers2: ; 0x55d7
+OAMDataPointers2: ; 55d7 (1:55d7) 
     dw OAMData2_0
     dw OAMData2_1
     dw OAMData2_2
@@ -8957,7 +8956,7 @@ OAMDataPointers2: ; 0x55d7
     dw OAMData2_83
     dw OAMData2_84
 
-OAMData2_0: ; 0x56e1
+OAMData2_0: ; 56e1 (1:56e1) 
     db $20, $20, $9E, $04
     db $20, $18, $9C, $04
     db $20, $10, $9A, $04
@@ -8968,7 +8967,7 @@ OAMData2_0: ; 0x56e1
     db $10, $08, $90, $04
     db $80  ; terminator
 
-OAMData2_1: ; 0x5702
+OAMData2_1: ; 5702 (1:5702) 
     db $21, $20, $9E, $04
     db $21, $18, $9C, $04
     db $21, $10, $9A, $04
@@ -10052,11 +10051,11 @@ OAMData2_82: ; 0x
     db $FE, $08, $E0, $00
     db $80  ; terminator
 
-OAMData2_83: ; 0x6258
+OAMData2_83: ; 6258 (1:6258) 
     db $10, $08, $F0, $00
     db $80  ; terminator
 
-OAMData2_84: ; 0x625d
+OAMData2_84: ; 625d (1:625d) 
     db $10, $08, $F2, $00
     db $80  ; terminator
 
@@ -10065,15 +10064,15 @@ OAMData2_84: ; 0x625d
 
 SECTION "bank2", ROMX, BANK[$2]
 
-Func_8000: ; 0x8000
+Func_8000: ; 8000 (2:4000) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-CallTable_8004: ; 0x8004
+CallTable_8004: ; 8004 (2:4004) 
     dw Func_800a
     dw Func_8104
     dw Func_814e
 
-Func_800a: ; 0x800a
+Func_800a: ; 800a (2:400a) 
     xor a
     ld [$ffc4], a
     ld a, [hJoypadState]
@@ -10107,7 +10106,7 @@ Func_800a: ; 0x800a
     inc [hl]
     ret
 
-Func_8049: ; 0x8049
+Func_8049: ; 8049 (2:4049) 
     ld a, $1
     ld [$ff4f], a
     ld c, $ff
@@ -10137,10 +10136,10 @@ Func_8049: ; 0x8049
     call Func_10c5
     ret
 
-PointerTable_8089: ; 0x8089
+PointerTable_8089: ; 8089 (2:4089) 
     dw Data_808b
 
-Data_808b: ; 0x808b
+Data_808b: ; 808b (2:408b) 
     dw $5c00
     db $36
     dw $8a00
@@ -10148,7 +10147,7 @@ Data_808b: ; 0x808b
 
     db $FF, $FF ; terminators
 
-Data_8094: ; 0x8094
+Data_8094: ; 8094 (2:4094) 
     db $13
 
     dbw $06, $98A3
@@ -10165,7 +10164,7 @@ Data_8094: ; 0x8094
 
     db $00  ; terminator
 
-FillBackgroundsVRAM: ; 0x80b5
+FillBackgroundsVRAM: ; 80b5 (2:40b5) 
     ld hl, vBGMap0
 .fillLoop
     xor a
@@ -10178,7 +10177,7 @@ FillBackgroundsVRAM: ; 0x80b5
     jr nz, .fillLoop
     ret
 
-FillTilesVRAM: ; 0x80c3
+FillTilesVRAM: ; 80c3 (2:40c3) 
     ld hl, vTiles0
 .fillLoop
     ld a, c
@@ -10191,7 +10190,7 @@ FillTilesVRAM: ; 0x80c3
     jr nz, .fillLoop
     ret
 
-Fill33Bytes: ; 0x80d1
+Fill33Bytes: ; 80d1 (2:40d1) 
 ; First places a in [de].
 ; Then, reads 32 bytes from hl and places them in order at de + 1
     ld [de], a
@@ -10212,7 +10211,7 @@ Fill33Bytes: ; 0x80d1
     jr nz, .outerLoop
     ret
 
-Data_80e4: ; 0x80e4
+Data_80e4: ; 80e4 (2:40e4) 
     db $FF
     db $7F
     db $B5
@@ -10229,7 +10228,7 @@ Data_80e4: ; 0x80e4
     db $2D
     db $00
     db $00
-Data_80f4: ; 0x80f4
+Data_80f4: ; 80f4 (2:40f4) 
     db $B5
     db $56
     db $FF
@@ -10247,7 +10246,7 @@ Data_80f4: ; 0x80f4
     db $00
     db $00
 
-Func_8104: ; 0x8104
+Func_8104: ; 8104 (2:4104) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     and (D_DOWN | D_UP)
@@ -10279,7 +10278,7 @@ Func_8104: ; 0x8104
     call Func_10c5
     ret
 
-Data_813a: ; 0x813a
+Data_813a: ; 813a (2:413a) 
     db $02
 
     dbw $01, $98E3
@@ -10290,7 +10289,7 @@ Data_813a: ; 0x813a
 
     db $00  ; terminator
 
-Data_8144: ; 0x8144
+Data_8144: ; 8144 (2:4144) 
     db $02
 
     dbw $01, $98E3
@@ -10301,7 +10300,7 @@ Data_8144: ; 0x8144
 
     db $00  ; terminator
 
-Func_814e: ; 0x414e
+Func_814e: ; 414e (1:414e) 
     call Func_cb5
     call Func_576
     ld hl, wCurrentScreen
@@ -10310,15 +10309,15 @@ Func_814e: ; 0x414e
     ld [wScreenState], a
     ret
 
-HandleEraseAllDataMenu: ; 0x815d
+HandleEraseAllDataMenu: ; 815d (2:415d) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-EraseAllDataMenuFunctions: ; 0x8161
+EraseAllDataMenuFunctions: ; 8161 (2:4161) 
     dw CheckForResetButtonCombo
     dw HandleEraseAllDataInput
     dw ExitEraseAllDataMenu 
 
-CheckForResetButtonCombo: ; 0x8167
+CheckForResetButtonCombo: ; 8167 (2:4167) 
     ld a, [hJoypadState]
     cp (D_UP | D_RIGHT | START | SELECT)
     jr z, .heldCorrectButtons
@@ -10347,23 +10346,23 @@ CheckForResetButtonCombo: ; 0x8167
     inc [hl]
     ret
 
-EraseAllDataGfxPointers: ; 0x81a2
+EraseAllDataGfxPointers: ; 81a2 (2:41a2) 
     dw EraseAllDataGfx_GameBoy
     dw EraseAllDataGfx_GameBoyColor
 
-EraseAllDataGfx_GameBoy: ; 0x81a6
+EraseAllDataGfx_GameBoy: ; 81a6 (2:41a6) 
     VIDEO_DATA_TILES   EraseAllDataGfx, vTiles2, $300
     VIDEO_DATA_TILEMAP EraseAllDataTilemap, vBGMap0, $400
     db $FF, $FF ; terminators
 
-EraseAllDataGfx_GameBoyColor: ; 0x81b6
+EraseAllDataGfx_GameBoyColor: ; 81b6 (2:41b6) 
     VIDEO_DATA_TILES    EraseAllDataGfx, vTiles2, $300
     VIDEO_DATA_TILEMAP  EraseAllDataTilemap, vBGMap0, $400
     VIDEO_DATA_BGATTR   EraseAllDataBGAttributes, vBGMap0, $400
     VIDEO_DATA_PALETTES EraseAllDataPalettes, $80
     db $FF, $FF ; terminators
 
-HandleEraseAllDataInput: ; 0x81d4
+HandleEraseAllDataInput: ; 81d4 (2:41d4) 
     ld a, [hNewlyPressedButtons]
     bit BIT_A_BUTTON, a
     jr z, .checkForBButton
@@ -10415,7 +10414,7 @@ HandleEraseAllDataInput: ; 0x81d4
     inc [hl]
     ret
 
-ExitEraseAllDataMenu: ; 0x820f
+ExitEraseAllDataMenu: ; 820f (2:420f) 
     call Func_cb5
     call Func_576
     ld hl, wCurrentScreen
@@ -10424,15 +10423,15 @@ ExitEraseAllDataMenu: ; 0x820f
     ld [wScreenState], a
     ret
 
-HandleCopyrightScreen: ; 0x821e
+HandleCopyrightScreen: ; 821e (2:421e) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-CopyrightScreenFunctions: ; 0x8222
+CopyrightScreenFunctions: ; 8222 (2:4222) 
     dw FadeInCopyrightScreen
     dw DisplayCopyrightScreen
     dw FadeOutCopyrightScreenAndLoadData
 
-FadeInCopyrightScreen: ; 0x8228
+FadeInCopyrightScreen: ; 8228 (2:4228) 
     ld a, $41
     ld [$ff9e], a
     ld a, $e4
@@ -10456,23 +10455,23 @@ FadeInCopyrightScreen: ; 0x8228
     inc [hl]
     ret
 
-CopyrightTextGfxPointers: ; 0x825e
+CopyrightTextGfxPointers: ; 825e (2:425e) 
     dw CopyrightTextGfx_GameBoy
     dw CopyrightTextGfx_GameBoyColor
 
-CopyrightTextGfx_GameBoy: ; 0x8262
+CopyrightTextGfx_GameBoy: ; 8262 (2:4262) 
     VIDEO_DATA_TILES   CopyrightTextGfx, vTiles1, $400
     VIDEO_DATA_TILEMAP CopyrightScreenTilemap, vBGMap0, $400
     db $FF, $FF  ; terminators
 
-CopyrightTextGfx_GameBoyColor: ; 0x8272
+CopyrightTextGfx_GameBoyColor: ; 8272 (2:4272) 
     VIDEO_DATA_TILES    CopyrightTextGfx, vTiles1, $400
     VIDEO_DATA_TILEMAP  CopyrightScreenTilemap, vBGMap0, $400
     VIDEO_DATA_BGATTR   CopyrightScreenBGAttributes, vBGMap0, $400
     VIDEO_DATA_PALETTES CopyrightScreenPalettes, $80
     db $FF, $FF ; terminators
 
-DisplayCopyrightScreen: ; 0x8290
+DisplayCopyrightScreen: ; 8290 (2:4290) 
     ld b, $5a  ; number of frames to show the copyright screen
 .delayLoop
     push bc
@@ -10492,7 +10491,7 @@ DisplayCopyrightScreen: ; 0x8290
     inc [hl]
     ret
 
-FadeOutCopyrightScreenAndLoadData: ; 0x82a8
+FadeOutCopyrightScreenAndLoadData: ; 82a8 (2:42a8) 
     call Func_cb5
     call Func_576
     ld hl, $a000
@@ -10539,7 +10538,7 @@ FadeOutCopyrightScreenAndLoadData: ; 0x82a8
     ld [wScreenState], a
     ret
 
-InitializeStage: ; 0x8311
+InitializeStage: ; 8311 (2:4311) 
     ld hl, wc000
     ld bc, $0a00
     call ClearData
@@ -10564,7 +10563,7 @@ InitializeStage: ; 0x8311
     call Func_8388
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_8348: ; 0x8348
+CallTable_8348: ; 8348 (2:4348) 
     ; STAGE_RED_FIELD_TOP
     dw InitRedField
     db Bank(InitRedField), $00
@@ -10627,7 +10626,7 @@ CallTable_8348: ; 0x8348
     dw InitSeelBonusStage
     db Bank(InitSeelBonusStage), $00
 
-Func_8388: ; 0x8388
+Func_8388: ; 8388 (2:4388) 
     ld a, [$d7c1]
     and a
     jr z, .asm_8398
@@ -10650,7 +10649,7 @@ Func_8388: ; 0x8388
     call ClearData
     ret
 
-StartBallForStage: ; 0x83ba
+StartBallForStage: ; 83ba (2:43ba) 
     ld a, [$d7c1]
     and a
     jr z, .asm_83c7
@@ -10680,7 +10679,7 @@ StartBallForStage: ; 0x83ba
     ld [$d7ab], a
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_8404: ; 0x8404
+CallTable_8404: ; 8404 (2:4404) 
     ; STAGE_RED_FIELD_TOP
     dw StartBallRedField
     db Bank(StartBallRedField), $00
@@ -10743,7 +10742,7 @@ CallTable_8404: ; 0x8404
     dw StartBallSeelBonusStage
     db Bank(StartBallSeelBonusStage), $00
 
-Func_8444: ; 0x8444
+Func_8444: ; 8444 (2:4444) 
     ld a, [wInSpecialMode]
     and a
     jr z, .asm_8460
@@ -10760,7 +10759,7 @@ Func_8444: ; 0x8444
 .asm_8460
     ret
 
-Func_8461: ; 0x8461
+Func_8461: ; 8461 (2:4461) 
     ld a, [$d7c0]
     call SetSongBank
     ld a, [$d7bf]
@@ -10769,10 +10768,10 @@ Func_8461: ; 0x8461
     call Func_490
     ret
 
-Func_8471: ; 0x8471
+Func_8471: ; 8471 (2:4471) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_8477: ; 0x8477
+CallTable_8477: ; 8477 (2:4477) 
     ; STAGE_RED_FIELD_TOP
     dw Func_14000
     db Bank(Func_14000), $00
@@ -10835,10 +10834,10 @@ CallTable_8477: ; 0x8477
     dw Func_25b97
     db Bank(Func_25b97), $00
 
-Func_84b7: ; 0x84b7
+Func_84b7: ; 84b7 (2:44b7) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-PointerTable_84bd: ; 0x84bd
+PointerTable_84bd: ; 84bd (2:44bd) 
     ; STAGE_RED_FIELD_TOP
     dw Func_1755c
     db Bank(Func_1755c), $00
@@ -10903,7 +10902,7 @@ PointerTable_84bd: ; 0x84bd
 
 INCBIN "baserom.gbc",$84fd,$8524 - $84fd
 
-Func_8524: ; 0x8524
+Func_8524: ; 8524 (2:4524) 
     ld hl, $d46f
     ld bc, $0c01
 .asm_852a
@@ -10924,7 +10923,7 @@ Func_8524: ; 0x8524
     inc de
     ret
 
-Func_8543: ; 0x8543
+Func_8543: ; 8543 (2:4543) 
     jr nz, .asm_854c
     ld a, b
     dec a
@@ -10954,7 +10953,7 @@ Func_8543: ; 0x8543
 
 INCBIN "baserom.gbc",$8569,$8576 - $8569
 
-Func_8576: ; 0x8576
+Func_8576: ; 8576 (2:4576) 
     ld h, b
     ld l, c
     ld a, [$d477]
@@ -10968,7 +10967,7 @@ Func_8576: ; 0x8576
     ld b, a
     jr asm_8592
 
-Func_8588: ; 0x8588
+Func_8588: ; 8588 (2:4588) 
     ld h, b
     ld l, c
     ld a, [$d477]
@@ -11025,7 +11024,7 @@ asm_8592:
     ld [$d477], a
     ret
 
-Func_85c7: ; 0x85c7
+Func_85c7: ; 85c7 (2:45c7) 
     ld a, [$ffb3]
     and $3
     ret nz
@@ -11109,7 +11108,7 @@ Func_85c7: ; 0x85c7
     ld [$d49f], a
     ret
 
-SetMaxScore: ; 0x8637
+SetMaxScore: ; 8637 (2:4637) 
     push hl
     ld hl, wScore
     ld a, $99
@@ -11122,14 +11121,14 @@ SetMaxScore: ; 0x8637
     pop hl
     ret
 
-Func_8645: ; 0x8645
+Func_8645: ; 8645 (2:4645) 
     xor a
     ld [$d49f], a
     ld de, $c647
     call Func_8524
     ret
 
-Func_8650: ; 0x8650
+Func_8650: ; 8650 (2:4650) 
     ld a, [wCurrentStage]
     bit 0, a
     jr nz, .bottomStage
@@ -11158,7 +11157,7 @@ Func_8650: ; 0x8650
     ld [$ffa6], a
     ret
 
-StartTimer: ; 0x867d
+StartTimer: ; 867d (2:467d) 
 ; Starts the timer that counts down with the specified starting time when things
 ; like CatchEm Mode starts.
 ; input:  b = minutes
@@ -11181,7 +11180,7 @@ StartTimer: ; 0x867d
     call BankSwitch
     ret
 
-Func_86a4: ; 0x86a4
+Func_86a4: ; 86a4 (2:46a4) 
     ld a, [$d57f]
     and a
     ret nz
@@ -11214,12 +11213,12 @@ Func_86a4: ; 0x86a4
     ld [hl], a
     ret
 
-Func_86d2: ; 0x86d2
+Func_86d2: ; 86d2 (2:46d2) 
     xor a
     ld [$d57d], a
     ret
 
-HandleInGameMenu: ; 0x86d7
+HandleInGameMenu: ; 86d7 (2:46d7) 
 ; Routine responsible for the "SAVE"/"CANCEL" menu.
     ld a, [$d917]
     push af
@@ -11308,7 +11307,7 @@ HandleInGameMenu: ; 0x86d7
     and a
     ret
 
-Func_8797: ; 0x8797
+Func_8797: ; 8797 (2:4797) 
     ld a, [hli]
     and a
     ret z
@@ -11317,13 +11316,13 @@ Func_8797: ; 0x8797
     inc de
     jr Func_8797
 
-SaveText: ; 0x87a0
+SaveText: ; 87a0 (2:47a0) 
     db "SAVE@"
 
-CancelText: ; 0x87a5
+CancelText: ; 87a5 (2:47a5) 
     db "CANCEL@"
 
-HandleInGameMenuSelection: ; 0x87ac
+HandleInGameMenuSelection: ; 87ac (2:47ac) 
     ld a, $1
     ld [wInGameMenuIndex], a
 .waitForAButton
@@ -11337,7 +11336,7 @@ HandleInGameMenuSelection: ; 0x87ac
     call PlaySoundEffect
     ret
 
-MoveInGameMenuCursor: ; 0x87c5
+MoveInGameMenuCursor: ; 87c5 (2:47c5) 
 ; Moves the cursor up or down in the "SAVE"/"CANCEL" in-game menu
     ld a, [hNewlyPressedButtons]
     ld b, a
@@ -11362,7 +11361,7 @@ MoveInGameMenuCursor: ; 0x87c5
     call PlaySoundEffect
     ret
 
-DrawInGameMenu: ; 0x87ed
+DrawInGameMenu: ; 87ed (2:47ed) 
     ld a, $81
     ld [$c523], a
     ld [$c563], a
@@ -11383,7 +11382,7 @@ DrawInGameMenu: ; 0x87ed
     call LoadVRAMData
     ret
 
-Data_8817: ; 0x8817
+Data_8817: ; 8817 (2:4817) 
 ; This data has something to do with collisions.
     db $C0
     db $C5
@@ -11642,7 +11641,7 @@ Data_8817: ; 0x8817
     db $2B
     db $B6
 
-Data_8917: ; 0x8917
+Data_8917: ; 8917 (2:4917) 
 ; This has to do with y-collision data
     dw $0000
     dw $FFE0
@@ -11901,7 +11900,7 @@ Data_8917: ; 0x8917
     dw $FBA3
     dw $003E
 
-Data_8b17: ; 0x8b17
+Data_8b17: ; 8b17 (2:4b17) 
 ; This data has to do with x-collision data
     dw $FF00
     dw $FEFB
@@ -12160,7 +12159,7 @@ Data_8b17: ; 0x8b17
     dw $07B4
     dw $FF08
 
-Func_8d17: ; 0x8d17
+Func_8d17: ; 8d17 (2:4d17) 
     ld a, [$ff92]
     cp $80
     jp c, Func_8e01
@@ -12316,14 +12315,14 @@ Func_8d17: ; 0x8d17
     and a
     ret
 
-Func_8df7: ; 0x8df7
+Func_8df7: ; 8df7 (2:4df7) 
     scf
     ret
 
-Data_8df9: ; 0x8df9
+Data_8df9: ; 8df9 (2:4df9) 
     db $FF, $7F, $3F, $1F, $0F, $07, $03, $01
 
-Func_8e01: ; 0x8e01
+Func_8e01: ; 8e01 (2:4e01) 
     ld a, [$ff90]
     ld c, a
     ld a, [$ff91]
@@ -12474,14 +12473,14 @@ Func_8e01: ; 0x8e01
     and a
     ret
 
-Func_8ed6: ; 0x8ed6
+Func_8ed6: ; 8ed6 (2:4ed6) 
     scf
     ret
 
-Data_8ed8: ; 0x8ed8
+Data_8ed8: ; 8ed8 (2:4ed8) 
     db $FF, $7F, $3F, $1F, $0F, $07, $03, $01
 
-Func_8ee0: ; 0x8ee0
+Func_8ee0: ; 8ee0 (2:4ee0) 
     ld a, [$ff8d]
     ld [$ff90], a
     ld a, [$ff8e]
@@ -12508,23 +12507,23 @@ Func_8ee0: ; 0x8ee0
 
 INCBIN "baserom.gbc",$8f06,$a000 - $8f06
 
-PokedexCharactersGfx: ; 0xa000
+PokedexCharactersGfx: ; a000 (2:6000) 
     INCBIN "gfx/pokedex/characters.interleave.2bpp"
 
 
 SECTION "bank3", ROMX, BANK[$3]
 
-HandleTitlescreen: ; 0xc000
+HandleTitlescreen: ; c000 (3:4000) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-TitlescreenFunctions: ; 0xc004
+TitlescreenFunctions: ; c004 (3:4004) 
     dw FadeInTitlescreen
     dw TitlescreenLoop ; titlescreen loop
     dw Func_c10e ; previously saved game menu
     dw Func_c1cb ; game start, pokedex, option
     dw GoToHighScoresFromTitlescreen ; go to high scores
 
-FadeInTitlescreen: ; 0xc00e
+FadeInTitlescreen: ; c00e (3:400e) 
     ld a, $43
     ld [$ff9e], a
     ld a, $e4
@@ -12556,23 +12555,23 @@ FadeInTitlescreen: ; 0xc00e
     inc [hl]
     ret
 
-TitlescreenFadeInGfxPointers: ; 0xc057
+TitlescreenFadeInGfxPointers: ; c057 (3:4057) 
     dw TitlescreenFadeInGfx_GameBoy
     dw TitlescreenFadeInGfx_GameBoyColor
 
-TitlescreenFadeInGfx_GameBoy: ; 0xc05b
+TitlescreenFadeInGfx_GameBoy: ; c05b (3:405b) 
     VIDEO_DATA_TILES   TitlescreenGfx, vTiles0, $1800
     VIDEO_DATA_TILEMAP TitlescreenTilemap, vBGMap0, $240
     db $FF, $FF ; terminators
 
-TitlescreenFadeInGfx_GameBoyColor: ; 0xc06b
+TitlescreenFadeInGfx_GameBoyColor: ; c06b (3:406b) 
     VIDEO_DATA_TILES    TitlescreenFadeInGfx, vTiles0, $1800
     VIDEO_DATA_TILEMAP  TitlescreenTilemap, vBGMap0, $240
     VIDEO_DATA_BGATTR   TitlescreenBGAttributes, vBGMap0, $240
     VIDEO_DATA_PALETTES TitlescreenPalettes, $80
     db $FF, $FF ; terminators
 
-TitlescreenLoop: ; 0xc089
+TitlescreenLoop: ; c089 (3:4089) 
     call Func_c0ee
     call HandleTitlescreenAnimations
     ld a, [hNewlyPressedButtons]
@@ -12622,13 +12621,13 @@ TitlescreenLoop: ; 0xc089
     ld [wScreenState], a
     ret
 
-Func_c0ee: ; 0xc0ee
+Func_c0ee: ; c0ee (3:40ee) 
     ld hl, wTitleScreenCursorSelection
     ld c, $2
     call Func_c1fc
     ret
 
-HandleTitlescreenAnimations: ; 0xc0f7
+HandleTitlescreenAnimations: ; c0f7 (3:40f7) 
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_c104
@@ -12641,7 +12640,7 @@ HandleTitlescreenAnimations: ; 0xc0f7
     call HandleTitlescreenPokeballAnimation
     ret
 
-Func_c10e: ; 0xc10e
+Func_c10e: ; c10e (3:410e) 
     call Func_c1a2
     call Func_c1b1
     ld a, [$d910]
@@ -12710,7 +12709,7 @@ Func_c10e: ; 0xc10e
     dec [hl]
     ret
 
-Func_c1a2: ; 0xc1a2
+Func_c1a2: ; c1a2 (3:41a2) 
     ld a, [$d910]
     cp $6
     ret nz
@@ -12719,7 +12718,7 @@ Func_c1a2: ; 0xc1a2
     call Func_c1fc
     ret
 
-Func_c1b1: ; 0xc1b1
+Func_c1b1: ; c1b1 (3:41b1) 
     call Func_c2df
     ld a, [hGameBoyColorFlag]
     and a
@@ -12747,10 +12746,10 @@ Func_c1cb: ; 0c1cb
     ld [wScreenState], a
     ret
 
-Data_c1e4: ; 0xc1e4
+Data_c1e4: ; c1e4 (3:41e4) 
     db SCREEN_FIELD_SELECT, SCREEN_POKEDEX, SCREEN_OPTIONS
 
-GoToHighScoresFromTitlescreen: ; 0xc1e7
+GoToHighScoresFromTitlescreen: ; c1e7 (3:41e7) 
     call Func_cb5
     call Func_576
     ld a, SCREEN_HIGH_SCORES
@@ -12761,7 +12760,7 @@ GoToHighScoresFromTitlescreen: ; 0xc1e7
     ld [$da7f], a
     ret
 
-Func_c1fc: ; 0xc1fc
+Func_c1fc: ; c1fc (3:41fc) 
     ld a, [hPressedButtons]
     ld b, a
     ld a, [hl]
@@ -12785,11 +12784,11 @@ Func_c1fc: ; 0xc1fc
     call PlaySoundEffect
     ret
 
-Func_c21d: ; 0xc21d
+Func_c21d: ; c21d (3:421d) 
 ; World's greatest function.
     ret
 
-HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
+HandleTitlescreenPikachuBlinkingAnimation: ; c21e (3:421e) 
     ld a, [wTitleScreenBlinkAnimationFrame]
     sla a
     ld c, a
@@ -12828,7 +12827,7 @@ HandleTitlescreenPikachuBlinkingAnimation: ; 0xc21e
     ld [wTitleScreenBlinkAnimationCounter], a
     ret
 
-TitleScreenBlinkAnimation: ; 0xc25f
+TitleScreenBlinkAnimation: ; c25f (3:425f) 
 ; Array of animation frames. The animation is looped when it finishes.
 ; first byte = OAM data id to load
 ; second byte = number of frames to show this animation.
@@ -12846,7 +12845,7 @@ TitleScreenBlinkAnimation: ; 0xc25f
     db $5b, $03
     db $00  ; terminator
 
-HandleTitlescreenPokeballAnimation: ; 0xc278
+HandleTitlescreenPokeballAnimation: ; c278 (3:4278) 
     ld a, [wTitleScreenCursorSelection]
     sla a
     ld c, a
@@ -12896,7 +12895,7 @@ HandleTitlescreenPokeballAnimation: ; 0xc278
     ld [wTitleScreenPokeballAnimationCounter], a
     ret
 
-TitleScreenPokeballAnimation: ; 0xc2cc
+TitleScreenPokeballAnimation: ; c2cc (3:42cc) 
 ; first byte  = OAM id
 ; second byte = animation frame duration
     db $5D, $02
@@ -12907,12 +12906,12 @@ TitleScreenPokeballAnimation: ; 0xc2cc
     db $5F, $04
     db $00  ; terminator
 
-TitleScreenPokeballCoordOffsets: ; 0xc2d9
+TitleScreenPokeballCoordOffsets: ; c2d9 (3:42d9) 
     db $67, $15
     db $73, $15
     db $7F, $15
 
-Func_c2df: ; 0xc2df
+Func_c2df: ; c2df (3:42df) 
     ld bc, $4446  ; pixel offsets, not data
     ld a, [$d910]
     cp $6
@@ -12956,7 +12955,7 @@ Func_c2df: ; 0xc2df
     ld [$d911], a
     ret
 
-Data_c32b: ; 0xc32b
+Data_c32b: ; c32b (3:432b) 
     db $52, $02
     db $53, $02
     db $54, $02
@@ -12974,10 +12973,10 @@ Data_c32b: ; 0xc32b
     db $52, $02
     db $00
 
-HandleOptionsScreen: ; 0xc34a
+HandleOptionsScreen: ; c34a (3:434a) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-OptionsScreenFunctions: ; 0xc34e
+OptionsScreenFunctions: ; c34e (3:434e) 
     dw Func_c35a
     dw Func_c400
     dw Func_c483
@@ -12985,7 +12984,7 @@ OptionsScreenFunctions: ; 0xc34e
     dw Func_c506
     dw Func_c691
 
-Func_c35a: ; 0xc35a
+Func_c35a: ; c35a (3:435a) 
     ld a, $47
     ld [$ff9e], a
     ld a, $e4
@@ -13024,11 +13023,11 @@ Func_c35a: ; 0xc35a
     inc [hl]
     ret
 
-PointerTable_c3b9: ; 0xc3b9
+PointerTable_c3b9: ; c3b9 (3:43b9) 
     dw VideoData_GameBoy_c3bd
     dw VideoData_GameBoyColor_c3d4
 
-VideoData_GameBoy_c3bd: ; 0xc3bd
+VideoData_GameBoy_c3bd: ; c3bd (3:43bd) 
     VIDEO_DATA_TILES OptionMenuAndKeyConfigGfx, vTiles0, $1400
     VIDEO_DATA_TILES OptionMenuTilemap, vBGMap0, $240
 
@@ -13039,7 +13038,7 @@ VideoData_GameBoy_c3bd: ; 0xc3bd
 
     db $FF, $FF ; terminators
 
-VideoData_GameBoyColor_c3d4: ; 0xc3d4
+VideoData_GameBoyColor_c3d4: ; c3d4 (3:43d4) 
     VIDEO_DATA_TILES OptionMenuAndKeyConfigGfx, vTiles0, $1400
     VIDEO_DATA_TILES OptionMenuTilemap, vBGMap0, $240
 
@@ -13065,7 +13064,7 @@ VideoData_GameBoyColor_c3d4: ; 0xc3d4
 
     db $FF, $FF ; terminators
 
-Func_c400: ; 0xc400
+Func_c400: ; c400 (3:4400) 
     call Func_c41a
     call Func_c43a
     call Func_c447
@@ -13078,7 +13077,7 @@ Func_c400: ; 0xc400
     ld [wScreenState], a
     ret
 
-Func_c41a: ; 0xc41a
+Func_c41a: ; c41a (3:441a) 
     ld a, [hPressedButtons]
     ld b, a
     ld a, [$d916]
@@ -13100,14 +13099,14 @@ Func_c41a: ; 0xc41a
     call PlaySoundEffect
     ret
 
-Func_c43a: ; 0xc43a
+Func_c43a: ; c43a (3:443a) 
     call Func_c7ac
     call Func_c80b
     call Func_c88a
     call Func_c92e
     ret
 
-Func_c447: ; 0xc447
+Func_c447: ; c447 (3:4447) 
     ld a, [hNewlyPressedButtons]
     bit BIT_A_BUTTON, a
     ret z
@@ -13139,7 +13138,7 @@ Func_c447: ; 0xc447
     ld [wScreenState], a
     ret
 
-Func_c483: ; 0xc483
+Func_c483: ; c483 (3:4483) 
     call Func_cb5
     call Func_576
     ld a, SCREEN_TITLESCREEN
@@ -13148,7 +13147,7 @@ Func_c483: ; 0xc483
     ld [wScreenState], a
     ret
 
-Func_c493: ; 0xc493
+Func_c493: ; c493 (3:4493) 
     call Func_c4b4
     call Func_c4e6
     call Func_c869
@@ -13164,7 +13163,7 @@ Func_c493: ; 0xc493
     ld [wScreenState], a
     ret
 
-Func_c4b4: ; 0xc4b4
+Func_c4b4: ; c4b4 (3:44b4) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     ld a, [$d917]
@@ -13192,7 +13191,7 @@ Func_c4b4: ; 0xc4b4
     call PlaySoundEffect
     ret
 
-Func_c4e6: ; 0xc4e6
+Func_c4e6: ; c4e6 (3:44e6) 
     call Func_c7ac
     call Func_c80b
     call Func_c88a
@@ -13200,7 +13199,7 @@ Func_c4e6: ; 0xc4e6
     call Func_c8f1
     ret
 
-Func_c4f4: ; 0xc4f4
+Func_c4f4: ; c4f4 (3:44f4) 
     xor a
     ld [$d91c], a
     ld [$d91e], a
@@ -13210,7 +13209,7 @@ Func_c4f4: ; 0xc4f4
     ld [$d91f], a
     ret
 
-Func_c506: ; 0xc506
+Func_c506: ; c506 (3:4506) 
     call Func_c534
     call Func_c554
     call Func_c55a
@@ -13230,7 +13229,7 @@ Func_c506: ; 0xc506
     ld [wScreenState], a
     ret
 
-Func_c534: ; 0xc534
+Func_c534: ; c534 (3:4534) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     ld a, [$d918]
@@ -13252,12 +13251,12 @@ Func_c534: ; 0xc534
     call PlaySoundEffect
     ret
 
-Func_c554: ; 0xc554
+Func_c554: ; c554 (3:4554) 
     ld a, $1
     call Func_c8f1
     ret
 
-Func_c55a: ; 0xc55a
+Func_c55a: ; c55a (3:455a) 
     ld a, [$d918]
     and a
     jr nz, .asm_c572
@@ -13366,7 +13365,7 @@ Func_c55a: ; 0xc55a
     call Func_c639
     ret
 
-Func_c621: ; 0xc621
+Func_c621: ; c621 (3:4621) 
     sla a
     ld c, a
     ld b, $0
@@ -13383,7 +13382,7 @@ Func_c621: ; 0xc621
     call LoadOAMData
     ret
 
-Func_c639: ; 0xc639
+Func_c639: ; c639 (3:4639) 
     push hl
     ld e, a
     ld d, $0
@@ -13393,7 +13392,7 @@ Func_c639: ; 0xc639
     pop hl
     ret
 
-Func_c644: ; 0xc644
+Func_c644: ; c644 (3:4644) 
     push hl
     ld c, a
     ld b, $0
@@ -13411,7 +13410,7 @@ Func_c644: ; 0xc644
     pop hl
     ret
 
-PointerTable_c65f: ; 0xc65f
+PointerTable_c65f: ; c65f (3:465f) 
     dw $9C6D
     dw $9CAD
     dw $9CED
@@ -13420,7 +13419,7 @@ PointerTable_c65f: ; 0xc65f
     dw $9DAD
     dw $9DED
 
-OAMPixelOffsetData_c66d: ; 0xc66d
+OAMPixelOffsetData_c66d: ; c66d (3:466d) 
     dw $6018
     dw $6020
     dw $6028
@@ -13436,10 +13435,10 @@ OAMPixelOffsetData_c66d: ; 0xc66d
     dw $6078
     dw $6080
 
-Data_c689: ; 0xc689
+Data_c689: ; c689 (3:4689) 
     db $81, $81, $81, $81, $81, $81, $81, $81
 
-Func_c691: ; 0xc91
+Func_c691: ; 0c91 (0:0c91) 
     call Func_c6bf
     call Func_c6d9
     call Func_c6e8
@@ -13461,7 +13460,7 @@ Func_c691: ; 0xc91
     ld [wScreenState], a
     ret
 
-Func_c6bf: ; 0xc6bf
+Func_c6bf: ; c6bf (3:46bf) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     ld a, [$d919]
@@ -13481,7 +13480,7 @@ Func_c6bf: ; 0xc6bf
     ld [$d919], a
     ret
 
-Func_c6d9: ; 0xc6d9
+Func_c6d9: ; c6d9 (3:46d9) 
     call Func_c7ac
     call Func_c80b
     call Func_c88a
@@ -13489,7 +13488,7 @@ Func_c6d9: ; 0xc6d9
     call Func_c8f1
     ret
 
-Func_c6e8: ; 0xc6e8
+Func_c6e8: ; c6e8 (3:46e8) 
     ld a, [$d919]
     and a
     jr nz, UpdateSoundTestSoundEffectSelection
@@ -13515,7 +13514,7 @@ Func_c6e8: ; 0xc6e8
     call Func_490
     ret
 
-UpdateSoundTestBackgroundMusicSelection: ; 0xc715
+UpdateSoundTestBackgroundMusicSelection: ; c715 (3:4715) 
     ld a, [hPressedButtons] ; joypad state
     ld b, a
     ld a, [wSoundTestCurrentBackgroundMusic]
@@ -13538,7 +13537,7 @@ UpdateSoundTestBackgroundMusicSelection: ; 0xc715
     hlCoord 7, 11, vBGMap0
     jp RedrawSoundTestID
 
-UpdateSoundTestSoundEffectSelection: ; 0xc73a
+UpdateSoundTestSoundEffectSelection: ; c73a (3:473a) 
     ld a, [hNewlyPressedButtons] ; joypad state
     bit BIT_A_BUTTON, a
     jr z, .didntPressAButton
@@ -13570,7 +13569,7 @@ UpdateSoundTestSoundEffectSelection: ; 0xc73a
     hlCoord 7, 13, vBGMap0
     ; fall through
 
-RedrawSoundTestID: ; 0xc76c
+RedrawSoundTestID: ; c76c (3:476c) 
 ; Redraws the 2-digit id number for the sound test's current background music or sound effect id.
 ; input:  a = id number
 ;        hl = pointer to bg map location where the new 2-digit id should be drawn
@@ -13586,7 +13585,7 @@ RedrawSoundTestID: ; 0xc76c
     inc hl
     ret
 
-SongBanks: ; 0xc77e
+SongBanks: ; c77e (3:477e) 
 	db MUSIC_NOTHING_0F,BANK(Music_Nothing0F)
 	db MUSIC_BLUE_FIELD,BANK(Music_BlueField)
 	db MUSIC_CATCH_EM_RED,BANK(Music_CatchEmRed)
@@ -13611,7 +13610,7 @@ SongBanks: ; 0xc77e
 	db MUSIC_END_CREDITS,BANK(Music_EndCredits)
 	db MUSIC_NAME_ENTRY,BANK(Music_NameEntry)
 
-Func_c7ac: ; 0xc7ac
+Func_c7ac: ; c7ac (3:47ac) 
     ld c, $0
     ld a, [wScreenState]
     cp $1
@@ -13661,10 +13660,10 @@ Func_c7ac: ; 0xc7ac
     ld [$d91d], a
     ret
 
-Data_c806: ; 0xc806
+Data_c806: ; c806 (3:4806) 
     db $7B, $02, $7C, $02, $00
 
-Func_c80b: ; 0xc80b
+Func_c80b: ; c80b (3:480b) 
     ld c, $0
     ld a, [wScreenState]
     cp $1
@@ -13711,10 +13710,10 @@ Func_c80b: ; 0xc80b
     ld [$d91f], a
     ret
 
-Data_c85e: ; 0xc85e
+Data_c85e: ; c85e (3:485e) 
     db $77, $09, $78, $09, $79, $09, $7A, $0D, $7A, $01, $00
 
-Func_c869: ; 0xc869
+Func_c869: ; c869 (3:4869) 
     ld a, [$d916]
     and a
     ret nz
@@ -13733,7 +13732,7 @@ Func_c869: ; 0xc869
     ld [$d804], a
     ret
 
-Func_c88a: ; 0xc88a
+Func_c88a: ; c88a (3:488a) 
     ld a, [$d916]
     sla a
     ld c, a
@@ -13783,13 +13782,13 @@ Func_c88a: ; 0xc88a
     ld [$d921], a
     ret
 
-Data_c8de: ; 0xc8de
+Data_c8de: ; c8de (3:48de) 
     db $7D, $02, $7E, $06, $7F, $02, $80, $04, $81, $06, $7F, $04, $00
 
-Data_c8eb: ; 0xc8eb
+Data_c8eb: ; c8eb (3:48eb) 
     db $18, $08, $30, $08, $48, $08
 
-Func_c8f1: ; 0xc8f1
+Func_c8f1: ; c8f1 (3:48f1) 
     ld c, a
     ld b, $0
     ld hl, $d917
@@ -13812,16 +13811,16 @@ Func_c8f1: ; 0xc8f1
     call LoadOAMData
     ret
 
-PointerTable_c910: ; 0xc910
+PointerTable_c910: ; c910 (3:4910) 
     dw OAMPixelOffsetData_c916
     dw OAMPixelOffsetData_c91a
     dw OAMPixelOffsetData_c92a
 
-OAMPixelOffsetData_c916: ; 0xc916
+OAMPixelOffsetData_c916: ; c916 (3:4916) 
     dw $5018
     dw $7018
 
-OAMPixelOffsetData_c91a: ; 0xc91a
+OAMPixelOffsetData_c91a: ; c91a (3:491a) 
     dw $0808
     dw $0818
     dw $0828
@@ -13831,11 +13830,11 @@ OAMPixelOffsetData_c91a: ; 0xc91a
     dw $0868
     dw $0878
 
-OAMPixelOffsetData_c92a: ; 0xc92a
+OAMPixelOffsetData_c92a: ; c92a (3:492a) 
     dw $1058
     dw $1068
 
-Func_c92e: ; 0xc92e
+Func_c92e: ; c92e (3:492e) 
     ld a, [$d917]
     sla a
     ld c, a
@@ -13850,11 +13849,11 @@ Func_c92e: ; 0xc92e
     call LoadOAMData
     ret
 
-OAMPixelOffsetData_c944: ; 0xc944
+OAMPixelOffsetData_c944: ; c944 (3:4944) 
     dw $5018
     dw $7018
 
-Func_c948: ; 0xc948
+Func_c948: ; c948 (3:4948) 
     ld hl, $9c6d
     ld de, wKeyConfigBallStart
     ld b, $e
@@ -13870,7 +13869,7 @@ Func_c948: ; 0xc948
     jr nz, .asm_c950
     ret
 
-Func_c95f: ; 0xc95f
+Func_c95f: ; c95f (3:495f) 
     push bc
     push de
     push hl
@@ -13923,16 +13922,16 @@ Func_c95f: ; 0xc95f
     pop bc
     ret
 
-Func_c9aa: ; 0xc9aa
+Func_c9aa: ; c9aa (3:49aa) 
     and a
     ret z
     ld [hli], a
     ret
 
-Data_c9ae: ; 0xc9ae
+Data_c9ae: ; c9ae (3:49ae) 
     db $14, $00, $15, $00, $18, $19, $16, $17, $13, $00, $12, $00, $10, $00, $11, $00
 
-Func_c9be: ; 0xc9be
+Func_c9be: ; c9be (3:49be) 
     push af
     push bc
     push hl
@@ -13972,7 +13971,7 @@ Func_c9be: ; 0xc9be
     ld a, b
     ret
 
-Func_c9ff: ; 0xc9ff
+Func_c9ff: ; c9ff (3:49ff) 
     push bc
     ld bc, $0800
 .asm_ca03
@@ -13991,7 +13990,7 @@ Func_c9ff: ; 0xc9ff
     pop bc
     ret
 
-Func_ca15: ; 0xca15
+Func_ca15: ; ca15 (3:4a15) 
     push bc
     inc a
     ld c, a
@@ -14043,7 +14042,7 @@ SaveDefaultKeyConfigs: ; 0ca3a
     call SaveData
     ret
 
-DefaultKeyConfigs: ; 0xca55
+DefaultKeyConfigs: ; ca55 (3:4a55) 
     db A_BUTTON, $00  ; wKeyConfigBallStart
     db D_LEFT,   $00  ; wKeyConfigLeftFlipper
     db A_BUTTON, $00  ; wKeyConfigRightFlipper
@@ -14054,10 +14053,10 @@ DefaultKeyConfigs: ; 0xca55
 
 INCBIN "baserom.gbc",$ca63,$ca7f - $ca63
 
-HandleHighScoresScreen: ; 0xca7f
+HandleHighScoresScreen: ; ca7f (3:4a7f) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-HighScoresScreenFunctions: ; 0xca83
+HighScoresScreenFunctions: ; ca83 (3:4a83) 
     dw Func_ca8f
     dw Func_cb14
     dw Func_ccac
@@ -14065,7 +14064,7 @@ HighScoresScreenFunctions: ; 0xca83
     dw Func_cd6c
     dw ExitHighScoresScreen
 
-Func_ca8f: ; 0xca8f
+Func_ca8f: ; ca8f (3:4a8f) 
     ld hl, $d473
     call GenRandom
     ld [hli], a
@@ -14151,7 +14150,7 @@ Func_ca8f: ; 0xca8f
     inc [hl]
     ret
 
-Func_cb14: ; 0xcb14
+Func_cb14: ; cb14 (3:4b14) 
     ld a, $43
     ld [$ff9e], a
     ld a, $e0
@@ -14244,12 +14243,12 @@ Func_cb14: ; 0xcb14
     inc [hl]
     ret
 
-PointerTable_cbe3: ; 0xcbe3
+PointerTable_cbe3: ; cbe3 (3:4be3) 
     dw VideoData_cbe9
     dw VideoData_cc1c
     dw VideoData_cc64
 
-VideoData_cbe9: ; 0xcbe9
+VideoData_cbe9: ; cbe9 (3:4be9) 
     dw $5a00
     db $2A
     dw $8000
@@ -14287,7 +14286,7 @@ VideoData_cbe9: ; 0xcbe9
 
     db $FF, $FF  ; terminators
 
-VideoData_cc1c: ; 0xcc1c
+VideoData_cc1c: ; cc1c (3:4c1c) 
     dw $5A00
     db $2A
     dw $8000
@@ -14340,7 +14339,7 @@ VideoData_cc1c: ; 0xcc1c
 
     db $FF, $FF
 
-VideoData_cc64: ; 0xcc64
+VideoData_cc64: ; cc64 (3:4c64) 
     dw $5A00
     db $2A
     dw $8000
@@ -14393,13 +14392,13 @@ VideoData_cc64: ; 0xcc64
 
     db $FF, $FF  ; terminators
 
-Func_ccac: ; 0xccac
+Func_ccac: ; ccac (3:4cac) 
     call Func_d18b
     call Func_d1d2
     call Func_d211
     ret
 
-Func_ccb6: ; 0xccb6
+Func_ccb6: ; ccb6 (3:4cb6) 
     call Func_d4cf
     call AnimateHighScoresArrow
     ld a, [hNewlyPressedButtons]
@@ -14482,7 +14481,7 @@ Func_ccb6: ; 0xccb6
     call SaveData
     ret
 
-Func_cd6c: ; 0xcd6c
+Func_cd6c: ; cd6c (3:4d6c) 
     ld a, [$ffb3]
     and $1f
     call z, Func_1a43
@@ -14531,7 +14530,7 @@ Func_cd6c: ; 0xcd6c
     dec [hl]
     ret
 
-Func_cdce: ; 0xcdce
+Func_cdce: ; cdce (3:4dce) 
     push af
     ld a, $0
     ld [$abf6], a
@@ -14661,14 +14660,14 @@ Func_cdce: ; 0xcdce
     scf
     ret
 
-Func_ceca: ; 0xceca
+Func_ceca: ; ceca (3:4eca) 
     ld a, [$ff44]
     and a
     jr nz, Func_ceca
     ei
     ret
 
-Func_ced1: ; 0xced1
+Func_ced1: ; ced1 (3:4ed1) 
     ld hl, Data_cf4b
     ld de, $da87
     call CopyHLToDE
@@ -14728,7 +14727,7 @@ Func_ced1: ; 0xced1
     jr nz, .asm_cef6
     ret
 
-Data_cf4b: ; 0xcf4b
+Data_cf4b: ; cf4b (3:4f4b) 
     dw $980C
     dw $9906
     dw $9A0A
@@ -14738,7 +14737,7 @@ Data_cf4b: ; 0xcf4b
 
     db $00
 
-Func_cf58: ; 0xcf58
+Func_cf58: ; cf58 (3:4f58) 
     cp $5
     ret z
     push af
@@ -14759,7 +14758,7 @@ Func_cf58: ; 0xcf58
     call PlaySoundEffect
     ret
 
-Func_cf7d: ; 0xcf7d
+Func_cf7d: ; cf7d (3:4f7d) 
     ld a, [$d809]
     ld b, a
     ld a, [$da85]
@@ -14783,7 +14782,7 @@ Func_cf7d: ; 0xcf7d
     call PlaySoundEffect
     ret
 
-Func_cfa6: ; 0xcfa6
+Func_cfa6: ; cfa6 (3:4fa6) 
     ld bc, $473b
     ld a, $87
     call LoadOAMData
@@ -14803,7 +14802,7 @@ Func_cfa6: ; 0xcfa6
     call LoadOAMData
     ret
 
-Func_cfcb: ; 0xcfcb
+Func_cfcb: ; cfcb (3:4fcb) 
     ld a, e
     ld [$ff8c], a
     ld a, d
@@ -14848,7 +14847,7 @@ Func_cfcb: ; 0xcfcb
     jr nz, .asm_cfed
     ret
 
-Func_d005: ; 0xd005
+Func_d005: ; d005 (3:5005) 
     ld c, $7
 .asm_d007
     ld a, [de]
@@ -14864,7 +14863,7 @@ Func_d005: ; 0xd005
     call Func_d035
     ret
 
-Func_d017: ; 0xd017
+Func_d017: ; d017 (3:5017) 
     ld c, $6
 .asm_d019
     ld a, [de]
@@ -14888,7 +14887,7 @@ Func_d017: ; 0xd017
     and a
     ret
 
-Func_d035: ; 0xd035
+Func_d035: ; d035 (3:5035) 
     ld a, e
     sub c
     ld e, a
@@ -14903,7 +14902,7 @@ Func_d035: ; 0xd035
 .asm_d041
     ret
 
-Func_d042: ; 0xd042
+Func_d042: ; d042 (3:5042) 
     ld a, [hJoypadState]
     ld [$da86], a
     ld b, a
@@ -14972,7 +14971,7 @@ Func_d042: ; 0xd042
     call Func_d0f5
     ret
 
-Func_d0e3: ; 0xd0e3
+Func_d0e3: ; d0e3 (3:50e3) 
     ld a, $2a
     ld hl, $6200
     call Func_1a21
@@ -14983,7 +14982,7 @@ Func_d0e3: ; 0xd0e3
     scf
     ret
 
-Func_d0f5: ; 0xd0f5
+Func_d0f5: ; d0f5 (3:50f5) 
     ld a, $29
     ld hl, $7b00
     call Func_1a21
@@ -14994,7 +14993,7 @@ Func_d0f5: ; 0xd0f5
     scf
     ret
 
-Func_d107: ; 0xd107
+Func_d107: ; d107 (3:5107) 
     ld hl, $c280
     ld a, $c0
     ld b, $20
@@ -15063,7 +15062,7 @@ Func_d107: ; 0xd107
     jr nz, .asm_d136
     ret
 
-Func_d159: ; 0xd159
+Func_d159: ; d159 (3:5159) 
     and $f
     sla a
     sla a
@@ -15083,7 +15082,7 @@ Func_d159: ; 0xd159
     pop bc
     ret
 
-ExitHighScoresScreen: ; 0xd171
+ExitHighScoresScreen: ; d171 (3:5171) 
     call Func_cb5
     call Func_576
     ld hl, $ff9f
@@ -15096,7 +15095,7 @@ ExitHighScoresScreen: ; 0xd171
     ld [wScreenState], a
     ret
 
-Func_d18b: ; 0xd18b
+Func_d18b: ; d18b (3:518b) 
     ld a, [hPressedButtons]
     ld b, a
     ld a, [$da81]
@@ -15140,7 +15139,7 @@ Func_d18b: ; 0xd18b
     call PlaySoundEffect
     ret
 
-Func_d1d2: ; 0xd1d2
+Func_d1d2: ; d1d2 (3:51d2) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     ld a, [$da80]
@@ -15174,7 +15173,7 @@ Func_d1d2: ; 0xd1d2
     call PlaySoundEffect
     ret
 
-Func_d211: ; 0xd211
+Func_d211: ; d211 (3:5211) 
 ; related to high scores name entry?
     ld a, [$da7f]
     and a
@@ -15207,13 +15206,13 @@ Func_d211: ; 0xd211
     call LoadOAMData
     ret
 
-OAMPixelYOffsets_d247: ; 0xd247
+OAMPixelYOffsets_d247: ; d247 (3:5247) 
     db $10, $28, $40, $58, $70
 
-OAMPixelXOffsets_d24c: ; 0xd24c
+OAMPixelXOffsets_d24c: ; d24c (3:524c) 
     db $18, $20, $28
 
-AnimateHighScoresArrow: ; 0xd24f
+AnimateHighScoresArrow: ; d24f (3:524f) 
 ; Handles the animation of the arrow in the bottom
 ; corner of the high scores screens.
     ld a, [wHighScoresArrowAnimationCounter]
@@ -15242,7 +15241,7 @@ AnimateHighScoresArrow: ; 0xd24f
     call LoadOAMData
     ret
 
-HighScoresRightArrowOAMPixelXOffsets: ; 0xd27b
+HighScoresRightArrowOAMPixelXOffsets: ; d27b (3:527b) 
 ; Controls the animation of the right-arrow in the bottom corner of the
 ; high scores screen.
     db $87, $87, $8A, $8A, $8A, $8A, $8A, $8A
@@ -15251,14 +15250,14 @@ HighScoresRightArrowOAMPixelXOffsets: ; 0xd27b
     db $88, $88, $88, $88, $88, $88, $88, $88
     db $88, $88, $88, $88, $88, $88, $88, $88
 
-HighScoresLeftArrowOAMPixelXOffsets: ; 0xd2a3
+HighScoresLeftArrowOAMPixelXOffsets: ; d2a3 (3:52a3) 
     db $02, $02, $FF, $FF, $FF, $FF, $FF, $FF
     db $00, $00, $01, $01, $01, $01, $01, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
 
-Func_d2cb: ; 0xd2cb
+Func_d2cb: ; d2cb (3:52cb) 
     ld b, $5
 .asm_d2cd
     push bc
@@ -15308,7 +15307,7 @@ Func_d2cb: ; 0xd2cb
     jr nz, .asm_d2cd
     ret
 
-Func_d30e: ; 0xd30e
+Func_d30e: ; d30e (3:530e) 
     jr nz, Func_d317
     ld a, b
     dec a
@@ -15317,7 +15316,7 @@ Func_d30e: ; 0xd30e
     and a
     ret nz
     ; fall through
-Func_d317: ; 0xd317
+Func_d317: ; d317 (3:5317) 
     push de
     push af
     call Func_d336
@@ -15344,7 +15343,7 @@ Func_d317: ; 0xd317
     pop de
     ret
 
-Func_d336: ; 0xd336
+Func_d336: ; d336 (3:5336) 
     ld e, $6c
     ld a, b
     cp $3
@@ -15358,7 +15357,7 @@ Func_d336: ; 0xd336
     ld e, $58
     ret
 
-Func_d348: ; 0xd348
+Func_d348: ; d348 (3:5348) 
     ld c, $0
     sla a
     add $90
@@ -15380,7 +15379,7 @@ Func_d348: ; 0xd348
     pop hl
     ret
 
-Func_d361: ; 0xd361
+Func_d361: ; d361 (3:5361) 
     ld b, $5
 .asm_d363
     push bc
@@ -15430,7 +15429,7 @@ Func_d361: ; 0xd361
     jr nz, .asm_d363
     ret
 
-Func_d3a4: ; 0xd3a4
+Func_d3a4: ; d3a4 (3:53a4) 
     jr nz, Func_d3ad
     ld a, b
     dec a
@@ -15439,7 +15438,7 @@ Func_d3a4: ; 0xd3a4
     and a
     ret nz
     ; fall through
-Func_d3ad: ; 0xd3ad
+Func_d3ad: ; d3ad (3:53ad) 
     push de
     push af
     call Func_d3d0
@@ -15466,7 +15465,7 @@ Func_d3ad: ; 0xd3ad
     pop de
     ret
 
-Func_d3d0: ; 0xd3d0
+Func_d3d0: ; d3d0 (3:53d0) 
     ld e, $6c
     ld a, b
     cp $3
@@ -15480,7 +15479,7 @@ Func_d3d0: ; 0xd3d0
     ld e, $58
     ret
 
-Func_d3e2: ; 0xd3e2
+Func_d3e2: ; d3e2 (3:53e2) 
     ld c, $0
     sla a
     add $90
@@ -15502,14 +15501,14 @@ Func_d3e2: ; 0xd3e2
     pop hl
     ret
 
-CopyInitialHighScores: ; 0xd3ff
+CopyInitialHighScores: ; d3ff (3:53ff) 
     ld hl, InitialHighScores
     ld de, wRedHighScore1Points
     call CopyInitialHighScoresForStage
     ld hl, InitialHighScores
     ld de, wBlueHighScore1Points
 
-CopyInitialHighScoresForStage: ; 0xd40e
+CopyInitialHighScoresForStage: ; d40e (3:540e) 
 ; input:  hl = address of high score entries
 ;         de = destination address for high score entries to be copied
     ld b, $5  ; 5 high score entries to copy
@@ -15540,9 +15539,9 @@ CopyInitialHighScoresForStage: ; 0xd40e
     jr nz, .copyHighScoreEntry
     ret
 
-INCLUDE "data/initial_high_scores.asm" ; 0xd42e
+INCLUDE "data/initial_high_scores.asm" ; d42e (3:542e) 
 
-Func_d46f: ; 0xd46f
+Func_d46f: ; d46f (3:546f) 
     ld a, [$da81]
     ld d, a
     sla a
@@ -15599,7 +15598,7 @@ Func_d46f: ; 0xd46f
     call PutTileInVRAM
     ret
 
-Func_d4cf: ; 0xd4cf
+Func_d4cf: ; d4cf (3:54cf) 
     ld a, [hNewlyPressedButtons]
     ld b, a
     ld a, [wHighScoresStage]
@@ -15700,7 +15699,7 @@ Func_d4cf: ; 0xd4cf
     call Func_d5d0
     ret
 
-Func_d57b: ; 0xd57b
+Func_d57b: ; d57b (3:557b) 
     ld a, $f0
     ld [hBoardYShift], a
     xor a
@@ -15741,7 +15740,7 @@ Func_d57b: ; 0xd57b
     jr nz, .asm_d5c1
     ret
 
-Func_d5d0: ; 0xd5d0
+Func_d5d0: ; d5d0 (3:55d0) 
     ld b, $10
 .asm_d5d2
     push bc
@@ -15783,7 +15782,7 @@ Func_d5d0: ; 0xd5d0
 
 INCBIN "baserom.gbc",$d626,$d626 - $d626
 
-Func_d626: ; 0xd626
+Func_d626: ; d626 (3:5626) 
     ld c, a
     ld a, [hGameBoyColorFlag]
     and a
@@ -15817,7 +15816,7 @@ Func_d626: ; 0xd626
     call Func_7dc
     ret
 
-PointerTable_d65a: ; 0xd65a
+PointerTable_d65a: ; d65a (3:565a) 
     dwb $7D00, $23
     dwb $7D40, $23
     dwb $7D80, $23
@@ -15835,7 +15834,7 @@ PointerTable_d65a: ; 0xd65a
     dwb $7F80, $35
     dwb $7FC0, $35
 
-Func_d68a: ; 0xd68a
+Func_d68a: ; d68a (3:568a) 
     push bc
     ld hl, wPokedexFlags
     ld bc, (NUM_POKEMON << 8)
@@ -15857,7 +15856,7 @@ Func_d68a: ; 0xd68a
     ld hl, vBGMap1
     add hl, bc
     ; fall through
-Func_d6aa: ; 0xd6aa
+Func_d6aa: ; d6aa (3:56aa) 
     ld a, $56
     call PutTileInVRAM
     inc hl
@@ -15865,7 +15864,7 @@ Func_d6aa: ; 0xd6aa
     call PutTileInVRAM
     ret
 
-Func_d6b6: ; 0xd6b6
+Func_d6b6: ; d6b6 (3:56b6) 
     ld hl, wPokedexFlags
     ld bc, (NUM_POKEMON << 8)
 .asm_d6bc
@@ -15886,15 +15885,15 @@ Func_d6b6: ; 0xd6b6
     ld [hli], a
     ret
 
-HandleFieldSelectScreen: ; 0xd6d3
+HandleFieldSelectScreen: ; d6d3 (3:56d3) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-FieldSelectScreenFunctions: ; 0xd6d7
+FieldSelectScreenFunctions: ; d6d7 (3:56d7) 
     dw LoadFieldSelectScreen
     dw ChooseFieldToPlay
     dw ExitFieldSelectScreen
 
-LoadFieldSelectScreen: ; 0xd6dd
+LoadFieldSelectScreen: ; d6dd (3:56dd) 
     ld a, $43
     ld [$ff9e], a
     ld a, $e4
@@ -15922,23 +15921,23 @@ LoadFieldSelectScreen: ; 0xd6dd
     inc [hl]
     ret
 
-FieldSelectGfxPointers: ; 0xd71c
+FieldSelectGfxPointers: ; d71c (3:571c) 
     dw FieldSelectGfx_GameBoy
     dw FieldSelectGfx_GameBoyColor
 
-FieldSelectGfx_GameBoy: ; 0xd720
+FieldSelectGfx_GameBoy: ; d720 (3:5720) 
     VIDEO_DATA_TILES   FieldSelectScreenGfx, vTiles1 - $100, $d00
     VIDEO_DATA_TILEMAP FieldSelectTilemap, vBGMap0, $240
     db $FF, $FF ; terminators
 
-FieldSelectGfx_GameBoyColor: ; 0xd730
+FieldSelectGfx_GameBoyColor: ; d730 (3:5730) 
     VIDEO_DATA_TILES    FieldSelectScreenGfx, vTiles1 - $100, $d00
     VIDEO_DATA_TILEMAP  FieldSelectTilemap, vBGMap0, $240
     VIDEO_DATA_BGATTR   FieldSelectBGAttributes, vBGMap0, $240
     VIDEO_DATA_PALETTES FieldSelectScreenPalettes, $48
     db $FF, $FF ; terminators
 
-ChooseFieldToPlay: ; 0xd74e
+ChooseFieldToPlay: ; d74e (3:574e) 
     call MoveFieldSelectCursor
     ld hl, $583d ; todo
     call AnimateBlinkingFieldSelectBorder
@@ -15956,7 +15955,7 @@ ChooseFieldToPlay: ; 0xd74e
     inc [hl]
     ret
 
-ExitFieldSelectScreen: ; 0xd774
+ExitFieldSelectScreen: ; d774 (3:5774) 
     ld a, [$d8f6]  ; this holds the button that was pressed (A or B)
     bit BIT_A_BUTTON, a
     jr z, .didntPressA
@@ -16004,11 +16003,11 @@ ExitFieldSelectScreen: ; 0xd774
     ld [wScreenState], a
     ret
 
-StartingStages: ; 0xd7d1
+StartingStages: ; d7d1 (3:57d1) 
 ; wSelectedFieldIndex is used to index this array
     db STAGE_RED_FIELD_BOTTOM, STAGE_BLUE_FIELD_BOTTOM
 
-MoveFieldSelectCursor: ; 0xd7d3
+MoveFieldSelectCursor: ; d7d3 (3:57d3) 
 ; When the player presses Right or Left, the stage is
 ; illuminated with a blinking border.  This function keeps tracks
 ; of which field is currently selected.
@@ -16035,7 +16034,7 @@ MoveFieldSelectCursor: ; 0xd7d3
     call PlaySoundEffect
     ret
 
-AnimateBlinkingFieldSelectBorder: ; 0xd7fb
+AnimateBlinkingFieldSelectBorder: ; d7fb (3:57fb) 
 ; This makes the border of the currently-selected Field blink in the Field Select screen.
     push hl
     ld a, [wSelectedFieldIndex]
@@ -16084,17 +16083,17 @@ AnimateBlinkingFieldSelectBorder: ; 0xd7fb
 
 INCBIN "baserom.gbc",$d83d,$d853 - $d83d
 
-HandlePinballGame: ; 0xd853
+HandlePinballGame: ; d853 (3:5853) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-PinballGameScreenFunctions: ; 0xd857
+PinballGameScreenFunctions: ; d857 (3:5857) 
     dw Func_d861
     dw Func_d87f
     dw Func_d909
     dw Func_da36
     dw Func_dab2
 
-Func_d861: ; 0xd861
+Func_d861: ; d861 (3:5861) 
     xor a
     ld [$d908], a
     ld [$ff8a], a
@@ -16109,7 +16108,7 @@ Func_d861: ; 0xd861
     inc [hl]
     ret
 
-Func_d87f: ; 0xd87f
+Func_d87f: ; d87f (3:587f) 
     ld a, $67
     ld [$ff9e], a
     ld a, $e4
@@ -16170,7 +16169,7 @@ Func_d87f: ; 0xd87f
     inc [hl]
     ret
 
-Func_d909: ; 0xd909
+Func_d909: ; d909 (3:5909) 
 ; main loop for stage logic
     xor a
     ld [wFlipperCollision], a
@@ -16293,7 +16292,7 @@ Func_d909: ; 0xd909
     inc [hl]
     ret
 
-SaveGame: ; 0xda05
+SaveGame: ; da05 (3:5a05) 
     ld de, $0000
     call Func_490
     ld bc, $0004
@@ -16315,7 +16314,7 @@ SaveGame: ; 0xda05
     ld [wScreenState], a
     ret
 
-Func_da36: ; 0xda36
+Func_da36: ; da36 (3:5a36) 
     xor a
     ld [hJoypadState], a
     ld [hNewlyPressedButtons], a
@@ -16371,7 +16370,7 @@ Func_da36: ; 0xda36
     inc [hl]
     ret
 
-Func_dab2: ; 0xdab2
+Func_dab2: ; dab2 (3:5ab2) 
     xor a
     ld [$d803], a
     ld a, [$d616]
@@ -16443,7 +16442,7 @@ Func_dab2: ; 0xdab2
     ld [wScreenState], a
     ret
 
-TransitionToHighScoresScreen: ; 0xdb5d
+TransitionToHighScoresScreen: ; db5d (3:5b5d) 
     xor a
     ld [$d616], a
     ld de, $0000
@@ -16471,7 +16470,7 @@ TransitionToHighScoresScreen: ; 0xdb5d
     ld [wScreenState], a
     ret
 
-HighScoresStageMapping: ; 0xdb99
+HighScoresStageMapping: ; db99 (3:5b99) 
 ; Determines which stage the high scores screen will start in,
 ; based on the map the player ended in.
 ; See wHighScoresStage for more info.
@@ -16492,7 +16491,7 @@ HighScoresStageMapping: ; 0xdb99
     db $00  ; STAGE_SEEL_BONUS
     db $00  ; STAGE_SEEL_BONUS
 
-Func_dba9: ; 0xdba9
+Func_dba9: ; dba9 (3:5ba9) 
     ld a, $85
     ld [$c644], a
     ld a, [$d49d]
@@ -16502,7 +16501,7 @@ Func_dba9: ; 0xdba9
     ld [$c645], a
     ret
 
-Func_dbba: ; 0xdbba
+Func_dbba: ; dbba (3:5bba) 
     ld a, $1
     ld [wBallSaverIconOn], a
     ld a, $ff
@@ -16515,7 +16514,7 @@ Func_dbba: ; 0xdbba
     ld [$d4a5], a
     ret
 
-InitBallSaverForCatchEmMode: ; 0xdbd4
+InitBallSaverForCatchEmMode: ; dbd4 (3:5bd4) 
     ld a, [wBallSaverTimerFrames]
     ld [wBallSaverTimerFramesBackup], a
     ld a, [wBallSaverTimerSeconds]
@@ -16534,7 +16533,7 @@ InitBallSaverForCatchEmMode: ; 0xdbd4
     ld [$d4a5], a
     ret
 
-Func_dc00: ; 0xdc00
+Func_dc00: ; dc00 (3:5c00) 
     ld a, [wBallSaverTimerFramesBackup]
     ld [wBallSaverTimerFrames], a
     ld a, [wBallSaverTimerSecondsBackup]
@@ -16572,10 +16571,10 @@ Func_dc00: ; 0xdc00
 
 INCBIN "baserom.gbc",$dc49,$dc49 - $dc49
 
-Func_dc49: ; 0xdc49
+Func_dc49: ; dc49 (3:5c49) 
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_dc4d: ; 0xdc4d
+CallTable_dc4d: ; dc4d (3:5c4d) 
     ; STAGE_RED_FIELD_TOP
     dw Func_dd76
 
@@ -16622,7 +16621,7 @@ CallTable_dc4d: ; 0xdc4d
     ; STAGE_SEEL_BONUS
     dw Func_e08b
 
-Func_dc6d: ; 0xdc6d
+Func_dc6d: ; dc6d (3:5c6d) 
     push de
     call Func_30e8
     call Func_30db
@@ -16633,7 +16632,7 @@ Func_dc6d: ; 0xdc6d
 
 INCBIN "baserom.gbc",$dc7c,$dc7c - $dc7c
 
-Func_dc7c: ; 0xdc7c
+Func_dc7c: ; dc7c (3:5c7c) 
     ld hl, $c640
     ld a, $83
     ld [hli], a
@@ -16666,7 +16665,7 @@ Func_dc7c: ; 0xdc7c
 
 INCBIN "baserom.gbc",$dcad,$dcb4 - $dcad
 
-Func_dcb4: ; 0xdcb4
+Func_dcb4: ; dcb4 (3:5cb4) 
     ld a, [$d517]
     cp $f
     ld a, $81
@@ -16676,7 +16675,7 @@ Func_dcb4: ; 0xdcb4
     ld [$c646], a
     ret
 
-LoadBallGfx: ; 0xdcc3
+LoadBallGfx: ; dcc3 (3:5cc3) 
     xor a
     ld [$d4c8], a
     ld a, [wBallType]
@@ -16714,7 +16713,7 @@ LoadBallGfx: ; 0xdcc3
     call Func_735
     ret
 
-LoadMiniBallGfx: ; 0xdd12
+LoadMiniBallGfx: ; dd12 (3:5d12) 
     ld a, $1
     ld [$d4c8], a
     ld a, [wBallType]
@@ -16752,7 +16751,7 @@ LoadMiniBallGfx: ; 0xdd12
     call Func_735
     ret
 
-Func_dd62: ; 0xdd62
+Func_dd62: ; dd62 (3:5d62) 
     ld a, $2
     ld [$d4c8], a
     ld a, $2a
@@ -16762,7 +16761,7 @@ Func_dd62: ; 0xdd62
     call Func_735
     ret
 
-Func_dd76: ; 0xdd76
+Func_dd76: ; dd76 (3:5d76) 
     ld a, [wBallSaverTimerFrames]
     ld hl, wBallSaverTimerSeconds
     or [hl]
@@ -16825,7 +16824,7 @@ Func_dd76: ; 0xdd76
     ld [$d616], a
     ret
 
-Func_ddfd: ; 0xddfd
+Func_ddfd: ; ddfd (3:5dfd) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -16867,10 +16866,10 @@ Func_ddfd: ; 0xddfd
     ld [wStageCollisionState], a
     ret
 
-Func_de4e: ; 0xde4e
+Func_de4e: ; de4e (3:5e4e) 
     ret
 
-Func_de4f: ; 0xde4f
+Func_de4f: ; de4f (3:5e4f) 
     ld a, [wBallSaverTimerFrames]
     ld hl, wBallSaverTimerSeconds
     or [hl]
@@ -16933,7 +16932,7 @@ Func_de4f: ; 0xde4f
     ld [$d616], a
     ret
 
-Func_ded6: ; 0xded6
+Func_ded6: ; ded6 (3:5ed6) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -16968,7 +16967,7 @@ Func_ded6: ; 0xded6
     call BankSwitch
     ret
 
-Func_df1a: ; 0xdf1a
+Func_df1a: ; df1a (3:5f1a) 
     ld a, [$d4ad]
     ld hl, wCurrentStage
     cp [hl]
@@ -17018,7 +17017,7 @@ Func_df1a: ; 0xdf1a
     call Func_32aa
     ret
 
-Func_df7e: ; 0xdf7e
+Func_df7e: ; df7e (3:5f7e) 
     ld a, [$d4ad]
     ld hl, wCurrentStage
     cp [hl]
@@ -17068,7 +17067,7 @@ Func_df7e: ; 0xdf7e
     call Func_32aa
     ret
 
-Func_dfe2: ; 0xdfe2
+Func_dfe2: ; dfe2 (3:5fe2) 
     xor a
     ld [$d64e], a
     ld a, [$d7be]
@@ -17127,7 +17126,7 @@ Func_dfe2: ; 0xdfe2
     call Func_32aa
     ret
 
-Func_e056: ; 0xe056
+Func_e056: ; e056 (3:6056) 
     ld a, [$d4ad]
     ld hl, wCurrentStage
     cp [hl]
@@ -17152,7 +17151,7 @@ Func_e056: ; 0xe056
     call Func_32aa
     ret
 
-Func_e08b: ; 0xe08b
+Func_e08b: ; e08b (3:608b) 
     xor a
     ld [$d64e], a
     ld a, [$d7be]
@@ -17210,7 +17209,7 @@ Func_e08b: ; 0xe08b
     call Func_32aa
     ret
 
-HandleFlippers: ; 0xe0fe
+HandleFlippers: ; e0fe (3:60fe) 
     xor a
     ld [wFlipperCollision], a
     ld [$ffbf], a
@@ -17223,7 +17222,7 @@ HandleFlippers: ; 0xe0fe
     call nz, HandleFlipperCollision
     ret
 
-Func_e118: ; 0xe118
+Func_e118: ; e118 (3:6118) 
     call PlayFlipperSoundIfPressed
     ld a, [$d7af]
     ld [$d7b6], a
@@ -17321,7 +17320,7 @@ Func_e118: ; 0xe118
     ld [$d7b3], a
     ret
 
-PlayFlipperSoundIfPressed: ; 0xe1ce
+PlayFlipperSoundIfPressed: ; e1ce (3:61ce) 
     ld a, [$d7be]
     and a
     ret nz
@@ -17339,7 +17338,7 @@ PlayFlipperSoundIfPressed: ; 0xe1ce
     call PlaySoundEffect
     ret
 
-Func_e1f0: ; 0xe1f0
+Func_e1f0: ; e1f0 (3:61f0) 
     ld a, [wBallXPos + 1]
     cp $50  ; which half of the screen is the ball in?
     jp nc, Func_e226 ; right half of screen
@@ -17371,7 +17370,7 @@ Func_e1f0: ; 0xe1f0
     ld [$ffc1], a
     ret
 
-Func_e226: ; 0xe226
+Func_e226: ; e226 (3:6226) 
 ; ball is in right half of screen
     ld hl, wBallXPos
     ld c, $ba
@@ -17405,7 +17404,7 @@ Func_e226: ; 0xe226
     ld [$ffc1], a
     ret
 
-Func_e25a: ; 0xe25a
+Func_e25a: ; e25a (3:625a) 
     ld a, [$ffbb]
     sub $2b
     ret c
@@ -17498,7 +17497,7 @@ Func_e25a: ; 0xe25a
 
 INCBIN "baserom.gbc",$e2e4,$e379 - $e2e4
 
-Func_e379: ; 0xe379
+Func_e379: ; e379 (3:6379) 
     ld a, b
     xor d
     ld [$ffbe], a
@@ -17585,7 +17584,7 @@ Func_e379: ; 0xe379
 
 INCBIN "baserom.gbc",$e3de,$e410 - $e3de
 
-Func_e410: ; 0xe410
+Func_e410: ; e410 (3:6410) 
     ld a, b
     cp c
     jr nc, .asm_e416
@@ -17631,7 +17630,7 @@ Func_e410: ; 0xe410
     rr l
     ret
 
-HandleFlipperCollision: ; 0xe442
+HandleFlipperCollision: ; e442 (3:6442) 
 ; This is called when the ball is colliding with either the
 ; right or left flipper.
     ld a, $1
@@ -17683,7 +17682,7 @@ HandleFlipperCollision: ; 0xe442
     ld [$d7bd], a
     ret
 
-Func_e4a1: ; 0xe4a1
+Func_e4a1: ; e4a1 (3:64a1) 
     ld a, [wCurrentStage]
     and a
     ret z
@@ -17754,7 +17753,7 @@ Func_e4a1: ; 0xe4a1
 
 INCBIN "baserom.gbc",$e50a,$e538 - $e50a
 
-Data_e538: ; 0xe538
+Data_e538: ; e538 (3:6538) 
     dw $0000
     dw $000C
     dw $001C
@@ -17788,7 +17787,7 @@ Data_e538: ; 0xe538
     dw $00FC
     dw $00FC
 
-LoadStageCollisionAttributes: ; 0xe578
+LoadStageCollisionAttributes: ; e578 (3:6578) 
     ld a, [wCurrentStage]
     sla a
     ld c, a
@@ -17821,7 +17820,7 @@ LoadStageCollisionAttributes: ; 0xe578
     call LoadCollisionAttributes
     ret
 
-StageCollisionAttributesPointers: ; 0xe5a7
+StageCollisionAttributesPointers: ; e5a7 (3:65a7) 
     dw StageRedFieldTopCollisionAttributesPointers
     dw StageRedFieldBottomCollisionAttributesPointers
     dw StageUnusedCollisionAttributesPointers
@@ -17839,7 +17838,7 @@ StageCollisionAttributesPointers: ; 0xe5a7
     dw StageSeelBonusCollisionAttributesPointers
     dw StageSeelBonusCollisionAttributesPointers
 
-StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
+StageRedFieldTopCollisionAttributesPointers: ; e5c7 (3:65c7) 
     db $01  ; multiple pair entries
     dwb StageRedFieldTopCollisionAttributes0, Bank(StageRedFieldTopCollisionAttributes0)
     dwb StageRedFieldTopCollisionMasks0, Bank(StageRedFieldTopCollisionMasks0)
@@ -17865,20 +17864,20 @@ StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
     dwb StageRedFieldTopCollisionAttributes7, Bank(StageRedFieldTopCollisionAttributes7)
     dwb StageRedFieldTopCollisionMasks3, Bank(StageRedFieldTopCollisionMasks3)
 
-StageRedFieldBottomCollisionAttributesPointers: ; 0xe5f8
+StageRedFieldBottomCollisionAttributesPointers: ; e5f8 (3:65f8) 
     db $00  ; single pair entry
     dwb StageRedFieldBottomCollisionAttributes, Bank(StageRedFieldBottomCollisionAttributes)
     dwb StageRedFieldBottomCollisionMasks, Bank(StageRedFieldBottomCollisionMasks)
 
-StageUnusedCollisionAttributesPointers: ; 0xe5ff
+StageUnusedCollisionAttributesPointers: ; e5ff (3:65ff) 
 ; This entry is never used
     db $00
 
-StageUnused2CollisionAttributesPointers: ; 0xe600
+StageUnused2CollisionAttributesPointers: ; e600 (3:6600) 
 ; This entry is never used
     db $00
 
-StageBlueFieldTopCollisionAttributesPointers: ; 0xe601
+StageBlueFieldTopCollisionAttributesPointers: ; e601 (3:6601) 
     db $01  ; multiple pair entries
     dwb StageBlueFieldTopCollisionAttributesBallEntrance, Bank(StageBlueFieldTopCollisionAttributesBallEntrance)
     dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
@@ -17886,12 +17885,12 @@ StageBlueFieldTopCollisionAttributesPointers: ; 0xe601
     dwb StageBlueFieldTopCollisionAttributes, Bank(StageBlueFieldTopCollisionAttributes)
     dwb StageBlueFieldTopCollisionMasks, Bank(StageBlueFieldTopCollisionMasks)
 
-StageBlueFieldBottomCollisionAttributesPointers: ; 0xe60e
+StageBlueFieldBottomCollisionAttributesPointers: ; e60e (3:660e) 
     db $00  ; single pair entry
     dwb StageBlueFieldBottomCollisionAttributes, Bank(StageBlueFieldBottomCollisionAttributes)
     dwb StageBlueFieldBottomCollisionMasks, Bank(StageBlueFieldBottomCollisionMasks)
 
-StageGengarBonusCollisionAttributesPointers: ; 0xe615
+StageGengarBonusCollisionAttributesPointers: ; e615 (3:6615) 
     db $01  ; multiple pair entries
     dwb StageGengarBonusCollisionAttributesBallEntrance, Bank(StageGengarBonusCollisionAttributesBallEntrance)
     dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
@@ -17899,7 +17898,7 @@ StageGengarBonusCollisionAttributesPointers: ; 0xe615
     dwb StageGengarBonusCollisionAttributes, Bank(StageGengarBonusCollisionAttributes)
     dwb StageGengarBonusCollisionMasks, Bank(StageGengarBonusCollisionMasks)
 
-StageMewtwoBonusCollisionAttributesPointers: ; 0xe622
+StageMewtwoBonusCollisionAttributesPointers: ; e622 (3:6622) 
     db $01  ; multiple pair entries
     dwb StageMewtwoBonusCollisionAttributesBallEntrance, Bank(StageMewtwoBonusCollisionAttributesBallEntrance)
     dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
@@ -17907,7 +17906,7 @@ StageMewtwoBonusCollisionAttributesPointers: ; 0xe622
     dwb StageMewtwoBonusCollisionAttributes, Bank(StageMewtwoBonusCollisionAttributes)
     dwb StageMewtwoBonusCollisionMasks, Bank(StageMewtwoBonusCollisionMasks)
 
-StageMeowthBonusCollisionAttributesPointers: ; 0xe62f
+StageMeowthBonusCollisionAttributesPointers: ; e62f (3:662f) 
     db $01  ; multiple pair entries
     dwb StageMeowthBonusCollisionAttributesBallEntrance, Bank(StageMeowthBonusCollisionAttributesBallEntrance)
     dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
@@ -17915,7 +17914,7 @@ StageMeowthBonusCollisionAttributesPointers: ; 0xe62f
     dwb StageMeowthBonusCollisionAttributes, Bank(StageMeowthBonusCollisionAttributes)
     dwb StageMeowthBonusCollisionMasks, Bank(StageMeowthBonusCollisionMasks)
 
-StageDiglettBonusCollisionAttributesPointers: ; 0xe63c
+StageDiglettBonusCollisionAttributesPointers: ; e63c (3:663c) 
     db $01  ; multiple pair entries
     dwb StageDiglettBonusCollisionAttributesBallEntrance, Bank(StageDiglettBonusCollisionAttributesBallEntrance)
     dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
@@ -17923,7 +17922,7 @@ StageDiglettBonusCollisionAttributesPointers: ; 0xe63c
     dwb StageDiglettBonusCollisionAttributes, Bank(StageDiglettBonusCollisionAttributes)
     dwb StageDiglettBonusCollisionMasks, Bank(StageDiglettBonusCollisionMasks)
 
-StageSeelBonusCollisionAttributesPointers: ; 0xe649
+StageSeelBonusCollisionAttributesPointers: ; e649 (3:6649) 
     db $01  ; multiple pair entries
     dwb StageSeelBonusCollisionAttributesBallEntrance, Bank(StageSeelBonusCollisionAttributesBallEntrance)
     dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
@@ -17931,7 +17930,7 @@ StageSeelBonusCollisionAttributesPointers: ; 0xe649
     dwb StageSeelBonusCollisionAttributes, Bank(StageSeelBonusCollisionAttributes)
     dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
 
-LoadCollisionAttributes: ; 0xe656
+LoadCollisionAttributes: ; e656 (3:6656) 
 ; Loads the stage's collision attributes into RAM
 ; Input:  [wStageCollisionMapPointer] = pointer to collision attributes map
 ;         [wStageCollisionMapBank] = ROM bank of collision attributes map
@@ -17951,7 +17950,7 @@ LoadCollisionAttributes: ; 0xe656
     ld [hl], $0  ; Bank 0, because the data is in WRAM, so it doesn't matter which bank is saved
     ret
 
-Func_e674: ; 0xe674
+Func_e674: ; e674 (3:6674) 
     push af
     ld a, [$d548]
     push af
@@ -17988,7 +17987,7 @@ Func_e674: ; 0xe674
     ld [$ffa5], a
     ret
 
-Func_e6c2: ; 0xe6c2
+Func_e6c2: ; e6c2 (3:66c2) 
     ld a, [wCurrentStage]
     bit 0, a
     ld a, $86
@@ -18016,7 +18015,7 @@ Func_e6c2: ; 0xe6c2
     call BankSwitch
     ret
 
-StageGfxPointers_GameBoy: ; 0xe6f7
+StageGfxPointers_GameBoy: ; e6f7 (3:66f7) 
     dw StageRedFieldTopGfx_GameBoy
     dw StageRedFieldBottomGfx_GameBoy
     dw VideoData_e896
@@ -18034,7 +18033,7 @@ StageGfxPointers_GameBoy: ; 0xe6f7
     dw StageSeelBonusGfx_GameBoy
     dw StageSeelBonusGfx_GameBoy
 
-StageGfxPointers_GameBoyColor: ; 0xe717
+StageGfxPointers_GameBoyColor: ; e717 (3:6717) 
     dw StageRedFieldTopGfx_GameBoyColor
     dw StageRedFieldBottomGfx_GameBoyColor
     dw VideoData_e8a6
@@ -18052,7 +18051,7 @@ StageGfxPointers_GameBoyColor: ; 0xe717
     dw StageSeelBonusGfx_GameBoyColor
     dw StageSeelBonusGfx_GameBoyColor
 
-StageRedFieldTopGfx_GameBoy: ; 0xe737
+StageRedFieldTopGfx_GameBoy: ; e737 (3:6737) 
     VIDEO_DATA_TILES   Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES   StageRedFieldTopGfx1, vTiles0 + $1a0, $260
     VIDEO_DATA_TILES   PinballPokeballGfx, vTiles0 + $400, $200
@@ -18063,7 +18062,7 @@ StageRedFieldTopGfx_GameBoy: ; 0xe737
     VIDEO_DATA_TILEMAP StageRedFieldTopTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
-StageRedFieldTopGfx_GameBoyColor: ; 0xe771
+StageRedFieldTopGfx_GameBoyColor: ; e771 (3:6771) 
     VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES         StageRedFieldTopGfx1, vTiles0 + $1a0, $260
     VIDEO_DATA_TILES         PinballPokeballGfx, vTiles0 + $400, $200
@@ -18083,7 +18082,7 @@ StageRedFieldTopGfx_GameBoyColor: ; 0xe771
     VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
     db $FF, $FF  ; terminators
 
-StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
+StageRedFieldBottomGfx_GameBoy: ; e7ea (3:67ea) 
     VIDEO_DATA_TILES    Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES    StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
     VIDEO_DATA_TILES    StageRedFieldBottomGfx2, vTiles0 + $300, $80
@@ -18094,7 +18093,7 @@ StageRedFieldBottomGfx_GameBoy: ; 0xe7ea
     VIDEO_DATA_TILEMAP  StageRedFieldBottomTilemap_GameBoy, vBGMap0, $400
     db $FF, $FF  ; terminators
 
-StageRedFieldBottomGfx_GameBoyColor: ; 0xe824
+StageRedFieldBottomGfx_GameBoyColor: ; e824 (3:6824) 
     VIDEO_DATA_TILES         Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES         StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
     VIDEO_DATA_TILES         StageRedFieldBottomGfx2, vTiles0 + $300, $80
@@ -18113,31 +18112,31 @@ StageRedFieldBottomGfx_GameBoyColor: ; 0xe824
     VIDEO_DATA_TILES_BANK2   StageRedFieldTopGfx6, vTiles0 + $7c0, $40
     db $FF, $FF  ; terminators
 
-VideoData_e896: ; 0xe896
+VideoData_e896: ; e896 (3:6896) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $200
     db $FF, $FF  ; terminators
 
-VideoData_e8a6: ; 0xe8a6
+VideoData_e8a6: ; e8a6 (3:68a6) 
     VIDEO_DATA_TILES       Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES       PinballPokeballGfx, vTiles0 + $400, $200
     VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
     db $FF, $FF  ; terminators
 
-VideoData_e8bd: ; 0xe8bd
+VideoData_e8bd: ; e8bd (3:68bd) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
     VIDEO_DATA_TILES SaverTextOffGfx, vTiles1 + $2a0, $40
     db $FF, $FF  ; terminators
 
-VideoData_e8d4: ; 0xe8d4
+VideoData_e8d4: ; e8d4 (3:68d4) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES PinballPokeballShakeGfx, vTiles0 + $380, $480
     VIDEO_DATA_TILES_BANK2 TimerDigitsGfx, vTiles0 + $600, $160
     VIDEO_DATA_TILES       SaverTextOffGfx, vTiles1 + $2a0, $40
     db $FF, $FF  ; terminators
 
-StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
+StageBlueFieldTopGfx_GameBoy: ; e8f2 (3:68f2) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $67A0
@@ -18174,7 +18173,7 @@ StageBlueFieldTopGfx_GameBoy: ; 0xe8f2
 
     db $FF, $FF  ; terminators
 
-StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
+StageBlueFieldTopGfx_GameBoyColor: ; e92c (3:692c) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $67A0
@@ -18228,7 +18227,7 @@ StageBlueFieldTopGfx_GameBoyColor: ; 0xe92c
 
     db $FF, $FF  ; terminators
 
-StageBlueFieldBottomGfx_GameBoy: ; 0xe982
+StageBlueFieldBottomGfx_GameBoy: ; e982 (3:6982) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
     VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
@@ -18249,7 +18248,7 @@ StageBlueFieldBottomGfx_GameBoy: ; 0xe982
 
     db $FF, $FF  ; terminators
 
-StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
+StageBlueFieldBottomGfx_GameBoyColor: ; e9bc (3:69bc) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES StageRedFieldBottomGfx1, vTiles0 + $1a0, $160
     VIDEO_DATA_TILES StageRedFieldBottomGfx2, vTiles0 + $300, $80
@@ -18286,7 +18285,7 @@ StageBlueFieldBottomGfx_GameBoyColor: ; 0xe9bc
 
     db $FF, $FF  ; terminators
 
-StageGengarBonusGfx_GameBoy: ; 0xea12
+StageGengarBonusGfx_GameBoy: ; ea12 (3:6a12) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES PinballPokeballGfx, vTiles0 + $400, $320
 
@@ -18332,7 +18331,7 @@ StageGengarBonusGfx_GameBoy: ; 0xea12
 
     db $FF, $FF  ; terminators
 
-StageGengarBonusGfx_GameBoyColor: ; 0xea5a
+StageGengarBonusGfx_GameBoyColor: ; ea5a (3:6a5a) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
     VIDEO_DATA_TILES StageRedFieldBottomGfx4, vTiles0 + $3c0, $440
 
@@ -18395,7 +18394,7 @@ StageGengarBonusGfx_GameBoyColor: ; 0xea5a
 
     db $FF, $FF  ; terminators
 
-StageMewtwoBonusGfx_GameBoy: ; 0xeabe
+StageMewtwoBonusGfx_GameBoy: ; eabe (3:6abe) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $59A0
@@ -18432,7 +18431,7 @@ StageMewtwoBonusGfx_GameBoy: ; 0xeabe
 
     db $FF, $FF  ; terminators
 
-StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
+StageMewtwoBonusGfx_GameBoyColor: ; eaf8 (3:6af8) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $59A0
@@ -18486,7 +18485,7 @@ StageMewtwoBonusGfx_GameBoyColor: ; 0xeaf8
 
     db $FF, $FF  ; terminators
 
-StageMeowthBonusGfx_GameBoy: ; 0xeb4e
+StageMeowthBonusGfx_GameBoy: ; eb4e (3:6b4e) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $41A0
@@ -18523,7 +18522,7 @@ StageMeowthBonusGfx_GameBoy: ; 0xeb4e
 
     db $FF, $FF  ; terminators
 
-StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
+StageMeowthBonusGfx_GameBoyColor: ; eb88 (3:6b88) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $41A0
@@ -18572,7 +18571,7 @@ StageMeowthBonusGfx_GameBoyColor: ; 0xeb88
 
     db $FF, $FF  ; terminators
 
-StageDiglettBonusGfx_GameBoy: ; 0xebd7
+StageDiglettBonusGfx_GameBoy: ; ebd7 (3:6bd7) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $7AA0
@@ -18609,7 +18608,7 @@ StageDiglettBonusGfx_GameBoy: ; 0xebd7
 
     db $FF, $FF  ; terminators
 
-StageDiglettBonusGfx_GameBoyColor: ; 0xec11
+StageDiglettBonusGfx_GameBoyColor: ; ec11 (3:6c11) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $7AA0
@@ -18658,7 +18657,7 @@ StageDiglettBonusGfx_GameBoyColor: ; 0xec11
 
     db $FF, $FF  ; terminators
 
-StageSeelBonusGfx_GameBoy: ; 0xec60
+StageSeelBonusGfx_GameBoy: ; ec60 (3:6c60) 
     VIDEO_DATA_TILES Alphabet1Gfx, vTiles0, $1a0
 
     dw $71A0
@@ -18695,7 +18694,7 @@ StageSeelBonusGfx_GameBoy: ; 0xec60
 
     db $FF, $FF  ; terminators
 
-StageSeelBonusGfx_GameBoyColor: ; 0xec9a
+StageSeelBonusGfx_GameBoyColor: ; ec9a (3:6c9a) 
     VIDEO_DATA_TILES Alphabet2Gfx, vTiles0, $1a0
 
     dw $71A0
@@ -18744,7 +18743,7 @@ StageSeelBonusGfx_GameBoyColor: ; 0xec9a
 
     db $FF, $FF  ; terminators
 
-Func_ece9: ; 0xece9
+Func_ece9: ; ece9 (3:6ce9) 
     call Func_ed5e
     ld a, [wBallYPos + 1]
     add $10
@@ -18788,7 +18787,7 @@ Func_ece9: ; 0xece9
     call BankSwitch
     ret
 
-BallMovingUpStageTransitions: ; 0xed3e
+BallMovingUpStageTransitions: ; ed3e (3:6d3e) 
 ; Maps the relationship between stages when
 ; the ball moves out of the screen upward.
     db $FF                   ; STAGE_RED_FIELD_TOP
@@ -18808,7 +18807,7 @@ BallMovingUpStageTransitions: ; 0xed3e
     db $FF                   ; STAGE_SEEL_BONUS
     db $FF                   ; STAGE_SEEL_BONUS
 
-BallMovingDownStageTransitions: ; 0xed4e
+BallMovingDownStageTransitions: ; ed4e (3:6d4e) 
 ; Maps the relationship between stages when
 ; the ball moves out of the screen downward.
     db STAGE_RED_FIELD_BOTTOM   ; STAGE_RED_FIELD_TOP
@@ -18828,7 +18827,7 @@ BallMovingDownStageTransitions: ; 0xed4e
     db $FF                      ; STAGE_SEEL_BONUS
     db $FF                      ; STAGE_SEEL_BONUS
 
-Func_ed5e: ; 0xed5e
+Func_ed5e: ; ed5e (3:6d5e) 
     ld hl, $d7ab
     ld a, [$d7ac]
     and a
@@ -18857,7 +18856,7 @@ Func_ed5e: ; 0xed5e
     ld [hBoardYShift], a
     ret
 
-Func_ed8e: ; 0xed8e
+Func_ed8e: ; ed8e (3:6d8e) 
     xor a
     ld [$d803], a
     ld [$d804], a
@@ -19020,7 +19019,7 @@ Func_ed8e: ; 0xed8e
     ld [$d619], a
     ld a, [$d61d]
     rst $18  ; calls JumpToFuncInTable
-CallTable_eeca: ; 0xeeca
+CallTable_eeca: ; eeca (3:6eca) 
     dw Func_ef35
     dw Func_ef4f
     dw Func_ef69
@@ -19040,7 +19039,7 @@ CallTable_eeca: ; 0xeeca
     dw Func_f172
     dw Func_f172
 
-Func_eeee: ; 0xeeee
+Func_eeee: ; eeee (3:6eee) 
     push bc
     ld bc, $0200
 .asm_eef2
@@ -19051,7 +19050,7 @@ Func_eeee: ; 0xeeee
     pop bc
     ret
 
-Func_eef9: ; 0xeef9
+Func_eef9: ; eef9 (3:6ef9) 
     cp $8
     jr nz, .asm_ef09
     ld a, [$d620]
@@ -19079,7 +19078,7 @@ Func_eef9: ; 0xeef9
     pop hl
     ret
 
-Func_ef1e: ; 0xef1e
+Func_ef1e: ; ef1e (3:6f1e) 
     push bc
     ld hl, wKeyConfigRightFlipper
     call IsKeyPressed
@@ -19090,7 +19089,7 @@ Func_ef1e: ; 0xef1e
     pop bc
     ret
 
-BallTypeMultipliers: ; 0xef2f
+BallTypeMultipliers: ; ef2f (3:6f2f) 
 ; Score multiplier for each ball type.
     db $00  ; POKE_BALL
     db $00
@@ -19099,7 +19098,7 @@ BallTypeMultipliers: ; 0xef2f
     db $02
     db $02  ; MASTER_BALL
 
-Func_ef35: ; 0xef35
+Func_ef35: ; ef35 (3:6f35) 
     ld a, $0
     ld [wBallSaverIconOn], a
     ld a, $ff
@@ -19112,7 +19111,7 @@ Func_ef35: ; 0xef35
     ld [$d4a5], a
     ret
 
-Func_ef4f: ; 0xef4f
+Func_ef4f: ; ef4f (3:6f4f) 
     ld a, $0
     ld [wBallSaverIconOn], a
     ld a, $ff
@@ -19125,7 +19124,7 @@ Func_ef4f: ; 0xef4f
     ld [$d4a5], a
     ret
 
-Func_ef69: ; 0xef69
+Func_ef69: ; ef69 (3:6f69) 
     ld a, $0
     ld [wBallSaverIconOn], a
     ld a, $ff
@@ -19138,7 +19137,7 @@ Func_ef69: ; 0xef69
     ld [$d4a5], a
     ret
 
-Func_ef83: ; 0xef83
+Func_ef83: ; ef83 (3:6f83) 
     ld a, $1
     ld [$d51d], a
     ld a, $f
@@ -19156,14 +19155,14 @@ Func_ef83: ; 0xef83
     ld [$d85d], a
     ret
 
-Func_efa7: ; 0xefa7
+Func_efa7: ; efa7 (3:6fa7) 
     ld [$ff8a], a
     ld a, Bank(Func_30164)
     ld hl, Func_30164
     call BankSwitch
     ret
 
-Func_efb2: ; 0xefb2
+Func_efb2: ; efb2 (3:6fb2) 
     ld a, $8
     call Func_a21
     ld [$d61f], a
@@ -19201,7 +19200,7 @@ Func_efb2: ; 0xefb2
     call Func_351c
     ret
 
-Func_eff3: ; 0xeff3
+Func_eff3: ; eff3 (3:6ff3) 
     ld a, $8
     call Func_a21
     ld [$d61f], a
@@ -19239,17 +19238,17 @@ Func_eff3: ; 0xeff3
     call Func_351c
     ret
 
-Func_f034: ; 0xf034
+Func_f034: ; f034 (3:7034) 
     ld a, $1
     ld [$d622], a
     ret
 
-Func_f03a: ; 0xf03a
+Func_f03a: ; f03a (3:703a) 
     ld a, $2
     ld [$d622], a
     ret
 
-UpgradeBallBlueField: ; 0xf040
+UpgradeBallBlueField: ; f040 (3:7040) 
     ; load approximately 1 minute of frames into wBallTypeCounter
     ld a, $10
     ld [wBallTypeCounter], a
@@ -19305,7 +19304,7 @@ UpgradeBallBlueField: ; 0xf040
     call BankSwitch
     ret
 
-BallTypeProgressionBlueField: ; 0xf0bb
+BallTypeProgressionBlueField: ; f0bb (3:70bb) 
 ; Determines the next upgrade for the Ball.
     db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
     db GREAT_BALL   ; unused
@@ -19314,7 +19313,7 @@ BallTypeProgressionBlueField: ; 0xf0bb
     db MASTER_BALL  ; unused
     db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-Func_f0c1: ; 0xf0c1
+Func_f0c1: ; f0c1 (3:70c1) 
     ld a, $4
     call Func_a21
     ld [$d61f], a
@@ -19384,7 +19383,7 @@ Func_f0c1: ; 0xf0c1
     call BankSwitch ; no need for BankSwitch here...
     ret
 
-Func_f14a: ; 0xf14a
+Func_f14a: ; f14a (3:714a) 
     ld c, $0
 .asm_f14c
     cp $19
@@ -19393,10 +19392,10 @@ Func_f14a: ; 0xf14a
     inc c
     jr .asm_f14c
 
-Func_f154: ; 0xf154
+Func_f154: ; f154 (3:7154) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_f15a: ; 0xf15a
+CallTable_f15a: ; f15a (3:715a) 
     dw Func_16f28
     db Bank(Func_16f28), $00
 
@@ -19415,12 +19414,12 @@ CallTable_f15a: ; 0xf15a
     dw Func_1d5f2
     db Bank(Func_1d5f2), $00
 
-Func_f172: ; 0xf172
+Func_f172: ; f172 (3:7172) 
     ld a, $1
     ld [$d623], a
     ret
 
-LoadBillboardPicture: ; 0xf178
+LoadBillboardPicture: ; f178 (3:7178) 
 ; Loads a billboard picture's tiles into VRAM
 ; input:  a = billboard picture id
     push hl
@@ -19444,7 +19443,7 @@ LoadBillboardPicture: ; 0xf178
     pop hl
     ret
 
-LoadBillboardOffPicture: ; 0xf196
+LoadBillboardOffPicture: ; f196 (3:7196) 
 ; Loads the dimly-lit "off" version of a billboard picture into VRAM
 ; Input:  a = billboard picture id
     push hl
@@ -19470,7 +19469,7 @@ LoadBillboardOffPicture: ; 0xf196
     pop hl
     ret
 
-BillboardPicturePointers: ; 0xf1b8
+BillboardPicturePointers: ; f1b8 (3:71b8) 
     dw BallSaver30SecondsOnPic
     db Bank(BallSaver30SecondsOnPic)
 
@@ -19648,7 +19647,7 @@ BillboardPicturePointers: ; 0xf1b8
     dw IndigoPlateauPic
     db Bank(IndigoPlateauPic)
 
-Func_f269: ; 0xf269
+Func_f269: ; f269 (3:7269) 
     ld a, [hGameBoyColorFlag]
     and a
     jr z, .asm_f27c
@@ -19666,7 +19665,7 @@ Func_f269: ; 0xf269
 
 INCBIN "baserom.gbc",$f288,$f2a0 - $f288
 
-Func_f2a0: ; 0xf2a0
+Func_f2a0: ; f2a0 (3:72a0) 
     push hl
     ld c, a
     ld b, $0
@@ -19688,7 +19687,7 @@ Func_f2a0: ; 0xf2a0
     pop hl
     ret
 
-PaletteDataPointerTable_f2be: ; 0xf2be
+PaletteDataPointerTable_f2be: ; f2be (3:72be) 
     dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
     dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
     dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
@@ -19731,7 +19730,7 @@ PaletteDataPointerTable_f2be: ; 0xf2be
     dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
     dwb PaletteData_dcc00, Bank(PaletteData_dcc00)
 
-Data_f339: ; 0xf339
+Data_f339: ; f339 (3:7339) 
     db $02, $06, $00, $08, $04, $02, $06, $08, $04, $00, $06, $02, $04, $08, $00, $02
     db $06, $02, $04, $08, $00, $06, $04, $08, $02, $00, $06, $08, $02, $00, $06, $08
     db $02, $04, $00, $08, $06, $04, $00, $02, $06, $04, $00, $08, $06, $04, $02, $08
@@ -19749,7 +19748,7 @@ Data_f339: ; 0xf339
     db $02, $00, $06, $04, $08, $02, $00, $04, $08, $02, $00, $04, $06, $02, $08, $00
     db $04, $06, $08, $02, $00, $06, $04, $08, $02, $06, $00, $08, $04, $06, $02, $08
 
-Data_f439: ; 0xf439
+Data_f439: ; f439 (3:7439) 
     db $05, $19, $0C, $4C, $00, $4C, $03, $4C, $FF, $00, $05, $19, $0C, $4C, $00, $4C
     db $07, $4C, $FF, $00, $05, $19, $0C, $44, $00, $44, $03, $44, $06, $16, $05, $19
     db $0C, $4C, $00, $4C, $08, $4C, $FF, $00, $01, $4C, $06, $66, $0D, $4C, $FF, $00
@@ -19767,7 +19766,7 @@ Data_f439: ; 0xf439
     db $00, $44, $03, $44, $06, $26, $05, $0A, $0C, $51, $01, $51, $08, $51, $FF, $00
     db $01, $26, $06, $26, $0D, $26, $04, $8C, $FF, $00
 
-Func_f533: ; 0xf533
+Func_f533: ; f533 (3:7533) 
     call Func_30e8
     call Func_f55c
     call Func_f57f
@@ -19788,7 +19787,7 @@ Func_f533: ; 0xf533
     call Func_30e8
     ret
 
-Func_f55c: ; 0xf55c
+Func_f55c: ; f55c (3:755c) 
     ld a, [hGameBoyColorFlag]
     and a
     jr nz, .gameboyColor
@@ -19806,7 +19805,7 @@ Func_f55c: ; 0xf55c
     call LoadVRAMData
     ret
 
-Func_f57f: ; 0xf57f
+Func_f57f: ; f57f (3:757f) 
     xor a
     ld [$d4aa], a
     ld hl, wcBottomMessageText
@@ -19826,7 +19825,7 @@ Func_f57f: ; 0xf57f
     call LoadVRAMData
     ret
 
-Func_f5a0: ; 0xf5a0
+Func_f5a0: ; f5a0 (3:75a0) 
     ld de, $c540
     ld hl, $3069 ; todo
     call Func_f7b1
@@ -19869,10 +19868,10 @@ Func_f5a0: ; 0xf5a0
     jr z, .asm_f602
     ret
 
-Func_f60a: ; 0xf60a
+Func_f60a: ; f60a (3:760a) 
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_f60d: ; 0xf60d
+CallTable_f60d: ; f60d (3:760d) 
     ; STAGE_RED_FIELD_TOP
     dw Func_f945
 
@@ -19907,7 +19906,7 @@ CallTable_f60d: ; 0xf60d
     ; STAGE_MEOWTH_BONUS
     dw Func_faf8
 
-Func_f626: ; 0xf626
+Func_f626: ; f626 (3:7626) 
     ld de, $c501
     ld hl, $3006 ; todo
     call Func_f7b1
@@ -19923,7 +19922,7 @@ Func_f626: ; 0xf626
     call Func_f824
     ret
 
-Func_f64e: ; 0xf64e
+Func_f64e: ; f64e (3:764e) 
     ld de, wcBottomMessageText
     ld hl, $3019 ; todo
     call Func_f7b1
@@ -19939,7 +19938,7 @@ Func_f64e: ; 0xf64e
     call Func_f824
     ret
 
-Func_f676: ; 0xf676
+Func_f676: ; f676 (3:7676) 
     ld b, $4
 .asm_f678
     push bc
@@ -20011,7 +20010,7 @@ Func_f676: ; 0xf676
     call Func_f83a
     ret
 
-Func_f70d: ; 0xf70d
+Func_f70d: ; f70d (3:770d) 
     ld b, $4
 .asm_f70f
     push bc
@@ -20069,7 +20068,7 @@ Func_f70d: ; 0xf70d
     call Func_f83a
     ret
 
-Func_f78e: ; 0xf78e
+Func_f78e: ; f78e (3:778e) 
     push hl
     call ConvertHexByteToDecWord
     pop hl
@@ -20096,7 +20095,7 @@ Func_f78e: ; 0xf78e
     ld c, $0
     ret
 
-Func_f7b1: ; 0xf7b1
+Func_f7b1: ; f7b1 (3:77b1) 
     ld a, [$d805]
     and a
     jr nz, .asm_f7e0
@@ -20159,7 +20158,7 @@ Func_f7b1: ; 0xf7b1
     inc de
     jr .asm_f7e0
 
-Func_f80d: ; 0xf80d
+Func_f80d: ; f80d (3:780d) 
     ld hl, $9c00
     add hl, de
     push hl
@@ -20169,7 +20168,7 @@ Func_f80d: ; 0xf80d
     call LoadVRAMData
     ret
 
-Func_f81b: ; 0xf81b
+Func_f81b: ; f81b (3:781b) 
     ld a, $81
     ld [hli], a
     dec bc
@@ -20178,7 +20177,7 @@ Func_f81b: ; 0xf81b
     jr nz, Func_f81b
     ret
 
-Func_f824: ; 0xf824
+Func_f824: ; f824 (3:7824) 
     call Func_f83a
     ld hl, wcBottomMessageText
     ld bc, $0040
@@ -20188,7 +20187,7 @@ Func_f824: ; 0xf824
     call Func_f81b
     ret
 
-Func_f83a: ; 0xf83a
+Func_f83a: ; f83a (3:783a) 
     ld a, [$d4ab]
     and a
     ret z
@@ -20208,7 +20207,7 @@ Func_f83a: ; 0xf83a
     ld [$d4ab], a
     ret
 
-Func_f853: ; 0xf853
+Func_f853: ; f853 (3:7853) 
     push hl
     ld hl, $d483
     call Func_f8b5
@@ -20259,7 +20258,7 @@ Func_f853: ; 0xf853
     call Func_f80d
     ret
 
-Func_f8b5: ; 0xf8b5
+Func_f8b5: ; f8b5 (3:78b5) 
     xor a
     ld b, $6
 .asm_f8b8
@@ -20268,7 +20267,7 @@ Func_f8b5: ; 0xf8b5
     jr nz, .asm_f8b8
     ret
 
-Func_f8bd: ; 0xf8bd
+Func_f8bd: ; f8bd (3:78bd) 
     ld bc, $0c01
 .asm_f8c0
     ld a, [hl]
@@ -20286,7 +20285,7 @@ Func_f8bd: ; 0xf8bd
     inc de
     ret
 
-Func_f8d5: ; 0xf8d5
+Func_f8d5: ; f8d5 (3:78d5) 
     and $f
     jr nz, .asm_f8e0
     ld a, b
@@ -20321,7 +20320,7 @@ Func_f8d5: ; 0xf8d5
     pop de
     ret
 
-Func_f902: ; 0xf902
+Func_f902: ; f902 (3:7902) 
     ld a, [de]
     add [hl]
     daa
@@ -20354,27 +20353,27 @@ Func_f902: ; 0xf902
     inc de
     ret
 
-PointsData_f921: ; 0xf921
+PointsData_f921: ; f921 (3:7921) 
     bigBCD6 50000
-PointsData_f927: ; 0xf927
+PointsData_f927: ; f927 (3:7927) 
     bigBCD6 75000
-PointsData_f92d: ; 0xf92d
+PointsData_f92d: ; f92d (3:792d) 
     bigBCD6 7500
-PointsData_f933: ; 0xf933
+PointsData_f933: ; f933 (3:7933) 
     bigBCD6 5000
-PointsData_f939: ; 0xf939
+PointsData_f939: ; f939 (3:7939) 
     bigBCD6 2500
-PointsData_f93f: ; 0xf93f
+PointsData_f93f: ; f93f (3:793f) 
     bigBCD6 1000
 
-Func_f945: ; 0xf945
+Func_f945: ; f945 (3:7945) 
     call Func_f952
     call Func_f97a
     call Func_f9a2
     call Func_f9ca
     ret
 
-Func_f952: ; 0xf952
+Func_f952: ; f952 (3:7952) 
     ld de, $c503
     ld hl, $302d
     call Func_f7b1
@@ -20390,7 +20389,7 @@ Func_f952: ; 0xf952
     call Func_f824
     ret
 
-Func_f97a: ; 0xf97a
+Func_f97a: ; f97a (3:797a) 
     ld de, $c504
     ld hl, $303c
     call Func_f7b1
@@ -20406,7 +20405,7 @@ Func_f97a: ; 0xf97a
     call Func_f824
     ret
 
-Func_f9a2: ; 0xf9a2
+Func_f9a2: ; f9a2 (3:79a2) 
     ld de, $c503
     ld hl, $3048
     call Func_f7b1
@@ -20422,7 +20421,7 @@ Func_f9a2: ; 0xf9a2
     call Func_f824
     ret
 
-Func_f9ca: ; 0xf9ca
+Func_f9ca: ; f9ca (3:79ca) 
     ld de, $c501
     ld hl, $3057
     call Func_f7b1
@@ -20438,10 +20437,10 @@ Func_f9ca: ; 0xf9ca
     call Func_f824
     ret
 
-Func_f9f2: ; 0xf9f2
+Func_f9f2: ; f9f2 (3:79f2) 
     ret
 
-Func_f9f3: ; 0xf9f3
+Func_f9f3: ; f9f3 (3:79f3) 
     call Func_fa06
     call Func_fa2e
     call Func_fa56
@@ -20450,7 +20449,7 @@ Func_f9f3: ; 0xf9f3
     call Func_face
     ret
 
-Func_fa06: ; 0xfa06
+Func_fa06: ; fa06 (3:7a06) 
     ld de, $c504
     ld hl, $30c1
     call Func_f7b1
@@ -20466,7 +20465,7 @@ Func_fa06: ; 0xfa06
     call Func_f824
     ret
 
-Func_fa2e: ; 0xfa2e
+Func_fa2e: ; fa2e (3:7a2e) 
     ld de, $c504
     ld hl, $30ce
     call Func_f7b1
@@ -20482,7 +20481,7 @@ Func_fa2e: ; 0xfa2e
     call Func_f824
     ret
 
-Func_fa56: ; 0xfa56
+Func_fa56: ; fa56 (3:7a56) 
     ld de, $c504
     ld hl, $30b5
     call Func_f7b1
@@ -20498,7 +20497,7 @@ Func_fa56: ; 0xfa56
     call Func_f824
     ret
 
-Func_fa7e: ; 0xfa7e
+Func_fa7e: ; fa7e (3:7a7e) 
     ld de, $c504
     ld hl, $30a9
     call Func_f7b1
@@ -20514,7 +20513,7 @@ Func_fa7e: ; 0xfa7e
     call Func_f824
     ret
 
-Func_faa6: ; 0xfaa6
+Func_faa6: ; faa6 (3:7aa6) 
     ld de, $c503
     ld hl, $3048
     call Func_f7b1
@@ -20530,7 +20529,7 @@ Func_faa6: ; 0xfaa6
     call Func_f824
     ret
 
-Func_face: ; 0xface  :)
+Func_face: ; face (3:7ace) :)
     ld de, $c501
     ld hl, $3057
     call Func_f7b1
@@ -20546,13 +20545,13 @@ Func_face: ; 0xface  :)
     call Func_f824
     ret
 
-Func_faf6: ; 0xfaf6
+Func_faf6: ; faf6 (3:7af6) 
     ret
 
-Func_faf7: ; 0xfaf7
+Func_faf7: ; faf7 (3:7af7) 
     ret
 
-Func_faf8: ; 0xfaf8
+Func_faf8: ; faf8 (3:7af8) 
     ret
 
 INCBIN "baserom.gbc",$faf9,$10000 - $faf9
@@ -20560,7 +20559,7 @@ INCBIN "baserom.gbc",$faf9,$10000 - $faf9
 
 SECTION "bank4", ROMX, BANK[$4]
 
-Func_10000: ; 0x10000
+Func_10000: ; 10000 (4:4000) 
     ld c, a
     ld a, [wInSpecialMode]
     and a
@@ -20580,7 +20579,7 @@ Func_10000: ; 0x10000
 .asm_10021
     ld a, [wCurrentStage]
     call CallInFollowingTable
-CallTable_10027: ; 0x10027
+CallTable_10027: ; 10027 (4:4027) 
     ; STAGE_RED_FIELD_TOP
     dw Func_20000
     db Bank(Func_20000), $00
@@ -20603,7 +20602,7 @@ CallTable_10027: ; 0x10027
     dw Func_202bc
     db Bank(Func_202bc), $00
 
-StartCatchEmMode: ; 0x1003f
+StartCatchEmMode: ; 1003f (4:403f) 
     ld a, [wInSpecialMode]  ; current game mode?
     and a
     ret nz  ; don't start catch 'em mode if we're already doing something like Map Move mode
@@ -20732,7 +20731,7 @@ StartCatchEmMode: ; 0x1003f
     call SetPokemonSeenFlag
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_10124: ; 0x10124
+CallTable_10124: ; 10124 (4:4124) 
     ; STAGE_RED_FIELD_TOP
     dw Func_10871
 
@@ -20779,7 +20778,7 @@ CheckForMew:
     pop af
     ret
 
-Func_10157: ; 0x10157
+Func_10157: ; 10157 (4:4157) 
     xor a
     ld [wInSpecialMode], a
     ld [$d5bb], a
@@ -20793,7 +20792,7 @@ Func_10157: ; 0x10157
     call BankSwitch
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_10178: ; 0x10178
+CallTable_10178: ; 10178 (4:4178) 
     ; STAGE_RED_FIELD_TOP
     dw Func_108f5
 
@@ -20810,7 +20809,7 @@ CallTable_10178: ; 0x10178
     ; STAGE_BLUE_FIELD_BOTTOM
     dw Func_109fc
 
-Func_10184: ; 0x10184
+Func_10184: ; 10184 (4:4184) 
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -20864,7 +20863,7 @@ Func_10184: ; 0x10184
     jr nz, .asm_101bb
     ret
 
-Func_101d9: ; 0x101d9
+Func_101d9: ; 101d9 (4:41d9) 
     push bc
     push hl
     push de
@@ -20928,7 +20927,7 @@ Func_101d9: ; 0x101d9
     pop bc
     ret
 
-Func_10230: ; 0x10230
+Func_10230: ; 10230 (4:4230) 
     push bc
     push hl
     push de
@@ -20979,7 +20978,7 @@ Func_10230: ; 0x10230
     pop bc
     ret
 
-PointerTable_10274: ; 0x10274
+PointerTable_10274: ; 10274 (4:4274) 
     dw $9887
     dw $9888
     dw $9889
@@ -21005,10 +21004,10 @@ PointerTable_10274: ; 0x10274
     dw $98EB
     dw $98EC
 
-Data_102a4: ; 0x102a4
+Data_102a4: ; 102a4 (4:42a4) 
     db $00, $07, $06, $01, $0E, $15, $14, $0F, $04, $0B, $0A, $05, $0C, $13, $12, $0D, $02, $09, $08, $03, $10, $17, $16, $11
 
-Func_102bc: ; 0x102bc
+Func_102bc: ; 102bc (4:42bc) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21054,7 +21053,7 @@ Func_102bc: ; 0x102bc
     call Func_10c5
     ret
 
-Func_10301: ; 0x10301
+Func_10301: ; 10301 (4:4301) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21121,7 +21120,7 @@ Func_10301: ; 0x10301
     call Func_10c5
     ret
 
-Func_10362: ; 0x10362
+Func_10362: ; 10362 (4:4362) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21150,7 +21149,7 @@ Func_10362: ; 0x10362
     jr nz, .asm_10384
     ret
 
-Func_1038e: ; 0x1038e
+Func_1038e: ; 1038e (4:438e) 
     push bc
     push de
     ld a, c
@@ -21196,7 +21195,7 @@ Func_1038e: ; 0x1038e
     pop bc
     ret
 
-Data_103c6: ; 0x103c6
+Data_103c6: ; 103c6 (4:43c6) 
 ; TODO: this might have pointers in it
     db $40, $04, $00, $89, $00, $00
     db $40, $04, $40, $89, $40, $00
@@ -21212,7 +21211,7 @@ Data_103c6: ; 0x103c6
     db $40, $04, $80, $82, $80, $02
     db $40, $04, $C0, $82, $C0, $02
 
-Func_10414: ; 0x10414
+Func_10414: ; 10414 (4:4414) 
     ld a, $4
     ld bc, $4420
     ld de, $11b5
@@ -21221,7 +21220,7 @@ Func_10414: ; 0x10414
 
 INCBIN "baserom.gbc",$10420,$10432 - $10420
 
-Func_10432: ; 0x10432
+Func_10432: ; 10432 (4:4432) 
     ld a, $4
     ld bc, $443e
     ld de, LoadTileLists
@@ -21230,7 +21229,7 @@ Func_10432: ; 0x10432
 
 INCBIN "baserom.gbc",$1043e,$10464 - $1043e
 
-Func_10464: ; 0x10464
+Func_10464: ; 10464 (4:4464) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21255,7 +21254,7 @@ Func_10464: ; 0x10464
     call CopyDataToRAM
     ret
 
-Func_10488: ; 0x10488
+Func_10488: ; 10488 (4:4488) 
     xor a
     ld hl, wMonAnimatedCollisionMask
     ld b, $20
@@ -21268,7 +21267,7 @@ Func_10488: ; 0x10488
     jr nz, .asm_1048e
     ret
 
-Func_10496: ; 0x10496
+Func_10496: ; 10496 (4:4496) 
     xor a
     ld [$d5c6], a
     ld a, $2a
@@ -21299,7 +21298,7 @@ Func_10496: ; 0x10496
     call PlaySoundEffect
     ret
 
-LoadShakeBallGfx: ; 0x104e2
+LoadShakeBallGfx: ; 104e2 (4:44e2) 
 ; Loads the graphics for the ball shaking after a pokemon is caught.
     ld a, [wBallType]
     cp GREAT_BALL
@@ -21336,7 +21335,7 @@ LoadShakeBallGfx: ; 0x104e2
     call LoadVRAMData
     ret
 
-Func_1052d: ; 0x1052d
+Func_1052d: ; 1052d (4:452d) 
     ld a, [$d5f5]
     cp $c
     jr nz, .asm_10541
@@ -21418,7 +21417,7 @@ Func_1052d: ; 0x1052d
 
 INCBIN "baserom.gbc",$105e4,$10611 - $105e4
 
-Func_10611: ; 0x10611
+Func_10611: ; 10611 (4:4611) 
     and a
     ret z
     dec a
@@ -21438,7 +21437,7 @@ Func_10611: ; 0x10611
 
 INCBIN "baserom.gbc",$1062a,$10648 - $1062a
 
-Func_10648: ; 0x10648
+Func_10648: ; 10648 (4:4648) 
     call Func_10184
     ld a, [$d54e]
     dec a
@@ -21465,7 +21464,7 @@ Func_10648: ; 0x10648
 .asm_10677
     ret
 
-Func_10678: ; 0x10678
+Func_10678: ; 10678 (4:4678) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21481,7 +21480,7 @@ Func_10678: ; 0x10678
     ld [wNumMonHits], a
     ret
 
-Func_10696: ; 0x10696
+Func_10696: ; 10696 (4:4696) 
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
@@ -21489,7 +21488,7 @@ Func_10696: ; 0x10696
     call Func_32aa
     ret
 
-Func_106a6: ; 0x106a6
+Func_106a6: ; 106a6 (4:46a6) 
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
@@ -21497,7 +21496,7 @@ Func_106a6: ; 0x106a6
     call Func_32aa
     ret
 
-Func_106b6: ; 0x106b6
+Func_106b6: ; 106b6 (4:46b6) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21568,7 +21567,7 @@ Func_106b6: ; 0x106b6
     ld [$d5d8], a
     ret
 
-Func_10732: ; 0x10732
+Func_10732: ; 10732 (4:4732) 
     ld a, [wCurrentCatchEmMon]
     inc a
     ld e, a
@@ -21576,7 +21575,7 @@ Func_10732: ; 0x10732
     call Func_4ef
     ret
 
-AddCaughtPokemonToParty: ; 0x1073d
+AddCaughtPokemonToParty: ; 1073d (4:473d) 
     ld a, [wNumPartyMons]
     ld c, a
     ld b, $0
@@ -21589,7 +21588,7 @@ AddCaughtPokemonToParty: ; 0x1073d
     ld [wNumPartyMons], a
     ret
 
-SetPokemonSeenFlag: ; 0x10753
+SetPokemonSeenFlag: ; 10753 (4:4753) 
     ld a, [wSpecialMode]
     and a
     ld a, [wCurrentCatchEmMon]
@@ -21610,7 +21609,7 @@ SetPokemonSeenFlag: ; 0x10753
     call SaveData
     ret
 
-SetPokemonOwnedFlag: ; 0x1077c
+SetPokemonOwnedFlag: ; 1077c (4:477c) 
     ld a, [wSpecialMode]
     and a
     ld a, [wCurrentCatchEmMon]
@@ -21631,7 +21630,7 @@ SetPokemonOwnedFlag: ; 0x1077c
     call SaveData
     ret
 
-Func_107a5: ; 0x107a5
+Func_107a5: ; 107a5 (4:47a5) 
     xor a
     ld hl, wIndicatorStates
     ld b, $13
@@ -21641,7 +21640,7 @@ Func_107a5: ; 0x107a5
     jr nz, .asm_107ab
     ret
 
-Func_107b0: ; 0x107b0
+Func_107b0: ; 107b0 (4:47b0) 
     xor a
     ld [$d604], a
     ld [wIndicatorStates + 4], a
@@ -21651,12 +21650,12 @@ Func_107b0: ; 0x107b0
     call BankSwitch
     ret
 
-Func_107c2: ; 0x107c2
+Func_107c2: ; 107c2 (4:47c2) 
     ld a, $1e
     ld [$d607], a
     ret
 
-Func_107c8: ; 0x107c8
+Func_107c8: ; 107c8 (4:47c8) 
     ld a, [wRightAlleyCount]
     cp $3
     jr z, .asm_107d1
@@ -21674,7 +21673,7 @@ Func_107c8: ; 0x107c8
     ld [wIndicatorStates], a
     ret
 
-Func_107e9: ; 0x107e9
+Func_107e9: ; 107e9 (4:47e9) 
     ld a, [wLeftAlleyCount]
     cp $3
     ld a, $4
@@ -21684,7 +21683,7 @@ Func_107e9: ; 0x107e9
     ld [$d7ad], a
     ret
 
-Func_107f8: ; 0x107f8
+Func_107f8: ; 107f8 (4:47f8) 
     ld a, [wTimerFrames]
     and a
     ret nz
@@ -21710,7 +21709,7 @@ Func_107f8: ; 0x107f8
     call PlaySoundEffect
     ret
 
-Func_10825: ; 0x10825
+Func_10825: ; 10825 (4:4825) 
     call Func_3556
     push bc
     push de
@@ -21727,7 +21726,7 @@ Func_10825: ; 0x10825
     call Func_3357
     ret
 
-Func_10848: ; 0x10848
+Func_10848: ; 10848 (4:4848) 
     ld bc, $34fa
     ld [$ff8a], a
     ld a, Bank(Func_8588)
@@ -21744,7 +21743,7 @@ Func_10848: ; 0x10848
     call Func_3475
     ret
 
-Func_10871: ; 0x10871
+Func_10871: ; 10871 (4:4871) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21814,7 +21813,7 @@ Func_10871: ; 0x10871
     call nz, BankSwitch
     ret
 
-Func_108f5: ; 0x108f5
+Func_108f5: ; 108f5 (4:48f5) 
     call Func_107a5
     call Func_107c2
     call Func_107c8
@@ -21856,15 +21855,15 @@ Func_108f5: ; 0x108f5
 
 INCBIN "baserom.gbc",$10958,$1098a - $10958
 
-Func_1098a: ; 0x1098a
+Func_1098a: ; 1098a (4:498a) 
     ret
 
-Func_1098b: ; 0x1098b
+Func_1098b: ; 1098b (4:498b) 
     ret
 
 INCBIN "baserom.gbc",$1098c,$1098c - $1098c
 
-Func_1098c: ; 0x1098c
+Func_1098c: ; 1098c (4:498c) 
     ld a, [wCurrentCatchEmMon]
     ld c, a
     ld b, $0
@@ -21925,7 +21924,7 @@ Func_1098c: ; 0x1098c
     call nz, BankSwitch
     ret
 
-Func_109fc: ; 0x109fc
+Func_109fc: ; 109fc (4:49fc) 
     call Func_107a5
     call Func_107c2
     ld [$ff8a], a
@@ -21969,10 +21968,10 @@ Func_109fc: ; 0x109fc
 
 INCBIN "baserom.gbc",$10a63,$10a95 - $10a63
 
-Func_10a95: ; 0x19a95
+Func_10a95: ; 19a95 (6:5a95) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-PointerTable_10a9b: ; 0x10a9b
+PointerTable_10a9b: ; 10a9b (4:4a9b) 
     ; STAGE_RED_FIELD_TOP
     dw Func_20581
     db Bank(Func_20581), $00
@@ -21995,13 +21994,13 @@ PointerTable_10a9b: ; 0x10a9b
     dw Func_20bae
     db Bank(Func_20bae), $00
 
-Func_10ab3: ; 0x10ab3
+Func_10ab3: ; 10ab3 (4:4ab3) 
     ld a, [wInSpecialMode]
     and a
     ret nz
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_10abc: ; 0x10abc
+CallTable_10abc: ; 10abc (4:4abc) 
     ; STAGE_RED_FIELD_TOP
     dw Func_10ebb
 
@@ -22018,7 +22017,7 @@ CallTable_10abc: ; 0x10abc
     ; STAGE_BLUE_FIELD_BOTTOM
     dw Func_11061
 
-Func_10ac8: ; 0x10ac8
+Func_10ac8: ; 10ac8 (4:4ac8) 
     xor a
     ld [$d5ca], a
     call Func_30e8
@@ -22036,7 +22035,7 @@ Func_10ac8: ; 0x10ac8
     call BankSwitch
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_10af3: ; 0x10af3
+CallTable_10af3: ; 10af3 (4:4af3) 
     ; STAGE_RED_FIELD_TOP
     dw Func_10fe3
 
@@ -22053,7 +22052,7 @@ CallTable_10af3: ; 0x10af3
     ; STAGE_BLUE_FIELD_TOP
     dw Func_11195
 
-Func_10aff: ; 0x10aff
+Func_10aff: ; 10aff (4:4aff) 
     ld a, [wCurrentStage]
     res 0, a
     ld c, a
@@ -22086,7 +22085,7 @@ Func_10aff: ; 0x10aff
     call LoadVRAMData
     ret
 
-VideoData_10b2a: ; 0x10b2a
+VideoData_10b2a: ; 10b2a (4:4b2a) 
     dwb $7A00, $25
     dw $8900
     dw $E0
@@ -22100,7 +22099,7 @@ VideoData_10b2a: ; 0x10b2a
     dw $E0
 
 
-Func_10b3f: ; 0x10b3f
+Func_10b3f: ; 10b3f (4:4b3f) 
     call Func_30e8
     call Func_30db
     ld hl, $d5cc
@@ -22113,7 +22112,7 @@ Func_10b3f: ; 0x10b3f
     call Func_32aa
     ret
 
-Func_10b59: ; 0x10b59
+Func_10b59: ; 10b59 (4:4b59) 
     xor a
     ld [$d4aa], a
     ld hl, wcBottomMessageText
@@ -22140,7 +22139,7 @@ Func_10b59: ; 0x10b59
     call LoadVRAMData
     ret
 
-Func_10b8e: ; 0x10b8e
+Func_10b8e: ; 10b8e (4:4b8e) 
     ld a, [wNumPartyMons]
     ld c, $0
     ld b, a
@@ -22156,7 +22155,7 @@ Func_10b8e: ; 0x10b8e
 .asm_10ba1
     ret
 
-Func_10ba2: ; 0x10ba2
+Func_10ba2: ; 10ba2 (4:4ba2) 
     push bc
     push hl
     swap c
@@ -22205,7 +22204,7 @@ Func_10ba2: ; 0x10ba2
     pop bc
     ret
 
-Func_10bea: ; 0x10bea
+Func_10bea: ; 10bea (4:4bea) 
     xor a
     ld [$d461], a
     ld [$d462], a
@@ -22222,7 +22221,7 @@ Func_10bea: ; 0x10bea
     call PlaySoundEffect
     ret
 
-Func_10c0c: ; 0x10c0c
+Func_10c0c: ; 10c0c (4:4c0c) 
     ld a, [$d80a]
     ld b, a
     ld a, [wNumPartyMons]
@@ -22248,7 +22247,7 @@ Func_10c0c: ; 0x10c0c
     call PlaySoundEffect
     ret
 
-Func_10c38: ; 0x10c38
+Func_10c38: ; 10c38 (4:4c38) 
     ld a, [$d461]
     ld hl, $d462
     sub [hl]
@@ -22312,7 +22311,7 @@ Func_10c38: ; 0x10c38
     call LoadVRAMData
     ret
 
-Func_10ca5: ; 0x10ca5
+Func_10ca5: ; 10ca5 (4:4ca5) 
     ld a, [$d461]
     ld c, a
     ld b, $0
@@ -22324,7 +22323,7 @@ Func_10ca5: ; 0x10ca5
     ld [hl], a
     ret
 
-Func_10cb7: ; 0x10cb7
+Func_10cb7: ; 10cb7 (4:4cb7) 
     call Func_30e8
     call Func_10b59
     ld a, $60
@@ -22373,7 +22372,7 @@ Func_10cb7: ; 0x10cb7
     ld [wCurrentCatchEmMon], a
     ret
 
-Func_10d1d: ; 0x10d1d
+Func_10d1d: ; 10d1d (4:4d1d) 
     ld hl, $d586
     ld b, $18
 .asm_10d22
@@ -22514,7 +22513,7 @@ Func_10d1d: ; 0x10d1d
 .asm_10e09
     ret
 
-Func_10e0a: ; 0x10e0a
+Func_10e0a: ; 10e0a (4:4e0a) 
     ld a, [wCurrentEvolutionMon]
     cp $ff
     jp z, Func_10e8b
@@ -22587,7 +22586,7 @@ Func_10e0a: ; 0x10e0a
     ld [$d5d8], a
     ret
 
-Func_10e8b: ; 0x10e8b
+Func_10e8b: ; 10e8b (4:4e8b) 
     ld bc, $34e8
     ld [$ff8a], a
     ld a, Bank(Func_8588)
@@ -22609,7 +22608,7 @@ Func_10e8b: ; 0x10e8b
     call Func_32aa
     ret
 
-Func_10ebb: ; 0x10ebb
+Func_10ebb: ; 10ebb (4:4ebb) 
     ld a, [wNumPartyMons]
     and a
     ret z
@@ -22671,7 +22670,7 @@ Func_10ebb: ; 0x10ebb
     call nz, BankSwitch
     ret
 
-IndicatorStatesPointerTable_10f3b: ; 0x10f3b
+IndicatorStatesPointerTable_10f3b: ; 10f3b (4:4f3b) 
     dw IndicatorStates_10f4b
     dw IndicatorStates_10f5e
     dw IndicatorStates_10f71
@@ -22681,31 +22680,31 @@ IndicatorStatesPointerTable_10f3b: ; 0x10f3b
     dw IndicatorStates_10fbd
     dw IndicatorStates_10fd0
 
-IndicatorStates_10f4b:  ; 0x10f4b
+IndicatorStates_10f4b:  ; 10f4b (4:4f4b) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10f5e:  ; 0x10f5e
+IndicatorStates_10f5e:  ; 10f5e (4:4f5e) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10f71:  ; 0x10f71
+IndicatorStates_10f71:  ; 10f71 (4:4f71) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10f84:  ; 0x10f84
+IndicatorStates_10f84:  ; 10f84 (4:4f84) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10f97:  ; 0x10f97
+IndicatorStates_10f97:  ; 10f97 (4:4f97) 
     db $00, $00, $00, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10faa:  ; 0x10faa
+IndicatorStates_10faa:  ; 10faa (4:4faa) 
     db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10fbd:  ; 0x10fbd
+IndicatorStates_10fbd:  ; 10fbd (4:4fbd) 
     db $00, $00, $80, $80, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_10fd0:  ; 0x10fd0
+IndicatorStates_10fd0:  ; 10fd0 (4:4fd0) 
     db $00, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-Func_10fe3: ; 0x10fe3
+Func_10fe3: ; 10fe3 (4:4fe3) 
     call Func_107a5
     call Func_107c2
     call Func_107c8
@@ -22752,7 +22751,7 @@ Func_10fe3: ; 0x10fe3
     call Func_10aa
     ret
 
-Func_11054: ; 0x11054
+Func_11054: ; 11054 (4:5054) 
     ld a, [wNumPartyMons]
     and a
     ret z
@@ -22760,10 +22759,10 @@ Func_11054: ; 0x11054
     call Func_10d1d
     ret
 
-Func_11060: ; 0x11060
+Func_11060: ; 11060 (4:5060) 
     ret
 
-Func_11061: ; 0x11061
+Func_11061: ; 11061 (4:5061) 
     ld a, [wNumPartyMons]
     and a
     ret z
@@ -22830,7 +22829,7 @@ Func_11061: ; 0x11061
     call nz, BankSwitch
     ret
 
-IndicatorStatesPointerTable_110ed: ; 0x110ed
+IndicatorStatesPointerTable_110ed: ; 110ed (4:50ed) 
     dw IndicatorStates_110fd
     dw IndicatorStates_11110
     dw IndicatorStates_11123
@@ -22840,31 +22839,31 @@ IndicatorStatesPointerTable_110ed: ; 0x110ed
     dw IndicatorStates_1116f
     dw IndicatorStates_11182
 
-IndicatorStates_110fd: ; 0x110fd
+IndicatorStates_110fd: ; 110fd (4:50fd) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_11110: ; 0x11110
+IndicatorStates_11110: ; 11110 (4:5110) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_11123: ; 0x11123
+IndicatorStates_11123: ; 11123 (4:5123) 
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_11136: ; 0x11136
+IndicatorStates_11136: ; 11136 (4:5136) 
     db $00, $00, $80, $00, $00, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_11149: ; 0x11149
+IndicatorStates_11149: ; 11149 (4:5149) 
     db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_1115c: ; 0x1115c
+IndicatorStates_1115c: ; 1115c (4:515c) 
     db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_1116f: ; 0x1116f
+IndicatorStates_1116f: ; 1116f (4:516f) 
     db $80, $00, $80, $80, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-IndicatorStates_11182: ; 0x11182
+IndicatorStates_11182: ; 11182 (4:5182) 
     db $80, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
-Func_11195: ; 0x11195
+Func_11195: ; 11195 (4:5195) 
     xor a
     ld [$d643], a
     call Func_107a5
@@ -22915,7 +22914,7 @@ Func_11195: ; 0x11195
     call Func_10aa
     ret
 
-Func_1120e: ; 0x1120e
+Func_1120e: ; 1120e (4:520e) 
     ld a, [wCurrentStage]
     sub $4
     res 0, a
@@ -22949,7 +22948,7 @@ Func_1120e: ; 0x1120e
     call LoadVRAMData
     ret
 
-VRAMData_1123b: ; 0x1123b
+VRAMData_1123b: ; 1123b (4:523b) 
     dwb $6600, $35
     dw $8600, $E0
 
@@ -22971,7 +22970,7 @@ VRAMData_1123b: ; 0x1123b
     dwb $6600, $35
     dw $8600, $E0
 
-WildMonOffsetsPointers: ; 0x1126c
+WildMonOffsetsPointers: ; 1126c (4:526c) 
     dw RedStageWildMonDataOffsets
     dw RedStageWildMonDataOffsets
     dw RedStageWildMonDataOffsets
@@ -22979,7 +22978,7 @@ WildMonOffsetsPointers: ; 0x1126c
     dw BlueStageWildMonDataOffsets
     dw BlueStageWildMonDataOffsets
 
-RedStageWildMonDataOffsets: ; 0x11278
+RedStageWildMonDataOffsets: ; 11278 (4:5278) 
     dw (RedStagePalletTownWildMons - RedStageWildMons)        ; PALLET_TOWN
     dw $0000                                                  ; VIRIDIAN_CITY (unused in Red Stage)
     dw (RedStageViridianForestWildMons - RedStageWildMons)    ; VIRIDIAN_FOREST
@@ -22999,7 +22998,7 @@ RedStageWildMonDataOffsets: ; 0x11278
     dw (RedStageCinnabarIslandWildMons - RedStageWildMons)    ; CINNABAR_ISLAND
     dw (RedStageIndigoPlateauWildMons - RedStageWildMons)     ; INDIGO_PLATEAU
 
-BlueStageWildMonDataOffsets: ; 0x1129c
+BlueStageWildMonDataOffsets: ; 1129c (4:529c) 
     dw $0000                                                    ; PALLET_TOWN (unused in Blue Stage)
     dw (BlueStageViridianCityWildMons - BlueStageWildMons)      ; VIRIDIAN_CITY
     dw (BlueStageViridianForestWildMons - BlueStageWildMons)    ; VIRIDIAN_FOREST
@@ -23019,7 +23018,7 @@ BlueStageWildMonDataOffsets: ; 0x1129c
     dw (BlueStageCinnabarIslandWildMons - BlueStageWildMons)    ; CINNABAR_ISLAND
     dw (BlueStageIndigoPlateauWildMons - BlueStageWildMons)     ; INDIGO_PLATEAU
 
-WildMonPointers: ; 0x112c0
+WildMonPointers: ; 112c0 (4:52c0) 
     dw RedStageWildMons
     dw RedStageWildMons
     dw RedStageWildMons
@@ -23034,7 +23033,7 @@ INCBIN "baserom.gbc",$115ce,$1161d - $115ce
 
 INCLUDE "data/evolution_lines.asm"
 
-MonEvolutions: ; 0x116b3
+MonEvolutions: ; 116b3 (4:56b3) 
 ; Lists the possible evolution types for each pokemon
 ; Each pokemon has three entries becuase Eevee has three
 ; evolution possibilities.
@@ -23796,7 +23795,7 @@ MonEvolutions: ; 0x116b3
 
 INCLUDE "data/mon_names.asm"
 
-CatchEmModeInitialIndicatorStates: ; 0x123ae
+CatchEmModeInitialIndicatorStates: ; 123ae (4:63ae) 
 ; Initial states for the indicators when starting Catch Em mode.
 ; For some reason, each pokemon evolution line has its own entry, but
 ; they're all exactly the same.
@@ -23881,7 +23880,7 @@ CatchEmModeInitialIndicatorStates: ; 0x123ae
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MEWTWO
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $00, $00, $00, $00, $00, $00  ; EVOLINE_MEW
 
-Data_1298b: ; 0x1298b
+Data_1298b: ; 1298b (4:698b) 
     db $01  ; BULBASAUR
     db $02  ; IVYSAUR
     db $03  ; VENUSAUR
@@ -24036,7 +24035,7 @@ Data_1298b: ; 0x1298b
 
 INCLUDE "data/catchem_timer_values.asm"
 
-MonBillboardPicPointers: ; 0x12b50
+MonBillboardPicPointers: ; 12b50 (4:6b50) 
     dwb BulbasaurPic, Bank(BulbasaurPic)
     dwb IvysaurPic, Bank(IvysaurPic)
     dwb VenusaurPic, Bank(VenusaurPic)
@@ -24189,7 +24188,7 @@ MonBillboardPicPointers: ; 0x12b50
     dwb MewtwoPic, Bank(MewtwoPic)
     dwb MewPic, Bank(MewPic)
 
-MonBillboardPaletteMapPointers: ; 0x12d15
+MonBillboardPaletteMapPointers: ; 12d15 (4:6d15) 
     dwb BulbasaurBillboardBGPaletteMap, Bank(BulbasaurBillboardBGPaletteMap)
     dwb IvysaurBillboardBGPaletteMap, Bank(IvysaurBillboardBGPaletteMap)
     dwb VenusaurBillboardBGPaletteMap, Bank(VenusaurBillboardBGPaletteMap)
@@ -24342,7 +24341,7 @@ MonBillboardPaletteMapPointers: ; 0x12d15
     dwb MewtwoBillboardBGPaletteMap, Bank(MewtwoBillboardBGPaletteMap)
     dwb MewBillboardBGPaletteMap, Bank(MewBillboardBGPaletteMap)
 
-MonBillboardPalettePointers: ; 0x12eda
+MonBillboardPalettePointers: ; 12eda (4:6eda) 
     dwb BulbasaurBillboardBGPalette1, Bank(BulbasaurBillboardBGPalette1)
     dwb IvysaurBillboardBGPalette1, Bank(IvysaurBillboardBGPalette1)
     dwb VenusaurBillboardBGPalette1, Bank(VenusaurBillboardBGPalette1)
@@ -24495,7 +24494,7 @@ MonBillboardPalettePointers: ; 0x12eda
     dwb MewtwoBillboardBGPalette1, Bank(MewtwoBillboardBGPalette1)
     dwb MewBillboardBGPalette1, Bank(MewBillboardBGPalette1)
 
-MonAnimatedPalettePointers: ; 0x1309f
+MonAnimatedPalettePointers: ; 1309f (4:709f) 
     dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
     dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
     dwb BulbasaurAnimatedObjPalette1, Bank(BulbasaurAnimatedObjPalette1)
@@ -24648,7 +24647,7 @@ MonAnimatedPalettePointers: ; 0x1309f
     dwb MewtwoAnimatedObjPalette1, Bank(MewtwoAnimatedObjPalette1)
     dwb MewAnimatedObjPalette1, Bank(MewAnimatedObjPalette1)
 
-MonAnimatedPicPointers: ; 0x13264
+MonAnimatedPicPointers: ; 13264 (4:7264) 
     dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
     dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
     dwb BulbasaurAnimatedPic, Bank(BulbasaurAnimatedPic)
@@ -24801,7 +24800,7 @@ MonAnimatedPicPointers: ; 0x13264
     dwb MewtwoAnimatedPic, Bank(MewtwoAnimatedPic)
     dwb MewAnimatedPic, Bank(MewAnimatedPic)
 
-MonAnimatedSpriteTypes: ; 0x13429
+MonAnimatedSpriteTypes: ; 13429 (4:7429) 
 ; Each mon has an animated sprite tilemap type.
 ; $03 is bulbasaur's
 ; $00 is squirtle's
@@ -24958,7 +24957,7 @@ MonAnimatedSpriteTypes: ; 0x13429
     db $06  ; MEWTWO
     db $06  ; MEW
 
-MonAnimatedCollisionMaskPointers: ; 0x134c0
+MonAnimatedCollisionMaskPointers: ; 134c0 (4:74c0) 
 ; Pointers to the collision masks of the animated sprites of mons.
 ; Note only, evolution mons use an arbitrary non-evolved mon entry, since it will never be used.
     dwb BulbasaurAnimatedCollisionMask, Bank(BulbasaurAnimatedCollisionMask)
@@ -25113,7 +25112,7 @@ MonAnimatedCollisionMaskPointers: ; 0x134c0
     dwb MewtwoAnimatedCollisionMask, Bank(MewtwoAnimatedCollisionMask)
     dwb MewAnimatedCollisionMask, Bank(MewAnimatedCollisionMask)
 
-Data_13685: ; 0x13685
+Data_13685: ; 13685 (4:7685) 
 ; Each 3-byte entry is related to an evolution line. Don't know what this is for, yet.
     db $12, $12, $10
     db $10, $10, $10
@@ -25198,7 +25197,7 @@ Data_13685: ; 0x13685
 
 SECTION "bank5", ROMX, BANK[$5]
 
-Func_14000: ; 0x14000
+Func_14000: ; 14000 (5:4000) 
     call Func_14091
     call Func_159f4
     call Func_15450
@@ -25210,7 +25209,7 @@ Func_14000: ; 0x14000
     call Func_1404a
     ret
 
-Func_1401c: ; 0x1401c
+Func_1401c: ; 1401c (5:401c) 
     call Func_14091
     call Func_14377
     call Func_14135
@@ -25228,7 +25227,7 @@ Func_1401c: ; 0x1401c
     call Func_1404a
     ret
 
-Func_1404a: ; 0x1404a
+Func_1404a: ; 1404a (5:404a) 
     ld a, [$d57d]
     and a
     ret z
@@ -25265,7 +25264,7 @@ Func_1404a: ; 0x1404a
     call Func_1764f
     ret
 
-Func_14091: ; 0x14091
+Func_14091: ; 14091 (5:4091) 
     ld a, $ff
     ld [$d4d7], a
     ld [$d4db], a
@@ -25301,7 +25300,7 @@ Func_14091: ; 0x14091
     call Func_159f4
     ret
 
-Func_140e2: ; 0x140e2
+Func_140e2: ; 140e2 (5:40e2) 
     ld a, $ff
     ld [$d60e], a
     ld [$d60f], a
@@ -25312,7 +25311,7 @@ Func_140e2: ; 0x140e2
     call Func_16f28
     ret
 
-Func_140f9: ; 0x140f9
+Func_140f9: ; 140f9 (5:40f9) 
     ld a, [$d4ef]
     and a
     jr z, .asm_1410c
@@ -25342,7 +25341,7 @@ Func_140f9: ; 0x140f9
     call Func_149f5
     ret
 
-Func_14135: ; 0x14135
+Func_14135: ; 14135 (5:4135) 
     ld bc, $0000
 .asm_14138
     push bc
@@ -25358,7 +25357,7 @@ Func_14135: ; 0x14135
     jr nz, .asm_14138
     ret
 
-Func_1414b: ; 0x1414b
+Func_1414b: ; 1414b (5:414b) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -25435,7 +25434,7 @@ Func_1414b: ; 0x1414b
     call CopyDataToRAM
     ret
 
-Func_141f2: ; 0x141f2
+Func_141f2: ; 141f2 (5:41f2) 
     ld a, $80
     ld hl, $9887
     call Func_14209
@@ -25446,7 +25445,7 @@ Func_141f2: ; 0x141f2
     ld hl, $98e7
     ; fall through
 
-Func_14209: ; 0x14209
+Func_14209: ; 14209 (5:4209) 
     ld [hli], a
     ld [hli], a
     ld [hli], a
@@ -25455,7 +25454,7 @@ Func_14209: ; 0x14209
     ld [hli], a
     ret
 
-Func_14210: ; 0x14210
+Func_14210: ; 14210 (5:4210) 
     ld hl, $d586
     ld b, $18
 .asm_14215
@@ -25476,7 +25475,7 @@ Func_14210: ; 0x14210
     call nz, BankSwitch
     ret
 
-Func_14234: ; 0x14234
+Func_14234: ; 14234 (5:4234) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -25515,7 +25514,7 @@ Func_14234: ; 0x14234
     call Func_6fd
     ret
 
-Func_14282: ; 0x14282
+Func_14282: ; 14282 (5:4282) 
     ld a, [wInSpecialMode]
     and a
     jr z, .asm_1429e
@@ -25541,7 +25540,7 @@ Func_14282: ; 0x14282
     call CopyDataToRAM
     ret
 
-Func_142b3: ; 0x142b3
+Func_142b3: ; 142b3 (5:42b3) 
     push af
     ld [$ff8a], a
     ld a, Bank(Func_10611)
@@ -25552,7 +25551,7 @@ Func_142b3: ; 0x142b3
     jr nz, Func_142b3
     ret
 
-Func_142c3: ; 0x142c3
+Func_142c3: ; 142c3 (5:42c3) 
     ld de, $0000
     ld a, [$d554]
     and a
@@ -25566,7 +25565,7 @@ Func_142c3: ; 0x142c3
     jr nz, .asm_142cc
     ret
 
-Func_142d7: ; 0x142d7
+Func_142d7: ; 142d7 (5:42d7) 
     push bc
     push de
     dec a
@@ -25591,7 +25590,7 @@ Func_142d7: ; 0x142d7
     pop bc
     ret
 
-Func_142fc: ; 0x142fc
+Func_142fc: ; 142fc (5:42fc) 
     ld a, [$d4c8]
     and a
     jr nz, .asm_1430e
@@ -25652,7 +25651,7 @@ Func_142fc: ; 0x142fc
     call Func_6fd
     ret
 
-Func_14377: ; 0x14377
+Func_14377: ; 14377 (5:4377) 
     ld a, [wInSpecialMode]
     and a
     jr nz, .asm_143b1
@@ -25708,7 +25707,7 @@ Func_14377: ; 0x14377
     call BankSwitch
     ret
 
-Func_143e1: ; 0x143e1
+Func_143e1: ; 143e1 (5:43e1) 
 ; not collisions.
     call Func_14474 ; voltorbs
     call Func_14498
@@ -25719,7 +25718,7 @@ Func_143e1: ; 0x143e1
     call Func_144ac
     jp Func_1441e
 
-Func_143f9: ; 0x143f9
+Func_143f9: ; 143f9 (5:43f9) 
     ld a, [wBallYPos + 1]
     cp $56
     jr nc, .asm_14412
@@ -25735,7 +25734,7 @@ Func_143f9: ; 0x143f9
     call Func_144a2
     jp Func_1448e
 
-Func_1441e: ; 0x1441e
+Func_1441e: ; 1441e (5:441e) 
     xor a
     ld [$d578], a
     ld a, [$d551]
@@ -25754,91 +25753,91 @@ Func_1441e: ; 0x1441e
 
 INCBIN "baserom.gbc",$14439,$14439 - $14439
 
-Func_14439: ; 0x14439
+Func_14439: ; 14439 (5:4439) 
     ld de, $45b5
     ld bc, $d5fe
     scf
     jp Func_2775
 
-Func_14443: ; 0x14443
+Func_14443: ; 14443 (5:4443) 
     ld de, $45bb
     ld bc, $d601
     scf
     jp Func_2775
 
-Func_1444d: ; 0x1444d
+Func_1444d: ; 1444d (5:444d) 
     ld de, $45af
     ld hl, $459d
     ld bc, $d5c7
     and a
     jp Func_2775
 
-Func_1445a: ; 0x1445a
+Func_1445a: ; 1445a (5:445a) 
     ld de, $45c9
     ld hl, $45c1
     ld bc, $d60a
     and a
     jp Func_2775
 
-Func_14467: ; 0x14467
+Func_14467: ; 14467 (5:4467) 
     ld de, $44f4
     ld hl, $44ee
     ld bc, $d4ed
     and a
     jp Func_2775
 
-Func_14474: ; 0x14474
+Func_14474: ; 14474 (5:4474) 
     ld de, $4515 ; todo
     ld hl, $44fd ; todo
     ld bc, $d4cb
     and a
     jp Func_2775
 
-Func_14481: ; 0x14481
+Func_14481: ; 14481 (5:4481) 
     ld de, $452d
     ld hl, $4521
     ld bc, $d4d8
     and a
     jp Func_2775
 
-Func_1448e: ; 0x1448e
+Func_1448e: ; 1448e (5:448e) 
     ld de, $4536
     ld bc, $d4dc
     scf
     jp Func_2775
 
-Func_14498: ; 0x14498
+Func_14498: ; 14498 (5:4498) 
     ld de, $453c ; todo
     ld bc, $d507
     scf
     jp Func_2775
 
-Func_144a2: ; 0x144a2
+Func_144a2: ; 144a2 (5:44a2) 
     ld de, $4542
     ld bc, $d50d
     scf
     jp Func_2775
 
-Func_144ac: ; 0x144ac
+Func_144ac: ; 144ac (5:44ac) 
     ld de, $4551
     ld bc, $d5f7
     scf
     jp Func_2775
 
-Func_144b6: ; 0x144b6
+Func_144b6: ; 144b6 (5:44b6) 
     ld de, $455d ; todo
     ld bc, $d51f
     scf
     jp Func_2775
 
-Func_144c0: ; 0x144c0
+Func_144c0: ; 144c0 (5:44c0) 
     ld de, $457d ; todo
     ld hl, $4578 ; todo
     ld bc, $d500
     and a
     jp Func_2775
 
-Func_144cd: ; 0x144cd
+Func_144cd: ; 144cd (5:44cd) 
     ld de, $4588
     ld hl, $4583
     ld bc, $d500
@@ -25847,13 +25846,13 @@ Func_144cd: ; 0x144cd
 
 INCBIN "baserom.gbc",$144da,$144da - $144da
 
-Func_144da: ; 0x144da
+Func_144da: ; 144da (5:44da) 
     ld de, $458e
     ld bc, $d4fb
     scf
     jp Func_2775
 
-Func_144e4: ; 0x144e4
+Func_144e4: ; 144e4 (5:44e4) 
     ld de, $4594
     ld bc, $d515
     scf
@@ -25861,11 +25860,11 @@ Func_144e4: ; 0x144e4
 
 INCBIN "baserom.gbc",$144ee,$145d2 - $144ee
 
-RedStageEvolutionTrinketCoordinatePointers: ; 0x145d2
+RedStageEvolutionTrinketCoordinatePointers: ; 145d2 (5:45d2) 
     dw RedStageTopEvolutionTrinketCoords
     dw RedStageBottomEvolutionTrinketCoords
 
-RedStageTopEvolutionTrinketCoords: ; 0x156d6
+RedStageTopEvolutionTrinketCoords: ; 156d6 (5:56d6) 
 ; First byte is just non-zero to signify that the array hasn't ended.
 ; Second byte is x coordinate.
 ; Third byte is y coordinate.
@@ -25883,7 +25882,7 @@ RedStageTopEvolutionTrinketCoords: ; 0x156d6
     db $01, $69, $82
     db $00  ; terminator
 
-RedStageBottomEvolutionTrinketCoords: ; 0x145fb
+RedStageBottomEvolutionTrinketCoords: ; 145fb (5:45fb) 
 ; First byte is just non-zero to signify that the array hasn't ended.
 ; Second byte is x coordinate.
 ; Third byte is y coordinate.
@@ -25895,7 +25894,7 @@ RedStageBottomEvolutionTrinketCoords: ; 0x145fb
     db $01, $62, $34
     db $00  ; terminator
 
-Func_1460e: ; 0x1460e
+Func_1460e: ; 1460e (5:460e) 
 ; not collisions
     call Func_14d85
     call Func_14dea
@@ -25923,7 +25922,7 @@ Func_1460e: ; 0x1460e
     call BankSwitch
     ret
 
-Func_14652: ; 0x14652
+Func_14652: ; 14652 (5:4652) 
     call Func_14795
     call Func_15f86
     call Func_147aa
@@ -25954,12 +25953,12 @@ Func_14652: ; 0x14652
     call BankSwitch
     ret
 
-Func_146a2: ; 0x146a2
+Func_146a2: ; 146a2 (5:46a2) 
     call Func_146a9
     call nz, Func_14707
     ret
 
-Func_146a9: ; 0x146a9
+Func_146a9: ; 146a9 (5:46a9) 
     ld a, [wBallSaverTimerFrames]
     ld hl, wBallSaverTimerSeconds
     or [hl]
@@ -26013,7 +26012,7 @@ Func_146a9: ; 0x146a9
     ld [wBallSaverIconOn], a
     ret
 
-Func_14707: ; 0x14707
+Func_14707: ; 14707 (5:4707) 
     ld a, [wBallSaverIconOn]
     and a
     jr nz, .asm_1471c
@@ -26033,7 +26032,7 @@ Func_14707: ; 0x14707
 
 INCBIN "baserom.gbc",$1472b,$14733 - $1472b
 
-Func_14733: ; 0x14733
+Func_14733: ; 14733 (5:4733) 
     ld c, $0
     ld a, [$d49b]
     and a
@@ -26047,7 +26046,7 @@ Func_14733: ; 0x14733
     ret z
     ; fall through
 
-Func_14746: ; 0x14746
+Func_14746: ; 14746 (5:4746) 
     ld c, $0
     ld a, [$d49b]
     and a
@@ -26066,7 +26065,7 @@ Func_14746: ; 0x14746
 
 INCBIN "baserom.gbc",$1475f,$14795 - $1475f
 
-Func_14795: ; 0x14795
+Func_14795: ; 14795 (5:4795) 
     ld a, [$d5c7]
     and a
     ret z
@@ -26078,7 +26077,7 @@ Func_14795: ; 0x14795
     call PlaySoundEffect
     ret
 
-Func_147aa: ; 0x147aa
+Func_147aa: ; 147aa (5:47aa) 
     ld a, [$d4ed]
     and a
     jp z, .asm_14834
@@ -26183,7 +26182,7 @@ Func_147aa: ; 0x147aa
     call Func_14990
     ret
 
-Func_14880: ; 0x14880
+Func_14880: ; 14880 (5:4880) 
     ld hl, $d4f7
     dec [hl]
     ld a, [hli]
@@ -26231,7 +26230,7 @@ Func_14880: ; 0x14880
 .asm_148ce
     ret
 
-Func_148cf: ; 0x148cf
+Func_148cf: ; 148cf (5:48cf) 
     ld b, $0
     ld hl, $d4f8
     ld a, [hld]
@@ -26283,7 +26282,7 @@ Func_148cf: ; 0x148cf
 .asm_1491f
     ret
 
-Func_14920: ; 0x14920
+Func_14920: ; 14920 (5:4920) 
     ld hl, $d62b
     call Func_e4a
     jr nc, .asm_14937
@@ -26302,7 +26301,7 @@ Func_14920: ; 0x14920
     call BankSwitch
     ret
 
-Func_14947: ; 0x14947
+Func_14947: ; 14947 (5:4947) 
     ld hl, $d62b
     call Func_e4a
     jr nc, .asm_1495e
@@ -26321,7 +26320,7 @@ Func_14947: ; 0x14947
     call BankSwitch
     ret
 
-Func_1496d: ; 0x1496d
+Func_1496d: ; 1496d (5:496d) 
     ld a, $55
     ld [$d803], a
     ld a, $4
@@ -26337,7 +26336,7 @@ Func_1496d: ; 0x1496d
     call PlaySoundEffect
     ret
 
-Func_14990: ; 0x14990
+Func_14990: ; 14990 (5:4990) 
     ld a, [$d4ef]
     and a
     jr nz, .asm_149b6
@@ -26376,7 +26375,7 @@ Func_14990: ; 0x14990
     ld [wRightMapMoveDiglettFrame], a
     add $3
     ; fall through
-Func_149d9: ; 0x149d9
+Func_149d9: ; 149d9 (5:49d9) 
     sla a
     ld c, a
     ld b, $0
@@ -26396,7 +26395,7 @@ Func_149d9: ; 0x149d9
     call Func_10aa
     ret
 
-Func_149f5: ; 0x149f5
+Func_149f5: ; 149f5 (5:49f5) 
     sla a
     ld c, a
     ld b, $0
@@ -26418,7 +26417,7 @@ Func_149f5: ; 0x149f5
 
 INCBIN "baserom.gbc",$14a11,$14d85 - $14a11
 
-Func_14d85: ; 0x14d85
+Func_14d85: ; 14d85 (5:4d85) 
     ld a, [$d4cb]
     and a
     jr z, .asm_14db9
@@ -26452,7 +26451,7 @@ Func_14d85: ; 0x14d85
     ld [$d4d7], a
     ret
 
-Func_14dc9: ; 0x14dc9
+Func_14dc9: ; 14dc9 (5:4dc9) 
     ld a, $ff
     ld [$d803], a
     ld a, $3
@@ -26468,7 +26467,7 @@ Func_14dc9: ; 0x14dc9
     call PlaySoundEffect
     ret
 
-Func_14dea: ; 0x14dea
+Func_14dea: ; 14dea (5:4dea) 
     ld a, [$d507]
     and a
     jr z, Func_14e10
@@ -26488,7 +26487,7 @@ Func_14dea: ; 0x14dea
     ld hl, Func_10000
     call BankSwitch
     ; fall through
-Func_14e10: ; 0x14e10
+Func_14e10: ; 14e10 (5:4e10) 
     ld hl, $d50b
     ld a, [hli]
     or [hl]
@@ -26573,7 +26572,7 @@ Func_14e10: ; 0x14e10
     call Func_14ece
     ret
 
-Func_14ea7: ; 0x14ea7
+Func_14ea7: ; 14ea7 (5:4ea7) 
     ld a, [$d51e]
     and a
     ret nz
@@ -26590,7 +26589,7 @@ Func_14ea7: ; 0x14ea7
 
 INCBIN "baserom.gbc",$14ebe,$14ece - $14ebe
 
-Func_14ece: ; 0x14ece
+Func_14ece: ; 14ece (5:4ece) 
     ld a, [$d517]
     ld c, a
     sla c
@@ -26611,7 +26610,7 @@ Func_14ece: ; 0x14ece
 
 INCBIN "baserom.gbc",$14eeb,$151cb - $14eeb
 
-Func_151cb: ; 0x151cb
+Func_151cb: ; 151cb (5:51cb) 
     ld a, [$d50d]
     and a
     jr z, .asm_15229
@@ -26662,7 +26661,7 @@ Func_151cb: ; 0x151cb
     ret z
     ; fall through
 
-Func_asm_1522d: ; 0x1522d
+Func_asm_1522d: ; 1522d (5:522d) 
     ld hl, $d512
     ld b, $4
 .asm_15232
@@ -26674,7 +26673,7 @@ Func_asm_1522d: ; 0x1522d
     jr nz, .asm_15232
     ret
 
-Func_1523c: ; 0x1523c
+Func_1523c: ; 1523c (5:523c) 
     and a
     jr z, .asm_1524e
     ld a, [hGameBoyColorFlag]
@@ -26709,7 +26708,7 @@ Func_1523c: ; 0x1523c
     pop bc
     ret
 
-Func_15270: ; 0x15270
+Func_15270: ; 15270 (5:5270) 
     ld a, [$d513]
     and a
     jr z, .asm_152a6
@@ -26786,7 +26785,7 @@ Func_15270: ; 0x15270
 
 INCBIN "baserom.gbc",$152dd,$1535d - $152dd
 
-Func_1535d: ; 0x1535d
+Func_1535d: ; 1535d (5:535d) 
     ld a, [$d5f7]
     and a
     jp z, .asm_1544c
@@ -26911,7 +26910,7 @@ Func_15450
     jr nz, .asm_1545b
     ret
 
-Func_15465: ; 0x15465
+Func_15465: ; 15465 (5:5465) 
     and a
     jr z, .asm_15477
     ld a, [hGameBoyColorFlag]
@@ -26946,7 +26945,7 @@ Func_15465: ; 0x15465
     pop bc
     ret
 
-Func_15499: ; 0x15499
+Func_15499: ; 15499 (5:5499) 
     ld a, [hGameBoyColorFlag]
     and a
     ret nz
@@ -26960,7 +26959,7 @@ Func_15499: ; 0x15499
     jr nz, .asm_1549f
     ret
 
-Func_154a9: ; 0x154a9
+Func_154a9: ; 154a9 (5:54a9) 
     ld a, [$d5fc]
     and a
     jr z, .asm_154d6
@@ -27024,7 +27023,7 @@ Func_154a9: ; 0x154a9
     ld [hl], a
     ret
 
-BallTypeProgressionRedField: ; 0x15505
+BallTypeProgressionRedField: ; 15505 (5:5505) 
 ; Determines the next upgrade for the Ball.
     db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
     db GREAT_BALL   ; unused
@@ -27033,7 +27032,7 @@ BallTypeProgressionRedField: ; 0x15505
     db MASTER_BALL  ; unused
     db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-BallTypeDegradationRedField: ; 0x1550b
+BallTypeDegradationRedField: ; 1550b (5:550b) 
 ; Determines the previous upgrade for the Ball.
     db POKE_BALL   ; POKE_BALL -> POKE_BALL
     db POKE_BALL   ; unused
@@ -27044,7 +27043,7 @@ BallTypeDegradationRedField: ; 0x1550b
 
 INCBIN "baserom.gbc",$15511,$15575 - $15511
 
-HandleBallTypeUpgradeCounterRedField: ; 0x15575
+HandleBallTypeUpgradeCounterRedField: ; 15575 (5:5575) 
     ld a, [$d5f3]
     and a
     ret nz
@@ -27079,7 +27078,7 @@ HandleBallTypeUpgradeCounterRedField: ; 0x15575
     call Func_155a7
     ret
 
-Func_155a7: ; 0x155a7
+Func_155a7: ; 155a7 (5:55a7) 
     ld a, [wBallType]
     ld c, a
     sla c
@@ -27093,7 +27092,7 @@ Func_155a7: ; 0x155a7
     call Func_10aa
     ; fall through
 
-Func_155bb: ; 0x155bb
+Func_155bb: ; 155bb (5:55bb) 
     ld a, [hGameBoyColorFlag]
     and a
     ret z
@@ -27114,7 +27113,7 @@ Func_155bb: ; 0x155bb
 
 INCBIN "baserom.gbc",$155d7,$1581f - $155d7
 
-Func_1581f: ; 0x1581f
+Func_1581f: ; 1581f (5:581f) 
     ld a, [$d51f]
     and a
     ret z
@@ -27158,7 +27157,7 @@ Func_1581f: ; 0x1581f
     call nz, Func_15990
     ret
 
-Func_1587c: ; 0x1587c
+Func_1587c: ; 1587c (5:587c) 
     xor a
     ld [$d521], a
     ld a, [wLeftAlleyTrigger]
@@ -27192,7 +27191,7 @@ Func_1587c: ; 0x1587c
     call Func_159f4
     ret
 
-Func_158c0: ; 0x158c0
+Func_158c0: ; 158c0 (5:58c0) 
     xor a
     ld [$d522], a
     ld a, [wLeftAlleyTrigger]
@@ -27226,7 +27225,7 @@ Func_158c0: ; 0x158c0
     call Func_159f4
     ret
 
-Func_15904: ; 0x15904
+Func_15904: ; 15904 (5:5904) 
     xor a
     ld [$d523], a
     ld a, [wSecondaryLeftAlleyTrigger]
@@ -27241,7 +27240,7 @@ Func_15904: ; 0x15904
     call BankSwitch
     ret
 
-HandleLeftAlleyTriggerRedField: ; 0x1591e
+HandleLeftAlleyTriggerRedField: ; 1591e (5:591e) 
 ; Ball passed over the left alley trigger point in the Red Field.
     xor a
     ld [$d524], a
@@ -27252,7 +27251,7 @@ HandleLeftAlleyTriggerRedField: ; 0x1591e
     call Func_159c9
     ret
 
-Func_15931: ; 0x15931
+Func_15931: ; 15931 (5:5931) 
     xor a
     ld [$d525], a
     ld [wRightAlleyTrigger], a
@@ -27262,7 +27261,7 @@ Func_15931: ; 0x15931
     call Func_159c9
     ret
 
-Func_15944: ; 0x15944
+Func_15944: ; 15944 (5:5944) 
     xor a
     ld [$d526], a
     ld a, [wRightAlleyTrigger]
@@ -27293,7 +27292,7 @@ Func_15944: ; 0x15944
     ld [wIndicatorStates + 3], a
     ret
 
-HandleRightAlleyTriggerRedField: ; 0x1597d
+HandleRightAlleyTriggerRedField: ; 1597d (5:597d) 
 ; Ball passed over the right alley trigger point in the Red Field.
     xor a
     ld [$d527], a
@@ -27304,7 +27303,7 @@ HandleRightAlleyTriggerRedField: ; 0x1597d
     call Func_159c9
     ret
 
-Func_15990: ; 0x15990
+Func_15990: ; 15990 (5:5990) 
     xor a
     ld [$d528], a
     ld a, [wRightAlleyTrigger]
@@ -27335,7 +27334,7 @@ Func_15990: ; 0x15990
     ld [wIndicatorStates + 3], a
     ret
 
-Func_159c9: ; 0x159c9
+Func_159c9: ; 159c9 (5:59c9) 
     ld a, [$d7ad]
     bit 7, a
     ret nz
@@ -27356,7 +27355,7 @@ Func_159c9: ; 0x159c9
     call Func_1404a
     ret
 
-Func_159f4: ; 0x159f4
+Func_159f4: ; 159f4 (5:59f4) 
     ld a, [$ff9e]
     bit 7, a
     jr z, .asm_15a13
@@ -27401,7 +27400,7 @@ Func_159f4: ; 0x159f4
 
 INCBIN "baserom.gbc",$15a3f,$15e93 - $15a3f
 
-Func_15e93: ; 0x15e93
+Func_15e93: ; 15e93 (5:5e93) 
     ld a, [$d4fb]
     and a
     jr z, .asm_15eda
@@ -27503,7 +27502,7 @@ Func_15e93: ; 0x15e93
 
 INCBIN "baserom.gbc",$15f69,$15f86 - $15f69
 
-Func_15f86: ; 0x15f86
+Func_15f86: ; 15f86 (5:5f86) 
     ld a, [$d4d8]
     and a
     jr z, .asm_15f99
@@ -27521,7 +27520,7 @@ Func_15f86: ; 0x15f86
     call z, Func_5fb8
     ret
 
-Func_15fa6: ; 0x15fa6
+Func_15fa6: ; 15fa6 (5:5fa6) 
     ld a, $10
     ld [$d4da], a
     ld a, [$d4d9]
@@ -27531,7 +27530,7 @@ Func_15fa6: ; 0x15fa6
     inc a
     jr asm_15fc0
 
-Func_5fb8: ; 0x5fb8
+Func_5fb8: ; 5fb8 (1:5fb8) 
     ld a, [$d4db]
     cp $ff
     ret z
@@ -27554,7 +27553,7 @@ asm_15fc0
     call Func_10aa
     ret
 
-Func_15fda: ; 0x15fda
+Func_15fda: ; 15fda (5:5fda) 
     ld a, $ff
     ld [$d803], a
     ld a, $3
@@ -27581,7 +27580,7 @@ Func_15fda: ; 0x15fda
 
 INCBIN "baserom.gbc",$1600e,$160f0 - $1600e
 
-Func_160f0: ; 0x160f0
+Func_160f0: ; 160f0 (5:60f0) 
     ld a, [$d5fe]
     and a
     jr z, .asm_16137
@@ -27676,7 +27675,7 @@ Func_160f0: ; 0x160f0
     ld [wBallYVelocity + 1], a
     ret
 
-Func_161af: ; 0x161af
+Func_161af: ; 161af (5:61af) 
     ld a, [$d604]
     and a
     ret z
@@ -27706,7 +27705,7 @@ Func_161af: ; 0x161af
     add hl, bc
     jr asm_1620f
 
-Func_161e0: ; 0x161e0
+Func_161e0: ; 161e0 (5:61e0) 
     ld a, [$d604]
     and a
     ret z
@@ -27734,7 +27733,7 @@ Func_161e0: ; 0x161e0
     sla c
     sla c
     add hl, bc
-asm_1620f: ; 0x1620f
+asm_1620f: ; 1620f (5:620f) 
     ld bc, $4000
     add hl, bc
     ld de, wBallXVelocity
@@ -27809,7 +27808,7 @@ asm_1620f: ; 0x1620f
     call PlaySoundEffect
     ret
 
-Func_16279: ; 0x16279
+Func_16279: ; 16279 (5:6279) 
     ld a, [$d601]
     and a
     jr z, .asm_162ae
@@ -27919,7 +27918,7 @@ Func_16279: ; 0x16279
     ld [$d622], a
     ret
 
-Func_16352: ; 0x16352
+Func_16352: ; 16352 (5:6352) 
     xor a
     ld [wIndicatorStates + 4], a
     ld a, $d
@@ -27997,7 +27996,7 @@ Func_16352: ; 0x16352
     ld [$d622], a
     ret
 
-Func_163f2: ; 0x163f2
+Func_163f2: ; 163f2 (5:63f2) 
     call Func_30e8
     call Func_30db
     ld hl, $d5dc
@@ -28020,7 +28019,7 @@ Func_163f2: ; 0x163f2
 
 INCBIN "baserom.gbc",$16420,$16425 - $16420
 
-Func_16425: ; 0x16425
+Func_16425: ; 16425 (5:6425) 
     ld a, [wCurrentStage]
     and $1
     sla a
@@ -28048,7 +28047,7 @@ Func_16425: ; 0x16425
 
 INCBIN "baserom.gbc",$1644d,$164e3 - $1644d
 
-Func_164e3: ; 0x164e3
+Func_164e3: ; 164e3 (5:64e3) 
     ld a, [$d607]
     and a
     ret z
@@ -28088,7 +28087,7 @@ Func_164e3: ; 0x164e3
     call nz, Func_16425
     ret
 
-Func_1652d: ; 0x1652d
+Func_1652d: ; 1652d (5:652d) 
     ld a, [$d4dc]
     and a
     ret z
@@ -28136,7 +28135,7 @@ Func_1652d: ; 0x1652d
     ld [$d4de], a
     ret
 
-Func_1658f: ; 0x1658f
+Func_1658f: ; 1658f (5:658f) 
     ld a, [hGameBoyColorFlag]
     and a
     ld [$ff8a], a
@@ -28197,7 +28196,7 @@ Func_1658f: ; 0x1658f
     ld [$d4e2], a
     ret
 
-RedStageInitialMaps: ; 0x16605
+RedStageInitialMaps: ; 16605 (5:6605) 
     db PALLET_TOWN
     db VIRIDIAN_FOREST
     db PEWTER_CITY
@@ -28206,7 +28205,7 @@ RedStageInitialMaps: ; 0x16605
     db ROCK_MOUNTAIN
     db LAVENDER_TOWN
 
-Func_1660c: ; 0x1660c
+Func_1660c: ; 1660c (5:660c) 
     ld a, [$d515]
     and a
     jr z, .asm_1667b
@@ -28275,7 +28274,7 @@ Func_1660c: ; 0x1660c
     call PlaySoundEffect
     ret
 
-Func_1669e: ; 0x1669e
+Func_1669e: ; 1669e (5:669e) 
     ld a, [$d51c]
     cp $1
     jr nz, .asm_16719
@@ -28352,7 +28351,7 @@ Func_1669e: ; 0x1669e
 
 INCBIN "baserom.gbc",$1673c,$16766 - $1673c
 
-Func_16766: ; 0x16766
+Func_16766: ; 16766 (5:6766) 
     ld hl, wKeyConfigLeftFlipper
     call IsKeyPressed2
     jr z, .asm_16774
@@ -28367,7 +28366,7 @@ Func_16766: ; 0x16766
     ld [hl], $1
     ret
 
-Func_16781: ; 0x16781
+Func_16781: ; 16781 (5:6781) 
     ld a, [$d500]
     and a
     jr z, .asm_167bd
@@ -28425,7 +28424,7 @@ Func_16781: ; 0x16781
     jp nz, Func_15450
     jp Func_15499
 
-Func_167ff: ; 0x167ff
+Func_167ff: ; 167ff (5:67ff) 
     ld a, [$d500]
     and a
     jr z, .asm_16839
@@ -28470,7 +28469,7 @@ Func_167ff: ; 0x167ff
     call PlaySoundEffect
     ret
 
-Func_16859: ; 0x16859
+Func_16859: ; 16859 (5:6859) 
     ld a, [$d502]
     sla a
     ld c, a
@@ -28491,7 +28490,7 @@ Func_16859: ; 0x16859
     call Func_10aa
     ret
 
-Func_16878: ; 0x16878
+Func_16878: ; 16878 (5:6878) 
     ld a, [$d502]
     and $1
     sla a
@@ -28515,7 +28514,7 @@ Func_16878: ; 0x16878
 
 INCBIN "baserom.gbc",$16899,$169a6 - $16899
 
-Func_169a6: ; 0x169a6
+Func_169a6: ; 169a6 (5:69a6) 
     ld a, [$ffb3]
     and $1f
     ret nz
@@ -28542,7 +28541,7 @@ Func_169a6: ; 0x169a6
     jr nz, .asm_169ae
     ret
 
-Func_169cd: ; 0x169cd
+Func_169cd: ; 169cd (5:69cd) 
     push af
     sla c
     ld hl, $69ed
@@ -28647,7 +28646,7 @@ Func_16d9d: ; 016d9d
     call Func_16f28
     ret
 
-Func_16e51: ; 0x16e51
+Func_16e51: ; 16e51 (5:6e51) 
     call Func_16ef5
     ld a, [$d612]
     and a
@@ -28730,7 +28729,7 @@ Func_16e51: ; 0x16e51
     call Func_16f28
     ret
 
-Func_16ef5: ; 0x16ef5
+Func_16ef5: ; 16ef5 (5:6ef5) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -28757,7 +28756,7 @@ Func_16ef5: ; 0x16ef5
     ld [hl], a
     ret
 
-Func_16f28: ; 0x16f28
+Func_16f28: ; 16f28 (5:6f28) 
     push af
     ld a, [hGameBoyColorFlag]
     and a
@@ -28770,7 +28769,7 @@ Func_16f28: ; 0x16f28
     call Func_16f7b
     ret
 
-Func_16f38: ; 0x16f38
+Func_16f38: ; 16f38 (5:6f38) 
     push af
     res 7, a
     ld hl, $d60e
@@ -28813,7 +28812,7 @@ Func_16f38: ; 0x16f38
     call Func_10aa
     ret
 
-Func_16f7b: ; 0x16f7b
+Func_16f7b: ; 16f7b (5:6f7b) 
     bit 7, a
     jr z, .asm_16f83
     res 7, a
@@ -28831,7 +28830,7 @@ Func_16f7b: ; 0x16f7b
     call Func_10aa
     ret
 
-Func_16f95: ; 0x16f95
+Func_16f95: ; 16f95 (5:6f95) 
     ld a, [$d482]
     inc a
     cp $64
@@ -28863,12 +28862,12 @@ Func_16f95: ; 0x16f95
 
 INCBIN "baserom.gbc",$16fc1,$174d0 - $16fc1
 
-Func_174d0: ; 0x174d0
+Func_174d0: ; 174d0 (5:74d0) 
     call Func_174ea
     ret nc
     ; fall through
 
-Func_174d4: ; 0x174d4
+Func_174d4: ; 174d4 (5:74d4) 
     sla a
     ld c, a
     ld b, $0
@@ -28883,7 +28882,7 @@ Func_174d4: ; 0x174d4
     call Func_10c5
     ret
 
-Func_174ea: ; 0x174ea
+Func_174ea: ; 174ea (5:74ea) 
     ld a, [$d624]
     ld hl, $d625
     cp [hl]
@@ -28920,7 +28919,7 @@ Func_174ea: ; 0x174ea
 
 INCBIN "baserom.gbc",$17528,$1755c - $17528
 
-Func_1755c: ; 0x1755c
+Func_1755c: ; 1755c (5:755c) 
     ld bc, $7f00
     call Func_175a4
     call Func_17cc4
@@ -28934,7 +28933,7 @@ Func_1755c: ; 0x1755c
     call Func_17f64
     ret
 
-Func_1757e: ; 0x1757e
+Func_1757e: ; 1757e (5:757e) 
     ld bc, $7f00
     call Func_175a4
     call Func_17c67
@@ -28950,7 +28949,7 @@ Func_1757e: ; 0x1757e
     call Func_17fca
     ret
 
-Func_175a4: ; 0x175a4
+Func_175a4: ; 175a4 (5:75a4) 
     ld a, [$d57d]
     and a
     ret z
@@ -28992,7 +28991,7 @@ Func_175a4: ; 0x175a4
     call Func_17627
     ret
 
-DrawTimer: ; 0x175f5
+DrawTimer: ; 175f5 (5:75f5) 
 ; Loads the OAM data for the timer in the top-right corner of the screen.
     ld a, [wTimerMinutes]
     and $f
@@ -29010,18 +29009,18 @@ DrawTimer: ; 0x175f5
 
 INCBIN "baserom.gbc",$17615,$17625 - $17615
 
-DrawTimerDigit: ; 0x17625
+DrawTimerDigit: ; 17625 (5:7625) 
     add $b1  ; the timer digits' OAM ids start at $b1
     ; fall through
 
-Func_17627: ; 0x17627
+Func_17627: ; 17627 (5:7627) 
     call LoadOAMData
     ld a, b
     add $8
     ld b, a
     ret
 
-Func_1762f: ; 0x1762f
+Func_1762f: ; 1762f (5:762f) 
     ld de, $600c
     ld a, [wCurrentStage]
     cp $6
@@ -29039,7 +29038,7 @@ Func_1762f: ; 0x1762f
     ld de, $3008
     ret
 
-Func_1764f: ; 0x1764f
+Func_1764f: ; 1764f (5:764f) 
     push bc
     push de
     cp [hl]
@@ -29060,7 +29059,7 @@ Func_1764f: ; 0x1764f
     pop bc
     ret
 
-Func_17665: ; 0x17665
+Func_17665: ; 17665 (5:7665) 
     ld c, a
     ld b, $0
     sla c
@@ -29076,7 +29075,7 @@ Func_17665: ; 0x17665
 
 INCBIN "baserom.gbc",$17679,$17c67 - $17679
 
-Func_17c67: ; 0x17c67
+Func_17c67: ; 17c67 (5:7c67) 
     ld a, [$d5f3]
     and a
     ret z
@@ -29099,7 +29098,7 @@ Func_17c67: ; 0x17c67
 
 INCBIN "baserom.gbc",$17c89,$17c96 - $17c89
 
-Func_17c96: ; 0x17c96
+Func_17c96: ; 17c96 (5:7c96) 
     ld a, [$d5bb]
     and a
     ret z
@@ -29122,7 +29121,7 @@ Func_17c96: ; 0x17c96
 
 INCBIN "baserom.gbc",$17cb8,$17cc4 - $17cb8
 
-Func_17cc4: ; 0x17cc4
+Func_17cc4: ; 17cc4 (5:7cc4) 
     ld de, $d4cd
     ld hl, $7d15
     call Func_17cdc
@@ -29133,7 +29132,7 @@ Func_17cc4: ; 0x17cc4
     ld hl, $7d21
     ; fall through
 
-Func_17cdc: ; 0x17cdc
+Func_17cdc: ; 17cdc (5:7cdc) 
     push hl
     ld hl, $7d27
     call Func_28a9
@@ -29178,7 +29177,7 @@ Func_17cdc: ; 0x17cdc
 
 INCBIN "baserom.gbc",$17d15,$17d34 - $17d15
 
-Func_17d34: ; 0x17d34
+Func_17d34: ; 17d34 (5:7d34) 
     ld a, $0
     ld hl, hBoardXShift
     sub [hl]
@@ -29198,7 +29197,7 @@ Func_17d34: ; 0x17d34
 
 INCBIN "baserom.gbc",$17d51,$17d59 - $17d51
 
-Func_17d59: ; 0x17d59
+Func_17d59: ; 17d59 (5:7d59) 
     ld a, $74
     ld hl, hBoardXShift
     sub [hl]
@@ -29218,7 +29217,7 @@ Func_17d59: ; 0x17d59
 
 INCBIN "baserom.gbc",$17d76,$17d7a - $17d76
 
-Func_17d7a: ; 0x17d7a
+Func_17d7a: ; 17d7a (5:7d7a) 
     ld a, [hGameBoyColorFlag]
     and a
     ret z
@@ -29234,7 +29233,7 @@ Func_17d7a: ; 0x17d7a
     call LoadOAMData
     ret
 
-Func_17d92: ; 0x17d92
+Func_17d92: ; 17d92 (5:7d92) 
     ld a, [hGameBoyColorFlag]
     and a
     ret z
@@ -29269,7 +29268,7 @@ Func_17d92: ; 0x17d92
 
 INCBIN "baserom.gbc",$17dce,$17de1 - $17dce
 
-Func_17de1: ; 0x17de1
+Func_17de1: ; 17de1 (5:7de1) 
     ld a, $88
     ld hl, hBoardXShift
     sub [hl]
@@ -29291,7 +29290,7 @@ Func_17de1: ; 0x17de1
 
 INCBIN "baserom.gbc",$17e02,$17e08 - $17e02
 
-Func_17e08: ; 0x17e08
+Func_17e08: ; 17e08 (5:7e08) 
     ld a, [hBoardXShift]
     ld d, a
     ld a, [hBoardYShift]
@@ -29334,7 +29333,7 @@ Func_17e08: ; 0x17e08
 
 INCBIN "baserom.gbc",$17e4b,$17e81 - $17e4b
 
-Func_17e81: ; 0x17e81
+Func_17e81: ; 17e81 (5:7e81) 
     ld a, [$d548]
     and a
     ret z
@@ -29397,7 +29396,7 @@ Func_17e81: ; 0x17e81
     ld [$d4c7], a
     ret
 
-Func_17efb: ; 0x17efb
+Func_17efb: ; 17efb (5:7efb) 
     ld a, [$d551]
     and a
     ret nz
@@ -29409,7 +29408,7 @@ Func_17efb: ; 0x17efb
     ld b, $6
     jr asm_17f21
 
-Func_17f0f: ; 0x17f0f
+Func_17f0f: ; 17f0f (5:7f0f) 
     ld a, [$d551]
     and a
     ret nz
@@ -29419,7 +29418,7 @@ Func_17f0f: ; 0x17f0f
     ld de, wIndicatorStates + 11
     ld hl, $7f4c
     ld b, $8
-asm_17f21: ; 0x17f21
+asm_17f21: ; 17f21 (5:7f21) 
     push bc
     ld a, [hBoardXShift]
     ld b, a
@@ -29443,7 +29442,7 @@ asm_17f21: ; 0x17f21
 
 INCBIN "baserom.gbc",$17f3a,$17f64 - $17f3a
 
-Func_17f64: ; 0x17f64
+Func_17f64: ; 17f64 (5:7f64) 
     ld a, [$d551]
     and a
     ret z
@@ -29453,7 +29452,7 @@ Func_17f64: ; 0x17f64
     ld c, $39
     jr asm_17f84
 
-Func_17f75: ; 0x17f75
+Func_17f75: ; 17f75 (5:7f75) 
     ld a, [$d551]
     and a
     ret z
@@ -29461,7 +29460,7 @@ Func_17f75: ; 0x17f75
     ld hl, $7fbe
     ld b, $6
     ld c, $40
-asm_17f84: ; 0x17f84
+asm_17f84: ; 17f84 (5:7f84) 
     push bc
     ld a, [de]
     add c
@@ -29492,7 +29491,7 @@ asm_17f84: ; 0x17f84
 
 INCBIN "baserom.gbc",$17fa6,$17fca - $17fa6
 
-Func_17fca: ; 0x17fca
+Func_17fca: ; 17fca (5:7fca) 
     ld a, [$d604]
     and a
     ret z
@@ -29522,7 +29521,7 @@ INCBIN "baserom.gbc",$17ff7,$18000 - $17ff7
 
 SECTION "bank6", ROMX, BANK[$6]
 
-Func_18000: ; 0x18000
+Func_18000: ; 18000 (6:4000) 
     ld hl, wc000
     ld bc, $0a00
     call ClearData
@@ -29557,7 +29556,7 @@ Func_18000: ; 0x18000
     call BankSwitch
     ret
 
-Func_1804a: ; 0x1804a
+Func_1804a: ; 1804a (6:404a) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $b0
@@ -29568,40 +29567,40 @@ Func_1804a: ; 0x1804a
     ld [wBallYPos + 1], a
     ret
 
-Func_1805f: ; 0x1805f
+Func_1805f: ; 1805f (6:405f) 
     ret
 
-Func_18060: ; 0x18060
+Func_18060: ; 18060 (6:4060) 
     ret
 
-Func_18061: ; 0x18061
+Func_18061: ; 18061 (6:4061) 
     ret
 
-Func_18062: ; 0x18062
+Func_18062: ; 18062 (6:4062) 
     ld [$ff8a], a
     ld a, Bank(Func_1448e)
     ld hl, Func_1448e
     call BankSwitch
     ret
 
-Func_1806d: ; 0x1806d
+Func_1806d: ; 1806d (6:406d) 
     ret
 
-Func_1806e: ; 0x1806e
+Func_1806e: ; 1806e (6:406e) 
     ld [$ff8a], a
     ld a, Bank(Func_1652d)
     ld hl, Func_1652d
     call BankSwitch
     ret
 
-Func_18079: ; 0x18079
+Func_18079: ; 18079 (6:4079) 
     ld [$ff8a], a
     ld a, Bank(Func_17e81)
     ld hl, Func_17e81
     call BankSwitch
     ret
 
-Func_18084: ; 0x18084
+Func_18084: ; 18084 (6:4084) 
     ld [$ff8a], a
     ld a, Bank(Func_e4a1)
     ld hl, Func_e4a1
@@ -29612,7 +29611,7 @@ Func_18084: ; 0x18084
     call BankSwitch
     ret
 
-InitGengarBonusStage: ; 0x18099
+InitGengarBonusStage: ; 18099 (6:4099) 
     ld a, [$d7c1]
     and a
     jr z, .asm_180ac
@@ -29666,7 +29665,7 @@ InitGengarBonusStage: ; 0x18099
     call Func_490
     ret
 
-Func_18112: ; 0x18112
+Func_18112: ; 18112 (6:4112) 
     ld b, $3
 .asm_18114
     ld a, [hli]
@@ -29684,7 +29683,7 @@ Func_18112: ; 0x18112
 
 INCBIN "baserom.gbc",$18121,$18157 - $18121
 
-StartBallGengarBonusStage: ; 0x18157
+StartBallGengarBonusStage: ; 18157 (6:4157) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $a6
@@ -29709,7 +29708,7 @@ StartBallGengarBonusStage: ; 0x18157
     ld [$d4c9], a
     ret
 
-Func_1818b: ; 0x1818b
+Func_1818b: ; 1818b (6:418b) 
     ld [$ff8a], a
     ld a, Bank(Func_142fc)
     ld hl, Func_142fc
@@ -29727,14 +29726,14 @@ Func_1818b: ; 0x1818b
     call Func_18d91
     ret
 
-Func_181b1: ; 0x181b1
+Func_181b1: ; 181b1 (6:41b1) 
     call Func_181be
     call Func_18259
     call Func_182e4
     call Func_18350
     ret
 
-Func_181be: ; 0x181be
+Func_181be: ; 181be (6:41be) 
     ld a, [$d659]
     and a
     ret z
@@ -29773,7 +29772,7 @@ Func_181be: ; 0x181be
     ld [$d658], a
     ret
 
-Func_1820d: ; 0x1820d
+Func_1820d: ; 1820d (6:420d) 
     cp $4
     jr z, .asm_18257
     ld a, [wBallXPos + 1]
@@ -29817,7 +29816,7 @@ Func_1820d: ; 0x1820d
     and a
     ret
 
-Func_18259: ; 0x18259
+Func_18259: ; 18259 (6:4259) 
     ld a, [$d67e]
     and a
     ret z
@@ -29849,7 +29848,7 @@ Func_18259: ; 0x18259
     ld [$d67d], a
     ret
 
-Func_18298: ; 0x18298
+Func_18298: ; 18298 (6:4298) 
     cp $5
     jr z, .asm_182e2
     ld a, [wBallXPos + 1]
@@ -29893,7 +29892,7 @@ Func_18298: ; 0x18298
     and a
     ret
 
-Func_182e4: ; 0x182e4
+Func_182e4: ; 182e4 (6:42e4) 
     ld a, [$d698]
     and a
     ret z
@@ -29912,7 +29911,7 @@ Func_182e4: ; 0x182e4
     ld [$d697], a
     ret
 
-Func_18308: ; 0x18308
+Func_18308: ; 18308 (6:4308) 
     ld a, [wBallXPos + 1]
     sub b
     cp $30
@@ -29955,7 +29954,7 @@ Func_18308: ; 0x18308
     and a
     ret
 
-Func_18350: ; 0x18350
+Func_18350: ; 18350 (6:4350) 
     ld de, $4368 ; todo
     ld hl, $435d ; todo
     ld bc, $d654
@@ -29964,7 +29963,7 @@ Func_18350: ; 0x18350
 
 INCBIN "baserom.gbc",$1835d,$18377 - $1835d
 
-Func_18377: ; 0x18377
+Func_18377: ; 18377 (6:4377) 
     call Func_18464
     call Func_1860b
     call Func_187b1
@@ -29993,7 +29992,7 @@ Func_18377: ; 0x18377
     ld [$d6a8], a
     ret
 
-Func_183b7: ; 0x183b7
+Func_183b7: ; 183b7 (6:43b7) 
     ld a, [$d653]
     and a
     ret nz
@@ -30011,7 +30010,7 @@ Func_183b7: ; 0x183b7
     call Func_18d91
     ret
 
-Func_183db: ; 0x183db
+Func_183db: ; 183db (6:43db) 
     ld a, [wStageCollisionState]
     sla a
     ld c, a
@@ -30032,7 +30031,7 @@ Func_183db: ; 0x183db
 
 INCBIN "baserom.gbc",$183f8,$18464 - $183f8
 
-Func_18464: ; 0x18464
+Func_18464: ; 18464 (6:4464) 
     ld a, [$d659]
     and a
     ret z
@@ -30111,7 +30110,7 @@ Func_18464: ; 0x18464
     call Func_18562
     ret
 
-Func_1850c: ; 0x1850c
+Func_1850c: ; 1850c (6:450c) 
     ld a, [de]
     and a
     ret nz
@@ -30162,7 +30161,7 @@ Func_1850c: ; 0x1850c
 
 INCBIN "baserom.gbc",$18542,$18562 - $18542
 
-Func_18562: ; 0x18562
+Func_18562: ; 18562 (6:4562) 
     ld a, [de]
     sla a
     ld c, a
@@ -30243,7 +30242,7 @@ Func_18562: ; 0x18562
 
 INCBIN "baserom.gbc",$185d9,$1860b - $185d9
 
-Func_1860b: ; 0x1860b
+Func_1860b: ; 1860b (6:460b) 
     ld a, [$d67e]
     and a
     ret z
@@ -30316,7 +30315,7 @@ Func_1860b: ; 0x1860b
     call Func_186f7
     ret
 
-Func_186a1: ; 0x186a1
+Func_186a1: ; 186a1 (6:46a1) 
     ld a, [de]
     and a
     ret nz
@@ -30367,7 +30366,7 @@ Func_186a1: ; 0x186a1
 
 INCBIN "baserom.gbc",$186d7,$186f7 - $186d7
 
-Func_186f7: ; 0x186f7
+Func_186f7: ; 186f7 (6:46f7) 
     ld a, [de]
     sla a
     ld c, a
@@ -30454,7 +30453,7 @@ Func_186f7: ; 0x186f7
 
 INCBIN "baserom.gbc",$1877d,$187b1 - $1877d
 
-Func_187b1: ; 0x187b1
+Func_187b1: ; 187b1 (6:47b1) 
     ld a, [$d698]
     and a
     ret z
@@ -30551,7 +30550,7 @@ Func_187b1: ; 0x187b1
     call Func_1894c
     ret
 
-Func_18876: ; 0x18876
+Func_18876: ; 18876 (6:4876) 
     ld a, [$d6a3]
     cp $1
     jr z, .asm_1889b
@@ -30603,7 +30602,7 @@ Func_18876: ; 0x18876
     ld [$d6a3], a
     ret
 
-Func_188e1: ; 0x188e1
+Func_188e1: ; 188e1 (6:48e1) 
     ld a, [$d6a3]
     cp $1
     jr z, .asm_18901
@@ -30656,7 +30655,7 @@ Func_188e1: ; 0x188e1
     ld [$d6a3], a
     ret
 
-Func_1894c: ; 0x1894c
+Func_1894c: ; 1894c (6:494c) 
     ld a, [$d6a6]
     and a
     jr nz, .asm_1898f
@@ -30709,7 +30708,7 @@ Func_1894c: ; 0x1894c
     ld [$d6a6], a
     ret
 
-Func_189af: ; 0x189af
+Func_189af: ; 189af (6:49af) 
     ld a, [de]
     sla a
     ld c, a
@@ -30817,7 +30816,7 @@ Func_189af: ; 0x189af
 
 INCBIN "baserom.gbc",$18a57,$18d34 - $18a57
 
-Func_18d34: ; 0x18d34
+Func_18d34: ; 18d34 (6:4d34) 
     ld a, [$d654]
     and a
     jr z, .asm_18d71
@@ -30847,7 +30846,7 @@ Func_18d34: ; 0x18d34
 .asm_18d71
     ret
 
-Func_18d72: ; 0x18d72
+Func_18d72: ; 18d72 (6:4d72) 
     ld a, [$d656]
     sla a
     ld c, a
@@ -30868,7 +30867,7 @@ Func_18d72: ; 0x18d72
     call Func_10aa
     ret
 
-Func_18d91: ; 0x18d91
+Func_18d91: ; 18d91 (6:4d91) 
     ld a, [$d656]
     and a
     ld hl, $4dc9
@@ -30884,7 +30883,7 @@ Func_18d91: ; 0x18d91
     ld de, $c84d
     ; fall through
 
-Func_18db2: ; 0x18db2
+Func_18db2: ; 18db2 (6:4db2) 
     push hl
     ld b, $3
 .asm_18db5
@@ -30909,7 +30908,7 @@ Func_18db2: ; 0x18db2
 
 INCBIN "baserom.gbc",$18dc9,$18faf - $18dc9
 
-Func_18faf: ; 0x18faf
+Func_18faf: ; 18faf (6:4faf) 
     ld bc, $7f00
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -30930,7 +30929,7 @@ Func_18faf: ; 0x18faf
 
 INCBIN "baserom.gbc",$18fda,$19020 - $18fda
 
-Func_19020: ; 0x19020
+Func_19020: ; 19020 (6:5020) 
     ld de, $d659
     call Func_19033
     ld de, $d662
@@ -30939,7 +30938,7 @@ Func_19020: ; 0x19020
     call Func_19033
     ret
 
-Func_19033: ; 0x19033
+Func_19033: ; 19033 (6:5033) 
     ld a, [de]
     and a
     ret z
@@ -30985,7 +30984,7 @@ Func_19033: ; 0x19033
 
 INCBIN "baserom.gbc",$1906b,$19070 - $1906b
 
-Func_19070: ; 0x19070
+Func_19070: ; 19070 (6:5070) 
     ld a, [$d674]
     and a
     ret z
@@ -31021,14 +31020,14 @@ Func_19070: ; 0x19070
 
 INCBIN "baserom.gbc",$190a9,$190b9 - $190a9
 
-Func_190b9: ; 0x190b9
+Func_190b9: ; 190b9 (6:50b9) 
     ld de, $d67e
     call Func_190c6
     ld de, $d687
     call Func_190c6
     ret
 
-Func_190c6: ; 0x190c6
+Func_190c6: ; 190c6 (6:50c6) 
     ld a, [de]
     and a
     ret z
@@ -31074,7 +31073,7 @@ Func_190c6: ; 0x190c6
 
 INCBIN "baserom.gbc",$190fe,$19104 - $190fe
 
-Func_19104: ; 0x19104
+Func_19104: ; 19104 (6:5104) 
     ld a, [$d690]
     and a
     ret z
@@ -31116,12 +31115,12 @@ Func_19104: ; 0x19104
 
 INCBIN "baserom.gbc",$19145,$19185 - $19145
 
-Func_19185: ; 0x19185
+Func_19185: ; 19185 (6:5185) 
     ld de, $d698
     call Func_1918c
     ret
 
-Func_1918c: ; 0x1918c
+Func_1918c: ; 1918c (6:518c) 
     ld a, [de]
     and a
     ret z
@@ -31167,7 +31166,7 @@ Func_1918c: ; 0x1918c
 
 INCBIN "baserom.gbc",$191c4,$191cb - $191c4
 
-Func_191cb: ; 0x191cb
+Func_191cb: ; 191cb (6:51cb) 
     ld a, [$d6a1]
     and a
     ret z
@@ -31210,7 +31209,7 @@ Func_191cb: ; 0x191cb
 
 INCBIN "baserom.gbc",$1920f,$1924f - $1920f
 
-InitMewtwoBonusStage: ; 0x1924f
+InitMewtwoBonusStage: ; 1924f (6:524f) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -31264,7 +31263,7 @@ InitMewtwoBonusStage: ; 0x1924f
 
 INCBIN "baserom.gbc",$192ab,$192e3 - $192ab
 
-StartBallMewtwoBonusStage: ; 0x192e3
+StartBallMewtwoBonusStage: ; 192e3 (6:52e3) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $a6
@@ -31286,7 +31285,7 @@ StartBallMewtwoBonusStage: ; 0x192e3
     ld [$d4c9], a
     ret
 
-Func_19310: ; 0x19310
+Func_19310: ; 19310 (6:5310) 
     ld [$ff8a], a
     ld a, Bank(Func_142fc)
     ld hl, Func_142fc
@@ -31302,12 +31301,12 @@ Func_19310: ; 0x19310
     call Func_194ac
     ret
 
-Func_19330: ; 0x19330
+Func_19330: ; 19330 (6:5330) 
     call Func_19414
     call Func_19337
     ret
 
-Func_19337: ; 0x19337
+Func_19337: ; 19337 (6:5337) 
     ld hl, $d6bb
     ld bc, $0601
 .asm_1933d
@@ -31345,7 +31344,7 @@ Func_19337: ; 0x19337
     ld [$d6b5], a
     ret
 
-Func_1936f: ; 0x1936f
+Func_1936f: ; 1936f (6:536f) 
     cp $b
     jp z, Func_19412
     ld a, [wBallXPos + 1]
@@ -31451,11 +31450,11 @@ Func_1936f: ; 0x1936f
     scf
     ret
 
-Func_19412: ; 0x19312
+Func_19412: ; 19312 (6:5312) 
     and a
     ret
 
-Func_19414: ; 0x19414
+Func_19414: ; 19414 (6:5414) 
     ld a, [$d4ea]
     inc a
     jr nz, .asm_1944f
@@ -31490,7 +31489,7 @@ Func_19414: ; 0x19414
     and a
     ret
 
-Func_19451: ; 0x19451
+Func_19451: ; 19451 (6:5451) 
     call Func_19531
     call Func_19701
     call Func_1948b
@@ -31517,7 +31516,7 @@ Func_19451: ; 0x19451
     ld [$d6b3], a
     ret
 
-Func_1948b: ; 0x1948b
+Func_1948b: ; 1948b (6:548b) 
     ld a, [$d6a9]
     and a
     ret nz
@@ -31534,7 +31533,7 @@ Func_1948b: ; 0x1948b
     call Func_194ac
     ret
 
-Func_194ac: ; 0x194ac
+Func_194ac: ; 194ac (6:54ac) 
     ld a, [wStageCollisionState]
     sla a
     ld c, a
@@ -31555,7 +31554,7 @@ Func_194ac: ; 0x194ac
 
 INCBIN "baserom.gbc",$194c9,$19531 - $194c9
 
-Func_19531: ; 0x19531
+Func_19531: ; 19531 (6:5531) 
     ld a, [$d6aa]
     and a
     jr z, .asm_195a2
@@ -31611,7 +31610,7 @@ Func_19531: ; 0x19531
     call Func_195f5
     ret
 
-Func_195ac: ; 0x195ac
+Func_195ac: ; 195ac (6:55ac) 
     ld a, [$d6af]
     and a
     ret nz
@@ -31638,7 +31637,7 @@ Func_195ac: ; 0x195ac
     jr nz, .asm_195b9
     ret
 
-Func_195d3: ; 0x195d3
+Func_195d3: ; 195d3 (6:55d3) 
     ld hl, $d6bd
     ld de, $0008
     ld b, $6
@@ -31664,7 +31663,7 @@ Func_195d3: ; 0x195d3
     jr nz, .asm_195db
     ret
 
-Func_195f5: ; 0x195f5
+Func_195f5: ; 195f5 (6:55f5) 
     ld a, [de]
     sla a
     ld c, a
@@ -31683,13 +31682,13 @@ Func_195f5: ; 0x195f5
     ret nc
     ld a, [de]
     rst $18  ; calls JumpToFuncInTable
-CallTable_1960d: ; 0x1960d
+CallTable_1960d: ; 1960d (6:560d) 
     dw Func_19615
     dw Func_1961e
     dw Func_1962f
     dw Func_19638
 
-Func_19615: ; 0x19615
+Func_19615: ; 19615 (6:5615) 
     dec de
     ld a, [de]
     cp $4
@@ -31697,7 +31696,7 @@ Func_19615: ; 0x19615
     xor a
     jp Func_19679
 
-Func_1961e: ; 0x1961e
+Func_1961e: ; 1961e (6:561e) 
     dec de
     ld a, [de]
     cp $c
@@ -31710,7 +31709,7 @@ Func_1961e: ; 0x1961e
     xor a
     jp Func_19679
 
-Func_1962f: ; 0x1962f
+Func_1962f: ; 1962f (6:562f) 
     dec de
     ld a, [de]
     cp $1
@@ -31718,7 +31717,7 @@ Func_1962f: ; 0x1962f
     xor a
     jp Func_19679
 
-Func_19638: ; 0x19638
+Func_19638: ; 19638 (6:5638) 
     dec de
     ld a, [de]
     cp $1
@@ -31751,7 +31750,7 @@ Func_19638: ; 0x19638
     call PlaySoundEffect
     ret
 
-Func_19679: ; 0x19679
+Func_19679: ; 19679 (6:5679) 
     push af
     sla a
     ld c, a
@@ -31773,7 +31772,7 @@ Func_19679: ; 0x19679
 
 INCBIN "baserom.gbc",$19691,$19701 - $19691
 
-Func_19701: ; 0x19701
+Func_19701: ; 19701 (6:5701) 
     ld a, [$d6b4]
     and a
     jr z, .asm_19742
@@ -31833,7 +31832,7 @@ Func_19701: ; 0x19701
     call Func_19833
     ret
 
-Func_1978b: ; 0x1978b
+Func_1978b: ; 1978b (6:578b) 
     ld a, [de]
     ld c, a
     ld b, $0
@@ -31856,7 +31855,7 @@ Func_1978b: ; 0x1978b
 
 INCBIN "baserom.gbc",$197a3,$19833 - $197a3
 
-Func_19833: ; 0x19833
+Func_19833: ; 19833 (6:5833) 
     ld a, [de]
     and a
     ret z
@@ -31882,13 +31881,13 @@ Func_19833: ; 0x19833
     ret nc
     ld a, [de]
     rst $18  ; calls JumpToFuncInTable
-CallTable_19852: ; 0x19852
+CallTable_19852: ; 19852 (6:5852) 
     dw Func_1985a
     dw Func_19863
     dw Func_1986c
     dw Func_1986d
 
-Func_1985a: ; 0x1985a
+Func_1985a: ; 1985a (6:585a) 
     dec de
     ld a, [de]
     cp $6
@@ -31896,7 +31895,7 @@ Func_1985a: ; 0x1985a
     xor a
     jp Func_19876
 
-Func_19863: ; 0x19863
+Func_19863: ; 19863 (6:5863) 
      dec de
     ld a, [de]
     cp $7
@@ -31904,10 +31903,10 @@ Func_19863: ; 0x19863
     xor a
     jp Func_19876
 
-Func_1986c: ; 0x1986c
+Func_1986c: ; 1986c (6:586c) 
     ret
 
-Func_1986d: ; 0x1986d
+Func_1986d: ; 1986d (6:586d) 
     dec de
     ld a, [de]
     cp $1
@@ -31915,7 +31914,7 @@ Func_1986d: ; 0x1986d
     xor a
     jp Func_19876
 
-Func_19876: ; 0x19876
+Func_19876: ; 19876 (6:5876) 
     push af
     sla a
     ld c, a
@@ -31935,7 +31934,7 @@ Func_19876: ; 0x19876
     ld [de], a
     ret
 
-Func_1988e: ; 0x1988e
+Func_1988e: ; 1988e (6:588e) 
     ld a, [$d6b1]
     sla a
     sla a
@@ -31987,7 +31986,7 @@ Func_1988e: ; 0x1988e
 
 INCBIN "baserom.gbc",$198ce,$1994e - $198ce
 
-Func_1994e: ; 0x1994e
+Func_1994e: ; 1994e (6:594e) 
     ld bc, $7f65
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -32005,7 +32004,7 @@ Func_1994e: ; 0x1994e
     call Func_19976
     ret
 
-Func_19976: ; 0x19976
+Func_19976: ; 19976 (6:5976) 
     ld a, $40
     ld hl, hBoardXShift
     sub [hl]
@@ -32026,7 +32025,7 @@ Func_19976: ; 0x19976
 
 INCBIN "baserom.gbc",$19995,$1999d - $19995
 
-Func_1999d: ; 0x1999d
+Func_1999d: ; 1999d (6:599d) 
     ld de, $d6b6
     call Func_199be
     ld de, $d6be
@@ -32040,7 +32039,7 @@ Func_1999d: ; 0x1999d
     ld de, $d6de
     ; fall through
 
-Func_199be: ; 0x199be
+Func_199be: ; 199be (6:59be) 
     ld a, [de]
     and a
     ret z
@@ -32074,7 +32073,7 @@ Func_199be: ; 0x199be
 
 INCBIN "baserom.gbc",$199e6,$199f2 - $199e6
 
-InitDiglettBonusStage: ; 0x199f2
+InitDiglettBonusStage: ; 199f2 (6:59f2) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -32109,7 +32108,7 @@ InitDiglettBonusStage: ; 0x199f2
     call Func_490
     ret
 
-StartBallDiglettBonusStage: ; 0x19a38
+StartBallDiglettBonusStage: ; 19a38 (6:5a38) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $a6
@@ -32142,7 +32141,7 @@ StartBallDiglettBonusStage: ; 0x19a38
     ld [$d765], a
     ret
 
-Func_19a76: ; 0x19a76
+Func_19a76: ; 19a76 (6:5a76) 
     ld [$ff8a], a
     ld a, Bank(Func_142fc)
     ld hl, Func_142fc
@@ -32158,7 +32157,7 @@ Func_19a76: ; 0x19a76
     call nz, Func_1ac2c
     ret
 
-Func_19a96: ; 0x19a96
+Func_19a96: ; 19a96 (6:5a96) 
     ld hl, wDiglettStates
     ld bc, NUM_DIGLETTS << 8
 .asm_19a9c
@@ -32180,12 +32179,12 @@ Func_19a96: ; 0x19a96
     jr nz, .asm_19a9c
     ret
 
-Func_19ab3: ; 0x19ab3
+Func_19ab3: ; 19ab3 (6:5ab3) 
     call Func_19aba
     call Func_19b4b
     ret
 
-Func_19aba: ; 0x19aba
+Func_19aba: ; 19aba (6:5aba) 
     ld a, [$d4ea]
     inc a
     jr nz, .asm_19b16
@@ -32242,7 +32241,7 @@ Func_19aba: ; 0x19aba
 
 INCBIN "baserom.gbc",$19b18,$19b4b - $19b18
 
-Func_19b4b: ; 0x19b4b
+Func_19b4b: ; 19b4b (6:5b4b) 
     ld a, [$d4ea]
     inc a
     jr nz, .asm_19b86
@@ -32277,13 +32276,13 @@ Func_19b4b: ; 0x19b4b
     and a
     ret
 
-Func_19b88: ; 0x19b88
+Func_19b88: ; 19b88 (6:5b88) 
     call Func_19c52
     call Func_1aad4
     call Func_19b92
     ret
 
-Func_19b92: ; 0x19b92
+Func_19b92: ; 19b92 (6:5b92) 
     ld a, [$d73a]
     and a
     ret nz
@@ -32304,7 +32303,7 @@ Func_19b92: ; 0x19b92
     call Func_19bbd
     ret
 
-Func_19bbd: ; 0x19bbd
+Func_19bbd: ; 19bbd (6:5bbd) 
     ld a, [wStageCollisionState]
     sla a
     ld c, a
@@ -32325,7 +32324,7 @@ Func_19bbd: ; 0x19bbd
 
 INCBIN "baserom.gbc",$19bda,$19c52 - $19bda
 
-Func_19c52: ; 0x19c52
+Func_19c52: ; 19c52 (6:5c52) 
     ld a, [$d73b]
     and a
     jr z, .asm_19cc8
@@ -32395,7 +32394,7 @@ Func_19c52: ; 0x19c52
     call nz, Func_1ac2c
     ret
 
-Func_19cdd: ; 0x19cdd
+Func_19cdd: ; 19cdd (6:5cdd) 
     ld a, [wDiglettsInitializedFlag]
     and a
     jr nz, .alreadyInitializedDigletts
@@ -32522,7 +32521,7 @@ Func_19cdd: ; 0x19cdd
     ld [wCurrentDiglett], a
     ret
 
-Func_19da8: ; 0x19da8
+Func_19da8: ; 19da8 (6:5da8) 
 ; input: a = diglett state
 ;        c = diglett index
     cp $6
@@ -32551,7 +32550,7 @@ Func_19da8: ; 0x19da8
     pop bc
     ret
 
-Func_19dcd: ; 0x19dcd
+Func_19dcd: ; 19dcd (6:5dcd) 
     sla c
     ld a, c
     sla c
@@ -32582,7 +32581,7 @@ Func_19dcd: ; 0x19dcd
     ld [de], a
     ret
 
-Func_19df0: ; 0x19df0
+Func_19df0: ; 19df0 (6:5df0) 
     sla c
     ld a, c
     sla c
@@ -32615,7 +32614,7 @@ INCBIN "baserom.gbc",$19e13,$19ed1 - $19e13
 
 INCLUDE "data/diglett_stage/diglett_stage_animation_data.asm"
 
-Func_1aad4: ; 0x1aad4
+Func_1aad4: ; 1aad4 (6:6ad4) 
     ld a, [$d75f]
     and a
     jr z, .asm_1ab2c
@@ -32660,7 +32659,7 @@ Func_1aad4: ; 0x1aad4
     call Func_1ab30
     ret
 
-Func_1ab30: ; 0x1ab30
+Func_1ab30: ; 1ab30 (6:6b30) 
     ld a, [wDugrioState]
     sla a
     ld c, a
@@ -32780,7 +32779,7 @@ Func_1ab30: ; 0x1ab30
     ld hl, $6c56
     jr asm_1ac2f
 
-Func_1ac2c: ; 0x1ac2c
+Func_1ac2c: ; 1ac2c (6:6c2c) 
     ld hl, $6c4a
 asm_1ac2f:
     ld de, $c768
@@ -32809,7 +32808,7 @@ asm_1ac2f:
 
 INCBIN "baserom.gbc",$1ac4a,$1ac98 - $1ac4a
 
-Func_1ac98: ; 0x1ac98
+Func_1ac98: ; 1ac98 (6:6c98) 
     ld [$ff8a], a
     ld a, Bank(Func_e4a1)
     ld hl, Func_e4a1
@@ -32821,7 +32820,7 @@ Func_1ac98: ; 0x1ac98
     call Func_1acb0
     ret
 
-Func_1acb0: ; 0x1acb0
+Func_1acb0: ; 1acb0 (6:6cb0) 
     ld a, $40
     ld hl, hBoardXShift
     sub [hl]
@@ -32845,7 +32844,7 @@ INCBIN "baserom.gbc",$1accf,$1c000 - $1accf
 
 SECTION "bank7", ROMX, BANK[$7]
 
-InitBlueField: ; 0x1c000
+InitBlueField: ; 1c000 (7:4000) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -32907,7 +32906,7 @@ InitBlueField: ; 0x1c000
     call Func_490
     ret
 
-StartBallBlueField: ; 0x1c08d
+StartBallBlueField: ; 1c08d (7:408d) 
     ld a, [$d496]
     and a
     jp nz, StartBallAfterBonusStageBlueField
@@ -32973,7 +32972,7 @@ StartBallBlueField: ; 0x1c08d
     call Func_490
     ret
 
-StartBallAfterBonusStageBlueField: ; 0x1c129
+StartBallAfterBonusStageBlueField: ; 1c129 (7:4129) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $50
@@ -32998,7 +32997,7 @@ StartBallAfterBonusStageBlueField: ; 0x1c129
     call Func_490
     ret
 
-Func_1c165: ; 0x1c165
+Func_1c165: ; 1c165 (7:4165) 
     call asm_1e475
     call Func_1cb43
     call Func_1c3ee
@@ -33017,7 +33016,7 @@ Func_1c165: ; 0x1c165
     call Func_1c203
     ret
 
-Func_1c191: ; 0x1c191
+Func_1c191: ; 1c191 (7:4191) 
     call Func_1c1db
     call Func_1c4b6
     call Func_1c2cb
@@ -33047,7 +33046,7 @@ Func_1c191: ; 0x1c191
     call Func_1c203
     ret
 
-Func_1c1db: ; 0x1c1db
+Func_1c1db: ; 1c1db (7:41db) 
     ld a, [$d641]
     cp $0
     ret z
@@ -33067,7 +33066,7 @@ Func_1c1db: ; 0x1c1db
     ld [$d648], a
     ret
 
-Func_1c203: ; 0x1c203
+Func_1c203: ; 1c203 (7:4203) 
     ld a, $ff
     ld [$d4d7], a
     ld [$d4db], a
@@ -33079,7 +33078,7 @@ Func_1c203: ; 0x1c203
     ld [$d4c7], a
     ret
 
-Func_1c21e: ; 0x1c21e
+Func_1c21e: ; 1c21e (7:421e) 
     ld a, $ff
     ld [$d60e], a
     ld [$d60f], a
@@ -33090,7 +33089,7 @@ Func_1c21e: ; 0x1c21e
     call Func_1d5f2
     ret
 
-Func_1c235: ; 0x1c235
+Func_1c235: ; 1c235 (7:4235) 
     ld a, [wLeftMapMoveDiglettAnimationCounter]
     and a
     jr z, .asm_1c249
@@ -33175,7 +33174,7 @@ Func_1c235: ; 0x1c235
     call Func_1de6f
     ret
 
-Func_1c2cb: ; 0x1c2cb
+Func_1c2cb: ; 1c2cb (7:42cb) 
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -33215,7 +33214,7 @@ Func_1c2cb: ; 0x1c2cb
     jr nz, .asm_1c2e9
     ret
 
-Func_1c305: ; 0x1c305
+Func_1c305: ; 1c305 (7:4305) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -33292,7 +33291,7 @@ Func_1c305: ; 0x1c305
     call CopyDataToRAM
     ret
 
-Func_1c3ac: ; 0x1c3ac
+Func_1c3ac: ; 1c3ac (7:43ac) 
     ld a, $80
     ld hl, $9887
     call Func_1c3c3
@@ -33303,7 +33302,7 @@ Func_1c3ac: ; 0x1c3ac
     ld hl, $98e7
     ; fall through
 
-Func_1c3c3: ; 0x1c3c3
+Func_1c3c3: ; 1c3c3 (7:43c3) 
     ld [hli], a
     ld [hli], a
     ld [hli], a
@@ -33312,7 +33311,7 @@ Func_1c3c3: ; 0x1c3c3
     ld [hli], a
     ret
 
-Func_1c3ca: ; 0x1c3ca
+Func_1c3ca: ; 1c3ca (7:43ca) 
     ld hl, $d586
     ld b, $18
 .asm_1c3cf
@@ -33333,7 +33332,7 @@ Func_1c3ca: ; 0x1c3ca
     call nz, BankSwitch
     ret
 
-Func_1c3ee: ; 0x1c3ee
+Func_1c3ee: ; 1c3ee (7:43ee) 
     ld a, [wInSpecialMode]
     and a
     ret z
@@ -33372,7 +33371,7 @@ Func_1c3ee: ; 0x1c3ee
     call Func_6fd
     ret
 
-Func_1c43c: ; 0x1c43c
+Func_1c43c: ; 1c43c (7:443c) 
     ld a, [wInSpecialMode]
     and a
     jr z, .asm_1c458
@@ -33398,7 +33397,7 @@ Func_1c43c: ; 0x1c43c
     call CopyDataToRAM
     ret
 
-Func_1c46d: ; 0x1c46d
+Func_1c46d: ; 1c46d (7:446d) 
     push af
     ld [$ff8a], a
     ld a, Bank(Func_10611)
@@ -33409,7 +33408,7 @@ Func_1c46d: ; 0x1c46d
     jr nz, Func_1c46d
     ret
 
-Func_1c47d: ; 0x1c47d
+Func_1c47d: ; 1c47d (7:447d) 
     ld de, $0000
     ld a, [$d554]
     and a
@@ -33423,7 +33422,7 @@ Func_1c47d: ; 0x1c47d
     jr nz, .asm_1c486
     ret
 
-Func_1c491: ; 0x1c491
+Func_1c491: ; 1c491 (7:4491) 
     push bc
     push de
     dec a
@@ -33448,7 +33447,7 @@ Func_1c491: ; 0x1c491
     pop bc
     ret
 
-Func_1c4b6: ; 0x1c4b6
+Func_1c4b6: ; 1c4b6 (7:44b6) 
     ld a, [wInSpecialMode]
     and a
     jr nz, .asm_1c4f0
@@ -33504,7 +33503,7 @@ Func_1c4b6: ; 0x1c4b6
     call BankSwitch
     ret
 
-Func_1c520: ; 0x1c520
+Func_1c520: ; 1c520 (7:4520) 
     call Func_1c55a ; shellders
     call Func_1c567 ; spinner
     call Func_1c57e
@@ -33514,7 +33513,7 @@ Func_1c520: ; 0x1c520
     call Func_1c5eb
     ret
 
-Func_1c536: ; 0x1c536
+Func_1c536: ; 1c536 (7:4536) 
     ld a, [wBallYPos + 1]
     cp $56
     jr nc, .asm_1c54d
@@ -33531,90 +33530,90 @@ Func_1c536: ; 0x1c536
     call Func_1c607
     ret
 
-Func_1c55a: ; 0x1c55a
+Func_1c55a: ; 1c55a (7:455a) 
     ld de, $4644
     ld hl, $462e
     ld bc, $d4cb
     and a
     jp Func_2775
 
-Func_1c567: ; 0x1c567
+Func_1c567: ; 1c567 (7:4567) 
     ld de, $4650
     ld bc, $d507
     scf
     jp Func_2775
 
-Func_1c571: ; 0x1c571
+Func_1c571: ; 1c571 (7:4571) 
     ld de, $4625
     ld hl, $4611
     ld bc, $d4d8
     and a
     jp Func_2775
 
-Func_1c57e: ; 0x1c57e
+Func_1c57e: ; 1c57e (7:457e) 
     ld de, $4656
     ld bc, $d51f
     scf
     jp Func_2775
 
-Func_1c588: ; 0x1c588
+Func_1c588: ; 1c588 (7:4588) 
     ld de, $4665
     ld bc, $d635
     scf
     jp Func_2775
 
-Func_1c592: ; 0x1c592
+Func_1c592: ; 1c592 (7:4592) 
     ld de, $466b
     ld bc, $d630
     scf
     jp Func_2775
 
-Func_1c59c: ; 0x1c59c
+Func_1c59c: ; 1c59c (7:459c) 
     ld de, $4671
     ld bc, $d515
     scf
     jp Func_2775
 
-Func_1c5a6: ; 0x1c5a6
+Func_1c5a6: ; 1c5a6 (7:45a6) 
     ld de, $4686
     ld hl, $467a
     ld bc, $d60a
     and a
     jp Func_2775
 
-Func_1c5b3: ; 0x1c5b3
+Func_1c5b3: ; 1c5b3 (7:45b3) 
     ld de, $4695
     ld hl, $468f
     ld bc, $d4ed
     and a
     jp Func_2775
 
-Func_1c5c0: ; 0x1c5c0
+Func_1c5c0: ; 1c5c0 (7:45c0) 
     ld de, $469e
     ld bc, $d5f7
     scf
     jp Func_2775
 
-Func_1c5ca: ; 0x1c5ca
+Func_1c5ca: ; 1c5ca (7:45ca) 
     ld de, $46aa
     ld bc, $d50d
     scf
     jp Func_2775
 
-Func_1c5d4: ; 0x1c5d4
+Func_1c5d4: ; 1c5d4 (7:45d4) 
     ld de, $46b9
     ld bc, $d601
     scf
     jp Func_2775
 
-Func_1c5de: ; 0x1c5de
+Func_1c5de: ; 1c5de (7:45de) 
     ld de, $46d1
     ld hl, $46bf
     ld bc, $d5c7
     and a
     jp Func_2775
 
-Func_1c5eb: ; 0x1c5eb
+Func_1c5eb: ; 1c5eb (7:45eb) 
     xor a
     ld [$d578], a
     ld a, [$d551]
@@ -33629,7 +33628,7 @@ Func_1c5eb: ; 0x1c5eb
     ld hl, BlueBottomEvolutionTrinketCoords
     jp PinballCollideWithPoints
 
-Func_1c607: ; 0x1c607
+Func_1c607: ; 1c607 (7:4607) 
     ld de, $470f
     ld bc, $d4dc
     scf
@@ -33637,7 +33636,7 @@ Func_1c607: ; 0x1c607
 
 INCBIN "baserom.gbc",$1c611,$1c6d7 - $1c611
 
-BlueTopEvolutionTrinketCoords: ; 0x1c6d7
+BlueTopEvolutionTrinketCoords: ; 1c6d7 (7:46d7) 
 ; First byte is just non-zero to signify that the array hasn't ended.
 ; Second byte is x coordinate.
 ; Third byte is y coordinate.
@@ -33655,7 +33654,7 @@ BlueTopEvolutionTrinketCoords: ; 0x1c6d7
     db $01, $85, $6E
     db $00
 
-BlueBottomEvolutionTrinketCoords: ; 0x1c6fc
+BlueBottomEvolutionTrinketCoords: ; 1c6fc (7:46fc) 
 ; First byte is just non-zero to signify that the array hasn't ended.
 ; Second byte is x coordinate.
 ; Third byte is y coordinate.
@@ -33669,7 +33668,7 @@ BlueBottomEvolutionTrinketCoords: ; 0x1c6fc
 
 INCBIN "baserom.gbc",$1c70f,$1c715 - $1c70f
 
-Func_1c715: ; 0x1c715
+Func_1c715: ; 1c715 (7:4715) 
     call Func_1c9c1
     call Func_1ca5f
     call Func_1e356
@@ -33702,7 +33701,7 @@ Func_1c715: ; 0x1c715
     call BankSwitch
     ret
 
-Func_1c769: ; 0x1c769
+Func_1c769: ; 1c769 (7:4769) 
     call Func_1ca4a
     call Func_1ce40
     call Func_1dbd2
@@ -33739,7 +33738,7 @@ Func_1c769: ; 0x1c769
     call BankSwitch
     ret
 
-Func_1c7c7: ; 0x1c7c7
+Func_1c7c7: ; 1c7c7 (7:47c7) 
     ld a, $0
     ld [wStageCollisionState], a
     ld [$ff8a], a
@@ -33748,7 +33747,7 @@ Func_1c7c7: ; 0x1c7c7
     call BankSwitch
     ret
 
-Func_1c7d7: ; 0x1c7d7
+Func_1c7d7: ; 1c7d7 (7:47d7) 
     ld a, [$d4dc]
     and a
     ret z
@@ -33796,7 +33795,7 @@ Func_1c7d7: ; 0x1c7d7
     ld [$d4de], a
     ret
 
-Func_1c839: ; 0x1c839
+Func_1c839: ; 1c839 (7:4839) 
     ld a, [hGameBoyColorFlag]
     and a
     ld [$ff8a], a
@@ -33857,7 +33856,7 @@ Func_1c839: ; 0x1c839
     ld [$d4e2], a
     ret
 
-BlueStageInitialMaps: ; 0x1c8af
+BlueStageInitialMaps: ; 1c8af (7:48af) 
     db VIRIDIAN_CITY
     db VIRIDIAN_FOREST
     db MT_MOON
@@ -33866,7 +33865,7 @@ BlueStageInitialMaps: ; 0x1c8af
     db ROCK_MOUNTAIN
     db CELADON_CITY
 
-Func_1c8b6: ; 0x1c8b6
+Func_1c8b6: ; 1c8b6 (7:48b6) 
     ld a, [$d64c]
     inc a
     cp $3c
@@ -34006,7 +34005,7 @@ Func_1c8b6: ; 0x1c8b6
 .asm_1c9c0
     ret
 
-Func_1c9c1: ; 0x1c9c1
+Func_1c9c1: ; 1c9c1 (7:49c1) 
     ld a, [$d4cb]
     and a
     jr z, .asm_1ca19
@@ -34056,7 +34055,7 @@ Func_1c9c1: ; 0x1c9c1
     ld [$d4d7], a
     ret
 
-Func_1ca29: ; 0x1ca29
+Func_1ca29: ; 1ca29 (7:4a29) 
     ld a, $ff
     ld [$d803], a
     ld a, $3
@@ -34086,7 +34085,7 @@ Func_1ca4a: ; 1ca4a
 
 INCBIN "baserom.gbc",$1ca5f,$1ca5f - $1ca5f
 
-Func_1ca5f: ; 0x1ca5f
+Func_1ca5f: ; 1ca5f (7:4a5f) 
     ld a, [$d507]
     and a
     jr z, Func_1ca85
@@ -34107,7 +34106,7 @@ Func_1ca5f: ; 0x1ca5f
     call BankSwitch
     ; fall through
 
-Func_1ca85: ; 0x1ca85
+Func_1ca85: ; 1ca85 (7:4a85) 
     ld hl, $d50b
     ld a, [hli]
     or [hl]
@@ -34192,7 +34191,7 @@ Func_1ca85: ; 0x1ca85
     call Func_1cb43
     ret
 
-Func_1cb1c: ; 0x1cb1c
+Func_1cb1c: ; 1cb1c (7:4b1c) 
     ld a, [$d51e]
     and a
     ret nz
@@ -34209,7 +34208,7 @@ Func_1cb1c: ; 0x1cb1c
 
 INCBIN "baserom.gbc",$1cb33,$1cb43 - $1cb33
 
-Func_1cb43: ; 0x1cb43
+Func_1cb43: ; 1cb43 (7:4b43) 
     ld a, [$d517]
     ld c, a
     sla c
@@ -34248,7 +34247,7 @@ Func_1ce40: ; 1ce40
     call z, Func_1ce72
     ret
 
-Func_1ce60: ; 0x1ce60
+Func_1ce60: ; 1ce60 (7:4e60) 
     ld a, $10
     ld [$d4da], a
     ld a, [$d4d9]
@@ -34263,7 +34262,7 @@ Func_1ce72: ; 1ce72
     cp $ff
     ret z
     sla a
-asm_1ce7a: ; 0x1ce7a
+asm_1ce7a: ; 1ce7a (7:4e7a) 
     sla a
     ld c, a
     ld b, $0
@@ -34281,7 +34280,7 @@ asm_1ce7a: ; 0x1ce7a
     call Func_10aa
     ret
 
-Func_1ce94: ; 0x1ce94
+Func_1ce94: ; 1ce94 (7:4e94) 
     ld a, $ff
     ld [$d803], a
     ld a, $3
@@ -34308,7 +34307,7 @@ Func_1ce94: ; 0x1ce94
 
 INCBIN "baserom.gbc",$1cec8,$1cfaa - $1cec8
 
-Func_1cfaa: ; 0x1cfaa
+Func_1cfaa: ; 1cfaa (7:4faa) 
     ld a, [$d51f]
     and a
     ret z
@@ -34356,7 +34355,7 @@ Func_1cfaa: ; 0x1cfaa
     call nz, HandleRightAlleyTriggerBlueField
     ret
 
-Func_1d010: ; 0x1d010
+Func_1d010: ; 1d010 (7:5010) 
     xor a
     ld [$d521], a
     ld a, [wLeftAlleyTrigger]
@@ -34386,7 +34385,7 @@ Func_1d010: ; 0x1d010
     ld [wIndicatorStates + 2], a
     ret
 
-Func_1d047: ; 0x1d047
+Func_1d047: ; 1d047 (7:5047) 
     xor a
     ld [$d522], a
     ld a, [wRightAlleyTrigger]
@@ -34417,7 +34416,7 @@ Func_1d047: ; 0x1d047
     ld [wIndicatorStates + 3], a
     ret
 
-HandleLeftAlleyTriggerBlueField: ; 0x1d080
+HandleLeftAlleyTriggerBlueField: ; 1d080 (7:5080) 
 ; Ball passed over the left alley trigger point in the Blue Field.
     xor a
     ld [$d523], a
@@ -34428,7 +34427,7 @@ HandleLeftAlleyTriggerBlueField: ; 0x1d080
     ret c
     ret
 
-HandleRightAlleyTriggerBlueField: ; 0x1d091
+HandleRightAlleyTriggerBlueField: ; 1d091 (7:5091) 
 ; Ball passed over the right alley trigger point in the Blue Field.
     xor a
     ld [$d524], a
@@ -34438,7 +34437,7 @@ HandleRightAlleyTriggerBlueField: ; 0x1d091
     ld [wRightAlleyTrigger], a
     ret
 
-Func_1d0a1: ; 0x1d0a1
+Func_1d0a1: ; 1d0a1 (7:50a1) 
     ld a, [$d515]
     and a
     jr z, .asm_1d110
@@ -34507,7 +34506,7 @@ Func_1d0a1: ; 0x1d0a1
     call PlaySoundEffect
     ret
 
-Func_1d133: ; 0x1d133
+Func_1d133: ; 1d133 (7:5133) 
     ld a, [$d51c]
     cp $1
     jr nz, .asm_1d1ae
@@ -34584,7 +34583,7 @@ Func_1d133: ; 0x1d133
 
 INCBIN "baserom.gbc",$1d1d1,$1d1fb - $1d1d1
 
-Func_1d1fb: ; 0x1d1fb
+Func_1d1fb: ; 1d1fb (7:51fb) 
     ld hl, wKeyConfigLeftFlipper
     call IsKeyPressed2
     jr z, .asm_1d209
@@ -34599,7 +34598,7 @@ Func_1d1fb: ; 0x1d1fb
     ld [hl], $1
     ret
 
-Func_1d216: ; 0x1d216
+Func_1d216: ; 1d216 (7:5216) 
     ld a, [$d630]
     and a
     jr z, .asm_1d253
@@ -34716,7 +34715,7 @@ Func_1d216: ; 0x1d216
 
 INCBIN "baserom.gbc",$1d312,$1d32d - $1d312
 
-HandleEnteringCloyster: ; 0x1d32d
+HandleEnteringCloyster: ; 1d32d (7:532d) 
     ld a, [$d635]
     and a
     jr z, .asm_1d36a
@@ -34828,7 +34827,7 @@ HandleEnteringCloyster: ; 0x1d32d
 
 INCBIN "baserom.gbc",$1d41d,$1d438 - $1d41d
 
-Func_1d438: ; 0x1d438
+Func_1d438: ; 1d438 (7:5438) 
     call Func_1d692
     ld a, [$d60a]
     and a
@@ -34917,7 +34916,7 @@ Func_1d438: ; 0x1d438
     ld [$d615], a
     ld a, $1
     ld [$d613], a
-asm_1d4fa: ; 0x1d4fa
+asm_1d4fa: ; 1d4fa (7:54fa) 
     ld bc, $34ac
     ld [$ff8a], a
     ld a, Bank(Func_8576)
@@ -34932,7 +34931,7 @@ asm_1d4fa: ; 0x1d4fa
     ld [$d647], a
     ret
 
-Func_1d51b: ; 0x1d51b
+Func_1d51b: ; 1d51b (7:551b) 
     call Func_1d5bf
     ld a, [$d612]
     and a
@@ -35015,7 +35014,7 @@ Func_1d51b: ; 0x1d51b
     call Func_1d5f2
     ret
 
-Func_1d5bf: ; 0x1d5bf
+Func_1d5bf: ; 1d5bf (7:55bf) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -35042,7 +35041,7 @@ Func_1d5bf: ; 0x1d5bf
     ld [hl], a
     ret
 
-Func_1d5f2: ; 0x1d5f2
+Func_1d5f2: ; 1d5f2 (7:55f2) 
     push af
     ld a, [hGameBoyColorFlag]
     and a
@@ -35055,7 +35054,7 @@ Func_1d5f2: ; 0x1d5f2
     call Func_1d645
     ret
 
-Func_1d602: ; 0x1d602
+Func_1d602: ; 1d602 (7:5602) 
     push af
     res 7, a
     ld hl, $d60e
@@ -35098,7 +35097,7 @@ Func_1d602: ; 0x1d602
     call Func_10aa
     ret
 
-Func_1d645: ; 0x1d645
+Func_1d645: ; 1d645 (7:5645) 
     bit 7, a
     jr z, .asm_1d64d
     res 7, a
@@ -35116,7 +35115,7 @@ Func_1d645: ; 0x1d645
     call Func_10aa
     ret
 
-Func_1d65f: ; 0x1d65f
+Func_1d65f: ; 1d65f (7:565f) 
     ld a, [$d482]
     inc a
     cp $64
@@ -35148,7 +35147,7 @@ Func_1d65f: ; 0x1d65f
 
 INCBIN "baserom.gbc",$1d68b,$1d692 - $1d68b
 
-Func_1d692: ; 0x1d692
+Func_1d692: ; 1d692 (7:5692) 
     ld a, [$d647]
     cp $1
     jr z, .asm_1d69e
@@ -35175,7 +35174,7 @@ Func_1d692: ; 0x1d692
 
 INCBIN "baserom.gbc",$1d6be,$1dbd2 - $1d6be
 
-Func_1dbd2: ; 0x1dbd2
+Func_1dbd2: ; 1dbd2 (7:5bd2) 
     ld a, [$d4ed]
     and a
     jp z, Func_1dc8e
@@ -35265,12 +35264,12 @@ Func_1dbd2: ; 0x1dbd2
     call Func_1de22
     ret
 
-Func_1dc8e: ; 0x1dc8e
+Func_1dc8e: ; 1dc8e (7:5c8e) 
     call Func_1dc95
     call Func_1dd2e
     ret
 
-Func_1dc95: ; 0x1dc95
+Func_1dc95: ; 1dc95 (7:5c95) 
     ld a, [$d646]
     cp $0
     ret z
@@ -35353,7 +35352,7 @@ Func_1dc95: ; 0x1dc95
 
 INCBIN "baserom.gbc",$1dd2d,$1dd2e - $1dd2d
 
-Func_1dd2e: ; 0x1dd2e
+Func_1dd2e: ; 1dd2e (7:5d2e) 
     ld a, [$d645]
     cp $0
     ret z
@@ -35433,7 +35432,7 @@ Func_1dd2e: ; 0x1dd2e
     ld [$d645], a
     ret
 
-Func_1ddc7: ; 0x1ddc7
+Func_1ddc7: ; 1ddc7 (7:5dc7) 
     ld hl, $d63d
     call Func_e4a
     ld hl, $d62b
@@ -35455,7 +35454,7 @@ Func_1ddc7: ; 0x1ddc7
     scf
     ret
 
-Func_1ddf4: ; 0x1ddf4
+Func_1ddf4: ; 1ddf4 (7:5df4) 
     ld hl, $d63c
     call Func_e4a
     ld hl, $d62b
@@ -35477,7 +35476,7 @@ Func_1ddf4: ; 0x1ddf4
     scf
     ret
 
-Func_1de22: ; 0x1de22
+Func_1de22: ; 1de22 (7:5e22) 
     ld a, [wCurrentStage]
     bit 0, a
     ret z
@@ -35496,7 +35495,7 @@ Func_1de22: ; 0x1de22
     call PlaySoundEffect
     ret
 
-Func_1de4b: ; 0x1de4b
+Func_1de4b: ; 1de4b (7:5e4b) 
     ld b, a
     ld a, [wCurrentStage]
     bit 0, a
@@ -35521,7 +35520,7 @@ Func_1de4b: ; 0x1de4b
     call Func_10aa
     ret
 
-Func_1de6f: ; 0x1de6f
+Func_1de6f: ; 1de6f (7:5e6f) 
     ld b, a
     ld a, [wCurrentStage]
     bit 0, a
@@ -35546,7 +35545,7 @@ Func_1de6f: ; 0x1de6f
     call Func_10aa
     ret
 
-Func_1de93: ; 0x1de93
+Func_1de93: ; 1de93 (7:5e93) 
     ld hl, $d4f7
     dec [hl]
     ld a, [hli]
@@ -35626,7 +35625,7 @@ Func_1de93: ; 0x1de93
 .asm_1df14
     ret
 
-Func_1df15: ; 0x1df15
+Func_1df15: ; 1df15 (7:5f15) 
     ld b, $0
     ld hl, $d4f8
     ld a, [hld]
@@ -35680,7 +35679,7 @@ Func_1df15: ; 0x1df15
 
 INCBIN "baserom.gbc",$1df66,$1e356 - $1df66
 
-Func_1e356: ; 0x1e356
+Func_1e356: ; 1e356 (7:6356) 
     ld a, [$d5f7]
     and a
     jp z, Func_1e471
@@ -35807,10 +35806,10 @@ Func_1e356: ; 0x1e356
     call BankSwitch
     jr asm_1e475
 
-Func_1e471: ; 0x1e471
+Func_1e471: ; 1e471 (7:6471) 
     call Func_1e4b8
     ret z
-asm_1e475: ; 0x1e475
+asm_1e475: ; 1e475 (7:6475) 
     ld hl, $d5fb
     ld b, $3
 .asm_1e47a
@@ -35822,7 +35821,7 @@ asm_1e475: ; 0x1e475
     jr nz, .asm_1e47a
     ret
 
-Func_1e484: ; 0x1e484
+Func_1e484: ; 1e484 (7:6484) 
     and a
     jr z, .asm_1e496
     ld a, [hGameBoyColorFlag]
@@ -35857,7 +35856,7 @@ Func_1e484: ; 0x1e484
     pop bc
     ret
 
-Func_1e4b8: ; 0x1e4b8
+Func_1e4b8: ; 1e4b8 (7:64b8) 
     ld a, [$d5fc]
     and a
     jr z, .asm_1e4e5
@@ -35923,7 +35922,7 @@ Func_1e4b8: ; 0x1e4b8
     ld [hl], a
     ret
 
-BallTypeProgression2BlueField: ; 0x1e514
+BallTypeProgression2BlueField: ; 1e514 (7:6514) 
 ; Determines the next upgrade for the Ball.
     db GREAT_BALL   ; POKE_BALL -> GREAT_BALL
     db GREAT_BALL   ; unused
@@ -35932,7 +35931,7 @@ BallTypeProgression2BlueField: ; 0x1e514
     db MASTER_BALL  ; unused
     db MASTER_BALL  ; MASTER_BALL -> MASTER_BALL
 
-BallTypeDegradation2BlueField: ; 0x1e51a
+BallTypeDegradation2BlueField: ; 1e51a (7:651a) 
 ; Determines the previous upgrade for the Ball.
     db POKE_BALL   ; POKE_BALL -> POKE_BALL
     db POKE_BALL   ; unused
@@ -35943,7 +35942,7 @@ BallTypeDegradation2BlueField: ; 0x1e51a
 
 INCBIN "baserom.gbc",$1e520,$1e58c - $1e520
 
-HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
+HandleBallTypeUpgradeCounterBlueField: ; 1e58c (7:658c) 
     ld a, [$d5f3]
     and a
     ret nz
@@ -35982,7 +35981,7 @@ HandleBallTypeUpgradeCounterBlueField: ; 0x1e58c
     call BankSwitch
     ret
 
-Func_1e5c5: ; 0x1e5c5
+Func_1e5c5: ; 1e5c5 (7:65c5) 
     ld a, [$d50d]
     and a
     jr z, .asm_1e623
@@ -36033,7 +36032,7 @@ Func_1e5c5: ; 0x1e5c5
     ret z
     ; fall through
 
-Func_1e627: ; 0x1e627
+Func_1e627: ; 1e627 (7:6627) 
     ld hl, $d512
     ld b, $4
 .asm_1e62c
@@ -36045,7 +36044,7 @@ Func_1e627: ; 0x1e627
     jr nz, .asm_1e62c
     ret
 
-Func_1e636: ; 0x1e636
+Func_1e636: ; 1e636 (7:6636) 
     and a
     jr z, .asm_1e648
     ld a, [hGameBoyColorFlag]
@@ -36080,7 +36079,7 @@ Func_1e636: ; 0x1e636
     pop bc
     ret
 
-Func_1e66a: ; 0x1e66a
+Func_1e66a: ; 1e66a (7:666a) 
     ld a, [$d513]
     and a
     jr z, .asm_1e6a0
@@ -36157,7 +36156,7 @@ Func_1e66a: ; 0x1e66a
 
 INCBIN "baserom.gbc",$1e6d7,$1e757 - $1e6d7
 
-Func_1e757: ; 0x1e757
+Func_1e757: ; 1e757 (7:6757) 
     ld a, [$d601]
     and a
     jr z, .asm_1e78c
@@ -36267,7 +36266,7 @@ Func_1e757: ; 0x1e757
     ld [$d622], a
     ret
 
-Func_1e830: ; 0x1e830
+Func_1e830: ; 1e830 (7:6830) 
     xor a
     ld [wIndicatorStates + 4], a
     ld a, $d
@@ -36339,7 +36338,7 @@ Func_1e830: ; 0x1e830
     ld [$d622], a
     ret
 
-Func_1e8c3: ; 0x1e8c3
+Func_1e8c3: ; 1e8c3 (7:68c3) 
     call Func_30e8
     call Func_30db
     ld hl, $d5dc
@@ -36362,7 +36361,7 @@ Func_1e8c3: ; 0x1e8c3
 
 INCBIN "baserom.gbc",$1e8f1,$1e8f6 - $1e8f1
 
-Func_1e8f6: ; 0x1e8f6
+Func_1e8f6: ; 1e8f6 (7:68f6) 
     ld a, [wCurrentStage]
     and $1
     sla a
@@ -36390,7 +36389,7 @@ Func_1e8f6: ; 0x1e8f6
 
 INCBIN "baserom.gbc",$1e91e,$1e9c0 - $1e91e
 
-Func_1e9c0: ; 0x1e9c0
+Func_1e9c0: ; 1e9c0 (7:69c0) 
     ld a, [$d607]
     and a
     ret z
@@ -36430,7 +36429,7 @@ Func_1e9c0: ; 0x1e9c0
     call nz, Func_1e8f6
     ret
 
-Func_1ea0a: ; 0x1ea0a
+Func_1ea0a: ; 1ea0a (7:6a0a) 
     ld a, [$d604]
     and a
     ret z
@@ -36460,7 +36459,7 @@ Func_1ea0a: ; 0x1ea0a
     add hl, bc
     jr asm_1ea6a
 
-Func_1ea3b: ; 0x1ea3b
+Func_1ea3b: ; 1ea3b (7:6a3b) 
     ld a, [$d604]
     and a
     ret z
@@ -36490,7 +36489,7 @@ Func_1ea3b: ; 0x1ea3b
     add hl, bc
     ; fall through
 
-asm_1ea6a: ; 0x1ea6a
+asm_1ea6a: ; 1ea6a (7:6a6a) 
     ld bc, $4000
     add hl, bc
     ld de, wBallXVelocity
@@ -36565,7 +36564,7 @@ asm_1ea6a: ; 0x1ea6a
     call PlaySoundEffect
     ret
 
-Func_1ead4: ; 0x1ead4
+Func_1ead4: ; 1ead4 (7:6ad4) 
     ld a, [$ffb3]
     and $f
     ret nz
@@ -36637,7 +36636,7 @@ Func_1ead4: ; 0x1ead4
     jr nz, .asm_1eb0d
     ret
 
-Func_1eb41: ; 0x1eb41
+Func_1eb41: ; 1eb41 (7:6b41) 
     push af
     sla c
     ld hl, $6b61
@@ -36663,7 +36662,7 @@ Func_1eb41: ; 0x1eb41
 
 INCBIN "baserom.gbc",$1eb61,$1ef09 - $1eb61
 
-Func_1ef09: ; 0x1ef09
+Func_1ef09: ; 1ef09 (7:6f09) 
     ld a, [wBlueStageForceFieldDirection]
     cp $0  ; up direction
     jp z, Func_1ef20
@@ -36677,7 +36676,7 @@ Func_1ef09: ; 0x1ef09
     ; fall through
     ; default to upward forcefield
 
-Func_1ef20: ; 0x1ef20
+Func_1ef20: ; 1ef20 (7:6f20) 
     ld a, [wBallYPos + 1]
     sub $60
     cp $30
@@ -36704,7 +36703,7 @@ Func_1ef20: ; 0x1ef20
     add hl, bc
     jp Func_1efdc
 
-Func_1ef4d: ; 0x1ef4d
+Func_1ef4d: ; 1ef4d (7:6f4d) 
     ld a, [wBallXPos + 1]
     sub $38
     cp $30
@@ -36734,7 +36733,7 @@ Func_1ef4d: ; 0x1ef4d
     add hl, bc
     jp Func_1efdc
 
-Func_1ef7e: ; 0x1ef7e
+Func_1ef7e: ; 1ef7e (7:6f7e) 
     ld a, [wBallYPos + 1]
     sub $60
     cp $30
@@ -36764,7 +36763,7 @@ Func_1ef7e: ; 0x1ef7e
     add hl, bc
     jr Func_1efdc
 
-Func_1efae: ; 0x1efae
+Func_1efae: ; 1efae (7:6fae) 
     ld a, [wBallXPos + 1]
     sub $38
     cp $30
@@ -36793,7 +36792,7 @@ Func_1efae: ; 0x1efae
     sla c
     add hl, bc
     ; fall through
-Func_1efdc: ; 0x1efdc
+Func_1efdc: ; 1efdc (7:6fdc) 
     ld a, [wBlueStageForceFieldDirection]
     cp $0  ; up direction
     jp z, Func_1eff3
@@ -36807,7 +36806,7 @@ Func_1efdc: ; 0x1efdc
     ; fall through
     ; default to upward forcefield
 
-Func_1eff3:  ; 0x1eff3
+Func_1eff3:  ; 1eff3 (7:6ff3) 
     ld bc, $4000
     add hl, bc
     ld de, wBallXVelocity
@@ -36880,7 +36879,7 @@ Func_1eff3:  ; 0x1eff3
     ld [$d804], a
     ret
 
-Func_1f057: ; 0x1f057
+Func_1f057: ; 1f057 (7:7057) 
     ld bc, $4000
     add hl, bc
     ld de, wBallXVelocity
@@ -36955,7 +36954,7 @@ Func_1f057: ; 0x1f057
     ld [$d804], a
     ret
 
-LoadOAMData2e: ; 0x1f0be
+LoadOAMData2e: ; 1f0be (7:70be) 
     ld bc, $4000
     add hl, bc
     ld de, wBallYVelocity
@@ -37030,7 +37029,7 @@ LoadOAMData2e: ; 0x1f0be
     ld [$d804], a
     ret
 
-Func_1f124: ; 0x1f124
+Func_1f124: ; 1f124 (7:7124) 
     ld bc, $4000
     add hl, bc
     ld de, wBallYVelocity
@@ -37105,7 +37104,7 @@ Func_1f124: ; 0x1f124
     ld [$d804], a
     ret
 
-Func_1f18a: ; 0x1f18a
+Func_1f18a: ; 1f18a (7:718a) 
     ld a, [$d640]
     cp $0
     jr z, .asm_1f1b4
@@ -37134,12 +37133,12 @@ Func_1f18a: ; 0x1f18a
 
 INCBIN "baserom.gbc",$1f1b5,$1f261 - $1f1b5
 
-Func_1f261: ; 0x1f261
+Func_1f261: ; 1f261 (7:7261) 
     call Func_1f27b
     ret nc
     ; fall through
 
-Func_1f265: ; 0x1f265
+Func_1f265: ; 1f265 (7:7265) 
     sla a
     ld c, a
     ld b, $0
@@ -37154,7 +37153,7 @@ Func_1f265: ; 0x1f265
     call Func_10c5
     ret
 
-Func_1f27b: ; 0x1f27b
+Func_1f27b: ; 1f27b (7:727b) 
     ld a, [$d624]
     ld hl, $d625
     cp [hl]
@@ -37191,7 +37190,7 @@ Func_1f27b: ; 0x1f27b
 
 INCBIN "baserom.gbc",$1f2b9,$1f2ed - $1f2b9
 
-Func_1f2ed: ; 0x1f2ed
+Func_1f2ed: ; 1f2ed (7:72ed) 
     xor a
     ld [$d604], a
     ld [wIndicatorStates + 4], a
@@ -37201,7 +37200,7 @@ Func_1f2ed: ; 0x1f2ed
     call BankSwitch
     ret
 
-Func_1f2ff: ; 0x1f2ff
+Func_1f2ff: ; 1f2ff (7:72ff) 
     ld a, [wLeftAlleyCount]
     cp $3
     jr c, .asm_1f30b
@@ -37228,7 +37227,7 @@ Func_1f2ff: ; 0x1f2ff
     ld [wIndicatorStates + 1], a
     ret
 
-Func_1f330: ; 0x1f330
+Func_1f330: ; 1f330 (7:7330) 
     ld bc, $7f00
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -37246,7 +37245,7 @@ Func_1f330: ; 0x1f330
     call Func_1f4f8
     ret
 
-Func_1f35a: ; 0x1f35a
+Func_1f35a: ; 1f35a (7:735a) 
     ld bc, $7f00
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -37271,7 +37270,7 @@ Func_1f35a: ; 0x1f35a
     call Func_1f55e
     ret
 
-Func_1f395: ; 0x1f395
+Func_1f395: ; 1f395 (7:7395) 
     ld de, $d4cd
     ld hl, $73cf
     call Func_1f3ad
@@ -37282,7 +37281,7 @@ Func_1f395: ; 0x1f395
     ld hl, $73db
     ; fall through
 
-Func_1f3ad: ; 0x1f3ad
+Func_1f3ad: ; 1f3ad (7:73ad) 
     ld a, [hBoardXShift]
     ld b, a
     ld a, [hli]
@@ -37311,7 +37310,7 @@ Func_1f3ad: ; 0x1f3ad
 
 INCBIN "baserom.gbc",$1f3cf,$1f3e1 - $1f3cf
 
-Func_1f3e1: ; 0x1f3e1
+Func_1f3e1: ; 1f3e1 (7:73e1) 
     ld a, $8a
     ld hl, hBoardXShift
     sub [hl]
@@ -37333,7 +37332,7 @@ Func_1f3e1: ; 0x1f3e1
 
 INCBIN "baserom.gbc",$1f402,$1f408 - $1f402
 
-Func_1f408: ; 0x1f408
+Func_1f408: ; 1f408 (7:7408) 
     ld a, $18
     ld hl, hBoardXShift
     sub [hl]
@@ -37353,7 +37352,7 @@ Func_1f408: ; 0x1f408
 
 INCBIN "baserom.gbc",$1f425,$1f428 - $1f425
 
-Func_1f428: ; 0x1f428
+Func_1f428: ; 1f428 (7:7428) 
     ld a, $70
     ld hl, hBoardXShift
     sub [hl]
@@ -37373,7 +37372,7 @@ Func_1f428: ; 0x1f428
 
 INCBIN "baserom.gbc",$1f445,$1f448 - $1f445
 
-Func_1f448: ; 0x1f448
+Func_1f448: ; 1f448 (7:7448) 
     ld a, [hBoardXShift]
     ld d, a
     ld a, [hBoardYShift]
@@ -37416,7 +37415,7 @@ Func_1f448: ; 0x1f448
 
 INCBIN "baserom.gbc",$1f48b,$1f48f - $1f48b
 
-Func_1f48f: ; 0x1f48f
+Func_1f48f: ; 1f48f (7:748f) 
     ld a, [$d551]
     and a
     ret nz
@@ -37428,7 +37427,7 @@ Func_1f48f: ; 0x1f48f
     ld b, $6
     jr asm_1f4b5
 
-Func_1f4a3: ; 0x1f4a3
+Func_1f4a3: ; 1f4a3 (7:74a3) 
     ld a, [$d551]
     and a
     ret nz
@@ -37462,7 +37461,7 @@ asm_1f4b5:
 
 INCBIN "baserom.gbc",$1f4ce,$1f4f8 - $1f4ce
 
-Func_1f4f8: ; 0x1f4f8
+Func_1f4f8: ; 1f4f8 (7:74f8) 
     ld a, [$d551]
     and a
     ret z
@@ -37472,7 +37471,7 @@ Func_1f4f8: ; 0x1f4f8
     ld c, $47
     jr asm_1f518
 
-Func_1f509: ; 0x1f509
+Func_1f509: ; 1f509 (7:7509) 
     ld a, [$d551]
     and a
     ret z
@@ -37480,7 +37479,7 @@ Func_1f509: ; 0x1f509
     ld hl, $7552
     ld b, $6
     ld c, $40
-asm_1f518: ; 0x1f518
+asm_1f518: ; 1f518 (7:7518) 
     push bc
     ld a, [de]
     add c
@@ -37511,7 +37510,7 @@ asm_1f518: ; 0x1f518
 
 INCBIN "baserom.gbc",$1f53a,$1f55e - $1f53a
 
-Func_1f55e: ; 0x1f55e
+Func_1f55e: ; 1f55e (7:755e) 
     ld a, [$d604]
     and a
     ret z
@@ -37536,7 +37535,7 @@ Func_1f55e: ; 0x1f55e
     call nz, LoadOAMData
     ret
 
-Func_1f58b: ; 0x1f58b
+Func_1f58b: ; 1f58b (7:758b) 
     ld a, [$d5bb]
     and a
     ret z
@@ -37562,7 +37561,7 @@ INCBIN "baserom.gbc",$1f5ad,$20000 - $1f5ad
 
 SECTION "bank8", ROMX, BANK[$8]
 
-Func_20000: ; 0x20000
+Func_20000: ; 20000 (8:4000) 
     ld a, [$d54c]
     cp $4
     jp z, Func_20230
@@ -37578,7 +37577,7 @@ Func_20000: ; 0x20000
     call Func_201f2
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_20021: ; 0x20021
+PointerTable_20021: ; 20021 (8:4021) 
     dw Func_20041
     db Bank(Func_20041), $00
 
@@ -37603,7 +37602,7 @@ PointerTable_20021: ; 0x20021
     dw Func_201ce
     db Bank(Func_201ce), $00
 
-Func_20041: ; 0x20041
+Func_20041: ; 20041 (8:4041) 
     ld a, [$d5b6]
     cp $18
     jr nz, .asm_2005d
@@ -37620,7 +37619,7 @@ Func_20041: ; 0x20041
     scf
     ret
 
-Func_2005f: ; 0x2005f
+Func_2005f: ; 2005f (8:405f) 
     ld [$ff8a], a
     ld a, Bank(Func_10648)
     ld hl, Func_10648
@@ -37628,7 +37627,7 @@ Func_2005f: ; 0x2005f
     scf
     ret
 
-Func_2006b: ; 0x2006b
+Func_2006b: ; 2006b (8:406b) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20098
@@ -37657,7 +37656,7 @@ Func_2006b: ; 0x2006b
     scf
     ret
 
-Func_200a3: ; 0x200a3
+Func_200a3: ; 200a3 (8:40a3) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_200af
@@ -37682,7 +37681,7 @@ Func_200a3: ; 0x200a3
     scf
     ret
 
-Func_200d3: ; 0x200d3
+Func_200d3: ; 200d3 (8:40d3) 
     ld a, [$d5be]
     dec a
     ld [$d5be], a
@@ -37778,7 +37777,7 @@ Func_200d3: ; 0x200d3
     scf
     ret
 
-Func_20193: ; 0x20193
+Func_20193: ; 20193 (8:4193) 
     ld a, [$d580]
     and a
     jr z, .asm_2019e
@@ -37803,7 +37802,7 @@ Func_20193: ; 0x20193
     scf
     ret
 
-Func_201c2: ; 0x201c2
+Func_201c2: ; 201c2 (8:41c2) 
     ld [$ff8a], a
     ld a, Bank(Func_1052d)
     ld hl, Func_1052d
@@ -37811,7 +37810,7 @@ Func_201c2: ; 0x201c2
     scf
     ret
 
-Func_201ce: ; 0x201ce
+Func_201ce: ; 201ce (8:41ce) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -37829,7 +37828,7 @@ Func_201ce: ; 0x201ce
     scf
     ret
 
-Func_201f2: ; 0x201f2
+Func_201f2: ; 201f2 (8:41f2) 
     ld [$ff8a], a
     ld a, Bank(Func_107f8)
     ld hl, Func_107f8
@@ -37859,7 +37858,7 @@ Func_201f2: ; 0x201f2
     call BankSwitch
     ret
 
-Func_20230: ; 0x20230
+Func_20230: ; 20230 (8:4230) 
     ld a, [$d5b6]
     cp $18
     jr z, .asm_2029d
@@ -37921,19 +37920,19 @@ Func_20230: ; 0x20230
     scf
     ret
 
-Func_202a8: ; 0x202a8
+Func_202a8: ; 202a8 (8:42a8) 
     ld bc, $0000
     ld de, $1000
     call Func_3538
     ret
 
-Func_202b2: ; 0x202b2
+Func_202b2: ; 202b2 (8:42b2) 
     ld bc, $0005
     ld de, $0000
     call Func_3538
     ret
 
-Func_202bc: ; 0x202bc
+Func_202bc: ; 202bc (8:42bc) 
     ld a, [$d54c]
     cp $4
     jp z, Func_204f1
@@ -37951,7 +37950,7 @@ Func_202bc: ; 0x202bc
     call Func_204b3
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_202e2: ; 0x202e2
+PointerTable_202e2: ; 202e2 (8:42e2) 
     dw Func_20302
     db Bank(Func_20302), $00
 
@@ -37976,7 +37975,7 @@ PointerTable_202e2: ; 0x202e2
     dw Func_2048f
     db Bank(Func_2048f), $00
 
-Func_20302: ; 0x20302
+Func_20302: ; 20302 (8:4302) 
     ld a, [$d5b6]
     cp $18
     jr nz, .asm_2031e
@@ -37993,7 +37992,7 @@ Func_20302: ; 0x20302
     scf
     ret
 
-Func_20320: ; 0x20320
+Func_20320: ; 20320 (8:4320) 
     ld [$ff8a], a
     ld a, Bank(Func_10648)
     ld hl, Func_10648
@@ -38001,7 +38000,7 @@ Func_20320: ; 0x20320
     scf
     ret
 
-Func_2032c: ; 0x2032c
+Func_2032c: ; 2032c (8:432c) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20333
@@ -38030,7 +38029,7 @@ Func_2032c: ; 0x2032c
     scf
     ret
 
-Func_20364: ; 0x20364
+Func_20364: ; 20364 (8:4364) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20370
@@ -38055,7 +38054,7 @@ Func_20364: ; 0x20364
     scf
     ret
 
-Func_20394: ; 0x20394
+Func_20394: ; 20394 (8:4394) 
     ld a, [$d5be]
     dec a
     ld [$d5be], a
@@ -38151,7 +38150,7 @@ Func_20394: ; 0x20394
     scf
     ret
 
-Func_20454: ; 0x20454
+Func_20454: ; 20454 (8:4454) 
     ld a, [$d580]
     and a
     jr z, .asm_2045f
@@ -38176,7 +38175,7 @@ Func_20454: ; 0x20454
     scf
     ret
 
-Func_20483: ; 0x20483
+Func_20483: ; 20483 (8:4483) 
     ld [$ff8a], a
     ld a, Bank(Func_1052d)
     ld hl, Func_1052d
@@ -38184,7 +38183,7 @@ Func_20483: ; 0x20483
     scf
     ret
 
-Func_2048f: ; 0x2048f
+Func_2048f: ; 2048f (8:448f) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -38202,7 +38201,7 @@ Func_2048f: ; 0x2048f
     scf
     ret
 
-Func_204b3: ; 0x204b3
+Func_204b3: ; 204b3 (8:44b3) 
     ld [$ff8a], a
     ld a, Bank(Func_107f8)
     ld hl, Func_107f8
@@ -38232,7 +38231,7 @@ Func_204b3: ; 0x204b3
     call BankSwitch
     ret
 
-Func_204f1: ; 0x204f1
+Func_204f1: ; 204f1 (8:44f1) 
     ld a, [$d5b6]
     cp $18
     jr z, .asm_2055e
@@ -38294,23 +38293,23 @@ Func_204f1: ; 0x204f1
     scf
     ret
 
-Func_20569: ; 0x20569
+Func_20569: ; 20569 (8:4569) 
     ld bc, $0000
     ld de, $1000
     call Func_3538
     ret
 
-Func_20573: ; 0x20573
+Func_20573: ; 20573 (8:4573) 
     ld bc, $0005
     ld de, $0000
     ret
 
-Func_2057a: ; 0x2057a
+Func_2057a: ; 2057a (8:457a) 
     ld bc, $0005
     ld de, $0000
     ret
 
-Func_20581: ; 0x20581
+Func_20581: ; 20581 (8:4581) 
     ld a, [$d54c]
     cp $4
     jp z, Func_2080f
@@ -38346,7 +38345,7 @@ Func_20581: ; 0x20581
     call Func_2077b
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_205d4: ; 0x205d4
+PointerTable_205d4: ; 205d4 (8:45d4) 
     dw Func_205e0
     db Bank(Func_205e0), $00
 
@@ -38356,7 +38355,7 @@ PointerTable_205d4: ; 0x205d4
     dw Func_20757
     db Bank(Func_20757), $00
 
-Func_205e0: ; 0x205e0
+Func_205e0: ; 205e0 (8:45e0) 
     ld a, [wCurrentStage]
     ld b, a
     ld a, [$d578]
@@ -38411,7 +38410,7 @@ Func_205e0: ; 0x205e0
     scf
     ret
 
-Func_20651: ; 0x20651
+Func_20651: ; 20651 (8:4651) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20681
@@ -38498,7 +38497,7 @@ Func_20651: ; 0x20651
     call BankSwitch
     ret
 
-Func_2070b: ; 0x2070b
+Func_2070b: ; 2070b (8:470b) 
     ld [$ff8a], a
     ld a, Bank(Func_dc00)
     ld hl, Func_dc00
@@ -38533,7 +38532,7 @@ Func_2070b: ; 0x2070b
     scf
     ret
 
-Func_20757: ; 0x20757
+Func_20757: ; 20757 (8:4757) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -38551,7 +38550,7 @@ Func_20757: ; 0x20757
     scf
     ret
 
-Func_2077b: ; 0x2077b
+Func_2077b: ; 2077b (8:477b) 
     ld hl, $d556
     ld a, [hli]
     ld c, a
@@ -38618,7 +38617,7 @@ Func_2077b: ; 0x2077b
     call Func_32aa
     ret
 
-Func_2080f: ; 0x2080f
+Func_2080f: ; 2080f (8:480f) 
     ld bc, $0001
     ld de, $5000
     call Func_3538
@@ -38640,7 +38639,7 @@ Func_2080f: ; 0x2080f
     scf
     ret
 
-Func_20839: ; 0x20839
+Func_20839: ; 20839 (8:4839) 
     ld a, [$d551]
     and a
     jr nz, .asm_20858
@@ -38659,7 +38658,7 @@ Func_20839: ; 0x20839
     scf
     ret
 
-Func_2085a: ; 0x2085a
+Func_2085a: ; 2085a (8:485a) 
     ld bc, $0007
     ld de, $5000
     call Func_3538
@@ -38682,7 +38681,7 @@ Func_2085a: ; 0x2085a
     scf
     ret
 
-Func_20887: ; 0x20887
+Func_20887: ; 20887 (8:4887) 
     ld a, [$d551]
     and a
     jr nz, .asm_208a6
@@ -38701,7 +38700,7 @@ Func_20887: ; 0x20887
     scf
     ret
 
-Func_208a8: ; 0x208a8
+Func_208a8: ; 208a8 (8:48a8) 
     ld a, [$d551]
     and a
     jr nz, .asm_208c7
@@ -38720,7 +38719,7 @@ Func_208a8: ; 0x208a8
     scf
     ret
 
-Func_208c9: ; 0x208c9
+Func_208c9: ; 208c9 (8:48c9) 
     ld a, [$d551]
     and a
     jr nz, .asm_208e8
@@ -38739,7 +38738,7 @@ Func_208c9: ; 0x208c9
     scf
     ret
 
-Func_208ea: ; 0x208ea
+Func_208ea: ; 208ea (8:48ea) 
     ld a, [$d551]
     and a
     jr nz, .asm_20909
@@ -38758,7 +38757,7 @@ Func_208ea: ; 0x208ea
     scf
     ret
 
-Func_2090b: ; 0x2090b
+Func_2090b: ; 2090b (8:490b) 
     ld a, [$d551]
     and a
     jr nz, .asm_2092a
@@ -38777,7 +38776,7 @@ Func_2090b: ; 0x2090b
     scf
     ret
 
-Func_2092c: ; 0x2092c
+Func_2092c: ; 2092c (8:492c) 
     ld a, [$d551]
     and a
     jr nz, .asm_2094b
@@ -38796,7 +38795,7 @@ Func_2092c: ; 0x2092c
     scf
     ret
 
-Func_2094d: ; 0x2094d
+Func_2094d: ; 2094d (8:494d) 
     ld bc, $0000
     ld de, $1500
     call Func_3538
@@ -38818,7 +38817,7 @@ Func_2094d: ; 0x2094d
     scf
     ret
 
-Func_20977: ; 0x20977
+Func_20977: ; 20977 (8:4977) 
     ld de, $0746
     call PlaySoundEffect
     call Func_20af5
@@ -38871,7 +38870,7 @@ Func_20977: ; 0x20977
     scf
     ret
 
-Func_209eb: ; 0x209eb
+Func_209eb: ; 209eb (8:49eb) 
     ld de, $0747
     call PlaySoundEffect
     ld a, $1
@@ -38915,7 +38914,7 @@ Func_209eb: ; 0x209eb
     scf
     ret
 
-Func_20a55: ; 0x20a55
+Func_20a55: ; 20a55 (8:4a55) 
     ld a, [$d551]
     and a
     jr z, .asm_20a63
@@ -38927,7 +38926,7 @@ Func_20a55: ; 0x20a55
     scf
     ret
 
-Func_20a65: ; 0x20a65
+Func_20a65: ; 20a65 (8:4a65) 
     ld a, [$d551]
     and a
     jr z, .asm_20a80
@@ -38944,7 +38943,7 @@ Func_20a65: ; 0x20a65
     scf
     ret
 
-Func_20a82: ; 0x20a82
+Func_20a82: ; 20a82 (8:4a82) 
     ld a, [$d551]
     and a
     jr z, .asm_20a9d
@@ -38998,7 +38997,7 @@ asm_20a9f:
     scf
     ret
 
-Func_20af5: ; 0x20af5
+Func_20af5: ; 20af5 (8:4af5) 
     ld a, $11
     call Func_a21
     ld c, a
@@ -39007,7 +39006,7 @@ Func_20af5: ; 0x20af5
     add hl, bc
     ret
 
-Func_20b02: ; 0x20b02
+Func_20b02: ; 20b02 (8:4b02) 
     ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_20b0c
@@ -39096,7 +39095,7 @@ Func_20b02: ; 0x20b02
     scf
     ret
 
-Func_20bae: ; 0x20bae
+Func_20bae: ; 20bae (8:4bae) 
     ld a, [$d54c]
     cp $4
     jp z, Func_20e34
@@ -39130,7 +39129,7 @@ Func_20bae: ; 0x20bae
     call Func_20da0
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_20bfc: ; 0x20bfc
+PointerTable_20bfc: ; 20bfc (8:4bfc) 
     dw Func_20c08
     db Bank(Func_20c08), $00
 
@@ -39140,7 +39139,7 @@ PointerTable_20bfc: ; 0x20bfc
     dw Func_20d7c
     db Bank(Func_20d7c), $00
 
-Func_20c08: ; 0x20c08
+Func_20c08: ; 20c08 (8:4c08) 
     ld a, [wCurrentStage]
     ld b, a
     ld a, [$d578]
@@ -39195,7 +39194,7 @@ Func_20c08: ; 0x20c08
     scf
     ret
 
-Func_20c76: ; 0x20c76
+Func_20c76: ; 20c76 (8:4c76) 
     ld a, [wCurrentStage]
     bit 0, a
     jr z, .asm_20ca6
@@ -39282,7 +39281,7 @@ Func_20c76: ; 0x20c76
     call BankSwitch
     ret
 
-Func_20d30: ; 0x20d30
+Func_20d30: ; 20d30 (8:4d30) 
     ld [$ff8a], a
     ld a, Bank(Func_dc00)
     ld hl, Func_dc00
@@ -39317,7 +39316,7 @@ Func_20d30: ; 0x20d30
     scf
     ret
 
-Func_20d7c: ; 0x20d7c
+Func_20d7c: ; 20d7c (8:4d7c) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -39335,7 +39334,7 @@ Func_20d7c: ; 0x20d7c
     scf
     ret
 
-Func_20da0: ; 0x20da0
+Func_20da0: ; 20da0 (8:4da0) 
     ld hl, $d556
     ld a, [hli]
     ld c, a
@@ -39402,7 +39401,7 @@ Func_20da0: ; 0x20da0
     call Func_32aa
     ret
 
-Func_20e34: ; 0x20e34
+Func_20e34: ; 20e34 (8:4e34) 
     ld bc, $0001
     ld de, $5000
     call Func_3538
@@ -39424,7 +39423,7 @@ Func_20e34: ; 0x20e34
     scf
     ret
 
-Func_20e5e: ; 0x20e5e
+Func_20e5e: ; 20e5e (8:4e5e) 
     ld a, [$d551]
     and a
     jr nz, .asm_20e80
@@ -39444,7 +39443,7 @@ Func_20e5e: ; 0x20e5e
     scf
     ret
 
-Func_20e82: ; 0x20e82
+Func_20e82: ; 20e82 (8:4e82) 
     ld a, [$d551]
     and a
     jr nz, .asm_20ea4
@@ -39464,7 +39463,7 @@ Func_20e82: ; 0x20e82
     scf
     ret
 
-Func_20ea6: ; 0x20ea6
+Func_20ea6: ; 20ea6 (8:4ea6) 
     ld a, [$d551]
     and a
     jr nz, .asm_20ec5
@@ -39483,7 +39482,7 @@ Func_20ea6: ; 0x20ea6
     scf
     ret
 
-Func_20ec7: ; 0x20ec7
+Func_20ec7: ; 20ec7 (8:4ec7) 
     ld a, [$d551]
     and a
     jr nz, .asm_20ee6
@@ -39502,7 +39501,7 @@ Func_20ec7: ; 0x20ec7
     scf
     ret
 
-Func_20ee8: ; 0x20ee8
+Func_20ee8: ; 20ee8 (8:4ee8) 
     ld a, [$d551]
     and a
     jr nz, .asm_20f07
@@ -39521,7 +39520,7 @@ Func_20ee8: ; 0x20ee8
     scf
     ret
 
-Func_20f09: ; 0x20f09
+Func_20f09: ; 20f09 (8:4f09) 
     ld a, [$d551]
     and a
     jr nz, .asm_20f28
@@ -39540,7 +39539,7 @@ Func_20f09: ; 0x20f09
     scf
     ret
 
-Func_20f2a: ; 0x20f2a
+Func_20f2a: ; 20f2a (8:4f2a) 
     ld a, [$d551]
     and a
     jr nz, .asm_20f49
@@ -39559,7 +39558,7 @@ Func_20f2a: ; 0x20f2a
     scf
     ret
 
-Func_20f4b: ; 0x20f4b
+Func_20f4b: ; 20f4b (8:4f4b) 
     ld bc, $0000
     ld de, $1500
     call Func_3538
@@ -39581,7 +39580,7 @@ Func_20f4b: ; 0x20f4b
     scf
     ret
 
-Func_20f75: ; 0x20f75
+Func_20f75: ; 20f75 (8:4f75) 
     ld de, $0746
     call PlaySoundEffect
     call Func_2111d
@@ -39636,7 +39635,7 @@ Func_20f75: ; 0x20f75
     scf
     ret
 
-Func_20fef: ; 0x20fef
+Func_20fef: ; 20fef (8:4fef) 
     ld de, $0747
     call PlaySoundEffect
     ld a, $1
@@ -39681,7 +39680,7 @@ Func_20fef: ; 0x20fef
     scf
     ret
 
-Func_2105c: ; 0x2105c
+Func_2105c: ; 2105c (8:505c) 
     ld a, [$d551]
     and a
     jr z, .asm_21077
@@ -39698,7 +39697,7 @@ Func_2105c: ; 0x2105c
     scf
     ret
 
-Func_21079: ; 0x21079
+Func_21079: ; 21079 (8:5079) 
     ld a, [$d551]
     and a
     jr z, .asm_21087
@@ -39710,7 +39709,7 @@ Func_21079: ; 0x21079
     scf
     ret
 
-Func_21089: ; 0x21089
+Func_21089: ; 21089 (8:5089) 
     ld a, [$d551]
     and a
     jr nz, .asm_210aa
@@ -39782,7 +39781,7 @@ asm_210c7:
     scf
     ret
 
-Func_2111d: ; 0x2111d
+Func_2111d: ; 2111d (8:511d) 
     ld a, $11
     call Func_a21
     ld c, a
@@ -39791,7 +39790,7 @@ Func_2111d: ; 0x2111d
     add hl, bc
     ret
 
-Func_2112a: ; 0x2112a
+Func_2112a: ; 2112a (8:512a) 
     ld a, [wCurrentEvolutionMon]
     cp $ff
     jr nz, .asm_21134
@@ -39885,7 +39884,7 @@ INCBIN "baserom.gbc",$211d6,$24000 - $211d6
 
 SECTION "bank9", ROMX, BANK[$9]
 
-InitMeowthBonusStage: ; 0x24000
+InitMeowthBonusStage: ; 24000 (9:4000) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -39923,7 +39922,7 @@ InitMeowthBonusStage: ; 0x24000
     call Func_490
     ret
 
-StartBallMeowthBonusStage: ; 0x24059
+StartBallMeowthBonusStage: ; 24059 (9:4059) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $a6
@@ -40009,7 +40008,7 @@ StartBallMeowthBonusStage: ; 0x24059
     ld [$d4c9], a
     ret
 
-Func_24128: ; 0x24128
+Func_24128: ; 24128 (9:4128) 
     ld [$ff8a], a
     ld a, Bank(Func_142fc)
     ld hl, Func_142fc
@@ -40026,13 +40025,13 @@ Func_24128: ; 0x24128
     call BankSwitch
     ret
 
-Func_2414d: ; 0x2414d
+Func_2414d: ; 2414d (9:414d) 
     call Func_24157
     call Func_24214
     call Func_242bb
     ret
 
-Func_24157: ; 0x24157
+Func_24157: ; 24157 (9:4157) 
     ld a, [$d6e7]
     cp $0
     ret nz
@@ -40047,7 +40046,7 @@ Func_24157: ; 0x24157
     ret nc
     ret
 
-Func_24170: ; 0x24170
+Func_24170: ; 24170 (9:4170) 
     ld a, [wBallXPos + 1]
     sub b
     cp $30
@@ -40141,7 +40140,7 @@ Func_24170: ; 0x24170
     and a
     ret
 
-Func_24214: ; 0x24214
+Func_24214: ; 24214 (9:4214) 
     ld a, [$d717]
     cp $2
     jr nz, .asm_2422e
@@ -40193,7 +40192,7 @@ Func_24214: ; 0x24214
     ld [hl], a
     ret
 
-Func_24272: ; 0x24272
+Func_24272: ; 24272 (9:4272) 
     ld a, [wBallXPos + 1]
     sub b
     cp $18
@@ -40238,7 +40237,7 @@ Func_24272: ; 0x24272
     and a
     ret
 
-Func_242bb: ; 0x242bb
+Func_242bb: ; 242bb (9:42bb) 
     ld a, [$d721]
     cp $2
     jr nz, .asm_242d5
@@ -40290,7 +40289,7 @@ Func_242bb: ; 0x242bb
     ld [hl], a
     ret
 
-Func_24319: ; 0x2438f
+Func_24319: ; 2438f (9:438f) 
     ld a, [$d6f4]
     cp $0
     jr z, .asm_24333
@@ -40355,7 +40354,7 @@ Func_24319: ; 0x2438f
     ld [hl], $0
     ret
 
-Func_2438f: ; 0x2438f
+Func_2438f: ; 2438f (9:438f) 
     ld a, [$d6f4]
     cp $a
     jr z, .asm_243a9
@@ -40420,7 +40419,7 @@ Func_2438f: ; 0x2438f
     ld [hl], $0
     ret
 
-Func_24405: ; 0x24405
+Func_24405: ; 24405 (9:4405) 
     ld hl, $d71a
     ld a, [$d6f4]
     ld e, a
@@ -40449,7 +40448,7 @@ Func_24405: ; 0x24405
 
 INCBIN "baserom.gbc",$2442a,$2442a - $2442a
 
-Func_2442a: ; 0x2442a
+Func_2442a: ; 2442a (9:442a) 
     ld a, [$d710]
     jr nz, .asm_2443f
     ld a, [wMeowthStageBonusCounter]
@@ -40540,7 +40539,7 @@ Func_2442a: ; 0x2442a
     ld [$d6ec], a
     ret
 
-Func_244f5: ; 0x244f5
+Func_244f5: ; 244f5 (9:44f5) 
     ld a, [$d6e6]
     and a
     ret nz
@@ -40557,7 +40556,7 @@ Func_244f5: ; 0x244f5
     call Func_24516
     ret
 
-Func_24516: ; 0x24516
+Func_24516: ; 24516 (9:4516) 
     ld a, [wStageCollisionState]
     sla a
     ld c, a
@@ -40578,7 +40577,7 @@ Func_24516: ; 0x24516
 
 INCBIN "baserom.gbc",$24533,$245ab - $24533
 
-Func_245ab: ; 0x245ab
+Func_245ab: ; 245ab (9:45ab) 
     ld a, [$d6e7]
     and a
     jr z, .asm_24621
@@ -40661,7 +40660,7 @@ Func_245ab: ; 0x245ab
     call Func_2465d
     ret
 
-Func_2465d: ; 0x2465d
+Func_2465d: ; 2465d (9:465d) 
     ld a, [$d6ec]
     sla a
     ld c, a
@@ -40731,7 +40730,7 @@ Func_2465d: ; 0x2465d
 
 INCBIN "baserom.gbc",$246e2,$24709 - $246e2
 
-Func_24709: ; 0x24709
+Func_24709: ; 24709 (9:4709) 
     ld a, [wMeowthXPosition]
     ld hl, wMeowthXMovement
     add [hl]
@@ -40758,7 +40757,7 @@ Func_24709: ; 0x24709
     call Func_2476d
     ret
 
-Func_24737: ; 0x24737
+Func_24737: ; 24737 (9:4737) 
     ld a, [wMeowthXPosition]
     cp $8
     jr nc, .asm_24742
@@ -40790,7 +40789,7 @@ Func_24737: ; 0x24737
     ld [wMeowthAnimationFrameCounter], a
     ret
 
-Func_2476d: ; 0x2476d
+Func_2476d: ; 2476d (9:476d) 
     ld a, [wMeowthYMovement]
     and a
     jr z, .asm_247ab
@@ -40852,7 +40851,7 @@ Func_2476d: ; 0x2476d
     ld [wMeowthYMovement], a
     ret
 
-Func_247d9: ; 0x247d9
+Func_247d9: ; 247d9 (9:47d9) 
     ld a, [$d6f3]
     and a
     ret z
@@ -40952,7 +40951,7 @@ Func_247d9: ; 0x247d9
 .asm_248ab
     ret
 
-Func_248ac: ; 0x248ac
+Func_248ac: ; 248ac (9:48ac) 
     ld a, [$d717]
     cp $1
     jr nz, .asm_248d3
@@ -41147,7 +41146,7 @@ Func_248ac: ; 0x248ac
     ld [$d6ec], a
     ret
 
-Func_24a30: ; 0x24a30
+Func_24a30: ; 24a30 (9:4a30) 
     ld a, [$d6f4]
     ld c, a
     ld b, $0
@@ -41273,7 +41272,7 @@ Func_24a30: ; 0x24a30
 
 INCBIN "baserom.gbc",$24af1,$24b41 - $24af1
 
-Func_24b41: ; 0x24b41
+Func_24b41: ; 24b41 (9:4b41) 
     ld a, [$d6f4]
     ld b, $0
     ld c, a
@@ -41389,7 +41388,7 @@ Func_24b41: ; 0x24b41
     scf
     ret
 
-Func_24bf6: ; 0x24bf6
+Func_24bf6: ; 24bf6 (9:4bf6) 
     ld a, [$d6f4]
     ld b, $0
     ld c, a
@@ -41404,7 +41403,7 @@ Func_24bf6: ; 0x24bf6
 
 INCBIN "baserom.gbc",$24c0a,$24c28 - $24c0a
 
-Func_24c28: ; 0x24c28
+Func_24c28: ; 24c28 (9:4c28) 
     ld a, [$d6f3]
     and a
     ret z
@@ -41510,7 +41509,7 @@ Func_24c28: ; 0x24c28
 .asm_24d06
     ret
 
-Func_24d07: ; 0x24d07
+Func_24d07: ; 24d07 (9:4d07) 
     ld a, [$d721]
     cp $1
     jr nz, .asm_24d2a
@@ -41699,7 +41698,7 @@ Func_24d07: ; 0x24d07
     ld [$d6ec], a
     ret
 
-Func_24e7f: ; 0x24e7f
+Func_24e7f: ; 24e7f (9:4e7f) 
     ld a, b
     ld [$d79c], a
     ld a, c
@@ -41756,7 +41755,7 @@ Func_24e7f: ; 0x24e7f
     call Func_24fa3
     ret
 
-Func_24ee7: ; 0x24ee7
+Func_24ee7: ; 24ee7 (9:4ee7) 
     ld a, $ff
     ld [$d795], a
     ld a, [de]
@@ -41774,7 +41773,7 @@ Func_24ee7: ; 0x24ee7
     call CopyHLToDE
     ret
 
-Func_24f00: ; 0x24f00
+Func_24f00: ; 24f00 (9:4f00) 
     ld a, [de]
     sla a
     ld c, a
@@ -41808,7 +41807,7 @@ Func_24f00: ; 0x24f00
 
 INCBIN "baserom.gbc",$24f30,$24fa3 - $24f30
 
-Func_24fa3: ; 0x24fa3
+Func_24fa3: ; 24fa3 (9:4fa3) 
     ld a, [wMeowthStageScore]
     ld c, a
     ld b, $0
@@ -41875,7 +41874,7 @@ Func_24fa3: ; 0x24fa3
 
 INCBIN "baserom.gbc",$25007,$2583b - $25007
 
-Func_2583b: ; 0x2583b
+Func_2583b: ; 2583b (9:583b) 
     ld bc, $7f65
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -41896,7 +41895,7 @@ Func_2583b: ; 0x2583b
     call Func_25a39
     ret
 
-Func_2586c: ; 0x2586c
+Func_2586c: ; 2586c (9:586c) 
     ld a, [wMeowthXPosition]
     ld hl, hBoardXShift
     sub [hl]
@@ -41916,7 +41915,7 @@ Func_2586c: ; 0x2586c
 
 INCBIN "baserom.gbc",$2588b,$25895 - $2588b
 
-Func_25895: ; 0x25895
+Func_25895: ; 25895 (9:5895) 
     ld a, [$d714]
     cp $b
     jr nz, .asm_258a0
@@ -42008,7 +42007,7 @@ Func_25895: ; 0x25895
 
 INCBIN "baserom.gbc",$25935,$2595e - $25935
 
-Func_2595e: ; 0x2595e
+Func_2595e: ; 2595e (9:595e) 
     ld a, [$d71e]
     cp $b
     jr nz, .asm_25969
@@ -42098,7 +42097,7 @@ Func_2595e: ; 0x2595e
     call LoadOAMData2
     ret
 
-Func_259fe: ; 0x259fe
+Func_259fe: ; 259fe (9:59fe) 
     ld a, [$d795]
     and a
     ret z
@@ -42131,7 +42130,7 @@ Func_259fe: ; 0x259fe
 
 INCBIN "baserom.gbc",$25a29,$25a39 - $25a29
 
-Func_25a39: ; 0x25a39
+Func_25a39: ; 25a39 (9:5a39) 
     ld a, [$d64e]
     and a
     ret z
@@ -42172,7 +42171,7 @@ Func_25a39: ; 0x25a39
 
 INCBIN "baserom.gbc",$25a7a,$25a7c - $25a7a
 
-InitSeelBonusStage: ; 0x25a7c
+InitSeelBonusStage: ; 25a7c (9:5a7c) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -42210,7 +42209,7 @@ InitSeelBonusStage: ; 0x25a7c
     call Func_490
     ret
 
-Func_25ad8: ; 0x25ad8
+Func_25ad8: ; 25ad8 (9:5ad8) 
     ld a, [hli]
     ld [de], a
     inc de
@@ -42227,7 +42226,7 @@ Func_25ad8: ; 0x25ad8
 
 INCBIN "baserom.gbc",$25ae5,$25af1 - $25ae5
 
-StartBallSeelBonusStage: ; 0x25af1
+StartBallSeelBonusStage: ; 25af1 (9:5af1) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $a6
@@ -42293,7 +42292,7 @@ StartBallSeelBonusStage: ; 0x25af1
     ld [$d4c9], a
     ret
 
-Func_25b97: ; 0x25b97
+Func_25b97: ; 25b97 (9:5b97) 
     ld [$ff8a], a
     ld a, Bank(Func_142fc)
     ld hl, Func_142fc
@@ -42310,11 +42309,11 @@ Func_25b97: ; 0x25b97
     call BankSwitch
     ret
 
-Func_25bbc: ; 0x25bbc
+Func_25bbc: ; 25bbc (9:5bbc) 
     call Func_25bc0
     ret
 
-Func_25bc0: ; 0x25bc0
+Func_25bc0: ; 25bc0 (9:5bc0) 
     ld a, [$d76c]
     cp $0
     jr nz, .asm_25bd8
@@ -42358,7 +42357,7 @@ Func_25bc0: ; 0x25bc0
     ld [$d767], a
     ret
 
-Func_25c12: ; 0x25c12
+Func_25c12: ; 25c12 (9:5c12) 
     ld a, [wBallXPos + 1]
     sub b
     cp $20
@@ -42400,7 +42399,7 @@ Func_25c12: ; 0x25c12
     and a
     ret
 
-Func_25c5a: ; 0x25c5a
+Func_25c5a: ; 25c5a (9:5c5a) 
     call Func_25da3
     call Func_25ced
     ld a, [$d793]
@@ -42465,7 +42464,7 @@ Func_25c5a: ; 0x25c5a
     ld [$d794], a
     ret
 
-Func_25ced: ; 0x25ced
+Func_25ced: ; 25ced (9:5ced) 
     ld a, [$d766]
     and a
     ret nz
@@ -42482,7 +42481,7 @@ Func_25ced: ; 0x25ced
     call Func_25d0e
     ret
 
-Func_25d0e: ; 0x25d0e
+Func_25d0e: ; 25d0e (9:5d0e) 
     ld a, [wStageCollisionState]
     sla a
     ld c, a
@@ -42503,7 +42502,7 @@ Func_25d0e: ; 0x25d0e
 
 INCBIN "baserom.gbc",$25d2b,$25da3 - $25d2b
 
-Func_25da3: ; 0x25da3
+Func_25da3: ; 25da3 (9:5da3) 
     ld a, [$d767]
     and a
     jp z, .asm_25e38
@@ -42612,7 +42611,7 @@ Func_25da3: ; 0x25da3
     call Func_25ec5
     ret
 
-Func_25e85: ; 0x25e85
+Func_25e85: ; 25e85 (9:5e85) 
     ld a, [$d792]
     inc a
     ld d, $1
@@ -42653,7 +42652,7 @@ Func_25e85: ; 0x25e85
     jr nz, .asm_25e96
     ret
 
-Func_25ec5: ; 0x25ec5
+Func_25ec5: ; 25ec5 (9:5ec5) 
     dec de
     ld a, [de]
     cp $1
@@ -42736,7 +42735,7 @@ Func_25ec5: ; 0x25ec5
 
 INCBIN "baserom.gbc",$25f27,$25f47 - $25f27
 
-Func_25f47: ; 0x25f47
+Func_25f47: ; 25f47 (9:5f47) 
     ld a, [de]
     sla a
     ld c, a
@@ -42755,7 +42754,7 @@ Func_25f47: ; 0x25f47
     ret nc
     ld a, [de]
     rst $18  ; calls JumpToFuncInTable
-CallTable_25f5f: ; 0x25f5f
+CallTable_25f5f: ; 25f5f (9:5f5f) 
     dw Func_25f77
     dw Func_25fbe
     dw Func_25ff3
@@ -42769,7 +42768,7 @@ CallTable_25f5f: ; 0x25f5f
     dw Func_26109
     dw Func_26120
 
-Func_25f77: ; 0x25f77
+Func_25f77: ; 25f77 (9:5f77) 
     dec de
     ld a, [de]
     cp $2
@@ -42822,7 +42821,7 @@ Func_25f77: ; 0x25f77
     pop de
     jp Func_26137
 
-Func_25fbe: ; 0x25fbe
+Func_25fbe: ; 25fbe (9:5fbe) 
     dec de
     ld a, [de]
     cp $4
@@ -42862,7 +42861,7 @@ Func_25fbe: ; 0x25fbe
     ld a, $2
     jp Func_26137
 
-Func_25ff3: ; 0x25ff3
+Func_25ff3: ; 25ff3 (9:5ff3) 
     dec de
     ld a, [de]
     cp $7
@@ -42897,7 +42896,7 @@ Func_25ff3: ; 0x25ff3
     call PlaySoundEffect
     ret
 
-Func_2602a: ; 0x2602a
+Func_2602a: ; 2602a (9:602a) 
     dec de
     ld a, [de]
     cp $9
@@ -42922,7 +42921,7 @@ Func_2602a: ; 0x2602a
     dec [hl]
     ret
 
-Func_2604c: ; 0x2604c
+Func_2604c: ; 2604c (9:604c) 
     dec de
     ld a, [de]
     cp $4
@@ -42961,7 +42960,7 @@ Func_2604c: ; 0x2604c
     ld a, $5
     jp Func_26137
 
-Func_2607f: ; 0x2607f
+Func_2607f: ; 2607f (9:607f) 
     dec de
     ld a, [de]
     cp $7
@@ -42996,7 +42995,7 @@ Func_2607f: ; 0x2607f
     call PlaySoundEffect
     ret
 
-Func_260b6: ; 0x260b6
+Func_260b6: ; 260b6 (9:60b6) 
     dec de
     ld a, [de]
     cp $9
@@ -43021,7 +43020,7 @@ Func_260b6: ; 0x260b6
     dec [hl]
     ret
 
-Func_260d8: ; 0x260d8
+Func_260d8: ; 260d8 (9:60d8) 
     dec de
     ld a, [de]
     cp $5
@@ -43029,7 +43028,7 @@ Func_260d8: ; 0x260d8
     ld a, $4
     jp Func_26137
 
-Func_260e2: ; 0x260e2
+Func_260e2: ; 260e2 (9:60e2) 
     dec de
     ld a, [de]
     cp $5
@@ -43037,7 +43036,7 @@ Func_260e2: ; 0x260e2
     ld a, $1
     jp Func_26137
 
-Func_260ec: ; 0x260ec
+Func_260ec: ; 260ec (9:60ec) 
     dec de
     ld a, [de]
     cp $1
@@ -43061,7 +43060,7 @@ Func_260ec: ; 0x260ec
     ld a, $a
     jp Func_26137
 
-Func_26109: ; 0x26109
+Func_26109: ; 26109 (9:6109) 
     dec de
     ld a, [de]
     cp $7
@@ -43079,7 +43078,7 @@ Func_26109: ; 0x26109
     dec [hl]
     ret
 
-Func_26120: ; 0x26120
+Func_26120: ; 26120 (9:6120) 
     dec de
     ld a, [de]
     cp $7
@@ -43097,7 +43096,7 @@ Func_26120: ; 0x26120
     dec [hl]
     ret
 
-Func_26137: ; 0x26137
+Func_26137: ; 26137 (9:6137) 
     push af
     sla a
     ld c, a
@@ -43119,7 +43118,7 @@ Func_26137: ; 0x26137
 
 INCBIN "baserom.gbc",$2614f,$261f9 - $2614f
 
-Func_261f9: ; 0x261f9
+Func_261f9: ; 261f9 (9:61f9) 
     ld a, $ff
     ld [$d795], a
     ld a, [de]
@@ -43137,7 +43136,7 @@ Func_261f9: ; 0x261f9
     call CopyHLToDE
     ret
 
-Func_26212: ; 0x26212
+Func_26212: ; 26212 (9:6212) 
     ld a, [de]
     sla a
     ld c, a
@@ -43168,7 +43167,7 @@ Func_26212: ; 0x26212
 
 INCBIN "baserom.gbc",$2623a,$262f4 - $2623a
 
-Func_262f4: ; 0x262f4
+Func_262f4: ; 262f4 (9:62f4) 
     ld a, [$d793]
     ld c, a
     ld b, $0
@@ -43227,7 +43226,7 @@ Func_262f4: ; 0x262f4
 
 INCBIN "baserom.gbc",$2634a,$26b7e - $2634a
 
-Func_26b7e: ; 0x26b7e
+Func_26b7e: ; 26b7e (9:6b7e) 
     ld bc, $7f65
     ld [$ff8a], a
     ld a, Bank(Func_175a4)
@@ -43246,7 +43245,7 @@ Func_26b7e: ; 0x26b7e
     call Func_26c3c
     ret
 
-Func_26ba9: ; 0x26ba9
+Func_26ba9: ; 26ba9 (9:6ba9) 
     ld de, $d76e
     call Func_26bbc
     ld de, $d778
@@ -43255,7 +43254,7 @@ Func_26ba9: ; 0x26ba9
     call Func_26bbc
     ret
 
-Func_26bbc: ; 0x26bbc
+Func_26bbc: ; 26bbc (9:6bbc) 
     ld a, [de]
     ld hl, hBoardXShift
     sub [hl]
@@ -43284,7 +43283,7 @@ Func_26bbc: ; 0x26bbc
 
 INCBIN "baserom.gbc",$26bdf,$26bf7 - $26bdf
 
-Func_26bf7: ; 0x26bf7: ; 0x26bf7
+Func_26bf7: ; 26bf7 (9:6bf7) ;
     ld a, [$d795]
     cp $0
     ret z
@@ -43317,7 +43316,7 @@ Func_26bf7: ; 0x26bf7: ; 0x26bf7
 
 INCBIN "baserom.gbc",$26c23,$26c3c - $26c23
 
-Func_26c3c: ; 0x26c3c
+Func_26c3c: ; 26c3c (9:6c3c) 
     ld a, [$d64e]
     and a
     ret z
@@ -43361,17 +43360,17 @@ INCBIN "baserom.gbc",$26c7d,$28000 - $26c7d
 
 SECTION "banka", ROMX, BANK[$a]
 
-HandlePokedexScreen: ; 0x28000
+HandlePokedexScreen: ; 28000 (a:4000) 
     ld a, [wScreenState]
     rst $18  ; calls JumpToFuncInTable
-PointerTable_28004: ; 0x28004
+PointerTable_28004: ; 28004 (a:4004) 
     dw LoadPokedexScreen
     dw MainPokedexScreen
     dw MonInfoPokedexScreen
     dw Func_282e9 ; not sure if this is used ever...
     dw ExitPokedexScreen
 
-LoadPokedexScreen: ; 0x2800e
+LoadPokedexScreen: ; 2800e (a:400e) 
     ld a, $23
     ld [$ff9e], a
     ld a, $e4
@@ -43433,11 +43432,11 @@ LoadPokedexScreen: ; 0x2800e
     inc [hl]
     ret
 
-PointerTable_280a2: ; 0x280a2
+PointerTable_280a2: ; 280a2 (a:40a2) 
     dw Data_280a6
     dw Data_280c4
 
-Data_280a6: ; 0x280a6
+Data_280a6: ; 280a6 (a:40a6) 
     dw $5800
     db $2B
     dw vTiles0
@@ -43460,7 +43459,7 @@ Data_280a6: ; 0x280a6
 
     db $FF, $FF ; terminators
 
-Data_280c4: ; 0x280c4
+Data_280c4: ; 280c4 (a:40c4) 
     dw $5800
     db $2B
     dw vTiles0
@@ -43503,7 +43502,7 @@ Data_280c4: ; 0x280c4
 
     db $FF, $FF ; terminators
 
-MainPokedexScreen: ; 0x280fe
+MainPokedexScreen: ; 280fe (a:40fe) 
     call Func_28513
     ld a, [hNewlyPressedButtons]
     bit BIT_A_BUTTON, a
@@ -43566,7 +43565,7 @@ MainPokedexScreen: ; 0x280fe
     call Func_285db
     ret
 
-MonInfoPokedexScreen: ; 0x28178
+MonInfoPokedexScreen: ; 28178 (a:4178) 
     ld a, [$d956]
     bit 0, a
     jr z, .asm_28190
@@ -43614,7 +43613,7 @@ MonInfoPokedexScreen: ; 0x28178
 
 INCBIN "baserom.gbc",$281cb,$282e9 - $281cb
 
-Func_282e9: ; 0x282e9
+Func_282e9: ; 282e9 (a:42e9) 
     ld a, [$d960]
     and a
     jr z, .asm_28318
@@ -43679,7 +43678,7 @@ Func_282e9: ; 0x282e9
 .asm_28367
     ret
 
-Func_28368: ; 0x28368
+Func_28368: ; 28368 (a:4368) 
     ld a, [hJoypadState]
     bit BIT_A_BUTTON, a
     jr nz, .asm_28371
@@ -43794,7 +43793,7 @@ Func_28368: ; 0x28368
 
 INCBIN "baserom.gbc",$2842c,$284bc - $2842c
 
-Func_284bc: ; 0x284bc
+Func_284bc: ; 284bc (a:44bc) 
     ld a, [hPressedButtons]
     ld b, a
     ld a, [$daa2]
@@ -43834,7 +43833,7 @@ Func_284bc: ; 0x284bc
     ld [$daa2], a
     ret
 
-ExitPokedexScreen: ; 0x284f9
+ExitPokedexScreen: ; 284f9 (a:44f9) 
     call Func_cb5
     call Func_576
     ld hl, $ff9f
@@ -43847,7 +43846,7 @@ ExitPokedexScreen: ; 0x284f9
     ld [wScreenState], a
     ret
 
-Func_28513: ; 0x28513
+Func_28513: ; 28513 (a:4513) 
     ld a, [hPressedButtons]
     ld hl, $d95e
     or [hl]
@@ -43949,7 +43948,7 @@ Func_28513: ; 0x28513
     ld [$d95f], a
     ret
 
-Func_285ca: ; 0x285ca
+Func_285ca: ; 285ca (a:45ca) 
     xor a
     ld [$d80a], a
     call Func_28972
@@ -43958,7 +43957,7 @@ Func_285ca: ; 0x285ca
     ld a, [$d80a]
     ret
 
-Func_285db: ; 0x285db
+Func_285db: ; 285db (a:45db) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44049,7 +44048,7 @@ Func_285db: ; 0x285db
     ld l, a
     jp [hl]
 
-PointerTable_2867f: ; 0x2867f
+PointerTable_2867f: ; 2867f (a:467f) 
     dw Func_286dd
     dw Func_28721
     dw Func_286dd
@@ -44057,7 +44056,7 @@ PointerTable_2867f: ; 0x2867f
 
 INCBIN "baserom.gbc",$28687,$2868b - $28687
 
-DrawCornerInfoPokedexScreen: ; 0x2868b
+DrawCornerInfoPokedexScreen: ; 2868b (a:468b) 
 ; If player is holding SELECT button, it draws the seen/own count in the top-right corner.
 ; Otherwise, it draws the word "POKeDEX".
     ld a, [hJoypadState]
@@ -44089,7 +44088,7 @@ DrawCornerInfoPokedexScreen: ; 0x2868b
     call LoadOAMData
     ret
 
-LoadSeenOwnDigitOAM: ; 0x286d1
+LoadSeenOwnDigitOAM: ; 286d1 (a:46d1) 
     and $f
     add $6c
     call LoadOAMData
@@ -44098,7 +44097,7 @@ LoadSeenOwnDigitOAM: ; 0x286d1
     ld b, a
     ret
 
-Func_286dd: ; 0x286dd
+Func_286dd: ; 286dd (a:46dd) 
     pop hl
     ld a, [$d862]
     and a
@@ -44143,7 +44142,7 @@ Func_286dd: ; 0x286dd
     inc [hl]
     ret
 
-Func_28721: ; 0x28721
+Func_28721: ; 28721 (a:4721) 
     pop hl
     ld a, [$d95d]
     and a
@@ -44192,7 +44191,7 @@ Func_28721: ; 0x28721
     inc [hl]
     ret
 
-Func_28765: ; 0x28765
+Func_28765: ; 28765 (a:4765) 
     pop hl
     ld a, [$d95d]
     and a
@@ -44252,7 +44251,7 @@ Func_28765: ; 0x28765
 
 INCBIN "baserom.gbc",$287b7,$287e7 - $287b7
 
-Func_287e7: ; 0x287e7
+Func_287e7: ; 287e7 (a:47e7) 
     ld a, [$d960]
     and a
     ret z
@@ -44276,7 +44275,7 @@ Func_287e7: ; 0x287e7
     call LoadOAMData
     ret
 
-Func_28815: ; 0x28815
+Func_28815: ; 28815 (a:4815) 
     ld a, [$d5be]
     dec a
     ld [$d5be], a
@@ -44315,7 +44314,7 @@ Func_28815: ; 0x28815
     ld [$d5bd], a
     ret
 
-Func_2885c: ; 0x2885c
+Func_2885c: ; 2885c (a:485c) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44331,7 +44330,7 @@ Func_2885c: ; 0x2885c
     call LoadOAMData
     ret
 
-Func_2887c: ; 0x2887c
+Func_2887c: ; 2887c (a:487c) 
     ld a, $31
     ld hl, $5120 ; todo
     ld de, $9900
@@ -44355,7 +44354,7 @@ Func_2887c: ; 0x2887c
     jr nz, .asm_28894
     ret
 
-Func_288a2: ; 0x288a2
+Func_288a2: ; 288a2 (a:48a2) 
     ld b, $33
 .asm_288a4
     push bc
@@ -44378,7 +44377,7 @@ Func_288a2: ; 0x288a2
     call LoadVRAMData
     ret
 
-Func_288c6: ; 0x288c6
+Func_288c6: ; 288c6 (a:48c6) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44418,7 +44417,7 @@ Func_288c6: ; 0x288c6
     ld [$d958], a
     ret
 
-Func_28912: ; 0x28912
+Func_28912: ; 28912 (a:4912) 
     ld bc, $906c
     ld de, $8900
     ld a, [$d957]
@@ -44434,7 +44433,7 @@ Func_28912: ; 0x28912
     ld [$d958], a
     ret
 
-Func_28931: ; 0x28931
+Func_28931: ; 28931 (a:4931) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44472,7 +44471,7 @@ Func_28931: ; 0x28931
 
 INCBIN "baserom.gbc",$28970,$28972 - $28970
 
-Func_28972: ; 0x28972
+Func_28972: ; 28972 (a:4972) 
     ld a, [wPokedexOffset]
     ld c, a
     ld b, $6
@@ -44497,7 +44496,7 @@ Func_28972: ; 0x28972
     jr nz, .asm_28978
     ret
 
-Func_28993: ; 0x28993
+Func_28993: ; 28993 (a:4993) 
     push hl
     ld c, a
     ld b, $0
@@ -44531,7 +44530,7 @@ Func_28993: ; 0x28993
 
 INCBIN "baserom.gbc",$289c6,$289c8 - $289c6
 
-Func_289c8: ; 0x289c8
+Func_289c8: ; 289c8 (a:49c8) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44574,7 +44573,7 @@ Func_289c8: ; 0x289c8
 
 INCBIN "baserom.gbc",$28a12,$28a15 - $28a12
 
-Func_28a15: ; 0x28a15
+Func_28a15: ; 28a15 (a:4a15) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44644,7 +44643,7 @@ Func_28a15: ; 0x28a15
 
 INCBIN "baserom.gbc",$28a7f,$28a8a - $28a7f
 
-Func_28a8a: ; 0x28a8a
+Func_28a8a: ; 28a8a (a:4a8a) 
     ld a, [wPokedexOffset]
     ld c, a
     ld b, $6
@@ -44668,7 +44667,7 @@ Func_28a8a: ; 0x28a8a
     jr nz, .asm_28a90
     ret
 
-Func_28aaa: ; 0x28aaa
+Func_28aaa: ; 28aaa (a:4aaa) 
     push hl
     ld c, a
     ld b, $0
@@ -44695,7 +44694,7 @@ Func_28aaa: ; 0x28aaa
     pop hl
     ret
 
-Func_28ad1: ; 0x28ad1
+Func_28ad1: ; 28ad1 (a:4ad1) 
     ld a, [wPokedexOffset]
     swap a
     and $f0
@@ -44703,7 +44702,7 @@ Func_28ad1: ; 0x28ad1
     ld [$ffab], a
     ret
 
-Func_28add: ; 0x28add
+Func_28add: ; 28add (a:4add) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44786,7 +44785,7 @@ Func_28add: ; 0x28add
     call Func_8e1
     ret
 
-Func_28b76: ; 0x28b76
+Func_28b76: ; 28b76 (a:4b76) 
     ld a, $1c
     ld hl, $5500
     ld de, $9000
@@ -44804,7 +44803,7 @@ Func_28b76: ; 0x28b76
 
 INCBIN "baserom.gbc",$28b97,$28baf - $28b97
 
-Func_28baf: ; 0x28baf
+Func_28baf: ; 28baf (a:4baf) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44842,7 +44841,7 @@ Func_28baf: ; 0x28baf
     call Func_86f
     ret
 
-Func_28bf5: ; 0x28bf5
+Func_28bf5: ; 28bf5 (a:4bf5) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44950,7 +44949,7 @@ Func_28bf5: ; 0x28bf5
     call Func_8e1
     ret
 
-Func_28cc2: ; 0x28cc2
+Func_28cc2: ; 28cc2 (a:4cc2) 
     ld a, [wCurPokedexIndex]
     ld c, a
     ld b, $0
@@ -44961,7 +44960,7 @@ Func_28cc2: ; 0x28cc2
     bit 7, a
     ret
 
-Func_28cd4: ; 0x28cd4
+Func_28cd4: ; 28cd4 (a:4cd4) 
     xor a
     ld hl, $d961
     cp [hl]
@@ -44970,7 +44969,7 @@ Func_28cd4: ; 0x28cd4
     ld de, .Data_28ce0
     jr asm_28d1d
 
-.Data_28ce0: ; 0x28ce0
+.Data_28ce0: ; 28ce0 (a:4ce0) 
     db $0
     db $1
     db $2
@@ -44996,7 +44995,7 @@ Func_28cd4: ; 0x28cd4
     db $16
     db $17
 
-Func_28cf8: ; 0x28cf8
+Func_28cf8: ; 28cf8 (a:4cf8) 
     ld a, $1
     ld hl, $d961
     cp [hl]
@@ -45050,7 +45049,7 @@ asm_28d1d
     jr nz, .asm_28d22
     ret
 
-CountNumSeenOwnedMons: ; 0x28d35
+CountNumSeenOwnedMons: ; 28d35 (a:4d35) 
     ld hl, wPokedexFlags
     ld de, $0000  ; keep a running count: d = owned, e = seen
     ld b, NUM_POKEMON
@@ -45082,7 +45081,7 @@ CountNumSeenOwnedMons: ; 0x28d35
     ld [wNumPokemonOwned + 1], a
     ret
 
-ClearPokedexData: ; 0x28d66
+ClearPokedexData: ; 28d66 (a:4d66) 
     ld hl, wPokedexFlags
     xor a
     ld b, NUM_POKEMON
@@ -45092,7 +45091,7 @@ ClearPokedexData: ; 0x28d66
     jr nz, .asm_28d6c
     ret
 
-Func_28d71: ; 0x28d71
+Func_28d71: ; 28d71 (a:4d71) 
     ld a, [$d865]
     ld c, a
     ld a, [de]
@@ -45110,7 +45109,7 @@ Func_28d71: ; 0x28d71
     inc hl
     jr Func_28d71
 
-Func_28d88: ; 0x28d88
+Func_28d88: ; 28d88 (a:4d88) 
     push af
     ld a, [$ff40]
     bit 7, a
@@ -45123,7 +45122,7 @@ Func_28d88: ; 0x28d88
     call PutTileInVRAM
     ret
 
-Func_28d97: ; 0x28d97
+Func_28d97: ; 28d97 (a:4d97) 
     push de
     ld a, b
     ld [$ff8c], a
@@ -45195,7 +45194,7 @@ Func_28d97: ; 0x28d97
     pop af
     ret
 
-Func_28e09: ; 0x28e09
+Func_28e09: ; 28e09 (a:4e09) 
     push de
     ld a, b
     ld [$ff8c], a
@@ -45262,7 +45261,7 @@ Func_28e09: ; 0x28e09
     pop af
     ret
 
-Func_28e73: ; 0x28e73
+Func_28e73: ; 28e73 (a:4e73) 
     push hl
     ld a, [$ff8f]
     ld c, a
@@ -45289,7 +45288,7 @@ Func_28e73: ; 0x28e73
 
 INCBIN "baserom.gbc",$28e9a,$2957c - $28e9a
 
-Func_2957c: ; 0x2957c
+Func_2957c: ; 2957c (a:557c) 
     ld a, $b
     call ReadByteFromBank
     inc hl
@@ -45367,7 +45366,7 @@ Func_2957c: ; 0x2957c
     scf
     ret
 
-Func_295e1: ; 0x295e1
+Func_295e1: ; 295e1 (a:55e1) 
     ld a, [hli]
     and a
     ret z
@@ -45399,7 +45398,7 @@ Func_295e1: ; 0x295e1
     scf
     ret
 
-Func_29605: ; 0x29605
+Func_29605: ; 29605 (a:5605) 
     ld a, b
     cp $81
     jr nz, .asm_29611
@@ -45430,7 +45429,7 @@ Func_29605: ; 0x29605
 
 INCBIN "baserom.gbc",$2962f,$29792 - $2962f
 
-CharacterWidths: ; 0x29792
+CharacterWidths: ; 29792 (a:5792) 
 ; The Pokedex shows variable-width font. This list specifies the width of every letter (tile?)
     db $05
     db $07
@@ -45691,7 +45690,7 @@ CharacterWidths: ; 0x29792
 
 INCBIN "baserom.gbc",$29892,$29f0f - $29892
 
-MonDexTypeIDs: ; 0x29f0f
+MonDexTypeIDs: ; 29f0f (a:5f0f) 
     db $00
     db $00
     db $00
@@ -45849,10 +45848,10 @@ INCBIN "baserom.gbc",$29fa6,$2c000 - $29fa6
 
 SECTION "bankb", ROMX, BANK[$b]
 
-Unknown_2c000: ; 0x2c000
+Unknown_2c000: ; 2c000 (b:4000) 
     db $20, $00
 
-PokedexDescriptionPointers: ; 0x2c002
+PokedexDescriptionPointers: ; 2c002 (b:4002) 
     dw BulbasaurPokedexDescription
     dw IvysaurPokedexDescription
     dw VenusaurPokedexDescription
@@ -46005,7 +46004,7 @@ PokedexDescriptionPointers: ; 0x2c002
     dw MewtwoPokedexDescription
     dw MewPokedexDescription
 
-RhydonPokedexDescription: ; 0x2c130
+RhydonPokedexDescription: ; 2c130 (b:4130) 
     dex_text "Protected by an"
     dex_line "armor-like hide,"
     dex_line "it is capable of"
@@ -46014,7 +46013,7 @@ RhydonPokedexDescription: ; 0x2c130
     dex_line "degrees."
     dex_end
 
-KangaskhanPokedexDescription: ; 0x2c18a
+KangaskhanPokedexDescription: ; 2c18a (b:418a) 
     dex_text "The infant rarely"
     dex_line "ventures out of"
     dex_line "its mother`s"
@@ -46023,7 +46022,7 @@ KangaskhanPokedexDescription: ; 0x2c18a
     dex_line "years old."
     dex_end
 
-NidoranMPokedexDescription: ; 0x2c1e3
+NidoranMPokedexDescription: ; 2c1e3 (b:41e3) 
     dex_text "Stiffens its ears"
     dex_line "to sense danger."
     dex_line "The larger its"
@@ -46032,7 +46031,7 @@ NidoranMPokedexDescription: ; 0x2c1e3
     dex_line "secreted venom."
     dex_end
 
-ClefairyPokedexDescription: ; 0x2c242
+ClefairyPokedexDescription: ; 2c242 (b:4242) 
     dex_text "Its magical and"
     dex_line "cute appeal has"
     dex_line "many admirers."
@@ -46041,7 +46040,7 @@ ClefairyPokedexDescription: ; 0x2c242
     dex_line "certain areas."
     dex_end
 
-SpearowPokedexDescription: ; 0x2c29d
+SpearowPokedexDescription: ; 2c29d (b:429d) 
     dex_text "Eats bugs in"
     dex_line "grassy areas. It"
     dex_line "has to flap its"
@@ -46050,7 +46049,7 @@ SpearowPokedexDescription: ; 0x2c29d
     dex_line "stay airborne."
     dex_end
 
-VoltorbPokedexDescription: ; 0x2c2f7
+VoltorbPokedexDescription: ; 2c2f7 (b:42f7) 
     dex_text "Usually found in"
     dex_line "power plants."
     dex_line "Easily mistaken"
@@ -46059,7 +46058,7 @@ VoltorbPokedexDescription: ; 0x2c2f7
     dex_line "many people."
     dex_end
 
-NidokingPokedexDescription: ; 0x2c355
+NidokingPokedexDescription: ; 2c355 (b:4355) 
     dex_text "It uses its"
     dex_line "powerful tail in"
     dex_line "battle to smash,"
@@ -46068,7 +46067,7 @@ NidokingPokedexDescription: ; 0x2c355
     dex_line "bones."
     dex_end
 
-SlowbroPokedexDescription: ; 0x2c3ab
+SlowbroPokedexDescription: ; 2c3ab (b:43ab) 
     dex_text "The SHELLDER that"
     dex_line "is latched onto"
     dex_line "SLOWPOKE`s tail"
@@ -46077,7 +46076,7 @@ SlowbroPokedexDescription: ; 0x2c3ab
     dex_line "over scraps."
     dex_end
 
-IvysaurPokedexDescription: ; 0x2c40d
+IvysaurPokedexDescription: ; 2c40d (b:440d) 
     dex_text "When the bulb on"
     dex_line "its back grows"
     dex_line "large, it appears"
@@ -46086,7 +46085,7 @@ IvysaurPokedexDescription: ; 0x2c40d
     dex_line "on its hind legs."
     dex_end
 
-ExeggutorPokedexDescription: ; 0x2c46e
+ExeggutorPokedexDescription: ; 2c46e (b:446e) 
     dex_text "Legend has it that"
     dex_line "on rare occasions,"
     dex_line "one of its heads"
@@ -46095,7 +46094,7 @@ ExeggutorPokedexDescription: ; 0x2c46e
     dex_line "EXEGGCUTE."
     dex_end
 
-LickitungPokedexDescription: ; 0x2c4d4
+LickitungPokedexDescription: ; 2c4d4 (b:44d4) 
     dex_text "Its tongue can be"
     dex_line "extended like a"
     dex_line "chameleon`s. It"
@@ -46104,7 +46103,7 @@ LickitungPokedexDescription: ; 0x2c4d4
     dex_line "licks enemies."
     dex_end
 
-ExeggcutePokedexDescription: ; 0x2c539
+ExeggcutePokedexDescription: ; 2c539 (b:4539) 
     dex_text "Often mistaken"
     dex_line "for eggs."
     dex_line "When disturbed,"
@@ -46113,7 +46112,7 @@ ExeggcutePokedexDescription: ; 0x2c539
     dex_line "in swarms."
     dex_end
 
-GrimerPokedexDescription: ; 0x2c58c
+GrimerPokedexDescription: ; 2c58c (b:458c) 
     dex_text "Appears in filthy"
     dex_line "areas. Thrives by"
     dex_line "sucking up"
@@ -46122,7 +46121,7 @@ GrimerPokedexDescription: ; 0x2c58c
     dex_line "out of factories."
     dex_end
 
-GengarPokedexDescription: ; 0x2c5ec
+GengarPokedexDescription: ; 2c5ec (b:45ec) 
     dex_text "Under a full moon,"
     dex_line "this POKéMON"
     dex_line "likes to mimic"
@@ -46131,7 +46130,7 @@ GengarPokedexDescription: ; 0x2c5ec
     dex_line "at their fright."
     dex_end
 
-NidoranFPokedexDescription: ; 0x2c64c
+NidoranFPokedexDescription: ; 2c64c (b:464c) 
     dex_text "Although small,"
     dex_line "its venomous"
     dex_line "barbs render this"
@@ -46140,7 +46139,7 @@ NidoranFPokedexDescription: ; 0x2c64c
     dex_line "smaller horns."
     dex_end
 
-NidoqueenPokedexDescription: ; 0x2c6ac
+NidoqueenPokedexDescription: ; 2c6ac (b:46ac) 
     dex_text "Its hard scales"
     dex_line "provide strong"
     dex_line "protection. It"
@@ -46149,7 +46148,7 @@ NidoqueenPokedexDescription: ; 0x2c6ac
     dex_line "powerful moves."
     dex_end
 
-CubonePokedexDescription: ; 0x2c709
+CubonePokedexDescription: ; 2c709 (b:4709) 
     dex_text "Because it never"
     dex_line "removes its skull"
     dex_line "helmet, no one"
@@ -46158,7 +46157,7 @@ CubonePokedexDescription: ; 0x2c709
     dex_line "real face."
     dex_end
 
-RhyhornPokedexDescription: ; 0x2c763
+RhyhornPokedexDescription: ; 2c763 (b:4763) 
     dex_text "Its massive bones"
     dex_line "are 1000 times"
     dex_line "harder than human"
@@ -46167,7 +46166,7 @@ RhyhornPokedexDescription: ; 0x2c763
     dex_line "trailer flying."
     dex_end
 
-LaprasPokedexDescription: ; 0x2c7c3
+LaprasPokedexDescription: ; 2c7c3 (b:47c3) 
     dex_text "A POKéMON that"
     dex_line "has been over-"
     dex_line "hunted almost to"
@@ -46176,7 +46175,7 @@ LaprasPokedexDescription: ; 0x2c7c3
     dex_line "across the water."
     dex_end
 
-ArcaninePokedexDescription: ; 0x2c824
+ArcaninePokedexDescription: ; 2c824 (b:4824) 
     dex_text "A POKéMON that"
     dex_line "has been admired"
     dex_line "since the past"
@@ -46185,7 +46184,7 @@ ArcaninePokedexDescription: ; 0x2c824
     dex_line "as if on wings."
     dex_end
 
-MewPokedexDescription: ; 0x2c883
+MewPokedexDescription: ; 2c883 (b:4883) 
     dex_text "So rare that it"
     dex_line "is still said to"
     dex_line "be a mirage by"
@@ -46194,7 +46193,7 @@ MewPokedexDescription: ; 0x2c883
     dex_line "seen it worldwide. "
     dex_end
 
-GyaradosPokedexDescription: ; 0x2c8ec
+GyaradosPokedexDescription: ; 2c8ec (b:48ec) 
     dex_text "Rarely seen in"
     dex_line "the wild. Huge"
     dex_line "and vicious, it"
@@ -46203,7 +46202,7 @@ GyaradosPokedexDescription: ; 0x2c8ec
     dex_line "cities in a rage."
     dex_end
 
-ShellderPokedexDescription: ; 0x2c94c
+ShellderPokedexDescription: ; 2c94c (b:494c) 
     dex_text "Its hard shell"
     dex_line "repels any kind"
     dex_line "of attack."
@@ -46212,7 +46211,7 @@ ShellderPokedexDescription: ; 0x2c94c
     dex_line "shell is open."
     dex_end
 
-TentacoolPokedexDescription: ; 0x2c9a4
+TentacoolPokedexDescription: ; 2c9a4 (b:49a4) 
     dex_text "Drifts in shallow"
     dex_line "seas. Anglers who"
     dex_line "hook them by"
@@ -46221,7 +46220,7 @@ TentacoolPokedexDescription: ; 0x2c9a4
     dex_line "its stinging acid."
     dex_end
 
-GastlyPokedexDescription: ; 0x2ca07
+GastlyPokedexDescription: ; 2ca07 (b:4a07) 
     dex_text "Almost invisible,"
     dex_line "this gaseous"
     dex_line "POKéMON cloaks"
@@ -46230,7 +46229,7 @@ GastlyPokedexDescription: ; 0x2ca07
     dex_line "without notice."
     dex_end
 
-ScytherPokedexDescription: ; 0x2ca65
+ScytherPokedexDescription: ; 2ca65 (b:4a65) 
     dex_text "With ninja-like"
     dex_line "agility and speed,"
     dex_line "it can create the"
@@ -46239,7 +46238,7 @@ ScytherPokedexDescription: ; 0x2ca65
     dex_line "than one."
     dex_end
 
-StaryuPokedexDescription: ; 0x2cac0
+StaryuPokedexDescription: ; 2cac0 (b:4ac0) 
     dex_text "An enigmatic"
     dex_line "POKéMON that can"
     dex_line "effortlessly"
@@ -46248,7 +46247,7 @@ StaryuPokedexDescription: ; 0x2cac0
     dex_line "loses in battle."
     dex_end
 
-BlastoisePokedexDescription: ; 0x2cb18
+BlastoisePokedexDescription: ; 2cb18 (b:4b18) 
     dex_text "A brutal POKéMON"
     dex_line "with pressurized"
     dex_line "water jets on its"
@@ -46257,7 +46256,7 @@ BlastoisePokedexDescription: ; 0x2cb18
     dex_line "speed tackles."
     dex_end
 
-PinsirPokedexDescription: ; 0x2cb79
+PinsirPokedexDescription: ; 2cb79 (b:4b79) 
     dex_text "If it fails to"
     dex_line "crush the victim"
     dex_line "in its pincers,"
@@ -46266,7 +46265,7 @@ PinsirPokedexDescription: ; 0x2cb79
     dex_line "it hard."
     dex_end
 
-TangelaPokedexDescription: ; 0x2cbd3
+TangelaPokedexDescription: ; 2cbd3 (b:4bd3) 
     dex_text "The whole body is"
     dex_line "swathed with wide"
     dex_line "vines that are"
@@ -46275,7 +46274,7 @@ TangelaPokedexDescription: ; 0x2cbd3
     dex_line "shake as it walks."
     dex_end
 
-GrowlithePokedexDescription: ; 0x2cc39
+GrowlithePokedexDescription: ; 2cc39 (b:4c39) 
     dex_text "Very protective"
     dex_line "of its territory."
     dex_line "It will bark and"
@@ -46284,7 +46283,7 @@ GrowlithePokedexDescription: ; 0x2cc39
     dex_line "its space."
     dex_end
 
-OnixPokedexDescription: ; 0x2cc94
+OnixPokedexDescription: ; 2cc94 (b:4c94) 
     dex_text "As it grows, the"
     dex_line "stone portions of"
     dex_line "its body harden"
@@ -46293,7 +46292,7 @@ OnixPokedexDescription: ; 0x2cc94
     dex_line "colored black."
     dex_end
 
-FearowPokedexDescription: ; 0x2ccfa
+FearowPokedexDescription: ; 2ccfa (b:4cfa) 
     dex_text "With its huge and"
     dex_line "magnificent wings,"
     dex_line "it can keep aloft"
@@ -46302,7 +46301,7 @@ FearowPokedexDescription: ; 0x2ccfa
     dex_line "for rest."
     dex_end
 
-PidgeyPokedexDescription: ; 0x2cd57
+PidgeyPokedexDescription: ; 2cd57 (b:4d57) 
     dex_text "A common sight in"
     dex_line "forests and woods."
     dex_line "It flaps its"
@@ -46311,7 +46310,7 @@ PidgeyPokedexDescription: ; 0x2cd57
     dex_line "blinding sand."
     dex_end
 
-SlowpokePokedexDescription: ; 0x2cdb9
+SlowpokePokedexDescription: ; 2cdb9 (b:4db9) 
     dex_text "Incredibly slow"
     dex_line "and dopey. It"
     dex_line "takes 5 seconds"
@@ -46320,7 +46319,7 @@ SlowpokePokedexDescription: ; 0x2cdb9
     dex_line "attack."
     dex_end
 
-KadabraPokedexDescription: ; 0x2ce0e
+KadabraPokedexDescription: ; 2ce0e (b:4e0e) 
     dex_text "It emits special"
     dex_line "alpha waves from"
     dex_line "its body that"
@@ -46329,7 +46328,7 @@ KadabraPokedexDescription: ; 0x2ce0e
     dex_line "close by."
     dex_end
 
-GravelerPokedexDescription: ; 0x2ce67
+GravelerPokedexDescription: ; 2ce67 (b:4e67) 
     dex_text "Rolls down slopes"
     dex_line "to move. It rolls"
     dex_line "over any obstacle"
@@ -46338,7 +46337,7 @@ GravelerPokedexDescription: ; 0x2ce67
     dex_line "direction."
     dex_end
 
-ChanseyPokedexDescription: ; 0x2cec8
+ChanseyPokedexDescription: ; 2cec8 (b:4ec8) 
     dex_text "A rare and elusive"
     dex_line "POKéMON that is"
     dex_line "said to bring"
@@ -46347,7 +46346,7 @@ ChanseyPokedexDescription: ; 0x2cec8
     dex_line "it."
     dex_end
 
-MachokePokedexDescription: ; 0x2cf22
+MachokePokedexDescription: ; 2cf22 (b:4f22) 
     dex_text "Its muscular body"
     dex_line "is so powerful, it"
     dex_line "must wear a power"
@@ -46356,7 +46355,7 @@ MachokePokedexDescription: ; 0x2cf22
     dex_line "its motions."
     dex_end
 
-MrMimePokedexDescription: ; 0x2cf87
+MrMimePokedexDescription: ; 2cf87 (b:4f87) 
     dex_text "If interrupted"
     dex_line "while it is"
     dex_line "miming, it will"
@@ -46365,7 +46364,7 @@ MrMimePokedexDescription: ; 0x2cf87
     dex_line "broad hands."
     dex_end
 
-HitmonleePokedexDescription: ; 0x2cfe1
+HitmonleePokedexDescription: ; 2cfe1 (b:4fe1) 
     dex_text "When in a hurry,"
     dex_line "its legs lengthen"
     dex_line "progressively."
@@ -46374,7 +46373,7 @@ HitmonleePokedexDescription: ; 0x2cfe1
     dex_line "loping strides."
     dex_end
 
-HitmonchanPokedexDescription: ; 0x2d045
+HitmonchanPokedexDescription: ; 2d045 (b:5045) 
     dex_text "While apparently"
     dex_line "doing nothing, it"
     dex_line "fires punches in"
@@ -46383,7 +46382,7 @@ HitmonchanPokedexDescription: ; 0x2d045
     dex_line "impossible to see. "
     dex_end
 
-ArbokPokedexDescription: ; 0x2d0ad
+ArbokPokedexDescription: ; 2d0ad (b:50ad) 
     dex_text "It is rumored that"
     dex_line "the ferocious"
     dex_line "warning markings"
@@ -46392,7 +46391,7 @@ ArbokPokedexDescription: ; 0x2d0ad
     dex_line "to area."
     dex_end
 
-ParasectPokedexDescription: ; 0x2d106
+ParasectPokedexDescription: ; 2d106 (b:5106) 
     dex_text "A host-parasite"
     dex_line "pair in which the"
     dex_line "parasite mushroom"
@@ -46401,7 +46400,7 @@ ParasectPokedexDescription: ; 0x2d106
     dex_line "damp places. "
     dex_end
 
-PsyduckPokedexDescription: ; 0x2d16d
+PsyduckPokedexDescription: ; 2d16d (b:516d) 
     dex_text "While lulling its"
     dex_line "enemies with its"
     dex_line "vacant look, this"
@@ -46410,7 +46409,7 @@ PsyduckPokedexDescription: ; 0x2d16d
     dex_line "powers."
     dex_end
 
-DrowzeePokedexDescription: ; 0x2d1ce
+DrowzeePokedexDescription: ; 2d1ce (b:51ce) 
     dex_text "Puts enemies to"
     dex_line "sleep then eats"
     dex_line "their dreams."
@@ -46419,7 +46418,7 @@ DrowzeePokedexDescription: ; 0x2d1ce
     dex_line "bad dreams."
     dex_end
 
-GolemPokedexDescription: ; 0x2d22b
+GolemPokedexDescription: ; 2d22b (b:522b) 
     dex_text "Its boulder-like"
     dex_line "body is extremely"
     dex_line "hard. It can"
@@ -46428,7 +46427,7 @@ GolemPokedexDescription: ; 0x2d22b
     dex_line "without damage."
     dex_end
 
-MagmarPokedexDescription: ; 0x2d28c
+MagmarPokedexDescription: ; 2d28c (b:528c) 
     dex_text "Its body always"
     dex_line "burns with an"
     dex_line "orange glow that"
@@ -46437,7 +46436,7 @@ MagmarPokedexDescription: ; 0x2d28c
     dex_line "among flames."
     dex_end
 
-ElectabuzzPokedexDescription: ; 0x2d2e6
+ElectabuzzPokedexDescription: ; 2d2e6 (b:52e6) 
     dex_text "Normally found"
     dex_line "near power plants,"
     dex_line "they can wander"
@@ -46446,7 +46445,7 @@ ElectabuzzPokedexDescription: ; 0x2d2e6
     dex_line "in cities."
     dex_end
 
-MagnetonPokedexDescription: ; 0x2d342
+MagnetonPokedexDescription: ; 2d342 (b:5342) 
     dex_text "Formed by several"
     dex_line "MAGNEMITEs linked"
     dex_line "together. They"
@@ -46455,7 +46454,7 @@ MagnetonPokedexDescription: ; 0x2d342
     dex_line "flare up."
     dex_end
 
-KoffingPokedexDescription: ; 0x2d39f
+KoffingPokedexDescription: ; 2d39f (b:539f) 
     dex_text "Because it stores"
     dex_line "several kinds of"
     dex_line "toxic gases in"
@@ -46464,7 +46463,7 @@ KoffingPokedexDescription: ; 0x2d39f
     dex_line "without warning."
     dex_end
 
-MankeyPokedexDescription: ; 0x2d405
+MankeyPokedexDescription: ; 2d405 (b:5405) 
     dex_text "Extremely quick to"
     dex_line "anger. It could"
     dex_line "be docile one"
@@ -46473,7 +46472,7 @@ MankeyPokedexDescription: ; 0x2d405
     dex_line "the next instant."
     dex_end
 
-SeelPokedexDescription: ; 0x2d463
+SeelPokedexDescription: ; 2d463 (b:5463) 
     dex_text "The protruding"
     dex_line "horn on its head"
     dex_line "is very hard."
@@ -46482,7 +46481,7 @@ SeelPokedexDescription: ; 0x2d463
     dex_line "thick ice."
     dex_end
 
-DiglettPokedexDescription: ; 0x2d4bb
+DiglettPokedexDescription: ; 2d4bb (b:54bb) 
     dex_text "Lives about one"
     dex_line "yard underground"
     dex_line "where it feeds on"
@@ -46491,7 +46490,7 @@ DiglettPokedexDescription: ; 0x2d4bb
     dex_line "above ground."
     dex_end
 
-TaurosPokedexDescription: ; 0x2d51e
+TaurosPokedexDescription: ; 2d51e (b:551e) 
     dex_text "When it targets"
     dex_line "an enemy, it"
     dex_line "charges furiously"
@@ -46500,7 +46499,7 @@ TaurosPokedexDescription: ; 0x2d51e
     dex_line "long tails."
     dex_end
 
-FarfetchdPokedexDescription: ; 0x2d57a
+FarfetchdPokedexDescription: ; 2d57a (b:557a) 
     dex_text "The sprig of"
     dex_line "green onions it"
     dex_line "holds is its"
@@ -46509,7 +46508,7 @@ FarfetchdPokedexDescription: ; 0x2d57a
     dex_line "metal sword."
     dex_end
 
-VenonatPokedexDescription: ; 0x2d5d0
+VenonatPokedexDescription: ; 2d5d0 (b:55d0) 
     dex_text "Lives in the"
     dex_line "shadows of tall"
     dex_line "trees where it"
@@ -46518,7 +46517,7 @@ VenonatPokedexDescription: ; 0x2d5d0
     dex_line "light at night."
     dex_end
 
-DragonitePokedexDescription: ; 0x2d62d
+DragonitePokedexDescription: ; 2d62d (b:562d) 
     dex_text "An extremely"
     dex_line "rarely seen"
     dex_line "marine POKéMON."
@@ -46527,7 +46526,7 @@ DragonitePokedexDescription: ; 0x2d62d
     dex_line "that of humans."
     dex_end
 
-DoduoPokedexDescription: ; 0x2d688
+DoduoPokedexDescription: ; 2d688 (b:5688) 
     dex_text "A bird that makes"
     dex_line "up for its poor"
     dex_line "flying with its"
@@ -46536,7 +46535,7 @@ DoduoPokedexDescription: ; 0x2d688
     dex_line "footprints."
     dex_end
 
-PoliwagPokedexDescription: ; 0x2d6e4
+PoliwagPokedexDescription: ; 2d6e4 (b:56e4) 
     dex_text "Its newly grown"
     dex_line "legs prevent it"
     dex_line "from running. It"
@@ -46545,7 +46544,7 @@ PoliwagPokedexDescription: ; 0x2d6e4
     dex_line "trying to stand."
     dex_end
 
-JynxPokedexDescription: ; 0x2d746
+JynxPokedexDescription: ; 2d746 (b:5746) 
     dex_text "It seductively"
     dex_line "wiggles its hips"
     dex_line "as it walks. It"
@@ -46554,7 +46553,7 @@ JynxPokedexDescription: ; 0x2d746
     dex_line "unison with it."
     dex_end
 
-MoltresPokedexDescription: ; 0x2d7a3
+MoltresPokedexDescription: ; 2d7a3 (b:57a3) 
     dex_text "Known as the"
     dex_line "legendary bird of"
     dex_line "fire. Every flap"
@@ -46563,7 +46562,7 @@ MoltresPokedexDescription: ; 0x2d7a3
     dex_line "flash of flames."
     dex_end
 
-ArticunoPokedexDescription: ; 0x2d804
+ArticunoPokedexDescription: ; 2d804 (b:5804) 
     dex_text "A legendary bird"
     dex_line "POKéMON that is"
     dex_line "said to appear to"
@@ -46572,7 +46571,7 @@ ArticunoPokedexDescription: ; 0x2d804
     dex_line "mountains."
     dex_end
 
-ZapdosPokedexDescription: ; 0x2d864
+ZapdosPokedexDescription: ; 2d864 (b:5864) 
     dex_text "A legendary bird"
     dex_line "POKéMON that is"
     dex_line "said to appear"
@@ -46581,7 +46580,7 @@ ZapdosPokedexDescription: ; 0x2d864
     dex_line "lightning bolts."
     dex_end
 
-DittoPokedexDescription: ; 0x2d8c9
+DittoPokedexDescription: ; 2d8c9 (b:58c9) 
     dex_text "Capable of copying"
     dex_line "an enemy`s genetic"
     dex_line "code to instantly"
@@ -46590,7 +46589,7 @@ DittoPokedexDescription: ; 0x2d8c9
     dex_line "of the enemy."
     dex_end
 
-MeowthPokedexDescription: ; 0x2d931
+MeowthPokedexDescription: ; 2d931 (b:5931) 
     dex_text "Adores circular"
     dex_line "objects. Wanders"
     dex_line "the streets on a"
@@ -46599,7 +46598,7 @@ MeowthPokedexDescription: ; 0x2d931
     dex_line "loose change."
     dex_end
 
-KrabbyPokedexDescription: ; 0x2d993
+KrabbyPokedexDescription: ; 2d993 (b:5993) 
     dex_text "Its pincers are"
     dex_line "not only powerful"
     dex_line "weapons, they are"
@@ -46608,7 +46607,7 @@ KrabbyPokedexDescription: ; 0x2d993
     dex_line "sideways."
     dex_end
 
-VulpixPokedexDescription: ; 0x2d9ef
+VulpixPokedexDescription: ; 2d9ef (b:59ef) 
     dex_text "At the time of"
     dex_line "birth, it has"
     dex_line "just one tail."
@@ -46617,7 +46616,7 @@ VulpixPokedexDescription: ; 0x2d9ef
     dex_line "it grows older."
     dex_end
 
-NinetalesPokedexDescription: ; 0x2da4b
+NinetalesPokedexDescription: ; 2da4b (b:5a4b) 
     dex_text "Very smart and"
     dex_line "very vengeful."
     dex_line "Grabbing one of"
@@ -46626,7 +46625,7 @@ NinetalesPokedexDescription: ; 0x2da4b
     dex_line "1000-year curse."
     dex_end
 
-PikachuPokedexDescription: ; 0x2daab
+PikachuPokedexDescription: ; 2daab (b:5aab) 
     dex_text "When several of"
     dex_line "these POKéMON"
     dex_line "gather, their"
@@ -46635,7 +46634,7 @@ PikachuPokedexDescription: ; 0x2daab
     dex_line "lightning storms."
     dex_end
 
-RaichuPokedexDescription: ; 0x2db0b
+RaichuPokedexDescription: ; 2db0b (b:5b0b) 
     dex_text "Its long tail"
     dex_line "serves as a"
     dex_line "ground to protect"
@@ -46644,7 +46643,7 @@ RaichuPokedexDescription: ; 0x2db0b
     dex_line "power."
     dex_end
 
-DratiniPokedexDescription: ; 0x2db5f
+DratiniPokedexDescription: ; 2db5f (b:5b5f) 
     dex_text "Long considered a"
     dex_line "mythical POKéMON"
     dex_line "until recently"
@@ -46653,7 +46652,7 @@ DratiniPokedexDescription: ; 0x2db5f
     dex_line "living underwater."
     dex_end
 
-DragonairPokedexDescription: ; 0x2dbc2
+DragonairPokedexDescription: ; 2dbc2 (b:5bc2) 
     dex_text "A mystical POKéMON"
     dex_line "that exudes a"
     dex_line "gentle aura."
@@ -46662,7 +46661,7 @@ DragonairPokedexDescription: ; 0x2dbc2
     dex_line "conditions."
     dex_end
 
-KabutoPokedexDescription: ; 0x2dc1e
+KabutoPokedexDescription: ; 2dc1e (b:5c1e) 
     dex_text "A POKéMON that"
     dex_line "was resurrected"
     dex_line "from a fossil"
@@ -46671,7 +46670,7 @@ KabutoPokedexDescription: ; 0x2dc1e
     dex_line "floor eons ago."
     dex_end
 
-KabutopsPokedexDescription: ; 0x2dc7c
+KabutopsPokedexDescription: ; 2dc7c (b:5c7c) 
     dex_text "Its sleek shape is"
     dex_line "perfect for swim-"
     dex_line "ming. It slashes"
@@ -46680,7 +46679,7 @@ KabutopsPokedexDescription: ; 0x2dc7c
     dex_line "the body fluids."
     dex_end
 
-HorseaPokedexDescription: ; 0x2dce2
+HorseaPokedexDescription: ; 2dce2 (b:5ce2) 
     dex_text "Known to shoot"
     dex_line "down flying bugs"
     dex_line "with precision"
@@ -46689,7 +46688,7 @@ HorseaPokedexDescription: ; 0x2dce2
     dex_line "of the water."
     dex_end
 
-SeadraPokedexDescription: ; 0x2dd3e
+SeadraPokedexDescription: ; 2dd3e (b:5d3e) 
     dex_text "Capable of swim-"
     dex_line "ming backwards by"
     dex_line "rapidly flapping"
@@ -46698,7 +46697,7 @@ SeadraPokedexDescription: ; 0x2dd3e
     dex_line "stout tail."
     dex_end
 
-SandshrewPokedexDescription: ; 0x2dd9e
+SandshrewPokedexDescription: ; 2dd9e (b:5d9e) 
     dex_text "Burrows deep"
     dex_line "underground in"
     dex_line "arid locations"
@@ -46707,7 +46706,7 @@ SandshrewPokedexDescription: ; 0x2dd9e
     dex_line "to hunt for food."
     dex_end
 
-SandslashPokedexDescription: ; 0x2ddfb
+SandslashPokedexDescription: ; 2ddfb (b:5dfb) 
     dex_text "Curls up into a"
     dex_line "spiny ball when"
     dex_line "threatened. It"
@@ -46716,7 +46715,7 @@ SandslashPokedexDescription: ; 0x2ddfb
     dex_line "attack or escape."
     dex_end
 
-OmanytePokedexDescription: ; 0x2de58
+OmanytePokedexDescription: ; 2de58 (b:5e58) 
     dex_text "Although long"
     dex_line "extinct, in rare"
     dex_line "cases, it can be"
@@ -46725,7 +46724,7 @@ OmanytePokedexDescription: ; 0x2de58
     dex_line "fossils."
     dex_end
 
-OmastarPokedexDescription: ; 0x2deae
+OmastarPokedexDescription: ; 2deae (b:5eae) 
     dex_text "A prehistoric"
     dex_line "POKéMON that died"
     dex_line "out when its"
@@ -46734,7 +46733,7 @@ OmastarPokedexDescription: ; 0x2deae
     dex_line "catch prey."
     dex_end
 
-JigglypuffPokedexDescription: ; 0x2df09
+JigglypuffPokedexDescription: ; 2df09 (b:5f09) 
     dex_text "When its huge eyes"
     dex_line "light up, it sings"
     dex_line "a mysteriously"
@@ -46743,7 +46742,7 @@ JigglypuffPokedexDescription: ; 0x2df09
     dex_line "enemies to sleep."
     dex_end
 
-WigglytuffPokedexDescription: ; 0x2df6f
+WigglytuffPokedexDescription: ; 2df6f (b:5f6f) 
     dex_text "The body is soft"
     dex_line "and rubbery. When"
     dex_line "angered, it will"
@@ -46752,7 +46751,7 @@ WigglytuffPokedexDescription: ; 0x2df6f
     dex_line "an enormous size."
     dex_end
 
-EeveePokedexDescription: ; 0x2dfd7
+EeveePokedexDescription: ; 2dfd7 (b:5fd7) 
     dex_text "Its genetic code"
     dex_line "is irregular."
     dex_line "It may mutate if"
@@ -46761,7 +46760,7 @@ EeveePokedexDescription: ; 0x2dfd7
     dex_line "element STONEs."
     dex_end
 
-FlareonPokedexDescription: ; 0x2e037
+FlareonPokedexDescription: ; 2e037 (b:6037) 
     dex_text "When storing"
     dex_line "thermal energy in"
     dex_line "its body, its"
@@ -46770,7 +46769,7 @@ FlareonPokedexDescription: ; 0x2e037
     dex_line "degrees."
     dex_end
 
-JolteonPokedexDescription: ; 0x2e091
+JolteonPokedexDescription: ; 2e091 (b:6091) 
     dex_text "It accumulates"
     dex_line "negative ions in"
     dex_line "the atmosphere to"
@@ -46779,7 +46778,7 @@ JolteonPokedexDescription: ; 0x2e091
     dex_line "bolts."
     dex_end
 
-VaporeonPokedexDescription: ; 0x2e0ea
+VaporeonPokedexDescription: ; 2e0ea (b:60ea) 
     dex_text "Lives close to"
     dex_line "water. Its long"
     dex_line "tail is ridged"
@@ -46788,7 +46787,7 @@ VaporeonPokedexDescription: ; 0x2e0ea
     dex_line "for a mermaid`s."
     dex_end
 
-MachopPokedexDescription: ; 0x2e14c
+MachopPokedexDescription: ; 2e14c (b:614c) 
     dex_text "Loves to build"
     dex_line "its muscles."
     dex_line "It trains in all"
@@ -46797,7 +46796,7 @@ MachopPokedexDescription: ; 0x2e14c
     dex_line "even stronger."
     dex_end
 
-ZubatPokedexDescription: ; 0x2e1a9
+ZubatPokedexDescription: ; 2e1a9 (b:61a9) 
     dex_text "Forms colonies in"
     dex_line "perpetually dark"
     dex_line "places. Uses"
@@ -46806,7 +46805,7 @@ ZubatPokedexDescription: ; 0x2e1a9
     dex_line "approach targets."
     dex_end
 
-EkansPokedexDescription: ; 0x2e20c
+EkansPokedexDescription: ; 2e20c (b:620c) 
     dex_text "Moves silently"
     dex_line "and stealthily."
     dex_line "Eats the eggs of"
@@ -46815,7 +46814,7 @@ EkansPokedexDescription: ; 0x2e20c
     dex_line "SPEAROW, whole."
     dex_end
 
-ParasPokedexDescription: ; 0x2e266
+ParasPokedexDescription: ; 2e266 (b:6266) 
     dex_text "Burrows to suck"
     dex_line "tree roots. The"
     dex_line "mushrooms on its"
@@ -46824,7 +46823,7 @@ ParasPokedexDescription: ; 0x2e266
     dex_line "the bug host."
     dex_end
 
-PoliwhirlPokedexDescription: ; 0x2e2cb
+PoliwhirlPokedexDescription: ; 2e2cb (b:62cb) 
     dex_text "Capable of living"
     dex_line "in or out of"
     dex_line "water. When out"
@@ -46833,7 +46832,7 @@ PoliwhirlPokedexDescription: ; 0x2e2cb
     dex_line "its body slimy."
     dex_end
 
-PoliwrathPokedexDescription: ; 0x2e326
+PoliwrathPokedexDescription: ; 2e326 (b:6326) 
     dex_text "An adept swimmer"
     dex_line "at both the front"
     dex_line "crawl and breast"
@@ -46842,7 +46841,7 @@ PoliwrathPokedexDescription: ; 0x2e326
     dex_line "human swimmers."
     dex_end
 
-WeedlePokedexDescription: ; 0x2e38c
+WeedlePokedexDescription: ; 2e38c (b:638c) 
     dex_text "Often found in"
     dex_line "forests, eating"
     dex_line "leaves."
@@ -46851,7 +46850,7 @@ WeedlePokedexDescription: ; 0x2e38c
     dex_line "on its head."
     dex_end
 
-KakunaPokedexDescription: ; 0x2e3e0
+KakunaPokedexDescription: ; 2e3e0 (b:63e0) 
     dex_text "Almost incapable"
     dex_line "of moving, this"
     dex_line "POKéMON can only"
@@ -46860,7 +46859,7 @@ KakunaPokedexDescription: ; 0x2e3e0
     dex_line "from predators."
     dex_end
 
-BeedrillPokedexDescription: ; 0x2e445
+BeedrillPokedexDescription: ; 2e445 (b:6445) 
     dex_text "Flies at high"
     dex_line "speed and attacks"
     dex_line "using its large"
@@ -46869,7 +46868,7 @@ BeedrillPokedexDescription: ; 0x2e445
     dex_line "and tail."
     dex_end
 
-DodrioPokedexDescription: ; 0x2e4a1
+DodrioPokedexDescription: ; 2e4a1 (b:64a1) 
     dex_text "Uses its three"
     dex_line "brains to execute"
     dex_line "complex plans."
@@ -46878,7 +46877,7 @@ DodrioPokedexDescription: ; 0x2e4a1
     dex_line "stays awake."
     dex_end
 
-PrimeapePokedexDescription: ; 0x2e4fe
+PrimeapePokedexDescription: ; 2e4fe (b:64fe) 
     dex_text "Always furious"
     dex_line "and tenacious to"
     dex_line "boot. It will not"
@@ -46887,7 +46886,7 @@ PrimeapePokedexDescription: ; 0x2e4fe
     dex_line "it is caught."
     dex_end
 
-DugtrioPokedexDescription: ; 0x2e55f
+DugtrioPokedexDescription: ; 2e55f (b:655f) 
     dex_text "A team of DIGLETT"
     dex_line "triplets."
     dex_line "It triggers huge"
@@ -46896,7 +46895,7 @@ DugtrioPokedexDescription: ; 0x2e55f
     dex_line "underground."
     dex_end
 
-VenomothPokedexDescription: ; 0x2e5bb
+VenomothPokedexDescription: ; 2e5bb (b:65bb) 
     dex_text "The dust-like"
     dex_line "scales covering"
     dex_line "its wings are"
@@ -46905,7 +46904,7 @@ VenomothPokedexDescription: ; 0x2e5bb
     dex_line "of poison it has."
     dex_end
 
-DewgongPokedexDescription: ; 0x2e61b
+DewgongPokedexDescription: ; 2e61b (b:661b) 
     dex_text "Stores thermal"
     dex_line "energy in its"
     dex_line "body. Swims at a"
@@ -46914,7 +46913,7 @@ DewgongPokedexDescription: ; 0x2e61b
     dex_line "cold waters. "
     dex_end
 
-CaterpiePokedexDescription: ; 0x2e678
+CaterpiePokedexDescription: ; 2e678 (b:6678) 
     dex_text "Its short feet"
     dex_line "are tipped with"
     dex_line "suction pads that"
@@ -46923,7 +46922,7 @@ CaterpiePokedexDescription: ; 0x2e678
     dex_line "slopes and walls."
     dex_end
 
-MetapodPokedexDescription: ; 0x2e6d9
+MetapodPokedexDescription: ; 2e6d9 (b:66d9) 
     dex_text "This POKéMON is"
     dex_line "vulnerable to"
     dex_line "attack while its"
@@ -46932,7 +46931,7 @@ MetapodPokedexDescription: ; 0x2e6d9
     dex_line "and tender body."
     dex_end
 
-ButterfreePokedexDescription: ; 0x2e73a
+ButterfreePokedexDescription: ; 2e73a (b:673a) 
     dex_text "In battle, it"
     dex_line "flaps its wings"
     dex_line "at high speed to"
@@ -46941,7 +46940,7 @@ ButterfreePokedexDescription: ; 0x2e73a
     dex_line "the air."
     dex_end
 
-MachampPokedexDescription: ; 0x2e791
+MachampPokedexDescription: ; 2e791 (b:6791) 
     dex_text "Using its heavy"
     dex_line "muscles, it throws"
     dex_line "powerful punches"
@@ -46950,7 +46949,7 @@ MachampPokedexDescription: ; 0x2e791
     dex_line "the horizon. "
     dex_end
 
-GolduckPokedexDescription: ; 0x2e7f7
+GolduckPokedexDescription: ; 2e7f7 (b:67f7) 
     dex_text "Often seen swim-"
     dex_line "ming elegantly by"
     dex_line "lake shores. It"
@@ -46959,7 +46958,7 @@ GolduckPokedexDescription: ; 0x2e7f7
     dex_line "monster, Kappa."
     dex_end
 
-HypnoPokedexDescription: ; 0x2e85d
+HypnoPokedexDescription: ; 2e85d (b:685d) 
     dex_text "When it locks eyes"
     dex_line "with an enemy, it"
     dex_line "will use a mix of"
@@ -46968,7 +46967,7 @@ HypnoPokedexDescription: ; 0x2e85d
     dex_line "CONFUSION."
     dex_end
 
-GolbatPokedexDescription: ; 0x2e8be
+GolbatPokedexDescription: ; 2e8be (b:68be) 
     dex_text "Once it strikes,"
     dex_line "it will not stop"
     dex_line "draining energy"
@@ -46977,7 +46976,7 @@ GolbatPokedexDescription: ; 0x2e8be
     dex_line "too heavy to fly."
     dex_end
 
-MewtwoPokedexDescription: ; 0x2e922
+MewtwoPokedexDescription: ; 2e922 (b:6922) 
     dex_text "It was created by"
     dex_line "a scientist after"
     dex_line "years of horrific"
@@ -46986,7 +46985,7 @@ MewtwoPokedexDescription: ; 0x2e922
     dex_line "experiments."
     dex_end
 
-SnorlaxPokedexDescription: ; 0x2e987
+SnorlaxPokedexDescription: ; 2e987 (b:6987) 
     dex_text "Very lazy. Just"
     dex_line "eats and sleeps."
     dex_line "As its rotund"
@@ -46995,7 +46994,7 @@ SnorlaxPokedexDescription: ; 0x2e987
     dex_line "more slothful."
     dex_end
 
-MagikarpPokedexDescription: ; 0x2e9e6
+MagikarpPokedexDescription: ; 2e9e6 (b:69e6) 
     dex_text "In the distant"
     dex_line "past, it was"
     dex_line "somewhat stronger"
@@ -47004,7 +47003,7 @@ MagikarpPokedexDescription: ; 0x2e9e6
     dex_line "that exist today."
     dex_end
 
-MukPokedexDescription: ; 0x2ea49
+MukPokedexDescription: ; 2ea49 (b:6a49) 
     dex_text "Thickly covered"
     dex_line "with a filthy,"
     dex_line "vile sludge. It"
@@ -47013,7 +47012,7 @@ MukPokedexDescription: ; 0x2ea49
     dex_line "contain poison."
     dex_end
 
-KinglerPokedexDescription: ; 0x2eaa9
+KinglerPokedexDescription: ; 2eaa9 (b:6aa9) 
     dex_text "The large pincer"
     dex_line "has 10000 hp of"
     dex_line "crushing power."
@@ -47022,7 +47021,7 @@ KinglerPokedexDescription: ; 0x2eaa9
     dex_line "unwieldy to use."
     dex_end
 
-CloysterPokedexDescription: ; 0x2eb0b
+CloysterPokedexDescription: ; 2eb0b (b:6b0b) 
     dex_text "When attacked, it"
     dex_line "launches its"
     dex_line "horns in quick"
@@ -47031,7 +47030,7 @@ CloysterPokedexDescription: ; 0x2eb0b
     dex_line "never been seen."
     dex_end
 
-ElectrodePokedexDescription: ; 0x2eb64
+ElectrodePokedexDescription: ; 2eb64 (b:6b64) 
     dex_text "It stores electric"
     dex_line "energy under very"
     dex_line "high pressure."
@@ -47040,7 +47039,7 @@ ElectrodePokedexDescription: ; 0x2eb64
     dex_line "provocation."
     dex_end
 
-ClefablePokedexDescription: ; 0x2ebc9
+ClefablePokedexDescription: ; 2ebc9 (b:6bc9) 
     dex_text "A timid fairy"
     dex_line "POKéMON that is"
     dex_line "rarely seen. It"
@@ -47049,7 +47048,7 @@ ClefablePokedexDescription: ; 0x2ebc9
     dex_line "senses people."
     dex_end
 
-WeezingPokedexDescription: ; 0x2ec26
+WeezingPokedexDescription: ; 2ec26 (b:6c26) 
     dex_text "Where two kinds"
     dex_line "of poison gases"
     dex_line "meet, 2 KOFFINGs"
@@ -47058,7 +47057,7 @@ WeezingPokedexDescription: ; 0x2ec26
     dex_line "years."
     dex_end
 
-PersianPokedexDescription: ; 0x2ec80
+PersianPokedexDescription: ; 2ec80 (b:6c80) 
     dex_text "Although its fur"
     dex_line "has many admirers,"
     dex_line "it is tough to"
@@ -47067,7 +47066,7 @@ PersianPokedexDescription: ; 0x2ec80
     dex_line "fickle meanness."
     dex_end
 
-MarowakPokedexDescription: ; 0x2ece2
+MarowakPokedexDescription: ; 2ece2 (b:6ce2) 
     dex_text "The bone it holds"
     dex_line "is its key weapon."
     dex_line "It throws the"
@@ -47076,7 +47075,7 @@ MarowakPokedexDescription: ; 0x2ece2
     dex_line "to KO targets."
     dex_end
 
-HaunterPokedexDescription: ; 0x2ed45
+HaunterPokedexDescription: ; 2ed45 (b:6d45) 
     dex_text "Because of its"
     dex_line "ability to slip"
     dex_line "through block"
@@ -47085,7 +47084,7 @@ HaunterPokedexDescription: ; 0x2ed45
     dex_line "other dimension."
     dex_end
 
-AbraPokedexDescription: ; 0x2eda4
+AbraPokedexDescription: ; 2eda4 (b:6da4) 
     dex_text "Using its ability"
     dex_line "to read minds, it"
     dex_line "will identify"
@@ -47094,7 +47093,7 @@ AbraPokedexDescription: ; 0x2eda4
     dex_line "safety."
     dex_end
 
-AlakazamPokedexDescription: ; 0x2edff
+AlakazamPokedexDescription: ; 2edff (b:6dff) 
     dex_text "Its brain can out-"
     dex_line "perform a super-"
     dex_line "computer."
@@ -47103,7 +47102,7 @@ AlakazamPokedexDescription: ; 0x2edff
     dex_line "to be 5,000."
     dex_end
 
-PidgeottoPokedexDescription: ; 0x2ee5c
+PidgeottoPokedexDescription: ; 2ee5c (b:6e5c) 
     dex_text "Very protective"
     dex_line "of its sprawling"
     dex_line "territorial area,"
@@ -47112,7 +47111,7 @@ PidgeottoPokedexDescription: ; 0x2ee5c
     dex_line "any intruder."
     dex_end
 
-PidgeotPokedexDescription: ; 0x2eec0
+PidgeotPokedexDescription: ; 2eec0 (b:6ec0) 
     dex_text "When hunting, it"
     dex_line "skims the surface"
     dex_line "of water at high"
@@ -47121,7 +47120,7 @@ PidgeotPokedexDescription: ; 0x2eec0
     dex_line "as MAGIKARP."
     dex_end
 
-StarmiePokedexDescription: ; 0x2ef24
+StarmiePokedexDescription: ; 2ef24 (b:6f24) 
     dex_text "Its central core"
     dex_line "glows with the"
     dex_line "seven colors of"
@@ -47130,7 +47129,7 @@ StarmiePokedexDescription: ; 0x2ef24
     dex_line "core as a gem."
     dex_end
 
-BulbasaurPokedexDescription: ; 0x2ef86
+BulbasaurPokedexDescription: ; 2ef86 (b:6f86) 
     dex_text "A strange seed was"
     dex_line "planted on its"
     dex_line "back at birth."
@@ -47139,7 +47138,7 @@ BulbasaurPokedexDescription: ; 0x2ef86
     dex_line "this POKéMON."
     dex_end
 
-VenusaurPokedexDescription: ; 0x2efe6
+VenusaurPokedexDescription: ; 2efe6 (b:6fe6) 
     dex_text "The plant blooms"
     dex_line "when it is"
     dex_line "absorbing solar"
@@ -47148,7 +47147,7 @@ VenusaurPokedexDescription: ; 0x2efe6
     dex_line "seek sunlight."
     dex_end
 
-TentacruelPokedexDescription: ; 0x2f041
+TentacruelPokedexDescription: ; 2f041 (b:7041) 
     dex_text "The tentacles are"
     dex_line "normally kept"
     dex_line "short. On hunts,"
@@ -47157,7 +47156,7 @@ TentacruelPokedexDescription: ; 0x2f041
     dex_line "immobilize prey."
     dex_end
 
-GoldeenPokedexDescription: ; 0x2f0a4
+GoldeenPokedexDescription: ; 2f0a4 (b:70a4) 
     dex_text "Its tail fin"
     dex_line "billows like an"
     dex_line "elegant ballroom"
@@ -47166,7 +47165,7 @@ GoldeenPokedexDescription: ; 0x2f0a4
     dex_line "the Water Queen."
     dex_end
 
-SeakingPokedexDescription: ; 0x2f104
+SeakingPokedexDescription: ; 2f104 (b:7104) 
     dex_text "In the autumn"
     dex_line "spawning season,"
     dex_line "they can be seen"
@@ -47175,7 +47174,7 @@ SeakingPokedexDescription: ; 0x2f104
     dex_line "and creeks."
     dex_end
 
-PonytaPokedexDescription: ; 0x2f160
+PonytaPokedexDescription: ; 2f160 (b:7160) 
     dex_text "Its hooves are 10"
     dex_line "times harder than"
     dex_line "diamonds. It can"
@@ -47184,7 +47183,7 @@ PonytaPokedexDescription: ; 0x2f160
     dex_line "in little time."
     dex_end
 
-RapidashPokedexDescription: ; 0x2f1c6
+RapidashPokedexDescription: ; 2f1c6 (b:71c6) 
     dex_text "Very competitive,"
     dex_line "this POKéMON will"
     dex_line "chase anything"
@@ -47193,7 +47192,7 @@ RapidashPokedexDescription: ; 0x2f1c6
     dex_line "racing it."
     dex_end
 
-RattataPokedexDescription: ; 0x2f224
+RattataPokedexDescription: ; 2f224 (b:7224) 
     dex_text "Bites anything"
     dex_line "when it attacks."
     dex_line "Small and very"
@@ -47202,7 +47201,7 @@ RattataPokedexDescription: ; 0x2f224
     dex_line "many places."
     dex_end
 
-RaticatePokedexDescription: ; 0x2f27f
+RaticatePokedexDescription: ; 2f27f (b:727f) 
     dex_text "It uses its whis-"
     dex_line "kers to maintain"
     dex_line "its balance."
@@ -47211,7 +47210,7 @@ RaticatePokedexDescription: ; 0x2f27f
     dex_line "they are cut off."
     dex_end
 
-NidorinoPokedexDescription: ; 0x2f2dd
+NidorinoPokedexDescription: ; 2f2dd (b:72dd) 
     dex_text "An aggressive"
     dex_line "POKéMON that is"
     dex_line "quick to attack."
@@ -47220,7 +47219,7 @@ NidorinoPokedexDescription: ; 0x2f2dd
     dex_line "powerful venom."
     dex_end
 
-NidorinaPokedexDescription: ; 0x2f33c
+NidorinaPokedexDescription: ; 2f33c (b:733c) 
     dex_text "The female`s horn"
     dex_line "develops slowly."
     dex_line "Prefers physical"
@@ -47229,7 +47228,7 @@ NidorinaPokedexDescription: ; 0x2f33c
     dex_line "biting."
     dex_end
 
-GeodudePokedexDescription: ; 0x2f394
+GeodudePokedexDescription: ; 2f394 (b:7394) 
     dex_text "Found in fields"
     dex_line "and mountains."
     dex_line "Mistaking them"
@@ -47238,7 +47237,7 @@ GeodudePokedexDescription: ; 0x2f394
     dex_line "or trip on them."
     dex_end
 
-PorygonPokedexDescription: ; 0x2f3f3
+PorygonPokedexDescription: ; 2f3f3 (b:73f3) 
     dex_text "A POKéMON that"
     dex_line "consists entirely"
     dex_line "of programming"
@@ -47247,7 +47246,7 @@ PorygonPokedexDescription: ; 0x2f3f3
     dex_line "cyberspace."
     dex_end
 
-AerodactylPokedexDescription: ; 0x2f451
+AerodactylPokedexDescription: ; 2f451 (b:7451) 
     dex_text "A ferocious, pre-"
     dex_line "historic POKéMON"
     dex_line "that goes for the"
@@ -47256,7 +47255,7 @@ AerodactylPokedexDescription: ; 0x2f451
     dex_line "saw-like fangs."
     dex_end
 
-MagnemitePokedexDescription: ; 0x2f4b7
+MagnemitePokedexDescription: ; 2f4b7 (b:74b7) 
     dex_text "Uses anti-gravity"
     dex_line "to stay suspended."
     dex_line "Appears without"
@@ -47265,7 +47264,7 @@ MagnemitePokedexDescription: ; 0x2f4b7
     dex_line "similar moves."
     dex_end
 
-CharmanderPokedexDescription: ; 0x2f51d
+CharmanderPokedexDescription: ; 2f51d (b:751d) 
     dex_text "Obviously prefers"
     dex_line "hot places. When"
     dex_line "it rains, steam"
@@ -47274,7 +47273,7 @@ CharmanderPokedexDescription: ; 0x2f51d
     dex_line "its tail."
     dex_end
 
-SquirtlePokedexDescription: ; 0x2f57b
+SquirtlePokedexDescription: ; 2f57b (b:757b) 
     dex_text "After birth, its"
     dex_line "back swells and"
     dex_line "hardens into a"
@@ -47283,7 +47282,7 @@ SquirtlePokedexDescription: ; 0x2f57b
     dex_line "its mouth."
     dex_end
 
-CharmeleonPokedexDescription: ; 0x2f5d9
+CharmeleonPokedexDescription: ; 2f5d9 (b:75d9) 
     dex_text "When it swings"
     dex_line "its burning tail,"
     dex_line "it elevates the"
@@ -47292,7 +47291,7 @@ CharmeleonPokedexDescription: ; 0x2f5d9
     dex_line "levels."
     dex_end
 
-WartortlePokedexDescription: ; 0x2f631
+WartortlePokedexDescription: ; 2f631 (b:7631) 
     dex_text "Often hides in"
     dex_line "water to stalk"
     dex_line "unwary prey. For"
@@ -47301,7 +47300,7 @@ WartortlePokedexDescription: ; 0x2f631
     dex_line "maintain balance."
     dex_end
 
-CharizardPokedexDescription: ; 0x2f696
+CharizardPokedexDescription: ; 2f696 (b:7696) 
     dex_text "Spits fire that"
     dex_line "is hot enough to"
     dex_line "melt boulders."
@@ -47310,7 +47309,7 @@ CharizardPokedexDescription: ; 0x2f696
     dex_line "unintentionally."
     dex_end
 
-OddishPokedexDescription: ; 0x2f6f3
+OddishPokedexDescription: ; 2f6f3 (b:76f3) 
     dex_text "During the day,"
     dex_line "it keeps its face"
     dex_line "buried in the"
@@ -47319,7 +47318,7 @@ OddishPokedexDescription: ; 0x2f6f3
     dex_line "sowing its seeds."
     dex_end
 
-GloomPokedexDescription: ; 0x2f759
+GloomPokedexDescription: ; 2f759 (b:7759) 
     dex_text "The fluid that"
     dex_line "oozes from its"
     dex_line "mouth isn`t drool."
@@ -47328,7 +47327,7 @@ GloomPokedexDescription: ; 0x2f759
     dex_line "attract prey."
     dex_end
 
-VileplumePokedexDescription: ; 0x2f7b7
+VileplumePokedexDescription: ; 2f7b7 (b:77b7) 
     dex_text "The larger its"
     dex_line "petals, the more"
     dex_line "toxic pollen it"
@@ -47337,7 +47336,7 @@ VileplumePokedexDescription: ; 0x2f7b7
     dex_line "hard to hold up."
     dex_end
 
-BellsproutPokedexDescription: ; 0x2f81c
+BellsproutPokedexDescription: ; 2f81c (b:781c) 
     dex_text "A carnivorous"
     dex_line "POKéMON that traps"
     dex_line "and eats bugs."
@@ -47346,7 +47345,7 @@ BellsproutPokedexDescription: ; 0x2f81c
     dex_line "needed moisture."
     dex_end
 
-WeepinbellPokedexDescription: ; 0x2f87e
+WeepinbellPokedexDescription: ; 2f87e (b:787e) 
     dex_text "It spits out"
     dex_line "POISONPOWDER to"
     dex_line "immobilize the"
@@ -47355,7 +47354,7 @@ WeepinbellPokedexDescription: ; 0x2f87e
     dex_line "a spray of ACID."
     dex_end
 
-VictreebellPokedexDescription: ; 0x2f8d8
+VictreebellPokedexDescription: ; 2f8d8 (b:78d8) 
     dex_text "Said to live in"
     dex_line "huge colonies"
     dex_line "deep in jungles,"
@@ -47366,7 +47365,7 @@ VictreebellPokedexDescription: ; 0x2f8d8
 
 SECTION "bankc", ROMX, BANK[$c]
 
-InitRedField: ; 0x30000
+InitRedField: ; 30000 (c:4000) 
     ld a, [$d7c1]
     and a
     ret nz
@@ -47422,7 +47421,7 @@ InitRedField: ; 0x30000
     call Func_490
     ret
 
-StartBallRedField: ; 0x3007d
+StartBallRedField: ; 3007d (c:407d) 
     ld a, [$d496]
     and a
     jp nz, StartBallAfterBonusStageRedField
@@ -47496,7 +47495,7 @@ StartBallRedField: ; 0x3007d
     call Func_490
     ret
 
-StartBallAfterBonusStageRedField: ; 0x30128
+StartBallAfterBonusStageRedField: ; 30128 (c:4128) 
     ld a, $0
     ld [wBallXPos], a
     ld a, $50
@@ -47521,7 +47520,7 @@ StartBallAfterBonusStageRedField: ; 0x30128
     call Func_490
     ret
 
-Func_30164: ; 0x30164
+Func_30164: ; 30164 (c:4164) 
     ld a, [$d49b]
     inc a
     cp $b
@@ -47540,7 +47539,7 @@ Func_30164: ; 0x30164
     ld [$d4ca], a
     ret
 
-Func_30188: ; 0x30188
+Func_30188: ; 30188 (c:4188) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -47575,10 +47574,10 @@ Func_30188: ; 0x30188
     ld [$d4ca], a
     ret
 
-Func_301ce: ; 0x301ce
+Func_301ce: ; 301ce (c:41ce) 
     ld a, [wCurrentStage]
     call CallInFollowingTable
-PointerTable_301d4: ; 0x301d4
+PointerTable_301d4: ; 301d4 (c:41d4) 
     dw Func_314ae
     db Bank(Func_314ae), $00
 
@@ -47597,7 +47596,7 @@ PointerTable_301d4: ; 0x301d4
     dw Func_3161b
     db Bank(Func_3161b), $00 
 
-StartMapMoveMode: ; 0x301ec
+StartMapMoveMode: ; 301ec (c:41ec) 
     ld a, [wInSpecialMode]
     and a
     ret nz
@@ -47621,7 +47620,7 @@ StartMapMoveMode: ; 0x301ec
 .asm_3021b
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_3021f: ; 0x3021f
+CallTable_3021f: ; 3021f (c:421f) 
     ; STAGE_RED_FIELD_TOP
     dw Func_311b4
 
@@ -47638,7 +47637,7 @@ CallTable_3021f: ; 0x3021f
     ; STAGE_BLUE_FIELD_BOTTOM
     dw Func_31326
 
-Func_3022b: ; 0x3022b
+Func_3022b: ; 3022b (c:422b) 
     xor a
     ld [$d5ca], a
     call Func_30e8
@@ -47651,7 +47650,7 @@ Func_3022b: ; 0x3022b
     call BankSwitch
     ld a, [wCurrentStage]
     rst $18  ; calls JumpToFuncInTable
-CallTable_30247: ; 0x30247
+CallTable_30247: ; 30247 (c:4247) 
     ; STAGE_RED_FIELD_TOP
     dw Func_31234
 
@@ -47670,10 +47669,10 @@ CallTable_30247: ; 0x30247
 
 INCBIN "baserom.gbc",$30253,$30253 - $30253
 
-Func_30253: ; 0x30253
+Func_30253: ; 30253 (c:4253) 
     ld a, [wCurrentMap]
     ; fall through
-Func_30256: ; 0x30256
+Func_30256: ; 30256 (c:4256) 
     sla a
     ld c, a
     ld b, $0
@@ -47698,7 +47697,7 @@ Func_30256: ; 0x30256
     call Func_10aa
     ret
 
-PointerTable_3027a: ; 0x3027a
+PointerTable_3027a: ; 3027a (c:427a) 
     dw Data_302b0
     dw Data_302c1
     dw Data_302d2
@@ -47727,64 +47726,64 @@ PointerTable_3027a: ; 0x3027a
     dw Data_30459
     dw Data_3046a
 
-Data_302b0: ; 0x302b0
+Data_302b0: ; 302b0 (c:42b0) 
     db $08, $7B, $44, $85, $44, $8F, $44, $99, $44, $A3, $44, $AD, $44, $B7, $44, $C1, $44
-Data_302c1: ; 0x302c1
+Data_302c1: ; 302c1 (c:42c1) 
     db $08, $CB, $44, $D5, $44, $DF, $44, $E9, $44, $F3, $44, $FD, $44, $07, $45, $11, $45
-Data_302d2: ; 0x302d2
+Data_302d2: ; 302d2 (c:42d2) 
     db $08, $1B, $45, $25, $45, $2F, $45, $39, $45, $43, $45, $4D, $45, $57, $45, $61, $45
-Data_302e3: ; 0x302e3
+Data_302e3: ; 302e3 (c:42e3) 
     db $08, $6B, $45, $75, $45, $7F, $45, $89, $45, $93, $45, $9D, $45, $A7, $45, $B1, $45
-Data_302f4: ; 0x302f4
+Data_302f4: ; 302f4 (c:42f4) 
     db $08, $BB, $45, $C5, $45, $CF, $45, $D9, $45, $E3, $45, $ED, $45, $F7, $45, $01, $46
-Data_30305: ; 0x30305
+Data_30305: ; 30305 (c:4305) 
     db $08, $0B, $46, $15, $46, $1F, $46, $29, $46, $33, $46, $3D, $46, $47, $46, $51, $46
-Data_30316: ; 0x30316
+Data_30316: ; 30316 (c:4316) 
     db $08, $5B, $46, $65, $46, $6F, $46, $79, $46, $83, $46, $8D, $46, $97, $46, $A1, $46
-Data_30327: ; 0x30327
+Data_30327: ; 30327 (c:4327) 
     db $08, $AB, $46, $B5, $46, $BF, $46, $C9, $46, $D3, $46, $DD, $46, $E7, $46, $F1, $46
-Data_30338: ; 0x30338
+Data_30338: ; 30338 (c:4338) 
     db $08, $FB, $46, $05, $47, $0F, $47, $19, $47, $23, $47, $2D, $47, $37, $47, $41, $47
-Data_30349: ; 0x30349
+Data_30349: ; 30349 (c:4349) 
     db $08, $4B, $47, $55, $47, $5F, $47, $69, $47, $73, $47, $7D, $47, $87, $47, $91, $47
-Data_3035a: ; 0x3035a
+Data_3035a: ; 3035a (c:435a) 
     db $08, $9B, $47, $A5, $47, $AF, $47, $B9, $47, $C3, $47, $CD, $47, $D7, $47, $E1, $47
-Data_3036b: ; 0x3036b
+Data_3036b: ; 3036b (c:436b) 
     db $08, $EB, $47, $F5, $47, $FF, $47, $09, $48, $13, $48, $1D, $48, $27, $48, $31, $48
-Data_3037c: ; 0x3037c
+Data_3037c: ; 3037c (c:437c) 
     db $08, $3B, $48, $45, $48, $4F, $48, $59, $48, $63, $48, $6D, $48, $77, $48, $81, $48
-Data_3038d: ; 0x3038d
+Data_3038d: ; 3038d (c:438d) 
     db $08, $8B, $48, $95, $48, $9F, $48, $A9, $48, $B3, $48, $BD, $48, $C7, $48, $D1, $48
-Data_3039e: ; 0x3039e
+Data_3039e: ; 3039e (c:439e) 
     db $08, $DB, $48, $E5, $48, $EF, $48, $F9, $48, $03, $49, $0D, $49, $17, $49, $21, $49
-Data_303af: ; 0x303af
+Data_303af: ; 303af (c:43af) 
     db $08, $2B, $49, $35, $49, $3F, $49, $49, $49, $53, $49, $5D, $49, $67, $49, $71, $49
-Data_303c0: ; 0x303c0
+Data_303c0: ; 303c0 (c:43c0) 
     db $08, $7B, $49, $85, $49, $8F, $49, $99, $49, $A3, $49, $AD, $49, $B7, $49, $C1, $49
-Data_303d1: ; 0x303d1
+Data_303d1: ; 303d1 (c:43d1) 
     db $08, $CB, $49, $D5, $49, $DF, $49, $E9, $49, $F3, $49, $FD, $49, $07, $4A, $11, $4A
-Data_303e2: ; 0x303e2
+Data_303e2: ; 303e2 (c:43e2) 
     db $08, $1B, $4A, $25, $4A, $2F, $4A, $39, $4A, $43, $4A, $4D, $4A, $57, $4A, $61, $4A
-Data_303f3: ; 0x303f3
+Data_303f3: ; 303f3 (c:43f3) 
     db $08, $6B, $4A, $75, $4A, $7F, $4A, $89, $4A, $93, $4A, $9D, $4A, $A7, $4A, $B1, $4A
-Data_30404: ; 0x30404
+Data_30404: ; 30404 (c:4404) 
     db $08, $BB, $4A, $C5, $4A, $CF, $4A, $D9, $4A, $E3, $4A, $ED, $4A, $F7, $4A, $01, $4B
-Data_30415: ; 0x30415
+Data_30415: ; 30415 (c:4415) 
     db $08, $0B, $4B, $15, $4B, $1F, $4B, $29, $4B, $33, $4B, $3D, $4B, $47, $4B, $51, $4B
-Data_30426: ; 0x30426
+Data_30426: ; 30426 (c:4426) 
     db $08, $5B, $4B, $65, $4B, $6F, $4B, $79, $4B, $83, $4B, $8D, $4B, $97, $4B, $A1, $4B
-Data_30437: ; 0x30437
+Data_30437: ; 30437 (c:4437) 
     db $08, $AB, $4B, $B5, $4B, $BF, $4B, $C9, $4B, $D3, $4B, $DD, $4B, $E7, $4B, $F1, $4B
-Data_30448: ; 0x30448
+Data_30448: ; 30448 (c:4448) 
     db $08, $FB, $4B, $05, $4C, $0F, $4C, $19, $4C, $23, $4C, $2D, $4C, $37, $4C, $41, $4C
-Data_30459: ; 0x30459
+Data_30459: ; 30459 (c:4459) 
     db $08, $4B, $4C, $55, $4C, $5F, $4C, $69, $4C, $73, $4C, $7D, $4C, $87, $4C, $91, $4C
-Data_3046a: ; 0x3046a
+Data_3046a: ; 3046a (c:446a) 
     db $08, $9B, $4C, $A5, $4C, $AF, $4C, $B9, $4C, $C3, $4C, $CD, $4C, $D7, $4C, $E1, $4C
 
 INCBIN "baserom.gbc",$3047b,$30ceb - $3047b
 
-PointerTable_30ceb: ; 0x30ceb
+PointerTable_30ceb: ; 30ceb (c:4ceb) 
     dw Data_30d21
     dw Data_30d26
     dw Data_30d2b
@@ -47813,64 +47812,64 @@ PointerTable_30ceb: ; 0x30ceb
     dw Data_30d9e
     dw Data_30da3
 
-Data_30d21: ; 0x30d21
+Data_30d21: ; 30d21 (c:4d21) 
     db $02, $A8, $4D, $B1, $4D
-Data_30d26: ; 0x30d26
+Data_30d26: ; 30d26 (c:4d26) 
     db $02, $CD, $4D, $D6, $4D
-Data_30d2b: ; 0x30d2b
+Data_30d2b: ; 30d2b (c:4d2b) 
     db $02, $F2, $4D, $FB, $4D
-Data_30d30: ; 0x30d30
+Data_30d30: ; 30d30 (c:4d30) 
     db $02, $17, $4E, $20, $4E
-Data_30d35: ; 0x30d35
+Data_30d35: ; 30d35 (c:4d35) 
     db $02, $3C, $4E, $45, $4E
-Data_30d3a: ; 0x30d3a
+Data_30d3a: ; 30d3a (c:4d3a) 
     db $02, $61, $4E, $6A, $4E
-Data_30d3f: ; 0x30d3f
+Data_30d3f: ; 30d3f (c:4d3f) 
     db $02, $86, $4E, $8F, $4E
-Data_30d44: ; 0x30d44
+Data_30d44: ; 30d44 (c:4d44) 
     db $02, $AB, $4E, $B4, $4E
-Data_30d49: ; 0x30d49
+Data_30d49: ; 30d49 (c:4d49) 
     db $02, $D0, $4E, $D9, $4E
-Data_30d4e: ; 0x30d4e
+Data_30d4e: ; 30d4e (c:4d4e) 
     db $02, $F5, $4E, $FE, $4E
-Data_30d53: ; 0x30d53
+Data_30d53: ; 30d53 (c:4d53) 
     db $02, $1A, $4F, $23, $4F
-Data_30d58: ; 0x30d58
+Data_30d58: ; 30d58 (c:4d58) 
     db $02, $3F, $4F, $48, $4F
-Data_30d5d: ; 0x30d5d
+Data_30d5d: ; 30d5d (c:4d5d) 
     db $02, $64, $4F, $6D, $4F
-Data_30d62: ; 0x30d62
+Data_30d62: ; 30d62 (c:4d62) 
     db $02, $89, $4F, $92, $4F
-Data_30d67: ; 0x30d67
+Data_30d67: ; 30d67 (c:4d67) 
     db $02, $AE, $4F, $B7, $4F
-Data_30d6c: ; 0x30d6c
+Data_30d6c: ; 30d6c (c:4d6c) 
     db $02, $D3, $4F, $DC, $4F
-Data_30d71: ; 0x30d71
+Data_30d71: ; 30d71 (c:4d71) 
     db $02, $F8, $4F, $01, $50
-Data_30d76: ; 0x30d76
+Data_30d76: ; 30d76 (c:4d76) 
     db $02, $1D, $50, $26, $50
-Data_30d7b: ; 0x30d7b
+Data_30d7b: ; 30d7b (c:4d7b) 
     db $02, $42, $50, $4B, $50
-Data_30d80: ; 0x30d80
+Data_30d80: ; 30d80 (c:4d80) 
     db $02, $67, $50, $70, $50
-Data_30d85: ; 0x30d85
+Data_30d85: ; 30d85 (c:4d85) 
     db $02, $8C, $50, $95, $50
-Data_30d8a: ; 0x30d8a
+Data_30d8a: ; 30d8a (c:4d8a) 
     db $02, $B1, $50, $BA, $50
-Data_30d8f: ; 0x30d8f
+Data_30d8f: ; 30d8f (c:4d8f) 
     db $02, $D6, $50, $DF, $50
-Data_30d94: ; 0x30d94
+Data_30d94: ; 30d94 (c:4d94) 
     db $02, $FB, $50, $04, $51
-Data_30d99: ; 0x30d99
+Data_30d99: ; 30d99 (c:4d99) 
     db $02, $20, $51, $29, $51
-Data_30d9e: ; 0x30d9e
+Data_30d9e: ; 30d9e (c:4d9e) 
     db $02, $45, $51, $4E, $51
-Data_30da3: ; 0x30da3
+Data_30da3: ; 30da3 (c:4da3) 
     db $02, $6A, $51, $73, $51
 
 INCBIN "baserom.gbc",$30da8,$3118f - $30da8
 
-Func_3118f: ; 0x3118f
+Func_3118f: ; 3118f (c:518f) 
     push bc
     call Func_30e8
     call Func_30db
@@ -47891,7 +47890,7 @@ Func_3118f: ; 0x3118f
     call Func_32aa
     ret
 
-Func_311b4: ; 0x311b4
+Func_311b4: ; 311b4 (c:51b4) 
     ld a, [$d55a]
     and a
     jr nz, .asm_311ce
@@ -47948,7 +47947,7 @@ Func_311b4: ; 0x311b4
     call BankSwitch
     ret
 
-Func_31234: ; 0x31234
+Func_31234: ; 31234 (c:5234) 
     ld [$ff8a], a
     ld a, Bank(Func_107a5)
     ld hl, Func_107a5
@@ -47982,7 +47981,7 @@ Func_31234: ; 0x31234
     call BankSwitch
     ret
 
-Func_31281: ; 0x31282
+Func_31281: ; 31282 (c:5282) 
     ld a, [$d4e2]
     inc a
     cp $6
@@ -48070,15 +48069,15 @@ Func_31281: ; 0x31282
 
 INCBIN "baserom.gbc",$31319,$31324 - $31319
 
-Func_31324: ; 0x31324
+Func_31324: ; 31324 (c:5324) 
     ret
 
-Func_31325: ; 0x31325
+Func_31325: ; 31325 (c:5325) 
     ret
 
 INCBIN "baserom.gbc",$31326,$31326 - $31326
 
-Func_31326: ; 0x31326
+Func_31326: ; 31326 (c:5326) 
     ld a, [$d55a]
     and a
     jr nz, .asm_3134c
@@ -48148,7 +48147,7 @@ Func_31326: ; 0x31326
     call BankSwitch
     ret
 
-Func_313c3: ; 0x313c3
+Func_313c3: ; 313c3 (c:53c3) 
     ld [$ff8a], a
     ld a, Bank(Func_107a5)
     ld hl, Func_107a5
@@ -48180,7 +48179,7 @@ Func_313c3: ; 0x313c3
     call BankSwitch
     ret
 
-Func_3140b: ; 0x3140b
+Func_3140b: ; 3140b (c:540b) 
     ld a, [$d4e2]
     inc a
     cp $6
@@ -48268,7 +48267,7 @@ Func_3140b: ; 0x3140b
 
 INCBIN "baserom.gbc",$314a3,$314ae - $314a3
 
-Func_314ae: ; 0x314ae
+Func_314ae: ; 314ae (c:54ae) 
     ld a, [$d57d]
     and a
     ld a, [$d54c]
@@ -48292,7 +48291,7 @@ Func_314ae: ; 0x314ae
     call Func_3151f
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_314df: ; 0xd13df
+PointerTable_314df: ; d13df (34:53df) 
     dw Func_314ef
     db Bank(Func_314ef), $00
 
@@ -48305,15 +48304,15 @@ PointerTable_314df: ; 0xd13df
     dw Func_31505
     db Bank(Func_31505), $00
 
-Func_314ef: ; 0x314ef
+Func_314ef: ; 314ef (c:54ef) 
     scf
     ret
 
-Func_314f1: ; 0x314f1
+Func_314f1: ; 314f1 (c:54f1) 
     scf
     ret
 
-Func_314f3: ; 0x314f3
+Func_314f3: ; 314f3 (c:54f3) 
     ld [$ff8a], a
     ld a, Bank(Func_3022b)
     ld hl, Func_3022b
@@ -48323,7 +48322,7 @@ Func_314f3: ; 0x314f3
     scf
     ret
 
-Func_31505: ; 0x31505
+Func_31505: ; 31505 (c:5505) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -48337,7 +48336,7 @@ Func_31505: ; 0x31505
     scf
     ret
 
-Func_3151f: ; 0x3151f
+Func_3151f: ; 3151f (c:551f) 
     ld a, $50
     ld [$d4ef], a
     ld [$d4f1], a
@@ -48386,7 +48385,7 @@ Func_3151f: ; 0x3151f
     call Func_32aa
     ret
 
-Func_31591: ; 0x31591
+Func_31591: ; 31591 (c:5591) 
     ld a, [$d55a]
     and a
     jr nz, .asm_315b1
@@ -48405,7 +48404,7 @@ Func_31591: ; 0x31591
     scf
     ret
 
-Func_315b3: ; 0x315b3
+Func_315b3: ; 315b3 (c:55b3) 
     ld a, [$d55a]
     and a
     jr z, .asm_315d3
@@ -48424,7 +48423,7 @@ Func_315b3: ; 0x315b3
     scf
     ret
 
-Func_315d5: ; 0x315d5
+Func_315d5: ; 315d5 (c:55d5) 
     ld de, $0000
     call Func_490
     rst $10
@@ -48457,7 +48456,7 @@ Func_315d5: ; 0x315d5
     scf
     ret
 
-Func_3161b: ; 0x3161b
+Func_3161b: ; 3161b (c:561b) 
     ld a, [$d57d]
     and a
     ld a, [$d54c]
@@ -48481,7 +48480,7 @@ Func_3161b: ; 0x3161b
     call Func_3168c
     ld a, [$d54d]
     call CallInFollowingTable
-PointerTable_3164c: ; 0x3164c
+PointerTable_3164c: ; 3164c (c:564c) 
     dw Func_3165c
     db Bank(Func_3165c), $00
 
@@ -48494,15 +48493,15 @@ PointerTable_3164c: ; 0x3164c
     dw Func_31672
     db Bank(Func_31672), $00
 
-Func_3165c: ; 0x3165c
+Func_3165c: ; 3165c (c:565c) 
     scf
     ret
 
-Func_3165e: ; 0x3165e
+Func_3165e: ; 3165e (c:565e) 
     scf
     ret
 
-Func_31660: ; 0x31660
+Func_31660: ; 31660 (c:5660) 
     ld [$ff8a], a
     ld a, Bank(Func_3022b)
     ld hl, Func_3022b
@@ -48512,7 +48511,7 @@ Func_31660: ; 0x31660
     scf
     ret
 
-Func_31672: ; 0x31672
+Func_31672: ; 31672 (c:5672) 
     ld a, [$d5ca]
     and a
     ret nz
@@ -48526,7 +48525,7 @@ Func_31672: ; 0x31672
     scf
     ret
 
-Func_3168c: ; 0x3168c
+Func_3168c: ; 3168c (c:568c) 
     ld a, $50
     ld [wLeftMapMoveDiglettAnimationCounter], a
     ld [wRightMapMoveDiglettFrame], a
@@ -48579,7 +48578,7 @@ Func_3168c: ; 0x3168c
     call Func_32aa
     ret
 
-Func_31708: ; 0x31708
+Func_31708: ; 31708 (c:5708) 
     ld a, [$d55a]
     and a
     jr nz, .asm_31728
@@ -48598,7 +48597,7 @@ Func_31708: ; 0x31708
     scf
     ret
 
-Func_3172a: ; 0x3172a
+Func_3172a: ; 3172a (c:572a) 
     ld a, [$d55a]
     and a
     jr z, .asm_3174a
@@ -48617,7 +48616,7 @@ Func_3172a: ; 0x3172a
     scf
     ret
 
-Func_3174c: ; 0x3174c
+Func_3174c: ; 3174c (c:574c) 
     ld de, $0000
     call Func_490
     rst $10
@@ -48655,27 +48654,27 @@ INCBIN "baserom.gbc",$31792,$34000 - $31792
 
 SECTION "bankd", ROMX, BANK[$d]
 
-SlotOnPic: ; 0x34000
+SlotOnPic: ; 34000 (d:4000) 
 	INCBIN "gfx/billboard/slot/slot_on.2bpp"
-SlotOffPic: ; 0x34180
+SlotOffPic: ; 34180 (d:4180) 
 	INCBIN "gfx/billboard/slot/slot_off.2bpp"
 
 INCBIN "baserom.gbc",$34300,$37f00 - $34300
 
-StageSeelBonusCollisionMasks: ; 0x37f00
+StageSeelBonusCollisionMasks: ; 37f00 (d:7f00) 
     INCBIN "data/collision/masks/seel_bonus.masks"
 
 
 SECTION "banke", ROMX, BANK[$e]
 
-INCBIN "baserom.gbc",$38000,$3c000 - $38000 ; 0x38000
+INCBIN "baserom.gbc",$38000,$3c000 - $38000 ; 38000 (e:4000) 
 
 
 SECTION "bankf", ROMX, BANK[$f]
 
 INCBIN "baserom.gbc",$3c000,$3cca2 - $3c000
 
-SongHeaderPointers0F: ; 0x3cca2
+SongHeaderPointers0F: ; 3cca2 (f:4ca2) 
 	dw Music_Nothing0F
 	dw Music_BlueField
 	dw Music_CatchEmRed
@@ -48684,7 +48683,7 @@ SongHeaderPointers0F: ; 0x3cca2
 	dw Music_GastlyInTheGraveyard
 	dw Music_HaunterInTheGraveyard
 	dw Music_GengarInTheGraveyard
-; 0x3ccb2
+; 3ccb2 (f:4cb2) 
 
 INCLUDE "audio/music/nothing0f.asm"
 INCLUDE "audio/music/bluefield.asm"
@@ -48702,14 +48701,14 @@ SECTION "bank10", ROMX, BANK[$10]
 
 INCBIN "baserom.gbc",$40000,$40ca2 - $40000
 
-SongHeaderPointers10: ; 0x40ca2
+SongHeaderPointers10: ; 40ca2 (10:4ca2) 
 	dw Music_Nothing10
 	dw Music_RedField
 	dw Music_CatchEmBlue
 	dw Music_HurryUpBlue
 	dw Music_HiScore
 	dw Music_GameOver
-; 0x40cae
+; 40cae (10:4cae) 
 
 INCLUDE "audio/music/nothing10.asm"
 INCLUDE "audio/music/redfield.asm"
@@ -48725,13 +48724,13 @@ SECTION "bank11", ROMX, BANK[$11]
 
 INCBIN "baserom.gbc",$44000,$44ca2 - $44000
 
-SongHeaderPointers11: ; 0x44ca2
+SongHeaderPointers11: ; 44ca2 (11:4ca2) 
 	dw Music_Nothing11
 	dw Music_WhackTheDiglett
 	dw Music_WhackTheDugtrio
 	dw Music_SeelStage
 	dw Music_Title
-; 0x44cac
+; 44cac (11:4cac) 
 
 INCLUDE "audio/music/nothing11.asm"
 INCLUDE "audio/music/whackthediglett.asm"
@@ -48746,13 +48745,13 @@ SECTION "bank12", ROMX, BANK[$12]
 
 INCBIN "baserom.gbc",$48000,$48ca2 - $48000
 
-SongHeaderPointers12: ; 0x48ca2
+SongHeaderPointers12: ; 48ca2 (12:4ca2) 
 	dw Music_Nothing12
 	dw Music_MewtwoStage
 	dw Music_Options
 	dw Music_FieldSelect
 	dw Music_MeowthStage
-; 0x48cac
+; 48cac (12:4cac) 
 
 INCLUDE "audio/music/nothing12.asm"
 INCLUDE "audio/music/mewtwostage.asm"
@@ -48767,11 +48766,11 @@ SECTION "bank13", ROMX, BANK[$13]
 
 INCBIN "baserom.gbc",$4c000,$4cca2 - $4c000
 
-SongHeaderPointers13: ; 0x4cca2
+SongHeaderPointers13: ; 4cca2 (13:4ca2) 
 	dw Music_Nothing13
 	dw Music_EndCredits
 	dw Music_NameEntry
-; 0x4cca8
+; 4cca8 (13:4ca8) 
 
 INCLUDE "audio/music/nothing13.asm"
 INCLUDE "audio/music/endcredits.asm"
@@ -48782,7 +48781,7 @@ INCBIN "baserom.gbc",$4def4,$50000 - $4def4
 
 SECTION "bank14", ROMX, BANK[$14]
 
-PlayPikachuSoundClip: ; 0x50000
+PlayPikachuSoundClip: ; 50000 (14:4000) 
 ; Plays the pcm (pulse-code modulation) sound clip of one of the pikachu noises.
     sla a
     ld c, a
@@ -48857,23 +48856,23 @@ PlayPikachuSoundClip: ; 0x50000
     ei
     ret
 
-PikachuSoundClipPointers: ; 0x50076
+PikachuSoundClipPointers: ; 50076 (14:4076) 
     dw PikachuBillboardBonusSoundClip
     dw PikachuThundershockSoundClip
 
-PikachuBillboardBonusSoundClip:  ; 0x5007a
+PikachuBillboardBonusSoundClip:  ; 5007a (14:407a) 
     dw $caf  ; length of the pcm data (todo: there is probably a way to do this dynamically with rgbds)
     INCBIN "audio/sound_clips/pi_ka_chu.pcm"
 
     db $1f  ; unused
 
-PikachuThundershockSoundClip:  ; 0x50d2c
+PikachuThundershockSoundClip:  ; 50d2c (14:4d2c) 
     dw $1227  ; length of the pcm data (todo: there is probably a way to do this dynamically with rgbds)
     INCBIN "audio/sound_clips/piiiiikaaaa.pcm"
 
     db $f0, $00, $00  ; unused
 
-PlayPikachuPCM: ; 0x51f56
+PlayPikachuPCM: ; 51f56 (14:5f56) 
 ; Plays the audio PCM at [hl]
     ld a, [hli]
     ld c, a
@@ -48908,7 +48907,7 @@ PlayPikachuPCM: ; 0x51f56
     jr nz, .loop
     ret
 
-LoadNextSoundClipSample: ; 0x51f94
+LoadNextSoundClipSample: ; 51f94 (14:5f94) 
     ld a, d
     and $80
     srl a
@@ -48917,7 +48916,7 @@ LoadNextSoundClipSample: ; 0x51f94
     sla d
     ret
 
-PlaySoundClipSample: ; 0x51fa0
+PlaySoundClipSample: ; 51fa0 (14:5fa0) 
     ld a, $3
 .loop
     dec a
@@ -48929,267 +48928,267 @@ INCBIN "baserom.gbc",$51fa6,$54000 - $51fa6
 
 SECTION "bank15", ROMX, BANK[$15]
 
-INCBIN "baserom.gbc",$54000,$58000 - $54000 ; 0x54000
+INCBIN "baserom.gbc",$54000,$58000 - $54000 ; 54000 (15:4000) 
 
 
 SECTION "bank16", ROMX, BANK[$16]
 
-BallSaver30SecondsOnPic: ; 0x58000
+BallSaver30SecondsOnPic: ; 58000 (16:4000) 
 	INCBIN "gfx/billboard/slot/30secondballsaver_on.2bpp"
-BallSaver30SecondsOffPic: ; 0x58180
+BallSaver30SecondsOffPic: ; 58180 (16:4180) 
 	INCBIN "gfx/billboard/slot/30secondballsaver_off.2bpp"
-BallSaver60SecondsOnPic: ; 0x58300
+BallSaver60SecondsOnPic: ; 58300 (16:4300) 
 	INCBIN "gfx/billboard/slot/60secondballsaver_on.2bpp"
-BallSaver60SecondsOffPic: ; 0x580480
+BallSaver60SecondsOffPic: ; 58048 (16:4048) 
 	INCBIN "gfx/billboard/slot/60secondballsaver_off.2bpp"
-BallSaver90SecondsOnPic: ; 0x58600
+BallSaver90SecondsOnPic: ; 58600 (16:4600) 
 	INCBIN "gfx/billboard/slot/90secondballsaver_on.2bpp"
-BallSaver90SecondsOffPic: ; 0x58780
+BallSaver90SecondsOffPic: ; 58780 (16:4780) 
 	INCBIN "gfx/billboard/slot/90secondballsaver_off.2bpp"
-PikachuSaverOnPic: ; 0x58900
+PikachuSaverOnPic: ; 58900 (16:4900) 
 	INCBIN "gfx/billboard/slot/pikachusaver_on.2bpp"
-PikachuSaverOffPic: ; 0x58a80
+PikachuSaverOffPic: ; 58a80 (16:4a80) 
 	INCBIN "gfx/billboard/slot/pikachusaver_off.2bpp"
-ExtraBallOnPic: ; 0x58c00
+ExtraBallOnPic: ; 58c00 (16:4c00) 
 	INCBIN "gfx/billboard/slot/extraball_on.2bpp"
-ExtraBallOffPic: ; 0x58d80
+ExtraBallOffPic: ; 58d80 (16:4d80) 
 	INCBIN "gfx/billboard/slot/extraball_off.2bpp"
-SmallRewardOnPic: ; 0x58f00
+SmallRewardOnPic: ; 58f00 (16:4f00) 
 	INCBIN "gfx/billboard/slot/small_on.2bpp"
-SmallRewardOffPic: ; 0x59080
+SmallRewardOffPic: ; 59080 (16:5080) 
 	INCBIN "gfx/billboard/slot/small_off.2bpp"
-BigRewardOnPic: ; 0x59200
+BigRewardOnPic: ; 59200 (16:5200) 
 	INCBIN "gfx/billboard/slot/big_on.2bpp"
-BigRewardOffPic: ; 0x59380
+BigRewardOffPic: ; 59380 (16:5380) 
 	INCBIN "gfx/billboard/slot/big_off.2bpp"
-CatchEmModeOnPic: ; 0x59500
+CatchEmModeOnPic: ; 59500 (16:5500) 
 	INCBIN "gfx/billboard/slot/catchem_on.2bpp"
-CatchEmModeOffPic: ; 0x59680
+CatchEmModeOffPic: ; 59680 (16:5680) 
 	INCBIN "gfx/billboard/slot/catchem_off.2bpp"
-EvolutionModeOnPic: ; 0x59800
+EvolutionModeOnPic: ; 59800 (16:5800) 
 	INCBIN "gfx/billboard/slot/evolution_on.2bpp"
-EvolutionModeOffPic: ; 0x59980
+EvolutionModeOffPic: ; 59980 (16:5980) 
 	INCBIN "gfx/billboard/slot/evolution_off.2bpp"
-GreatBallOnPic: ; 0x59b00
+GreatBallOnPic: ; 59b00 (16:5b00) 
 	INCBIN "gfx/billboard/slot/greatball_on.2bpp"
-GreatBallOffPic: ; 0x59c80
+GreatBallOffPic: ; 59c80 (16:5c80) 
 	INCBIN "gfx/billboard/slot/greatball_off.2bpp"
-UltraBallOnPic: ; 0x59e00
+UltraBallOnPic: ; 59e00 (16:5e00) 
 	INCBIN "gfx/billboard/slot/ultraball_on.2bpp"
-UltraBallOffPic: ; 0x59f80
+UltraBallOffPic: ; 59f80 (16:5f80) 
 	INCBIN "gfx/billboard/slot/ultraball_off.2bpp"
-MasterBallOnPic: ; 0x5a100
+MasterBallOnPic: ; 5a100 (16:6100) 
 	INCBIN "gfx/billboard/slot/masterball_on.2bpp"
-MasterBallOffPic: ; 0x5a280
+MasterBallOffPic: ; 5a280 (16:6280) 
 	INCBIN "gfx/billboard/slot/masterball_off.2bpp"
-BonusMultiplierOnPic: ; 0x5a400
+BonusMultiplierOnPic: ; 5a400 (16:6400) 
 	INCBIN "gfx/billboard/slot/bonusmultiplier_on.2bpp"
-BonusMultiplierOffPic: ; 0x5a580
+BonusMultiplierOffPic: ; 5a580 (16:6580) 
 	INCBIN "gfx/billboard/slot/bonusmultiplier_off.2bpp"
-HurryUpOnPic: ; 0x5a700
+HurryUpOnPic: ; 5a700 (16:6700) 
 	INCBIN "gfx/billboard/hurryup_on.2bpp"
-HurryUpOffPic: ; 0x5a880
+HurryUpOffPic: ; 5a880 (16:6880) 
 	INCBIN "gfx/billboard/hurryup_off.2bpp"
-HurryUp2OnPic: ; 0x5aa00
+HurryUp2OnPic: ; 5aa00 (16:6a00) 
 	INCBIN "gfx/billboard/hurryup2_on.2bpp"
-HurryUp2OffPic: ; 0x5ab80
+HurryUp2OffPic: ; 5ab80 (16:6b80) 
 	INCBIN "gfx/billboard/hurryup2_off.2bpp"
-GoToNextOnPic: ; 0x5ad00
+GoToNextOnPic: ; 5ad00 (16:6d00) 
 	INCBIN "gfx/billboard/gotonext_on.2bpp"
-GoToNextOffPic: ; 0x5ae80
+GoToNextOffPic: ; 5ae80 (16:6e80) 
 	INCBIN "gfx/billboard/gotonext_off.2bpp"
-GoToGengarBonusOnPic: ; 0x5b000
+GoToGengarBonusOnPic: ; 5b000 (16:7000) 
 	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_on.2bpp"
-GoToGengarBonusOffPic: ; 0x5b180
+GoToGengarBonusOffPic: ; 5b180 (16:7180) 
 	INCBIN "gfx/billboard/bonus_stages/gotogengarbonus_off.2bpp"
-GoToMewtwoBonusOnPic: ; 0x5b300
+GoToMewtwoBonusOnPic: ; 5b300 (16:7300) 
 	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_on.2bpp"
-GoToMewtwoBonusOffPic: ; 0x5b480
+GoToMewtwoBonusOffPic: ; 5b480 (16:7480) 
 	INCBIN "gfx/billboard/bonus_stages/gotomewtwobonus_off.2bpp"
-GoToMeowthBonusOnPic: ; 0x5b600
+GoToMeowthBonusOnPic: ; 5b600 (16:7600) 
 	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_on.2bpp"
-GoToMeowthBonusOffPic: ; 0x5b780
+GoToMeowthBonusOffPic: ; 5b780 (16:7780) 
 	INCBIN "gfx/billboard/bonus_stages/gotomeowthbonus_off.2bpp"
-GoToDiglettBonusOnPic: ; 0x5b900
+GoToDiglettBonusOnPic: ; 5b900 (16:7900) 
 	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_on.2bpp"
-GoToDiglettBonusOffPic: ; 0x5ba80
+GoToDiglettBonusOffPic: ; 5ba80 (16:7a80) 
 	INCBIN "gfx/billboard/bonus_stages/gotodiglettbonus_off.2bpp"
-GoToSeelBonusOnPic: ; 0x5bc00
+GoToSeelBonusOnPic: ; 5bc00 (16:7c00) 
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_on.2bpp"
-GoToSeelBonusOffPic: ; 0x5bd80
+GoToSeelBonusOffPic: ; 5bd80 (16:7d80) 
 	INCBIN "gfx/billboard/bonus_stages/gotoseelbonus_off.2bpp"
 
-ChanseyBillboardBGPalette1: ; 0x5bf00
+ChanseyBillboardBGPalette1: ; 5bf00 (16:7f00) 
     RGB 31, 31, 31
     RGB 31, 15, 20
     RGB 27, 5, 7
     RGB 0, 0, 0
-ChanseyBillboardBGPalette2: ; 0x5bf08
+ChanseyBillboardBGPalette2: ; 5bf08 (16:7f08) 
     RGB 31, 31, 31
     RGB 31, 15, 20
     RGB 27, 5, 7
     RGB 0, 0, 0
 
-TangelaBillboardBGPalette1: ; 0x5bf10
+TangelaBillboardBGPalette1: ; 5bf10 (16:7f10) 
     RGB 31, 31, 31
     RGB 15, 21, 29
     RGB 4, 8, 18
     RGB 0, 0, 0
-TangelaBillboardBGPalette2: ; 0x5bf18
+TangelaBillboardBGPalette2: ; 5bf18 (16:7f18) 
     RGB 31, 31, 31
     RGB 15, 21, 29
     RGB 4, 8, 18
     RGB 0, 0, 0
 
-KangaskhanBillboardBGPalette1: ; 0x5bf20
+KangaskhanBillboardBGPalette1: ; 5bf20 (16:7f20) 
     RGB 31, 31, 31
     RGB 31, 18, 9
     RGB 17, 10, 4
     RGB 0, 0, 0
-KangaskhanBillboardBGPalette2: ; 0x5bf28
+KangaskhanBillboardBGPalette2: ; 5bf28 (16:7f28) 
     RGB 31, 31, 31
     RGB 31, 18, 9
     RGB 17, 10, 4
     RGB 0, 0, 0
 
-HorseaBillboardBGPalette1: ; 0x5bf30
+HorseaBillboardBGPalette1: ; 5bf30 (16:7f30) 
     RGB 31, 31, 31
     RGB 12, 19, 31
     RGB 4, 7, 22
     RGB 0, 0, 0
-HorseaBillboardBGPalette2: ; 0x5bf38
+HorseaBillboardBGPalette2: ; 5bf38 (16:7f38) 
     RGB 31, 31, 31
     RGB 25, 26, 3
     RGB 4, 7, 22
     RGB 0, 0, 0
 
-SeadraBillboardBGPalette1: ; 0x5bf40
+SeadraBillboardBGPalette1: ; 5bf40 (16:7f40) 
     RGB 31, 31, 31
     RGB 12, 19, 31
     RGB 4, 7, 22
     RGB 0, 0, 0
-SeadraBillboardBGPalette2: ; 0x5bf48
+SeadraBillboardBGPalette2: ; 5bf48 (16:7f48) 
     RGB 31, 31, 31
     RGB 12, 19, 31
     RGB 4, 7, 22
     RGB 0, 0, 0
 
-GoldeenBillboardBGPalette1: ; 0x5bf50
+GoldeenBillboardBGPalette1: ; 5bf50 (16:7f50) 
     RGB 31, 31, 31
     RGB 30, 16, 4
     RGB 29, 3, 0
     RGB 0, 0, 0
-GoldeenBillboardBGPalette2: ; 0x5bf58
+GoldeenBillboardBGPalette2: ; 5bf58 (16:7f58) 
     RGB 31, 31, 31
     RGB 30, 16, 4
     RGB 29, 3, 0
     RGB 0, 0, 0
 
-SeakingBillboardBGPalette1: ; 0x5bf60
+SeakingBillboardBGPalette1: ; 5bf60 (16:7f60) 
     RGB 31, 31, 31
     RGB 29, 17, 5
     RGB 31, 5, 0
     RGB 0, 0, 0
-SeakingBillboardBGPalette2: ; 0x5bf68
+SeakingBillboardBGPalette2: ; 5bf68 (16:7f68) 
     RGB 31, 31, 31
     RGB 29, 17, 5
     RGB 31, 5, 0
     RGB 0, 0, 0
 
-StaryuBillboardBGPalette1: ; 0x5bf70
+StaryuBillboardBGPalette1: ; 5bf70 (16:7f70) 
     RGB 31, 31, 31
     RGB 31, 20, 0
     RGB 19, 3, 6
     RGB 0, 0, 0
-StaryuBillboardBGPalette2: ; 0x5bf78
+StaryuBillboardBGPalette2: ; 5bf78 (16:7f78) 
     RGB 31, 31, 31
     RGB 31, 16, 8
     RGB 25, 3, 2
     RGB 0, 0, 0
 
-StarmieBillboardBGPalette1: ; 0x5bf80
+StarmieBillboardBGPalette1: ; 5bf80 (16:7f80) 
     RGB 31, 31, 31
     RGB 31, 17, 0
     RGB 15, 8, 16
     RGB 0, 0, 0
-StarmieBillboardBGPalette2: ; 0x5bf88
+StarmieBillboardBGPalette2: ; 5bf88 (16:7f88) 
     RGB 31, 31, 31
     RGB 31, 16, 8
     RGB 25, 3, 2
     RGB 0, 0, 0
 
-MrMimeBillboardBGPalette1: ; 0x5bf90
+MrMimeBillboardBGPalette1: ; 5bf90 (16:7f90) 
     RGB 31, 31, 31
     RGB 31, 17, 19
     RGB 28, 6, 4
     RGB 0, 0, 0
-MrMimeBillboardBGPalette2: ; 0x5bf98
+MrMimeBillboardBGPalette2: ; 5bf98 (16:7f98) 
     RGB 31, 31, 31
     RGB 31, 17, 19
     RGB 28, 6, 4
     RGB 0, 0, 0
 
-ScytherBillboardBGPalette1: ; 0x5bfa0
+ScytherBillboardBGPalette1: ; 5bfa0 (16:7fa0) 
     RGB 31, 31, 31
     RGB 17, 31, 4
     RGB 4, 16, 4
     RGB 0, 0, 0
-ScytherBillboardBGPalette2: ; 0x5bfa8
+ScytherBillboardBGPalette2: ; 5bfa8 (16:7fa8) 
     RGB 31, 31, 31
     RGB 17, 31, 4
     RGB 4, 16, 4
     RGB 0, 0, 0
 
-JynxBillboardBGPalette1: ; 0x5bfb0
+JynxBillboardBGPalette1: ; 5bfb0 (16:7fb0) 
     RGB 31, 31, 31
     RGB 29, 13, 15
     RGB 30, 6, 1
     RGB 0, 0, 0
-JynxBillboardBGPalette2: ; 0x5bfb8
+JynxBillboardBGPalette2: ; 5bfb8 (16:7fb8) 
     RGB 31, 31, 31
     RGB 31, 21, 0
     RGB 30, 6, 1
     RGB 0, 0, 0
 
-ElectabuzzBillboardBGPalette1: ; 0x5bfc0
+ElectabuzzBillboardBGPalette1: ; 5bfc0 (16:7fc0) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 19, 11, 0
     RGB 0, 0, 0
-ElectabuzzBillboardBGPalette2: ; 0x5bfc8
+ElectabuzzBillboardBGPalette2: ; 5bfc8 (16:7fc8) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 19, 11, 0
     RGB 0, 0, 0
 
-MagmarBillboardBGPalette1: ; 0x5bfd0
+MagmarBillboardBGPalette1: ; 5bfd0 (16:7fd0) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 28, 6, 0
     RGB 0, 0, 0
-MagmarBillboardBGPalette2: ; 0x5bfd8
+MagmarBillboardBGPalette2: ; 5bfd8 (16:7fd8) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 28, 6, 0
     RGB 0, 0, 0
 
-PinsirBillboardBGPalette1: ; 0x5bfe0
+PinsirBillboardBGPalette1: ; 5bfe0 (16:7fe0) 
     RGB 31, 31, 31
     RGB 17, 23, 10
     RGB 21, 10, 3
     RGB 0, 0, 0
-PinsirBillboardBGPalette2: ; 0x5bfe8
+PinsirBillboardBGPalette2: ; 5bfe8 (16:7fe8) 
     RGB 31, 31, 31
     RGB 31, 19, 8
     RGB 21, 10, 3
     RGB 0, 0, 0
 
-TaurosBillboardBGPalette1: ; 0x5bff0
+TaurosBillboardBGPalette1: ; 5bff0 (16:7ff0) 
     RGB 31, 31, 31
     RGB 31, 18, 7
     RGB 17, 9, 0
     RGB 0, 0, 0
-TaurosBillboardBGPalette2: ; 0x5bff8
+TaurosBillboardBGPalette2: ; 5bff8 (16:7ff8) 
     RGB 31, 31, 31
     RGB 14, 16, 20
     RGB 17, 9, 0
@@ -49198,732 +49197,732 @@ TaurosBillboardBGPalette2: ; 0x5bff8
 
 SECTION "bank17", ROMX, BANK[$17]
 
-SmallReward100PointsOnPic: ; 0x5c000
+SmallReward100PointsOnPic: ; 5c000 (17:4000) 
 	INCBIN "gfx/billboard/slot/100points_on.2bpp"
-SmallReward100PointsOffPic: ; 0x5c180
+SmallReward100PointsOffPic: ; 5c180 (17:4180) 
 	INCBIN "gfx/billboard/slot/100points_off.2bpp"
-SmallReward200PointsOnPic: ; 0x5c300
+SmallReward200PointsOnPic: ; 5c300 (17:4300) 
 	INCBIN "gfx/billboard/slot/200points_on.2bpp"
-SmallReward200PointsOffPic: ; 0x54800
+SmallReward200PointsOffPic: ; 54800 (15:4800) 
 	INCBIN "gfx/billboard/slot/200points_off.2bpp"
-SmallReward300PointsOnPic: ; 0x5c600
+SmallReward300PointsOnPic: ; 5c600 (17:4600) 
 	INCBIN "gfx/billboard/slot/300points_on.2bpp"
-SmallReward300PointsOffPic: ; 0x5c780
+SmallReward300PointsOffPic: ; 5c780 (17:4780) 
 	INCBIN "gfx/billboard/slot/300points_off.2bpp"
-SmallReward400PointsOnPic: ; 0x5c900
+SmallReward400PointsOnPic: ; 5c900 (17:4900) 
 	INCBIN "gfx/billboard/slot/400points_on.2bpp"
-SmallReward400PointsOffPic: ; 0x5ca80
+SmallReward400PointsOffPic: ; 5ca80 (17:4a80) 
 	INCBIN "gfx/billboard/slot/400points_off.2bpp"
-SmallReward500PointsOnPic: ; 0x5cc00
+SmallReward500PointsOnPic: ; 5cc00 (17:4c00) 
 	INCBIN "gfx/billboard/slot/500points_on.2bpp"
-SmallReward500PointsOffPic: ; 0x5cd80
+SmallReward500PointsOffPic: ; 5cd80 (17:4d80) 
 	INCBIN "gfx/billboard/slot/500points_off.2bpp"
-SmallReward600PointsOnPic: ; 0x5cf00
+SmallReward600PointsOnPic: ; 5cf00 (17:4f00) 
 	INCBIN "gfx/billboard/slot/600points_on.2bpp"
-SmallReward600PointsOffPic: ; 0x5d080
+SmallReward600PointsOffPic: ; 5d080 (17:5080) 
 	INCBIN "gfx/billboard/slot/600points_off.2bpp"
-SmallReward700PointsOnPic: ; 0x5d200
+SmallReward700PointsOnPic: ; 5d200 (17:5200) 
 	INCBIN "gfx/billboard/slot/700points_on.2bpp"
-SmallReward700PointsOffPic: ; 0x5d380
+SmallReward700PointsOffPic: ; 5d380 (17:5380) 
 	INCBIN "gfx/billboard/slot/700points_off.2bpp"
-SmallReward800PointsOnPic: ; 0x5d500
+SmallReward800PointsOnPic: ; 5d500 (17:5500) 
 	INCBIN "gfx/billboard/slot/800points_on.2bpp"
-SmallReward800PointsOffPic: ; 0x5d680
+SmallReward800PointsOffPic: ; 5d680 (17:5680) 
 	INCBIN "gfx/billboard/slot/800points_off.2bpp"
-SmallReward900PointsOnPic: ; 0x5d800
+SmallReward900PointsOnPic: ; 5d800 (17:5800) 
 	INCBIN "gfx/billboard/slot/900points_on.2bpp"
-SmallReward900PointsOffPic: ; 0x5d980
+SmallReward900PointsOffPic: ; 5d980 (17:5980) 
 	INCBIN "gfx/billboard/slot/900points_off.2bpp"
-BigReward1000000PointsOnPic: ; 0x5db00
+BigReward1000000PointsOnPic: ; 5db00 (17:5b00) 
 	INCBIN "gfx/billboard/slot/1000000points_on.2bpp"
-BigReward1000000PointsOffPic: ; 0x5dc80
+BigReward1000000PointsOffPic: ; 5dc80 (17:5c80) 
 	INCBIN "gfx/billboard/slot/1000000points_off.2bpp"
-BigReward2000000PointsOnPic: ; 0x5de00
+BigReward2000000PointsOnPic: ; 5de00 (17:5e00) 
 	INCBIN "gfx/billboard/slot/2000000points_on.2bpp"
-BigReward2000000PointsOffPic: ; 0x5df80
+BigReward2000000PointsOffPic: ; 5df80 (17:5f80) 
 	INCBIN "gfx/billboard/slot/2000000points_off.2bpp"
-BigReward3000000PointsOnPic: ; 0x5e100
+BigReward3000000PointsOnPic: ; 5e100 (17:6100) 
 	INCBIN "gfx/billboard/slot/3000000points_on.2bpp"
-BigReward3000000PointsOffPic: ; 0x5e280
+BigReward3000000PointsOffPic: ; 5e280 (17:6280) 
 	INCBIN "gfx/billboard/slot/3000000points_off.2bpp"
-BigReward4000000PointsOnPic: ; 0x5e400
+BigReward4000000PointsOnPic: ; 5e400 (17:6400) 
 	INCBIN "gfx/billboard/slot/4000000points_on.2bpp"
-BigReward4000000PointsOffPic: ; 0x5e580
+BigReward4000000PointsOffPic: ; 5e580 (17:6580) 
 	INCBIN "gfx/billboard/slot/4000000points_off.2bpp"
-BigReward5000000PointsOnPic: ; 0x5e700
+BigReward5000000PointsOnPic: ; 5e700 (17:6700) 
 	INCBIN "gfx/billboard/slot/5000000points_on.2bpp"
-BigReward5000000PointsOffPic: ; 0x5e880
+BigReward5000000PointsOffPic: ; 5e880 (17:6880) 
 	INCBIN "gfx/billboard/slot/5000000points_off.2bpp"
-BigReward6000000PointsOnPic: ; 0x5ea00
+BigReward6000000PointsOnPic: ; 5ea00 (17:6a00) 
 	INCBIN "gfx/billboard/slot/6000000points_on.2bpp"
-BigReward6000000PointsOffPic: ; 0x5eb80
+BigReward6000000PointsOffPic: ; 5eb80 (17:6b80) 
 	INCBIN "gfx/billboard/slot/6000000points_off.2bpp"
-BigReward7000000PointsOnPic: ; 0x5ed00
+BigReward7000000PointsOnPic: ; 5ed00 (17:6d00) 
 	INCBIN "gfx/billboard/slot/7000000points_on.2bpp"
-BigReward7000000PointsOffPic: ; 0x5ee80
+BigReward7000000PointsOffPic: ; 5ee80 (17:6e80) 
 	INCBIN "gfx/billboard/slot/7000000points_off.2bpp"
-BigReward8000000PointsOnPic: ; 0x5f000
+BigReward8000000PointsOnPic: ; 5f000 (17:7000) 
 	INCBIN "gfx/billboard/slot/8000000points_on.2bpp"
-BigReward8000000PointsOffPic: ; 0x5f180
+BigReward8000000PointsOffPic: ; 5f180 (17:7180) 
 	INCBIN "gfx/billboard/slot/8000000points_off.2bpp"
-BigReward9000000PointsOnPic: ; 0x5f300
+BigReward9000000PointsOnPic: ; 5f300 (17:7300) 
 	INCBIN "gfx/billboard/slot/9000000points_on.2bpp"
-BigReward9000000PointsOffPic: ; 0x5f480
+BigReward9000000PointsOffPic: ; 5f480 (17:7480) 
 	INCBIN "gfx/billboard/slot/9000000points_off.2bpp"
 
-INCBIN "baserom.gbc",$5f600,$60000 - $5f600 ; 0x5f600
+INCBIN "baserom.gbc",$5f600,$60000 - $5f600 ; 5f600 (17:7600) 
 
 
 SECTION "bank18", ROMX, BANK[$18]
 
-VenomothPic: ; 0x60000
+VenomothPic: ; 60000 (18:4000) 
 	INCBIN "gfx/billboard/mon_pics/venomoth.2bpp"
-VenomothSilhouettePic: ; 0x60180
+VenomothSilhouettePic: ; 60180 (18:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/venomoth.2bpp"
-DiglettPic: ; 0x60300
+DiglettPic: ; 60300 (18:4300) 
 	INCBIN "gfx/billboard/mon_pics/diglett.2bpp"
-DiglettSilhouettePic: ; 0x60480
+DiglettSilhouettePic: ; 60480 (18:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/diglett.2bpp"
-DugtrioPic: ; 0x60600
+DugtrioPic: ; 60600 (18:4600) 
 	INCBIN "gfx/billboard/mon_pics/dugtrio.2bpp"
-DugtrioSilhouettePic: ; 0x60780
+DugtrioSilhouettePic: ; 60780 (18:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/dugtrio.2bpp"
-MeowthPic: ; 0x60900
+MeowthPic: ; 60900 (18:4900) 
 	INCBIN "gfx/billboard/mon_pics/meowth.2bpp"
-MeowthSilhouettePic: ; 0x60a80
+MeowthSilhouettePic: ; 60a80 (18:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/meowth.2bpp"
-PersianPic: ; 0x60c00
+PersianPic: ; 60c00 (18:4c00) 
 	INCBIN "gfx/billboard/mon_pics/persian.2bpp"
-PersianSilhouettePic: ; 0x60d80
+PersianSilhouettePic: ; 60d80 (18:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/persian.2bpp"
-PsyduckPic: ; 0x60f00
+PsyduckPic: ; 60f00 (18:4f00) 
 	INCBIN "gfx/billboard/mon_pics/psyduck.2bpp"
-PsyduckSilhouettePic: ; 0x61080
+PsyduckSilhouettePic: ; 61080 (18:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/psyduck.2bpp"
-GolduckPic: ; 0x61200
+GolduckPic: ; 61200 (18:5200) 
 	INCBIN "gfx/billboard/mon_pics/golduck.2bpp"
-GolduckSilhouettePic:  ; 0x61380
+GolduckSilhouettePic:  ; 61380 (18:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/golduck.2bpp"
-MankeyPic: ; 0x61500
+MankeyPic: ; 61500 (18:5500) 
 	INCBIN "gfx/billboard/mon_pics/mankey.2bpp"
-MankeySilhouettePic: ; 0x61680
+MankeySilhouettePic: ; 61680 (18:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/mankey.2bpp"
-PrimeapePic: ; 0x61800
+PrimeapePic: ; 61800 (18:5800) 
 	INCBIN "gfx/billboard/mon_pics/primeape.2bpp"
-PrimeapeSilhouettePic: ; 0x61980
+PrimeapeSilhouettePic: ; 61980 (18:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/primeape.2bpp"
-GrowlithePic: ; 0x61b00
+GrowlithePic: ; 61b00 (18:5b00) 
 	INCBIN "gfx/billboard/mon_pics/growlithe.2bpp"
-GrowlitheSilhouettePic: ; 0x61c80
+GrowlitheSilhouettePic: ; 61c80 (18:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/growlithe.2bpp"
-ArcaninePic: ; 0x61e00
+ArcaninePic: ; 61e00 (18:5e00) 
 	INCBIN "gfx/billboard/mon_pics/arcanine.2bpp"
-ArcanineSilhouettePic: ; 0x61f80
+ArcanineSilhouettePic: ; 61f80 (18:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/arcanine.2bpp"
-PoliwagPic: ; 0x62100
+PoliwagPic: ; 62100 (18:6100) 
 	INCBIN "gfx/billboard/mon_pics/poliwag.2bpp"
-PoliwagSilhouettePic: ; 0x62280
+PoliwagSilhouettePic: ; 62280 (18:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/poliwag.2bpp"
-PoliwhirlPic: ; 0x62400
+PoliwhirlPic: ; 62400 (18:6400) 
 	INCBIN "gfx/billboard/mon_pics/poliwhirl.2bpp"
-PoliwhirlSilhouettePic: ; 0x62580
+PoliwhirlSilhouettePic: ; 62580 (18:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/poliwhirl.2bpp"
-PoliwrathPic: ; 0x62700
+PoliwrathPic: ; 62700 (18:6700) 
 	INCBIN "gfx/billboard/mon_pics/poliwrath.2bpp"
-PoliwrathSilhouettePic: ; 0x62880
+PoliwrathSilhouettePic: ; 62880 (18:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/poliwrath.2bpp"
-AbraPic: ; 0x62a00
+AbraPic: ; 62a00 (18:6a00) 
 	INCBIN "gfx/billboard/mon_pics/abra.2bpp"
-AbraSilhouettePic: ; 0x62b80
+AbraSilhouettePic: ; 62b80 (18:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/abra.2bpp"
-KadabraPic: ; 0x62d00
+KadabraPic: ; 62d00 (18:6d00) 
 	INCBIN "gfx/billboard/mon_pics/kadabra.2bpp"
-KadabraSilhouettePic: ; 0x62e80
+KadabraSilhouettePic: ; 62e80 (18:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/kadabra.2bpp"
 
-StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 0x63000
+StageRedFieldTopStatusBarSymbolsGfx_GameBoy: ; 63000 (18:7000) 
     INCBIN "gfx/stage/red_top/status_bar_symbols_gameboy.2bpp"
 
 INCBIN "baserom.gbc",$63100,$632a0 - $63100
 
-StageRedFieldTopBaseGameBoyGfx: ; 0x632a0
+StageRedFieldTopBaseGameBoyGfx: ; 632a0 (18:72a0) 
     INCBIN "gfx/stage/red_top/red_top_base_gameboy.2bpp"
 
 
 SECTION "bank19", ROMX, BANK[$19]
 
-NidorinoPic: ; 0x64000
+NidorinoPic: ; 64000 (19:4000) 
 	INCBIN "gfx/billboard/mon_pics/nidorino.2bpp"
-NidorinoSilhouettePic: ; 0x64180
+NidorinoSilhouettePic: ; 64180 (19:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidorino.2bpp"
-NidokingPic: ; 0x64300
+NidokingPic: ; 64300 (19:4300) 
 	INCBIN "gfx/billboard/mon_pics/nidoking.2bpp"
-NidokingSilhouettePic: ; 0x64480
+NidokingSilhouettePic: ; 64480 (19:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidoking.2bpp"
-ClefairyPic: ; 0x64600
+ClefairyPic: ; 64600 (19:4600) 
 	INCBIN "gfx/billboard/mon_pics/clefairy.2bpp"
-ClefairySilhouettePic: ; 0x64780
+ClefairySilhouettePic: ; 64780 (19:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/clefairy.2bpp"
-ClefablePic: ; 0x64900
+ClefablePic: ; 64900 (19:4900) 
 	INCBIN "gfx/billboard/mon_pics/clefable.2bpp"
-ClefableSilhouettePic: ; 0x64a80
+ClefableSilhouettePic: ; 64a80 (19:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/clefable.2bpp"
-VulpixPic: ; 0x64c00
+VulpixPic: ; 64c00 (19:4c00) 
 	INCBIN "gfx/billboard/mon_pics/vulpix.2bpp"
-VulpixSilhouettePic: ; 0x64d80
+VulpixSilhouettePic: ; 64d80 (19:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/vulpix.2bpp"
-NinetalesPic: ; 0x64f00
+NinetalesPic: ; 64f00 (19:4f00) 
 	INCBIN "gfx/billboard/mon_pics/ninetales.2bpp"
-NinetalesSilhouettePic: ; 0x65080
+NinetalesSilhouettePic: ; 65080 (19:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/ninetales.2bpp"
-JigglypuffPic: ; 0x65200
+JigglypuffPic: ; 65200 (19:5200) 
 	INCBIN "gfx/billboard/mon_pics/jigglypuff.2bpp"
-JigglypuffSilhouettePic:  ; 0x65380
+JigglypuffSilhouettePic:  ; 65380 (19:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/jigglypuff.2bpp"
-WigglytuffPic: ; 0x65500
+WigglytuffPic: ; 65500 (19:5500) 
 	INCBIN "gfx/billboard/mon_pics/wigglytuff.2bpp"
-WigglytuffSilhouettePic: ; 0x65680
+WigglytuffSilhouettePic: ; 65680 (19:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/wigglytuff.2bpp"
-ZubatPic: ; 0x65800
+ZubatPic: ; 65800 (19:5800) 
 	INCBIN "gfx/billboard/mon_pics/zubat.2bpp"
-ZubatSilhouettePic: ; 0x65980
+ZubatSilhouettePic: ; 65980 (19:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/zubat.2bpp"
-GolbatPic: ; 0x65b00
+GolbatPic: ; 65b00 (19:5b00) 
 	INCBIN "gfx/billboard/mon_pics/golbat.2bpp"
-GolbatSilhouettePic: ; 0x65c80
+GolbatSilhouettePic: ; 65c80 (19:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/golbat.2bpp"
-OddishPic: ; 0x65e00
+OddishPic: ; 65e00 (19:5e00) 
 	INCBIN "gfx/billboard/mon_pics/oddish.2bpp"
-OddishSilhouettePic: ; 0x65f80
+OddishSilhouettePic: ; 65f80 (19:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/oddish.2bpp"
-GloomPic: ; 0x66100
+GloomPic: ; 66100 (19:6100) 
 	INCBIN "gfx/billboard/mon_pics/gloom.2bpp"
-GloomSilhouettePic: ; 0x66280
+GloomSilhouettePic: ; 66280 (19:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/gloom.2bpp"
-VileplumePic: ; 0x66400
+VileplumePic: ; 66400 (19:6400) 
 	INCBIN "gfx/billboard/mon_pics/vileplume.2bpp"
-VileplumeSilhouettePic: ; 0x66580
+VileplumeSilhouettePic: ; 66580 (19:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/vileplume.2bpp"
-ParasPic: ; 0x66700
+ParasPic: ; 66700 (19:6700) 
 	INCBIN "gfx/billboard/mon_pics/paras.2bpp"
-ParasSilhouettePic: ; 0x66880
+ParasSilhouettePic: ; 66880 (19:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/paras.2bpp"
-ParasectPic: ; 0x66a00
+ParasectPic: ; 66a00 (19:6a00) 
 	INCBIN "gfx/billboard/mon_pics/parasect.2bpp"
-ParasectSilhouettePic: ; 0x66b80
+ParasectSilhouettePic: ; 66b80 (19:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/parasect.2bpp"
-VenonatPic: ; 0x66d00
+VenonatPic: ; 66d00 (19:6d00) 
 	INCBIN "gfx/billboard/mon_pics/venonat.2bpp"
-VenonatSilhouettePic: ; 0x66e80
+VenonatSilhouettePic: ; 66e80 (19:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/venonat.2bpp"
 
-INCBIN "baserom.gbc",$67000,$68000 - $67000 ; 0x67000
+INCBIN "baserom.gbc",$67000,$68000 - $67000 ; 67000 (19:7000) 
 
 
 SECTION "bank1a", ROMX, BANK[$1a]
 
-ChanseyPic: ; 0x68000
+ChanseyPic: ; 68000 (1a:4000) 
 	INCBIN "gfx/billboard/mon_pics/chansey.2bpp"
-ChanseySilhouettePic: ; 0x68180
+ChanseySilhouettePic: ; 68180 (1a:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/chansey.2bpp"
-TangelaPic: ; 0x68300
+TangelaPic: ; 68300 (1a:4300) 
 	INCBIN "gfx/billboard/mon_pics/tangela.2bpp"
-TangelaSilhouettePic: ; 0x68480
+TangelaSilhouettePic: ; 68480 (1a:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/tangela.2bpp"
-KangaskhanPic: ; 0x68600
+KangaskhanPic: ; 68600 (1a:4600) 
 	INCBIN "gfx/billboard/mon_pics/kangaskhan.2bpp"
-KangaskhanSilhouettePic: ; 0x68780
+KangaskhanSilhouettePic: ; 68780 (1a:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/kangaskhan.2bpp"
-HorseaPic: ; 0x68900
+HorseaPic: ; 68900 (1a:4900) 
 	INCBIN "gfx/billboard/mon_pics/horsea.2bpp"
-HorseaSilhouettePic: ; 0x68a80
+HorseaSilhouettePic: ; 68a80 (1a:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/horsea.2bpp"
-SeadraPic: ; 0x68c00
+SeadraPic: ; 68c00 (1a:4c00) 
 	INCBIN "gfx/billboard/mon_pics/seadra.2bpp"
-SeadraSilhouettePic: ; 0x68d80
+SeadraSilhouettePic: ; 68d80 (1a:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/seadra.2bpp"
-GoldeenPic: ; 0x68f00
+GoldeenPic: ; 68f00 (1a:4f00) 
 	INCBIN "gfx/billboard/mon_pics/goldeen.2bpp"
-GoldeenSilhouettePic: ; 0x69080
+GoldeenSilhouettePic: ; 69080 (1a:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/goldeen.2bpp"
-SeakingPic: ; 0x69200
+SeakingPic: ; 69200 (1a:5200) 
 	INCBIN "gfx/billboard/mon_pics/seaking.2bpp"
-SeakingSilhouettePic:  ; 0x69380
+SeakingSilhouettePic:  ; 69380 (1a:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/seaking.2bpp"
-StaryuPic: ; 0x69500
+StaryuPic: ; 69500 (1a:5500) 
 	INCBIN "gfx/billboard/mon_pics/staryu.2bpp"
-StaryuSilhouettePic: ; 0x69680
+StaryuSilhouettePic: ; 69680 (1a:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/staryu.2bpp"
-StarmiePic: ; 0x69800
+StarmiePic: ; 69800 (1a:5800) 
 	INCBIN "gfx/billboard/mon_pics/starmie.2bpp"
-StarmieSilhouettePic: ; 0x69980
+StarmieSilhouettePic: ; 69980 (1a:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/starmie.2bpp"
-Mr_MimePic: ; 0x69b00
+Mr_MimePic: ; 69b00 (1a:5b00) 
 	INCBIN "gfx/billboard/mon_pics/mr_mime.2bpp"
-Mr_MimeSilhouettePic: ; 0x69c80
+Mr_MimeSilhouettePic: ; 69c80 (1a:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/mr_mime.2bpp"
-ScytherPic: ; 0x69e00
+ScytherPic: ; 69e00 (1a:5e00) 
 	INCBIN "gfx/billboard/mon_pics/scyther.2bpp"
-ScytherSilhouettePic: ; 0x69f80
+ScytherSilhouettePic: ; 69f80 (1a:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/scyther.2bpp"
-JynxPic: ; 0x6a100
+JynxPic: ; 6a100 (1a:6100) 
 	INCBIN "gfx/billboard/mon_pics/jynx.2bpp"
-JynxSilhouettePic: ; 0x6a280
+JynxSilhouettePic: ; 6a280 (1a:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/jynx.2bpp"
-ElectabuzzPic: ; 0x6a400
+ElectabuzzPic: ; 6a400 (1a:6400) 
 	INCBIN "gfx/billboard/mon_pics/electabuzz.2bpp"
-ElectabuzzSilhouettePic: ; 0x6a580
+ElectabuzzSilhouettePic: ; 6a580 (1a:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/electabuzz.2bpp"
-MagmarPic: ; 0x6a700
+MagmarPic: ; 6a700 (1a:6700) 
 	INCBIN "gfx/billboard/mon_pics/magmar.2bpp"
-MagmarSilhouettePic: ; 0x6a880
+MagmarSilhouettePic: ; 6a880 (1a:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/magmar.2bpp"
-PinsirPic: ; 0x6aa00
+PinsirPic: ; 6aa00 (1a:6a00) 
 	INCBIN "gfx/billboard/mon_pics/pinsir.2bpp"
-PinsirSilhouettePic: ; 0x6ab80
+PinsirSilhouettePic: ; 6ab80 (1a:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/pinsir.2bpp"
-TaurosPic: ; 0x6ad00
+TaurosPic: ; 6ad00 (1a:6d00) 
 	INCBIN "gfx/billboard/mon_pics/tauros.2bpp"
-TaurosSilhouettePic: ; 0x6ae80
+TaurosSilhouettePic: ; 6ae80 (1a:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/tauros.2bpp"
 
-INCBIN "baserom.gbc",$6b000,$6c000 - $6b000 ; 0x6b000
+INCBIN "baserom.gbc",$6b000,$6c000 - $6b000 ; 6b000 (1a:7000) 
 
 
 SECTION "bank1b", ROMX, BANK[$1b]
 
-MagikarpPic: ; 0x6c000
+MagikarpPic: ; 6c000 (1b:4000) 
 	INCBIN "gfx/billboard/mon_pics/magikarp.2bpp"
-MagikarpSilhouettePic: ; 0x6c180
+MagikarpSilhouettePic: ; 6c180 (1b:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/magikarp.2bpp"
-GyaradosPic: ; 0x6c300
+GyaradosPic: ; 6c300 (1b:4300) 
 	INCBIN "gfx/billboard/mon_pics/gyarados.2bpp"
-GyaradosSilhouettePic: ; 0x6c480
+GyaradosSilhouettePic: ; 6c480 (1b:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/gyarados.2bpp"
-LaprasPic: ; 0x6c600
+LaprasPic: ; 6c600 (1b:4600) 
 	INCBIN "gfx/billboard/mon_pics/lapras.2bpp"
-LaprasSilhouettePic: ; 0x6c780
+LaprasSilhouettePic: ; 6c780 (1b:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/lapras.2bpp"
-DittoPic: ; 0x6c900
+DittoPic: ; 6c900 (1b:4900) 
 	INCBIN "gfx/billboard/mon_pics/ditto.2bpp"
-DittoSilhouettePic: ; 0x6ca80
+DittoSilhouettePic: ; 6ca80 (1b:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/ditto.2bpp"
-EeveePic: ; 0x6cc00
+EeveePic: ; 6cc00 (1b:4c00) 
 	INCBIN "gfx/billboard/mon_pics/eevee.2bpp"
-EeveeSilhouettePic: ; 0x6cd80
+EeveeSilhouettePic: ; 6cd80 (1b:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/eevee.2bpp"
-VaporeonPic: ; 0x6cf00
+VaporeonPic: ; 6cf00 (1b:4f00) 
 	INCBIN "gfx/billboard/mon_pics/vaporeon.2bpp"
-VaporeonSilhouettePic: ; 0x6d080
+VaporeonSilhouettePic: ; 6d080 (1b:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/vaporeon.2bpp"
-JolteonPic: ; 0x6d200
+JolteonPic: ; 6d200 (1b:5200) 
 	INCBIN "gfx/billboard/mon_pics/jolteon.2bpp"
-JolteonSilhouettePic:  ; 0x6d380
+JolteonSilhouettePic:  ; 6d380 (1b:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/jolteon.2bpp"
-FlareonPic: ; 0x6d500
+FlareonPic: ; 6d500 (1b:5500) 
 	INCBIN "gfx/billboard/mon_pics/flareon.2bpp"
-FlareonSilhouettePic: ; 0x6d680
+FlareonSilhouettePic: ; 6d680 (1b:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/flareon.2bpp"
-PorygonPic: ; 0x6d800
+PorygonPic: ; 6d800 (1b:5800) 
 	INCBIN "gfx/billboard/mon_pics/porygon.2bpp"
-PorygonSilhouettePic: ; 0x6d980
+PorygonSilhouettePic: ; 6d980 (1b:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/porygon.2bpp"
-OmanytePic: ; 0x6db00
+OmanytePic: ; 6db00 (1b:5b00) 
 	INCBIN "gfx/billboard/mon_pics/omanyte.2bpp"
-OmanyteSilhouettePic: ; 0x6dc80
+OmanyteSilhouettePic: ; 6dc80 (1b:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/omanyte.2bpp"
-OmastarPic: ; 0x6de00
+OmastarPic: ; 6de00 (1b:5e00) 
 	INCBIN "gfx/billboard/mon_pics/omastar.2bpp"
-OmastarSilhouettePic: ; 0x6df80
+OmastarSilhouettePic: ; 6df80 (1b:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/omastar.2bpp"
-KabutoPic: ; 0x6e100
+KabutoPic: ; 6e100 (1b:6100) 
 	INCBIN "gfx/billboard/mon_pics/kabuto.2bpp"
-KabutoSilhouettePic: ; 0x6e280
+KabutoSilhouettePic: ; 6e280 (1b:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/kabuto.2bpp"
-KabutopsPic: ; 0x6e400
+KabutopsPic: ; 6e400 (1b:6400) 
 	INCBIN "gfx/billboard/mon_pics/kabutops.2bpp"
-KabutopsSilhouettePic: ; 0x6e580
+KabutopsSilhouettePic: ; 6e580 (1b:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/kabutops.2bpp"
-AerodactylPic: ; 0x6e700
+AerodactylPic: ; 6e700 (1b:6700) 
 	INCBIN "gfx/billboard/mon_pics/aerodactyl.2bpp"
-AerodactylSilhouettePic: ; 0x6e880
+AerodactylSilhouettePic: ; 6e880 (1b:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/aerodactyl.2bpp"
-SnorlaxPic: ; 0x6ea00
+SnorlaxPic: ; 6ea00 (1b:6a00) 
 	INCBIN "gfx/billboard/mon_pics/snorlax.2bpp"
-SnorlaxSilhouettePic: ; 0x6eb80
+SnorlaxSilhouettePic: ; 6eb80 (1b:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/snorlax.2bpp"
-ArticunoPic: ; 0x6ed00
+ArticunoPic: ; 6ed00 (1b:6d00) 
 	INCBIN "gfx/billboard/mon_pics/articuno.2bpp"
-ArticunoSilhouettePic: ; 0x6ee80
+ArticunoSilhouettePic: ; 6ee80 (1b:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/articuno.2bpp"
 
-INCBIN "baserom.gbc",$6f000,$70000 - $6f000 ; 0x6f000
+INCBIN "baserom.gbc",$6f000,$70000 - $6f000 ; 6f000 (1b:7000) 
 
 
 SECTION "bank1c", ROMX, BANK[$1c]
 
-ZapdosPic: ; 0x70000
+ZapdosPic: ; 70000 (1c:4000) 
 	INCBIN "gfx/billboard/mon_pics/zapdos.2bpp"
-ZapdosSilhouettePic: ; 0x70180
+ZapdosSilhouettePic: ; 70180 (1c:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/zapdos.2bpp"
-MoltresPic: ; 0x70300
+MoltresPic: ; 70300 (1c:4300) 
 	INCBIN "gfx/billboard/mon_pics/moltres.2bpp"
-MoltresSilhouettePic: ; 0x70480
+MoltresSilhouettePic: ; 70480 (1c:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/moltres.2bpp"
-DratiniPic: ; 0x70600
+DratiniPic: ; 70600 (1c:4600) 
 	INCBIN "gfx/billboard/mon_pics/dratini.2bpp"
-DratiniSilhouettePic: ; 0x70780
+DratiniSilhouettePic: ; 70780 (1c:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/dratini.2bpp"
-DragonairPic: ; 0x70900
+DragonairPic: ; 70900 (1c:4900) 
 	INCBIN "gfx/billboard/mon_pics/dragonair.2bpp"
-DragonairSilhouettePic: ; 0x70a80
+DragonairSilhouettePic: ; 70a80 (1c:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/dragonair.2bpp"
-DragonitePic: ; 0x70c00
+DragonitePic: ; 70c00 (1c:4c00) 
 	INCBIN "gfx/billboard/mon_pics/dragonite.2bpp"
-DragoniteSilhouettePic: ; 0x70d80
+DragoniteSilhouettePic: ; 70d80 (1c:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/dragonite.2bpp"
-MewtwoPic: ; 0x70f00
+MewtwoPic: ; 70f00 (1c:4f00) 
 	INCBIN "gfx/billboard/mon_pics/mewtwo.2bpp"
-MewtwoSilhouettePic: ; 0x71080
+MewtwoSilhouettePic: ; 71080 (1c:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/mewtwo.2bpp"
-MewPic: ; 0x71200
+MewPic: ; 71200 (1c:5200) 
 	INCBIN "gfx/billboard/mon_pics/mew.2bpp"
-MewSilhouettePic:  ; 0x71380
+MewSilhouettePic:  ; 71380 (1c:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/mew.2bpp"
 
-INCBIN "baserom.gbc",$71500,$74000 - $71500 ; 0x71500
+INCBIN "baserom.gbc",$71500,$74000 - $71500 ; 71500 (1c:5500) 
 
 
 SECTION "bank1d", ROMX, BANK[$1d]
 
-PidgeottoPic: ; 0x74000
+PidgeottoPic: ; 74000 (1d:4000) 
 	INCBIN "gfx/billboard/mon_pics/pidgeotto.2bpp"
-PidgeottoSilhouettePic: ; 0x74180
+PidgeottoSilhouettePic: ; 74180 (1d:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/pidgeotto.2bpp"
-PidgeotPic: ; 0x74300
+PidgeotPic: ; 74300 (1d:4300) 
 	INCBIN "gfx/billboard/mon_pics/pidgeot.2bpp"
-PidgeotSilhouettePic: ; 0x74480
+PidgeotSilhouettePic: ; 74480 (1d:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/pidgeot.2bpp"
-RattataPic: ; 0x74600
+RattataPic: ; 74600 (1d:4600) 
 	INCBIN "gfx/billboard/mon_pics/rattata.2bpp"
-RattataSilhouettePic: ; 0x74780
+RattataSilhouettePic: ; 74780 (1d:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/rattata.2bpp"
-RaticatePic: ; 0x74900
+RaticatePic: ; 74900 (1d:4900) 
 	INCBIN "gfx/billboard/mon_pics/raticate.2bpp"
-RaticateSilhouettePic: ; 0x74a80
+RaticateSilhouettePic: ; 74a80 (1d:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/raticate.2bpp"
-SpearowPic: ; 0x74c00
+SpearowPic: ; 74c00 (1d:4c00) 
 	INCBIN "gfx/billboard/mon_pics/spearow.2bpp"
-SpearowSilhouettePic: ; 0x74d80
+SpearowSilhouettePic: ; 74d80 (1d:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/spearow.2bpp"
-FearowPic: ; 0x74f00
+FearowPic: ; 74f00 (1d:4f00) 
 	INCBIN "gfx/billboard/mon_pics/fearow.2bpp"
-FearowSilhouettePic: ; 0x75080
+FearowSilhouettePic: ; 75080 (1d:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/fearow.2bpp"
-EkansPic: ; 0x75200
+EkansPic: ; 75200 (1d:5200) 
 	INCBIN "gfx/billboard/mon_pics/ekans.2bpp"
-EkansSilhouettePic:  ; 0x75380
+EkansSilhouettePic:  ; 75380 (1d:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/ekans.2bpp"
-ArbokPic: ; 0x75500
+ArbokPic: ; 75500 (1d:5500) 
 	INCBIN "gfx/billboard/mon_pics/arbok.2bpp"
-ArbokSilhouettePic: ; 0x75680
+ArbokSilhouettePic: ; 75680 (1d:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/arbok.2bpp"
-PikachuPic: ; 0x75800
+PikachuPic: ; 75800 (1d:5800) 
 	INCBIN "gfx/billboard/mon_pics/pikachu.2bpp"
-PikachuSilhouettePic: ; 0x75980
+PikachuSilhouettePic: ; 75980 (1d:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/pikachu.2bpp"
-RaichuPic: ; 0x75b00
+RaichuPic: ; 75b00 (1d:5b00) 
 	INCBIN "gfx/billboard/mon_pics/raichu.2bpp"
-RaichuSilhouettePic: ; 0x75c80
+RaichuSilhouettePic: ; 75c80 (1d:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/raichu.2bpp"
-SandshrewPic: ; 0x75e00
+SandshrewPic: ; 75e00 (1d:5e00) 
 	INCBIN "gfx/billboard/mon_pics/sandshrew.2bpp"
-SandshrewSilhouettePic: ; 0x75f80
+SandshrewSilhouettePic: ; 75f80 (1d:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/sandshrew.2bpp"
-SandslashPic: ; 0x76100
+SandslashPic: ; 76100 (1d:6100) 
 	INCBIN "gfx/billboard/mon_pics/sandslash.2bpp"
-SandslashSilhouettePic: ; 0x76280
+SandslashSilhouettePic: ; 76280 (1d:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/sandslash.2bpp"
-Nidoran_FPic: ; 0x76400
+Nidoran_FPic: ; 76400 (1d:6400) 
 	INCBIN "gfx/billboard/mon_pics/nidoran_f.2bpp"
-Nidoran_FSilhouettePic: ; 0x76580
+Nidoran_FSilhouettePic: ; 76580 (1d:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidoran_f.2bpp"
-NidorinaPic: ; 0x76700
+NidorinaPic: ; 76700 (1d:6700) 
 	INCBIN "gfx/billboard/mon_pics/nidorina.2bpp"
-NidorinaSilhouettePic: ; 0x76880
+NidorinaSilhouettePic: ; 76880 (1d:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidorina.2bpp"
-NidoqueenPic: ; 0x76a00
+NidoqueenPic: ; 76a00 (1d:6a00) 
 	INCBIN "gfx/billboard/mon_pics/nidoqueen.2bpp"
-NidoqueenSilhouettePic: ; 0x76b80
+NidoqueenSilhouettePic: ; 76b80 (1d:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidoqueen.2bpp"
-Nidoran_MPic: ; 0x76d00
+Nidoran_MPic: ; 76d00 (1d:6d00) 
 	INCBIN "gfx/billboard/mon_pics/nidoran_m.2bpp"
-Nidoran_MSilhouettePic: ; 0x76e80
+Nidoran_MSilhouettePic: ; 76e80 (1d:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/nidoran_m.2bpp"
 
-StageRedFieldBottomBaseGameBoyGfx: ; 0x77000
+StageRedFieldBottomBaseGameBoyGfx: ; 77000 (1d:7000) 
     INCBIN  "gfx/stage/red_bottom/red_bottom_base_gameboy.2bpp"
 
 
 SECTION "bank1e", ROMX, BANK[$1e]
 
-BulbasaurPic: ; 0x78000
+BulbasaurPic: ; 78000 (1e:4000) 
 	INCBIN "gfx/billboard/mon_pics/bulbasaur.2bpp"
-BulbasaurSilhouettePic: ; 0x78180
+BulbasaurSilhouettePic: ; 78180 (1e:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/bulbasaur.2bpp"
-IvysaurPic: ; 0x78300
+IvysaurPic: ; 78300 (1e:4300) 
 	INCBIN "gfx/billboard/mon_pics/ivysaur.2bpp"
-IvysaurSilhouettePic: ; 0x78480
+IvysaurSilhouettePic: ; 78480 (1e:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/ivysaur.2bpp"
-VenusaurPic: ; 0x78600
+VenusaurPic: ; 78600 (1e:4600) 
 	INCBIN "gfx/billboard/mon_pics/venusaur.2bpp"
-VenusaurSilhouettePic: ; 0x78780
+VenusaurSilhouettePic: ; 78780 (1e:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/venusaur.2bpp"
-CharmanderPic: ; 0x78900
+CharmanderPic: ; 78900 (1e:4900) 
 	INCBIN "gfx/billboard/mon_pics/charmander.2bpp"
-CharmanderSilhouettePic: ; 0x78a80
+CharmanderSilhouettePic: ; 78a80 (1e:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/charmander.2bpp"
-CharmeleonPic: ; 0x78c00
+CharmeleonPic: ; 78c00 (1e:4c00) 
 	INCBIN "gfx/billboard/mon_pics/charmeleon.2bpp"
-CharmeleonSilhouettePic: ; 0x78d80
+CharmeleonSilhouettePic: ; 78d80 (1e:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/charmeleon.2bpp"
-CharizardPic: ; 0x78f00
+CharizardPic: ; 78f00 (1e:4f00) 
 	INCBIN "gfx/billboard/mon_pics/charizard.2bpp"
-CharizardSilhouettePic: ; 0x79080
+CharizardSilhouettePic: ; 79080 (1e:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/charizard.2bpp"
-SquirtlePic: ; 0x79200
+SquirtlePic: ; 79200 (1e:5200) 
 	INCBIN "gfx/billboard/mon_pics/squirtle.2bpp"
-SquirtleSilhouettePic:  ; 0x79380
+SquirtleSilhouettePic:  ; 79380 (1e:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/squirtle.2bpp"
-WartortlePic: ; 0x79500
+WartortlePic: ; 79500 (1e:5500) 
 	INCBIN "gfx/billboard/mon_pics/wartortle.2bpp"
-WartortleSilhouettePic: ; 0x79680
+WartortleSilhouettePic: ; 79680 (1e:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/wartortle.2bpp"
-BlastoisePic: ; 0x79800
+BlastoisePic: ; 79800 (1e:5800) 
 	INCBIN "gfx/billboard/mon_pics/blastoise.2bpp"
-BlastoiseSilhouettePic: ; 0x79980
+BlastoiseSilhouettePic: ; 79980 (1e:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/blastoise.2bpp"
-CaterpiePic: ; 0x79b00
+CaterpiePic: ; 79b00 (1e:5b00) 
 	INCBIN "gfx/billboard/mon_pics/caterpie.2bpp"
-CaterpieSilhouettePic: ; 0x79c80
+CaterpieSilhouettePic: ; 79c80 (1e:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/caterpie.2bpp"
-MetapodPic: ; 0x79e00
+MetapodPic: ; 79e00 (1e:5e00) 
 	INCBIN "gfx/billboard/mon_pics/metapod.2bpp"
-MetapodSilhouettePic: ; 0x79f80
+MetapodSilhouettePic: ; 79f80 (1e:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/metapod.2bpp"
-ButterfreePic: ; 0x7a100
+ButterfreePic: ; 7a100 (1e:6100) 
 	INCBIN "gfx/billboard/mon_pics/butterfree.2bpp"
-ButterfreeSilhouettePic: ; 0x7a280
+ButterfreeSilhouettePic: ; 7a280 (1e:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/butterfree.2bpp"
-WeedlePic: ; 0x7a400
+WeedlePic: ; 7a400 (1e:6400) 
 	INCBIN "gfx/billboard/mon_pics/weedle.2bpp"
-WeedleSilhouettePic: ; 0x7a580
+WeedleSilhouettePic: ; 7a580 (1e:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/weedle.2bpp"
-KakunaPic: ; 0x7a700
+KakunaPic: ; 7a700 (1e:6700) 
 	INCBIN "gfx/billboard/mon_pics/kakuna.2bpp"
-KakunaSilhouettePic: ; 0x7a880
+KakunaSilhouettePic: ; 7a880 (1e:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/kakuna.2bpp"
-BeedrillPic: ; 0x7aa00
+BeedrillPic: ; 7aa00 (1e:6a00) 
 	INCBIN "gfx/billboard/mon_pics/beedrill.2bpp"
-BeedrillSilhouettePic: ; 0x7ab80
+BeedrillSilhouettePic: ; 7ab80 (1e:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/beedrill.2bpp"
-PidgeyPic: ; 0x7ad00
+PidgeyPic: ; 7ad00 (1e:6d00) 
 	INCBIN "gfx/billboard/mon_pics/pidgey.2bpp"
-PidgeySilhouettePic: ; 0x7ae80
+PidgeySilhouettePic: ; 7ae80 (1e:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/pidgey.2bpp"
 
-BonusMultiplierX1OnPic: ; 0x7b000
+BonusMultiplierX1OnPic: ; 7b000 (1e:7000) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX1_on.2bpp"
-BonusMultiplierX1OffPic: ; 0x7b180
+BonusMultiplierX1OffPic: ; 7b180 (1e:7180) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX1_off.2bpp"
-BonusMultiplierX2OnPic: ; 0x7b300
+BonusMultiplierX2OnPic: ; 7b300 (1e:7300) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX2_on.2bpp"
-BonusMultiplierX2OffPic: ; 0x7b480
+BonusMultiplierX2OffPic: ; 7b480 (1e:7480) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX2_off.2bpp"
-BonusMultiplierX3OnPic: ; 0x7b600
+BonusMultiplierX3OnPic: ; 7b600 (1e:7600) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX3_on.2bpp"
-BonusMultiplierX3OffPic: ; 0x7b780
+BonusMultiplierX3OffPic: ; 7b780 (1e:7780) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX3_off.2bpp"
-BonusMultiplierX4OnPic: ; 0x7b900
+BonusMultiplierX4OnPic: ; 7b900 (1e:7900) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX4_on.2bpp"
-BonusMultiplierX4OffPic: ; 0x7ba80
+BonusMultiplierX4OffPic: ; 7ba80 (1e:7a80) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX4_off.2bpp"
-BonusMultiplierX5OnPic: ; 0x7bc00
+BonusMultiplierX5OnPic: ; 7bc00 (1e:7c00) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX5_on.2bpp"
-BonusMultiplierX5OffPic: ; 0x7bd80
+BonusMultiplierX5OffPic: ; 7bd80 (1e:7d80) 
 	INCBIN "gfx/billboard/slot/bonusmultiplierX5_off.2bpp"
 
-MagikarpBillboardBGPalette1: ; 0x7bf00
+MagikarpBillboardBGPalette1: ; 7bf00 (1e:7f00) 
     RGB 31, 31, 31
     RGB 29, 28, 4
     RGB 31, 7, 0
     RGB 0, 0, 0
-MagikarpBillboardBGPalette2: ; 0x7bf08
+MagikarpBillboardBGPalette2: ; 7bf08 (1e:7f08) 
     RGB 31, 31, 31
     RGB 31, 14, 12
     RGB 31, 7, 0
     RGB 0, 0, 0
 
-GyaradosBillboardBGPalette1: ; 0x7bf10
+GyaradosBillboardBGPalette1: ; 7bf10 (1e:7f10) 
     RGB 31, 31, 31
     RGB 12, 18, 31
     RGB 3, 9, 14
     RGB 0, 0, 0
-GyaradosBillboardBGPalette2: ; 0x7bf18
+GyaradosBillboardBGPalette2: ; 7bf18 (1e:7f18) 
     RGB 31, 31, 31
     RGB 31, 14, 16
     RGB 15, 3, 0
     RGB 0, 0, 0
 
-LaprasBillboardBGPalette1: ; 0x7bf20
+LaprasBillboardBGPalette1: ; 7bf20 (1e:7f20) 
     RGB 31, 31, 31
     RGB 12, 19, 31
     RGB 5, 8, 19
     RGB 0, 0, 0
-LaprasBillboardBGPalette2: ; 0x7bf28
+LaprasBillboardBGPalette2: ; 7bf28 (1e:7f28) 
     RGB 31, 31, 31
     RGB 12, 19, 31
     RGB 5, 8, 19
     RGB 0, 0, 0
 
-DittoBillboardBGPalette1: ; 0x7bf30
+DittoBillboardBGPalette1: ; 7bf30 (1e:7f30) 
     RGB 31, 31, 31
     RGB 26, 9, 21
     RGB 15, 2, 10
     RGB 0, 0, 0
-DittoBillboardBGPalette2: ; 0x7bf38
+DittoBillboardBGPalette2: ; 7bf38 (1e:7f38) 
     RGB 31, 31, 31
     RGB 26, 9, 21
     RGB 15, 2, 10
     RGB 0, 0, 0
 
-EeveeBillboardBGPalette1: ; 0x7bf40
+EeveeBillboardBGPalette1: ; 7bf40 (1e:7f40) 
     RGB 31, 31, 31
     RGB 25, 16, 4
     RGB 12, 7, 0
     RGB 0, 0, 0
-EeveeBillboardBGPalette2: ; 0x7bf48
+EeveeBillboardBGPalette2: ; 7bf48 (1e:7f48) 
     RGB 31, 31, 31
     RGB 25, 16, 4
     RGB 12, 7, 0
     RGB 0, 0, 0
 
-VaporeonBillboardBGPalette1: ; 0x7bf50
+VaporeonBillboardBGPalette1: ; 7bf50 (1e:7f50) 
     RGB 31, 31, 31
     RGB 10, 18, 29
     RGB 4, 6, 14
     RGB 0, 0, 0
-VaporeonBillboardBGPalette2: ; 0x7bf58
+VaporeonBillboardBGPalette2: ; 7bf58 (1e:7f58) 
     RGB 31, 31, 31
     RGB 31, 28, 7
     RGB 4, 6, 14
     RGB 0, 0, 0
 
-JolteonBillboardBGPalette1: ; 0x7bf60
+JolteonBillboardBGPalette1: ; 7bf60 (1e:7f60) 
     RGB 31, 31, 31
     RGB 31, 26, 0
     RGB 15, 10, 0
     RGB 0, 0, 0
-JolteonBillboardBGPalette2: ; 0x7bf68
+JolteonBillboardBGPalette2: ; 7bf68 (1e:7f68) 
     RGB 31, 31, 31
     RGB 31, 26, 0
     RGB 15, 10, 0
     RGB 0, 0, 0
 
-FlareonBillboardBGPalette1: ; 0x7bf70
+FlareonBillboardBGPalette1: ; 7bf70 (1e:7f70) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 31, 6, 0
     RGB 0, 0, 0
-FlareonBillboardBGPalette2: ; 0x7bf78
+FlareonBillboardBGPalette2: ; 7bf78 (1e:7f78) 
     RGB 31, 31, 31
     RGB 31, 27, 0
     RGB 31, 6, 0
     RGB 0, 0, 0
 
-PorygonBillboardBGPalette1: ; 0x7bf80
+PorygonBillboardBGPalette1: ; 7bf80 (1e:7f80) 
     RGB 31, 31, 31
     RGB 29, 12, 13
     RGB 2, 10, 17
     RGB 0, 0, 0
-PorygonBillboardBGPalette2: ; 0x7bf88
+PorygonBillboardBGPalette2: ; 7bf88 (1e:7f88) 
     RGB 31, 31, 31
     RGB 5, 23, 31
     RGB 2, 10, 17
     RGB 0, 0, 0
 
-OmanyteBillboardBGPalette1: ; 0x7bf90
+OmanyteBillboardBGPalette1: ; 7bf90 (1e:7f90) 
     RGB 31, 31, 31
     RGB 22, 21, 14
     RGB 0, 15, 25
     RGB 0, 0, 0
-OmanyteBillboardBGPalette2: ; 0x7bf98
+OmanyteBillboardBGPalette2: ; 7bf98 (1e:7f98) 
     RGB 31, 31, 31
     RGB 11, 26, 29
     RGB 0, 15, 25
     RGB 0, 0, 0
 
-OmastarBillboardBGPalette1: ; 0x7bfa0
+OmastarBillboardBGPalette1: ; 7bfa0 (1e:7fa0) 
     RGB 31, 31, 31
     RGB 22, 21, 14
     RGB 0, 15, 25
     RGB 0, 0, 0
-OmastarBillboardBGPalette2: ; 0x7bfa8
+OmastarBillboardBGPalette2: ; 7bfa8 (1e:7fa8) 
     RGB 31, 31, 31
     RGB 11, 26, 29
     RGB 0, 15, 25
     RGB 0, 0, 0
 
-KabutoBillboardBGPalette1: ; 0x7bfb0
+KabutoBillboardBGPalette1: ; 7bfb0 (1e:7fb0) 
     RGB 31, 31, 31
     RGB 29, 18, 0
     RGB 14, 6, 0
     RGB 0, 0, 0
-KabutoBillboardBGPalette2: ; 0x7bfb8
+KabutoBillboardBGPalette2: ; 7bfb8 (1e:7fb8) 
     RGB 31, 6, 0
     RGB 29, 18, 0
     RGB 14, 6, 0
     RGB 0, 0, 0
 
-KabutopsBillboardBGPalette1: ; 0x7bfc0
+KabutopsBillboardBGPalette1: ; 7bfc0 (1e:7fc0) 
     RGB 31, 31, 31
     RGB 31, 22, 13
     RGB 19, 12, 0
     RGB 0, 0, 0
-KabutopsBillboardBGPalette2: ; 0x7bfc8
+KabutopsBillboardBGPalette2: ; 7bfc8 (1e:7fc8) 
     RGB 31, 31, 31
     RGB 16, 25, 12
     RGB 19, 12, 0
     RGB 0, 0, 0
 
-AerodactylBillboardBGPalette1: ; 0x7bfd0
+AerodactylBillboardBGPalette1: ; 7bfd0 (1e:7fd0) 
     RGB 31, 31, 31
     RGB 20, 18, 31
     RGB 8, 6, 15
     RGB 0, 0, 0
-AerodactylBillboardBGPalette2: ; 0x7bfd8
+AerodactylBillboardBGPalette2: ; 7bfd8 (1e:7fd8) 
     RGB 31, 31, 31
     RGB 20, 18, 31
     RGB 17, 3, 25
     RGB 0, 0, 0
 
-SnorlaxBillboardBGPalette1: ; 0x7bfe0
+SnorlaxBillboardBGPalette1: ; 7bfe0 (1e:7fe0) 
     RGB 31, 31, 31
     RGB 31, 27, 9
     RGB 5, 6, 14
     RGB 0, 0, 0
-SnorlaxBillboardBGPalette2: ; 0x7bfe8
+SnorlaxBillboardBGPalette2: ; 7bfe8 (1e:7fe8) 
     RGB 31, 31, 31
     RGB 31, 27, 9
     RGB 28, 6, 2
     RGB 0, 0, 0
 
-ArticunoBillboardBGPalette1: ; 0x7bff0
+ArticunoBillboardBGPalette1: ; 7bff0 (1e:7ff0) 
     RGB 31, 31, 31
     RGB 13, 27, 29
     RGB 5, 13, 24
     RGB 0, 0, 0
-ArticunoBillboardBGPalette2: ; 0x7bff8
+ArticunoBillboardBGPalette2: ; 7bff8 (1e:7ff8) 
     RGB 31, 31, 31
     RGB 13, 27, 29
     RGB 5, 13, 24
@@ -49932,336 +49931,336 @@ ArticunoBillboardBGPalette2: ; 0x7bff8
 
 SECTION "bank1f", ROMX, BANK[$1f]
 
-SlowpokeAnimatedPic: ; 0x7c000
+SlowpokeAnimatedPic: ; 7c000 (1f:4000) 
 	INCBIN "gfx/billboard/mon_animated/slowpoke.w32.interleave.2bpp"
-MagnemiteAnimatedPic: ; 0x7c300
+MagnemiteAnimatedPic: ; 7c300 (1f:4300) 
 	INCBIN "gfx/billboard/mon_animated/magnemite.w32.interleave.2bpp"
-FarfetchdAnimatedPic: ; 0x7c600
+FarfetchdAnimatedPic: ; 7c600 (1f:4600) 
 	INCBIN "gfx/billboard/mon_animated/farfetch_d.w32.interleave.2bpp"
-DoduoAnimatedPic: ; 0x7c900
+DoduoAnimatedPic: ; 7c900 (1f:4900) 
 	INCBIN "gfx/billboard/mon_animated/doduo.w32.interleave.2bpp"
-SeelAnimatedPic: ; 0x7cc00
+SeelAnimatedPic: ; 7cc00 (1f:4c00) 
 	INCBIN "gfx/billboard/mon_animated/seel.w32.interleave.2bpp"
-GrimerAnimatedPic: ; 0x7cf00
+GrimerAnimatedPic: ; 7cf00 (1f:4f00) 
 	INCBIN "gfx/billboard/mon_animated/grimer.w32.interleave.2bpp"
-ShellderAnimatedPic: ; 0x7d200
+ShellderAnimatedPic: ; 7d200 (1f:5200) 
 	INCBIN "gfx/billboard/mon_animated/shellder.w32.interleave.2bpp"
-GastlyAnimatedPic: ; 0x7d500
+GastlyAnimatedPic: ; 7d500 (1f:5500) 
 	INCBIN "gfx/billboard/mon_animated/gastly.w32.interleave.2bpp"
-OnixAnimatedPic: ; 0x7d800
+OnixAnimatedPic: ; 7d800 (1f:5800) 
 	INCBIN "gfx/billboard/mon_animated/onix.w32.interleave.2bpp"
-DrowzeeAnimatedPic: ; 0x7db00
+DrowzeeAnimatedPic: ; 7db00 (1f:5b00) 
 	INCBIN "gfx/billboard/mon_animated/drowzee.w32.interleave.2bpp"
-KrabbyAnimatedPic: ; 0x7de00
+KrabbyAnimatedPic: ; 7de00 (1f:5e00) 
 	INCBIN "gfx/billboard/mon_animated/krabby.w32.interleave.2bpp"
-VoltorbAnimatedPic: ; 0x7e100
+VoltorbAnimatedPic: ; 7e100 (1f:6100) 
 	INCBIN "gfx/billboard/mon_animated/voltorb.w32.interleave.2bpp"
-ExeggcuteAnimatedPic: ; 0x7e400
+ExeggcuteAnimatedPic: ; 7e400 (1f:6400) 
 	INCBIN "gfx/billboard/mon_animated/exeggcute.w32.interleave.2bpp"
-CuboneAnimatedPic: ; 0x7e700
+CuboneAnimatedPic: ; 7e700 (1f:6700) 
 	INCBIN "gfx/billboard/mon_animated/cubone.w32.interleave.2bpp"
-HitmonleeAnimatedPic: ; 0x7ea00
+HitmonleeAnimatedPic: ; 7ea00 (1f:6a00) 
 	INCBIN "gfx/billboard/mon_animated/hitmonlee.w32.interleave.2bpp"
-HitmonchanAnimatedPic: ; 0x7ed00
+HitmonchanAnimatedPic: ; 7ed00 (1f:6d00) 
 	INCBIN "gfx/billboard/mon_animated/hitmonchan.w32.interleave.2bpp"
 
 INCBIN "baserom.gbc",$7f000,$7fd00 - $7f000
 
-EraseAllDataGfx: ; 0x7fd00: ; 0x7fd00
+EraseAllDataGfx: ; 7fd00 (1f:7d00) ;
     INCBIN "gfx/erase_all_data.2bpp"
 
 
 SECTION "bank20", ROMX, BANK[$20]
 
-LickitungAnimatedPic: ; 0x80000
+LickitungAnimatedPic: ; 80000 (20:4000) 
 	INCBIN "gfx/billboard/mon_animated/lickitung.w32.interleave.2bpp"
-KoffingAnimatedPic: ; 0x80300
+KoffingAnimatedPic: ; 80300 (20:4300) 
 	INCBIN "gfx/billboard/mon_animated/koffing.w32.interleave.2bpp"
-RhyhornAnimatedPic: ; 0x80600
+RhyhornAnimatedPic: ; 80600 (20:4600) 
 	INCBIN "gfx/billboard/mon_animated/rhyhorn.w32.interleave.2bpp"
-ChanseyAnimatedPic: ; 0x80900
+ChanseyAnimatedPic: ; 80900 (20:4900) 
 	INCBIN "gfx/billboard/mon_animated/chansey.w32.interleave.2bpp"
-TangelaAnimatedPic: ; 0x80c00
+TangelaAnimatedPic: ; 80c00 (20:4c00) 
 	INCBIN "gfx/billboard/mon_animated/tangela.w32.interleave.2bpp"
-KangaskhanAnimatedPic: ; 0x80f00
+KangaskhanAnimatedPic: ; 80f00 (20:4f00) 
 	INCBIN "gfx/billboard/mon_animated/kangaskhan.w32.interleave.2bpp"
-HorseaAnimatedPic: ; 0x81200
+HorseaAnimatedPic: ; 81200 (20:5200) 
 	INCBIN "gfx/billboard/mon_animated/horsea.w32.interleave.2bpp"
-GoldeenAnimatedPic: ; 0x81500
+GoldeenAnimatedPic: ; 81500 (20:5500) 
 	INCBIN "gfx/billboard/mon_animated/goldeen.w32.interleave.2bpp"
-StaryuAnimatedPic: ; 0x81800
+StaryuAnimatedPic: ; 81800 (20:5800) 
 	INCBIN "gfx/billboard/mon_animated/staryu.w32.interleave.2bpp"
-MrMimeAnimatedPic: ; 0x81b00
+MrMimeAnimatedPic: ; 81b00 (20:5b00) 
 	INCBIN "gfx/billboard/mon_animated/mr_mime.w32.interleave.2bpp"
-ScytherAnimatedPic: ; 0x81e00
+ScytherAnimatedPic: ; 81e00 (20:5e00) 
 	INCBIN "gfx/billboard/mon_animated/scyther.w32.interleave.2bpp"
-JynxAnimatedPic: ; 0x82100
+JynxAnimatedPic: ; 82100 (20:6100) 
 	INCBIN "gfx/billboard/mon_animated/jynx.w32.interleave.2bpp"
-ElectabuzzAnimatedPic: ; 0x82400
+ElectabuzzAnimatedPic: ; 82400 (20:6400) 
 	INCBIN "gfx/billboard/mon_animated/electabuzz.w32.interleave.2bpp"
-MagmarAnimatedPic: ; 0x82700
+MagmarAnimatedPic: ; 82700 (20:6700) 
 	INCBIN "gfx/billboard/mon_animated/magmar.w32.interleave.2bpp"
-PinsirAnimatedPic: ; 0x82a00
+PinsirAnimatedPic: ; 82a00 (20:6a00) 
 	INCBIN "gfx/billboard/mon_animated/pinsir.w32.interleave.2bpp"
-TaurosAnimatedPic: ; 0x82d00
+TaurosAnimatedPic: ; 82d00 (20:6d00) 
 	INCBIN "gfx/billboard/mon_animated/tauros.w32.interleave.2bpp"
 
 INCBIN "baserom.gbc",$83000,$83d00 - $83000
 
-StageDiglettBonusCollisionMasks: ; 0x83d00
+StageDiglettBonusCollisionMasks: ; 83d00 (20:7d00) 
     INCBIN "data/collision/masks/diglett_bonus.masks"
 
 
 SECTION "bank21", ROMX, BANK[$21]
 
-MagikarpAnimatedPic: ; 0x84000
+MagikarpAnimatedPic: ; 84000 (21:4000) 
 	INCBIN "gfx/billboard/mon_animated/magikarp.w32.interleave.2bpp"
-LaprasAnimatedPic: ; 0x84300
+LaprasAnimatedPic: ; 84300 (21:4300) 
 	INCBIN "gfx/billboard/mon_animated/lapras.w32.interleave.2bpp"
-DittoAnimatedPic: ; 0x84600
+DittoAnimatedPic: ; 84600 (21:4600) 
 	INCBIN "gfx/billboard/mon_animated/ditto.w32.interleave.2bpp"
-EeveeAnimatedPic: ; 0x84900
+EeveeAnimatedPic: ; 84900 (21:4900) 
 	INCBIN "gfx/billboard/mon_animated/eevee.w32.interleave.2bpp"
-PorygonAnimatedPic: ; 0x84c00
+PorygonAnimatedPic: ; 84c00 (21:4c00) 
 	INCBIN "gfx/billboard/mon_animated/porygon.w32.interleave.2bpp"
-OmanyteAnimatedPic: ; 0x84f00
+OmanyteAnimatedPic: ; 84f00 (21:4f00) 
 	INCBIN "gfx/billboard/mon_animated/omanyte.w32.interleave.2bpp"
-KabutoAnimatedPic: ; 0x85200
+KabutoAnimatedPic: ; 85200 (21:5200) 
 	INCBIN "gfx/billboard/mon_animated/kabuto.w32.interleave.2bpp"
-AerodactylAnimatedPic: ; 0x85500
+AerodactylAnimatedPic: ; 85500 (21:5500) 
 	INCBIN "gfx/billboard/mon_animated/aerodactyl.w32.interleave.2bpp"
-SnorlaxAnimatedPic: ; 0x85800
+SnorlaxAnimatedPic: ; 85800 (21:5800) 
 	INCBIN "gfx/billboard/mon_animated/snorlax.w32.interleave.2bpp"
-ArticunoAnimatedPic: ; 0x85b00
+ArticunoAnimatedPic: ; 85b00 (21:5b00) 
 	INCBIN "gfx/billboard/mon_animated/articuno.w32.interleave.2bpp"
-ZapdosAnimatedPic: ; 0x85e00
+ZapdosAnimatedPic: ; 85e00 (21:5e00) 
 	INCBIN "gfx/billboard/mon_animated/zapdos.w32.interleave.2bpp"
-MoltresAnimatedPic: ; 0x86100
+MoltresAnimatedPic: ; 86100 (21:6100) 
 	INCBIN "gfx/billboard/mon_animated/moltres.w32.interleave.2bpp"
-DratiniAnimatedPic: ; 0x86400
+DratiniAnimatedPic: ; 86400 (21:6400) 
 	INCBIN "gfx/billboard/mon_animated/dratini.w32.interleave.2bpp"
-MewtwoAnimatedPic: ; 0x86700
+MewtwoAnimatedPic: ; 86700 (21:6700) 
 	INCBIN "gfx/billboard/mon_animated/mewtwo.w32.interleave.2bpp"
-MewAnimatedPic: ; 0x86a00
+MewAnimatedPic: ; 86a00 (21:6a00) 
 	INCBIN "gfx/billboard/mon_animated/mew.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$86d00,$88000 - $86d00 ; 0x86d00
+INCBIN "baserom.gbc",$86d00,$88000 - $86d00 ; 86d00 (21:6d00) 
 
 
 SECTION "bank22", ROMX, BANK[$22]
 
-ZubatAnimatedPic: ; 0x88000
+ZubatAnimatedPic: ; 88000 (22:4000) 
 	INCBIN "gfx/billboard/mon_animated/zubat.w32.interleave.2bpp"
-OddishAnimatedPic: ; 0x88300
+OddishAnimatedPic: ; 88300 (22:4300) 
 	INCBIN "gfx/billboard/mon_animated/oddish.w32.interleave.2bpp"
-ParasAnimatedPic: ; 0x88600
+ParasAnimatedPic: ; 88600 (22:4600) 
 	INCBIN "gfx/billboard/mon_animated/paras.w32.interleave.2bpp"
-VenonatAnimatedPic: ; 0x88900
+VenonatAnimatedPic: ; 88900 (22:4900) 
 	INCBIN "gfx/billboard/mon_animated/venonat.w32.interleave.2bpp"
-DiglettAnimatedPic: ; 0x88c00
+DiglettAnimatedPic: ; 88c00 (22:4c00) 
 	INCBIN "gfx/billboard/mon_animated/diglett.w32.interleave.2bpp"
-MeowthAnimatedPic: ; 0x88f00
+MeowthAnimatedPic: ; 88f00 (22:4f00) 
 	INCBIN "gfx/billboard/mon_animated/meowth.w32.interleave.2bpp"
-PsyduckAnimatedPic: ; 0x89200
+PsyduckAnimatedPic: ; 89200 (22:5200) 
 	INCBIN "gfx/billboard/mon_animated/psyduck.w32.interleave.2bpp"
-MankeyAnimatedPic: ; 0x89500
+MankeyAnimatedPic: ; 89500 (22:5500) 
 	INCBIN "gfx/billboard/mon_animated/mankey.w32.interleave.2bpp"
-GrowlitheAnimatedPic: ; 0x89800
+GrowlitheAnimatedPic: ; 89800 (22:5800) 
 	INCBIN "gfx/billboard/mon_animated/growlithe.w32.interleave.2bpp"
-PoliwagAnimatedPic: ; 0x89b00
+PoliwagAnimatedPic: ; 89b00 (22:5b00) 
 	INCBIN "gfx/billboard/mon_animated/poliwag.w32.interleave.2bpp"
-AbraAnimatedPic: ; 0x89e00
+AbraAnimatedPic: ; 89e00 (22:5e00) 
 	INCBIN "gfx/billboard/mon_animated/abra.w32.interleave.2bpp"
-MachopAnimatedPic: ; 0x8a100
+MachopAnimatedPic: ; 8a100 (22:6100) 
 	INCBIN "gfx/billboard/mon_animated/machop.w32.interleave.2bpp"
-BellsproutAnimatedPic: ; 0x8a400
+BellsproutAnimatedPic: ; 8a400 (22:6400) 
 	INCBIN "gfx/billboard/mon_animated/bellsprout.w32.interleave.2bpp"
-TentacoolAnimatedPic: ; 0x8a700
+TentacoolAnimatedPic: ; 8a700 (22:6700) 
 	INCBIN "gfx/billboard/mon_animated/tentacool.w32.interleave.2bpp"
-GeodudeAnimatedPic: ; 0x8aa00
+GeodudeAnimatedPic: ; 8aa00 (22:6a00) 
 	INCBIN "gfx/billboard/mon_animated/geodude.w32.interleave.2bpp"
-PonytaAnimatedPic: ; 0x8ad00
+PonytaAnimatedPic: ; 8ad00 (22:6d00) 
 	INCBIN "gfx/billboard/mon_animated/ponyta.w32.interleave.2bpp"
 
 FieldSelectScreenGfx:
-FieldSelectBlinkingBorderGfx: ; 0x8b000
+FieldSelectBlinkingBorderGfx: ; 8b000 (22:7000) 
     INCBIN "gfx/field_select/blinking_border.2bpp"
-FieldSelectGfx: ; 0x8b100
+FieldSelectGfx: ; 8b100 (22:7100) 
     INCBIN "gfx/field_select/field_select_tiles.2bpp"
 
-INCBIN "baserom.gbc",$8bd00,$8bf00 - $8bd00 ; 0x8bd00
+INCBIN "baserom.gbc",$8bd00,$8bf00 - $8bd00 ; 8bd00 (22:7d00) 
 
-BulbasaurBillboardBGPalette1: ; 0x8bf00
+BulbasaurBillboardBGPalette1: ; 8bf00 (22:7f00) 
     RGB 31, 31, 31
     RGB 0, 19, 13
     RGB 26, 1, 0
     RGB 0, 0, 0
-BulbasaurBillboardBGPalette2: ; 0x8bf08
+BulbasaurBillboardBGPalette2: ; 8bf08 (22:7f08) 
     RGB 31, 31, 31
     RGB 0, 19, 13
     RGB 0, 9, 0
     RGB 0, 0, 0
 
-IvysaurBillboardBGPalette1: ; 0x8bf10
+IvysaurBillboardBGPalette1: ; 8bf10 (22:7f10) 
     RGB 31, 31, 31
     RGB 0, 19, 13
     RGB 0, 12, 6
     RGB 0, 0, 0
-IvysaurBillboardBGPalette2: ; 0x8bf18
+IvysaurBillboardBGPalette2: ; 8bf18 (22:7f18) 
     RGB 31, 31, 31
     RGB 25, 17, 3
     RGB 0, 12, 6
     RGB 0, 0, 0
 
-VenusaurBillboardBGPalette1: ; 0x8bf20
+VenusaurBillboardBGPalette1: ; 8bf20 (22:7f20) 
     RGB 31, 31, 31
     RGB 0, 19, 13
     RGB 26, 1, 0
     RGB 0, 0, 0
-VenusaurBillboardBGPalette2: ; 0x8bf28
+VenusaurBillboardBGPalette2: ; 8bf28 (22:7f28) 
     RGB 31, 31, 31
     RGB 0, 19, 13
     RGB 5, 15, 0
     RGB 0, 0, 0
 
-CharmanderBillboardBGPalette1: ; 0x8bf30
+CharmanderBillboardBGPalette1: ; 8bf30 (22:7f30) 
     RGB 31, 31, 31
     RGB 31, 17, 1
     RGB 26, 0, 0
     RGB 3, 2, 0
-CharmanderBillboardBGPalette2: ; 0x8bf38
+CharmanderBillboardBGPalette2: ; 8bf38 (22:7f38) 
     RGB 31, 31, 31
     RGB 31, 17, 1
     RGB 26, 0, 0
     RGB 3, 2, 0
 
-CharmeleonBillboardBGPalette1: ; 0x8bf40
+CharmeleonBillboardBGPalette1: ; 8bf40 (22:7f40) 
     RGB 31, 31, 31
     RGB 31, 17, 1
     RGB 26, 4, 0
     RGB 3, 2, 0
-CharmeleonBillboardBGPalette2: ; 0x8bf48
-    RGB 31, 31, 31
-    RGB 31, 17, 1
-    RGB 26, 4, 0
-    RGB 3, 2, 0
-
-CharizardBillboardBGPalette1: ; 0x8bf50
-    RGB 31, 31, 31
-    RGB 31, 17, 1
-    RGB 26, 4, 0
-    RGB 3, 2, 0
-CharizardBillboardBGPalette2: ; 0x8bf58
+CharmeleonBillboardBGPalette2: ; 8bf48 (22:7f48) 
     RGB 31, 31, 31
     RGB 31, 17, 1
     RGB 26, 4, 0
     RGB 3, 2, 0
 
-SquirtleBillboardBGPalette1: ; 0x8bf60
+CharizardBillboardBGPalette1: ; 8bf50 (22:7f50) 
+    RGB 31, 31, 31
+    RGB 31, 17, 1
+    RGB 26, 4, 0
+    RGB 3, 2, 0
+CharizardBillboardBGPalette2: ; 8bf58 (22:7f58) 
+    RGB 31, 31, 31
+    RGB 31, 17, 1
+    RGB 26, 4, 0
+    RGB 3, 2, 0
+
+SquirtleBillboardBGPalette1: ; 8bf60 (22:7f60) 
     RGB 31, 31, 31
     RGB 26, 23, 0
     RGB 0, 16, 31
     RGB 0, 0, 0
-SquirtleBillboardBGPalette2: ; 0x8bf68
+SquirtleBillboardBGPalette2: ; 8bf68 (22:7f68) 
     RGB 31, 31, 31
     RGB 14, 27, 31
     RGB 0, 16, 31
     RGB 0, 1, 3
 
-WartortleBillboardBGPalette1: ; 0x8bf70
+WartortleBillboardBGPalette1: ; 8bf70 (22:7f70) 
     RGB 31, 31, 31
     RGB 29, 23, 0
     RGB 0, 16, 31
     RGB 0, 0, 0
-WartortleBillboardBGPalette2: ; 0x8bf78
+WartortleBillboardBGPalette2: ; 8bf78 (22:7f78) 
     RGB 31, 31, 31
     RGB 14, 27, 31
     RGB 0, 16, 31
     RGB 0, 1, 3
 
-BlastoiseBillboardBGPalette1: ; 0x8bf80
+BlastoiseBillboardBGPalette1: ; 8bf80 (22:7f80) 
     RGB 31, 31, 31
     RGB 27, 20, 10
     RGB 12, 6, 3
     RGB 0, 0, 0
-BlastoiseBillboardBGPalette2: ; 0x8bf88
+BlastoiseBillboardBGPalette2: ; 8bf88 (22:7f88) 
     RGB 31, 31, 31
     RGB 11, 18, 31
     RGB 2, 6, 19
     RGB 0, 0, 0
 
-CaterpieBillboardBGPalette1: ; 0x8bf90
+CaterpieBillboardBGPalette1: ; 8bf90 (22:7f90) 
     RGB 31, 31, 31
     RGB 23, 27, 5
     RGB 3, 17, 0
     RGB 0, 0, 0
-CaterpieBillboardBGPalette2: ; 0x8bf98
+CaterpieBillboardBGPalette2: ; 8bf98 (22:7f98) 
     RGB 31, 31, 31
     RGB 23, 27, 5
     RGB 3, 17, 0
     RGB 0, 0, 0
 
-MetapodBillboardBGPalette1: ; 0x8bfa0
+MetapodBillboardBGPalette1: ; 8bfa0 (22:7fa0) 
     RGB 31, 31, 31
     RGB 23, 27, 5
     RGB 7, 18, 0
     RGB 0, 0, 0
-MetapodBillboardBGPalette2: ; 0x8bfa8
+MetapodBillboardBGPalette2: ; 8bfa8 (22:7fa8) 
     RGB 31, 31, 31
     RGB 23, 27, 5
     RGB 7, 18, 0
     RGB 0, 0, 0
 
-ButterfreeBillboardBGPalette1: ; 0x8bfb0
+ButterfreeBillboardBGPalette1: ; 8bfb0 (22:7fb0) 
     RGB 31, 31, 31
     RGB 31, 15, 0
     RGB 31, 0, 1
     RGB 3, 2, 0
-ButterfreeBillboardBGPalette2: ; 0x8bfb8
+ButterfreeBillboardBGPalette2: ; 8bfb8 (22:7fb8) 
     RGB 31, 31, 31
     RGB 11, 13, 31
     RGB 9, 8, 18
     RGB 0, 0, 0
 
-WeedleBillboardBGPalette1: ; 0x8bfc0
+WeedleBillboardBGPalette1: ; 8bfc0 (22:7fc0) 
     RGB 31, 31, 31
     RGB 29, 25, 0
     RGB 25, 6, 7
     RGB 3, 2, 0
-WeedleBillboardBGPalette2: ; 0x8bfc8
+WeedleBillboardBGPalette2: ; 8bfc8 (22:7fc8) 
     RGB 31, 31, 31
     RGB 29, 25, 0
     RGB 25, 6, 7
     RGB 3, 2, 0
 
-KakunaBillboardBGPalette1: ; 0x8bfd0
+KakunaBillboardBGPalette1: ; 8bfd0 (22:7fd0) 
     RGB 31, 31, 31
     RGB 28, 24, 0
     RGB 18, 12, 0
     RGB 3, 2, 0
-KakunaBillboardBGPalette2: ; 0x8bfd8
+KakunaBillboardBGPalette2: ; 8bfd8 (22:7fd8) 
     RGB 31, 31, 31
     RGB 28, 24, 0
     RGB 18, 12, 0
     RGB 3, 2, 0
 
-BeedrillBillboardBGPalette1: ; 0x8bfe0
+BeedrillBillboardBGPalette1: ; 8bfe0 (22:7fe0) 
     RGB 31, 31, 31
     RGB 30, 27, 0
     RGB 21, 7, 0
     RGB 3, 2, 0
-BeedrillBillboardBGPalette2: ; 0x8bfe8
+BeedrillBillboardBGPalette2: ; 8bfe8 (22:7fe8) 
     RGB 31, 31, 31
     RGB 30, 27, 0
     RGB 21, 7, 0
     RGB 3, 2, 0
 
-PidgeyBillboardBGPalette1: ; 0x8bff0
+PidgeyBillboardBGPalette1: ; 8bff0 (22:7ff0) 
     RGB 31, 31, 31
     RGB 30, 25, 1
     RGB 26, 9, 3
     RGB 3, 2, 0
-PidgeyBillboardBGPalette2: ; 0x8bff8
+PidgeyBillboardBGPalette2: ; 8bff8 (22:7ff8) 
     RGB 31, 31, 31
     RGB 30, 25, 1
     RGB 26, 9, 3
@@ -50270,212 +50269,212 @@ PidgeyBillboardBGPalette2: ; 0x8bff8
 
 SECTION "bank23", ROMX, BANK[$23]
 
-BulbasaurAnimatedPic: ; 0x8c000
+BulbasaurAnimatedPic: ; 8c000 (23:4000) 
 	INCBIN "gfx/billboard/mon_animated/bulbasaur.w32.interleave.2bpp"
-CharmanderAnimatedPic: ; 0x8c300
+CharmanderAnimatedPic: ; 8c300 (23:4300) 
 	INCBIN "gfx/billboard/mon_animated/charmander.w32.interleave.2bpp"
-SquirtleAnimatedPic: ; 0x8c600
+SquirtleAnimatedPic: ; 8c600 (23:4600) 
 	INCBIN "gfx/billboard/mon_animated/squirtle.w32.interleave.2bpp"
-CaterpieAnimatedPic: ; 0x8c900
+CaterpieAnimatedPic: ; 8c900 (23:4900) 
 	INCBIN "gfx/billboard/mon_animated/caterpie.w32.interleave.2bpp"
-WeedleAnimatedPic: ; 0x8cc00
+WeedleAnimatedPic: ; 8cc00 (23:4c00) 
 	INCBIN "gfx/billboard/mon_animated/weedle.w32.interleave.2bpp"
-PidgeyAnimatedPic: ; 0x8cf00
+PidgeyAnimatedPic: ; 8cf00 (23:4f00) 
 	INCBIN "gfx/billboard/mon_animated/pidgey.w32.interleave.2bpp"
-RattataAnimatedPic: ; 0x8d200
+RattataAnimatedPic: ; 8d200 (23:5200) 
 	INCBIN "gfx/billboard/mon_animated/rattata.w32.interleave.2bpp"
-SpearowAnimatedPic: ; 0x8d500
+SpearowAnimatedPic: ; 8d500 (23:5500) 
 	INCBIN "gfx/billboard/mon_animated/spearow.w32.interleave.2bpp"
-EkansAnimatedPic: ; 0x8d800
+EkansAnimatedPic: ; 8d800 (23:5800) 
 	INCBIN "gfx/billboard/mon_animated/ekans.w32.interleave.2bpp"
-PikachuAnimatedPic: ; 0x8db00
+PikachuAnimatedPic: ; 8db00 (23:5b00) 
 	INCBIN "gfx/billboard/mon_animated/pikachu.w32.interleave.2bpp"
-SandshrewAnimatedPic: ; 0x8de00
+SandshrewAnimatedPic: ; 8de00 (23:5e00) 
 	INCBIN "gfx/billboard/mon_animated/sandshrew.w32.interleave.2bpp"
-NidoranFAnimatedPic: ; 0x8e100
+NidoranFAnimatedPic: ; 8e100 (23:6100) 
 	INCBIN "gfx/billboard/mon_animated/nidoran_f.w32.interleave.2bpp"
-NidoranMAnimatedPic: ; 0x8e400
+NidoranMAnimatedPic: ; 8e400 (23:6400) 
 	INCBIN "gfx/billboard/mon_animated/nidoran_m.w32.interleave.2bpp"
-ClefairyAnimatedPic: ; 0x8e700
+ClefairyAnimatedPic: ; 8e700 (23:6700) 
 	INCBIN "gfx/billboard/mon_animated/clefairy.w32.interleave.2bpp"
-VulpixAnimatedPic: ; 0x8ea00
+VulpixAnimatedPic: ; 8ea00 (23:6a00) 
 	INCBIN "gfx/billboard/mon_animated/vulpix.w32.interleave.2bpp"
-JigglypuffAnimatedPic: ; 0x8ed00
+JigglypuffAnimatedPic: ; 8ed00 (23:6d00) 
 	INCBIN "gfx/billboard/mon_animated/jigglypuff.w32.interleave.2bpp"
 
-INCBIN "baserom.gbc",$8f000,$8ff00 - $8f000 ; 0x8f000
+INCBIN "baserom.gbc",$8f000,$8ff00 - $8f000 ; 8f000 (23:7000) 
 
-PalletTownBillboardBGPalette1: ; 0x8ff00
+PalletTownBillboardBGPalette1: ; 8ff00 (23:7f00) 
     RGB 31, 31, 31
     RGB 22, 18, 17
     RGB 0, 19, 0
     RGB 0, 0, 0
-PalletTownBillboardBGPalette2: ; 0x8ff08
+PalletTownBillboardBGPalette2: ; 8ff08 (23:7f08) 
     RGB 31, 31, 31
     RGB 24, 9, 3
     RGB 0, 4, 25
     RGB 0, 0, 0
 
-ViridianCityBillboardBGPalette1: ; 0x8ff10
+ViridianCityBillboardBGPalette1: ; 8ff10 (23:7f10) 
     RGB 31, 31, 31
     RGB 0, 14, 31
     RGB 0, 22, 0
     RGB 0, 0, 0
-ViridianCityBillboardBGPalette2: ; 0x8ff18
+ViridianCityBillboardBGPalette2: ; 8ff18 (23:7f18) 
     RGB 31, 31, 31
     RGB 26, 15, 3
     RGB 0, 22, 0
     RGB 0, 0, 0
 
-ViridianForestBillboardBGPalette1: ; 0x8ff20
+ViridianForestBillboardBGPalette1: ; 8ff20 (23:7f20) 
     RGB 31, 31, 31
     RGB 31, 20, 3
     RGB 2, 16, 1
     RGB 0, 0, 0
-ViridianForestBillboardBGPalette2: ; 0x8ff28
+ViridianForestBillboardBGPalette2: ; 8ff28 (23:7f28) 
     RGB 31, 31, 31
     RGB 31, 20, 3
     RGB 24, 6, 0
     RGB 0, 0, 0
 
-PewterCityBillboardBGPalette1: ; 0x8ff30
+PewterCityBillboardBGPalette1: ; 8ff30 (23:7f30) 
     RGB 31, 31, 31
     RGB 27, 20, 10
     RGB 2, 16, 1
     RGB 0, 0, 0
-PewterCityBillboardBGPalette2: ; 0x8ff38
+PewterCityBillboardBGPalette2: ; 8ff38 (23:7f38) 
     RGB 31, 31, 31
     RGB 5, 17, 31
     RGB 26, 3, 1
     RGB 0, 0, 0
 
-MtMoonBillboardBGPalette1: ; 0x8ff40
+MtMoonBillboardBGPalette1: ; 8ff40 (23:7f40) 
     RGB 31, 28, 2
     RGB 19, 20, 27
     RGB 2, 7, 20
     RGB 0, 0, 0
-MtMoonBillboardBGPalette2: ; 0x8ff48
+MtMoonBillboardBGPalette2: ; 8ff48 (23:7f48) 
     RGB 31, 28, 2
     RGB 19, 20, 27
     RGB 2, 7, 20
     RGB 0, 0, 0
 
-CeruleanCityBillboardBGPalette1: ; 0x8ff50
+CeruleanCityBillboardBGPalette1: ; 8ff50 (23:7f50) 
     RGB 31, 22, 5
     RGB 16, 22, 4
     RGB 1, 15, 0
     RGB 0, 0, 0
-CeruleanCityBillboardBGPalette2: ; 0x8ff58
+CeruleanCityBillboardBGPalette2: ; 8ff58 (23:7f58) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 3, 11, 31
     RGB 0, 0, 0
 
-VermilionSeasideBillboardBGPalette1: ; 0x8ff60
+VermilionSeasideBillboardBGPalette1: ; 8ff60 (23:7f60) 
     RGB 31, 31, 31
     RGB 8, 20, 31
     RGB 2, 8, 23
     RGB 0, 0, 0
-VermilionSeasideBillboardBGPalette2: ; 0x8ff68
+VermilionSeasideBillboardBGPalette2: ; 8ff68 (23:7f68) 
     RGB 31, 31, 31
     RGB 22, 22, 22
     RGB 21, 8, 0
     RGB 0, 0, 0
 
-VermilionStreetsBillboardBGPalette1: ; 0x8ff70
+VermilionStreetsBillboardBGPalette1: ; 8ff70 (23:7f70) 
     RGB 31, 31, 31
     RGB 20, 22, 25
     RGB 31, 8, 0
     RGB 0, 0, 0
-VermilionStreetsBillboardBGPalette2: ; 0x8ff78
+VermilionStreetsBillboardBGPalette2: ; 8ff78 (23:7f78) 
     RGB 31, 31, 31
     RGB 20, 22, 25
     RGB 7, 8, 13
     RGB 0, 0, 0
 
-RockMountainBillboardBGPalette1: ; 0x8ff80
+RockMountainBillboardBGPalette1: ; 8ff80 (23:7f80) 
     RGB 31, 31, 31
     RGB 27, 13, 4
     RGB 21, 5, 0
     RGB 0, 0, 0
-RockMountainBillboardBGPalette2: ; 0x8ff88
+RockMountainBillboardBGPalette2: ; 8ff88 (23:7f88) 
     RGB 3, 18, 31
     RGB 27, 13, 4
     RGB 2, 16, 1
     RGB 0, 0, 0
 
-LavenderTownBillboardBGPalette1: ; 0x8ff90
+LavenderTownBillboardBGPalette1: ; 8ff90 (23:7f90) 
     RGB 31, 31, 10
     RGB 11, 18, 31
     RGB 2, 6, 19
     RGB 0, 0, 0
-LavenderTownBillboardBGPalette2: ; 0x8ff98
+LavenderTownBillboardBGPalette2: ; 8ff98 (23:7f98) 
     RGB 31, 31, 31
     RGB 11, 18, 31
     RGB 2, 6, 19
     RGB 0, 0, 0
 
-CeladonCityBillboardBGPalette1: ; 0x8ffa0
+CeladonCityBillboardBGPalette1: ; 8ffa0 (23:7fa0) 
     RGB 31, 31, 31
     RGB 11, 19, 31
     RGB 29, 8, 4
     RGB 0, 0, 0
-CeladonCityBillboardBGPalette2: ; 0x8ffa8
+CeladonCityBillboardBGPalette2: ; 8ffa8 (23:7fa8) 
     RGB 31, 31, 31
     RGB 31, 9, 9
     RGB 16, 2, 2
     RGB 0, 0, 0
 
-CyclingRoadBillboardBGPalette1: ; 0x8ffb0
+CyclingRoadBillboardBGPalette1: ; 8ffb0 (23:7fb0) 
     RGB 31, 24, 15
     RGB 11, 21, 5
     RGB 31, 9, 5
     RGB 0, 0, 0
-CyclingRoadBillboardBGPalette2: ; 0x8ffb8
+CyclingRoadBillboardBGPalette2: ; 8ffb8 (23:7fb8) 
     RGB 31, 22, 13
     RGB 11, 21, 5
     RGB 0, 15, 0
     RGB 0, 0, 0
 
-FuchsiaCityBillboardBGPalette1: ; 0x8ffc0
+FuchsiaCityBillboardBGPalette1: ; 8ffc0 (23:7fc0) 
     RGB 31, 31, 31
     RGB 10, 25, 31
     RGB 26, 3, 1
     RGB 0, 0, 0
-FuchsiaCityBillboardBGPalette2: ; 0x8ffc8
+FuchsiaCityBillboardBGPalette2: ; 8ffc8 (23:7fc8) 
     RGB 31, 31, 31
     RGB 27, 23, 6
     RGB 28, 6, 3
     RGB 0, 0, 0
 
-SafariZoneBillboardBGPalette1: ; 0x8ffd0
+SafariZoneBillboardBGPalette1: ; 8ffd0 (23:7fd0) 
     RGB 31, 31, 31
     RGB 13, 27, 31
     RGB 4, 19, 27
     RGB 0, 0, 0
-SafariZoneBillboardBGPalette2: ; 0x8ffd8
+SafariZoneBillboardBGPalette2: ; 8ffd8 (23:7fd8) 
     RGB 29, 21, 17
     RGB 13, 19, 5
     RGB 0, 14, 0
     RGB 0, 0, 0
 
-SaffronCityBillboardBGPalette1: ; 0x8ffe0
+SaffronCityBillboardBGPalette1: ; 8ffe0 (23:7fe0) 
     RGB 31, 31, 31
     RGB 8, 19, 31
     RGB 2, 7, 26
     RGB 0, 0, 0
-SaffronCityBillboardBGPalette2: ; 0x8ffe8
+SaffronCityBillboardBGPalette2: ; 8ffe8 (23:7fe8) 
     RGB 31, 31, 31
     RGB 27, 28, 1
     RGB 24, 7, 5
     RGB 0, 0, 0
 
-SeafoamIslandsBillboardBGPalette1: ; 0x8fff0
+SeafoamIslandsBillboardBGPalette1: ; 8fff0 (23:7ff0) 
     RGB 24, 27, 30
     RGB 31, 24, 1
     RGB 2, 15, 1
     RGB 0, 0, 0
-SeafoamIslandsBillboardBGPalette2: ; 0x8fff8
+SeafoamIslandsBillboardBGPalette2: ; 8fff8 (23:7ff8) 
     RGB 24, 27, 30
     RGB 0, 14, 31
     RGB 0, 9, 23
@@ -50484,80 +50483,80 @@ SeafoamIslandsBillboardBGPalette2: ; 0x8fff8
 
 SECTION "bank24", ROMX, BANK[$24]
 
-HypnoPic: ; 0x90000
+HypnoPic: ; 90000 (24:4000) 
 	INCBIN "gfx/billboard/mon_pics/hypno.2bpp"
-HypnoSilhouettePic: ; 0x90180
+HypnoSilhouettePic: ; 90180 (24:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/hypno.2bpp"
-KrabbyPic: ; 0x90300
+KrabbyPic: ; 90300 (24:4300) 
 	INCBIN "gfx/billboard/mon_pics/krabby.2bpp"
-KrabbySilhouettePic: ; 0x90480
+KrabbySilhouettePic: ; 90480 (24:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/krabby.2bpp"
-KinglerPic: ; 0x90600
+KinglerPic: ; 90600 (24:4600) 
 	INCBIN "gfx/billboard/mon_pics/kingler.2bpp"
-KinglerSilhouettePic: ; 0x90780
+KinglerSilhouettePic: ; 90780 (24:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/kingler.2bpp"
-VoltorbPic: ; 0x90900
+VoltorbPic: ; 90900 (24:4900) 
 	INCBIN "gfx/billboard/mon_pics/voltorb.2bpp"
-VoltorbSilhouettePic: ; 0x90a80
+VoltorbSilhouettePic: ; 90a80 (24:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/voltorb.2bpp"
-ElectrodePic: ; 0x90c00
+ElectrodePic: ; 90c00 (24:4c00) 
 	INCBIN "gfx/billboard/mon_pics/electrode.2bpp"
-ElectrodeSilhouettePic: ; 0x90d80
+ElectrodeSilhouettePic: ; 90d80 (24:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/electrode.2bpp"
-ExeggcutePic: ; 0x90f00
+ExeggcutePic: ; 90f00 (24:4f00) 
 	INCBIN "gfx/billboard/mon_pics/exeggcute.2bpp"
-ExeggcuteSilhouettePic: ; 0x91080
+ExeggcuteSilhouettePic: ; 91080 (24:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/exeggcute.2bpp"
-ExeggutorPic: ; 0x91200
+ExeggutorPic: ; 91200 (24:5200) 
 	INCBIN "gfx/billboard/mon_pics/exeggutor.2bpp"
-ExeggutorSilhouettePic:  ; 0x91380
+ExeggutorSilhouettePic:  ; 91380 (24:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/exeggutor.2bpp"
-CubonePic: ; 0x91500
+CubonePic: ; 91500 (24:5500) 
 	INCBIN "gfx/billboard/mon_pics/cubone.2bpp"
-CuboneSilhouettePic: ; 0x91680
+CuboneSilhouettePic: ; 91680 (24:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/cubone.2bpp"
-MarowakPic: ; 0x91800
+MarowakPic: ; 91800 (24:5800) 
 	INCBIN "gfx/billboard/mon_pics/marowak.2bpp"
-MarowakSilhouettePic: ; 0x91980
+MarowakSilhouettePic: ; 91980 (24:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/marowak.2bpp"
-HitmonleePic: ; 0x91b00
+HitmonleePic: ; 91b00 (24:5b00) 
 	INCBIN "gfx/billboard/mon_pics/hitmonlee.2bpp"
-HitmonleeSilhouettePic: ; 0x91c80
+HitmonleeSilhouettePic: ; 91c80 (24:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/hitmonlee.2bpp"
-HitmonchanPic: ; 0x91e00
+HitmonchanPic: ; 91e00 (24:5e00) 
 	INCBIN "gfx/billboard/mon_pics/hitmonchan.2bpp"
-HitmonchanSilhouettePic: ; 0x91f80
+HitmonchanSilhouettePic: ; 91f80 (24:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/hitmonchan.2bpp"
-LickitungPic: ; 0x92100
+LickitungPic: ; 92100 (24:6100) 
 	INCBIN "gfx/billboard/mon_pics/lickitung.2bpp"
-LickitungSilhouettePic: ; 0x92280
+LickitungSilhouettePic: ; 92280 (24:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/lickitung.2bpp"
-KoffingPic: ; 0x92400
+KoffingPic: ; 92400 (24:6400) 
 	INCBIN "gfx/billboard/mon_pics/koffing.2bpp"
-KoffingSilhouettePic: ; 0x92580
+KoffingSilhouettePic: ; 92580 (24:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/koffing.2bpp"
-WeezingPic: ; 0x92700
+WeezingPic: ; 92700 (24:6700) 
 	INCBIN "gfx/billboard/mon_pics/weezing.2bpp"
-WeezingSilhouettePic: ; 0x92880
+WeezingSilhouettePic: ; 92880 (24:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/weezing.2bpp"
-RhyhornPic: ; 0x92a00
+RhyhornPic: ; 92a00 (24:6a00) 
 	INCBIN "gfx/billboard/mon_pics/rhyhorn.2bpp"
-RhyhornSilhouettePic: ; 0x92b80
+RhyhornSilhouettePic: ; 92b80 (24:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/rhyhorn.2bpp"
-RhydonPic: ; 0x92d00
+RhydonPic: ; 92d00 (24:6d00) 
 	INCBIN "gfx/billboard/mon_pics/rhydon.2bpp"
-RhydonSilhouettePic: ; 0x92e80
+RhydonSilhouettePic: ; 92e80 (24:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/rhydon.2bpp"
 
 INCBIN "baserom.gbc",$93000,$93c00 - $93000
 
-CinnabarIslandBillboardBGPaletteMap: ; 0x93c00
+CinnabarIslandBillboardBGPaletteMap: ; 93c00 (24:7c00) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $7, $7, $7, $6
     db $6, $6, $6, $6, $6, $6
 
-IndigoPlateauBillboardBGPaletteMap: ; 0x93c18
+IndigoPlateauBillboardBGPaletteMap: ; 93c18 (24:7c18) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -50568,162 +50567,162 @@ INCBIN "baserom.gbc",$93c39,$94000 - $93c39
 
 SECTION "bank25", ROMX, BANK[$25]
 
-MagnemitePic: ; 0x94000
+MagnemitePic: ; 94000 (25:4000) 
 	INCBIN "gfx/billboard/mon_pics/magnemite.2bpp"
-MagnemiteSilhouettePic: ; 0x94180
+MagnemiteSilhouettePic: ; 94180 (25:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/magnemite.2bpp"
-MagnetonPic: ; 0x94300
+MagnetonPic: ; 94300 (25:4300) 
 	INCBIN "gfx/billboard/mon_pics/magneton.2bpp"
-MagnetonSilhouettePic: ; 0x94480
+MagnetonSilhouettePic: ; 94480 (25:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/magneton.2bpp"
-Farfetch_dPic: ; 0x94600
+Farfetch_dPic: ; 94600 (25:4600) 
 	INCBIN "gfx/billboard/mon_pics/farfetch_d.2bpp"
-Farfetch_dSilhouettePic: ; 0x94780
+Farfetch_dSilhouettePic: ; 94780 (25:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/farfetch_d.2bpp"
-DoduoPic: ; 0x94900
+DoduoPic: ; 94900 (25:4900) 
 	INCBIN "gfx/billboard/mon_pics/doduo.2bpp"
-DoduoSilhouettePic: ; 0x94a80
+DoduoSilhouettePic: ; 94a80 (25:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/doduo.2bpp"
-DodrioPic: ; 0x94c00
+DodrioPic: ; 94c00 (25:4c00) 
 	INCBIN "gfx/billboard/mon_pics/dodrio.2bpp"
-DodrioSilhouettePic: ; 0x94d80
+DodrioSilhouettePic: ; 94d80 (25:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/dodrio.2bpp"
-SeelPic: ; 0x94f00
+SeelPic: ; 94f00 (25:4f00) 
 	INCBIN "gfx/billboard/mon_pics/seel.2bpp"
-SeelSilhouettePic: ; 0x95080
+SeelSilhouettePic: ; 95080 (25:5080) 
 	INCBIN "gfx/billboard/mon_silhouettes/seel.2bpp"
-DewgongPic: ; 0x95200
+DewgongPic: ; 95200 (25:5200) 
 	INCBIN "gfx/billboard/mon_pics/dewgong.2bpp"
-DewgongSilhouettePic:  ; 0x95380
+DewgongSilhouettePic:  ; 95380 (25:5380) 
 	INCBIN "gfx/billboard/mon_silhouettes/dewgong.2bpp"
-GrimerPic: ; 0x95500
+GrimerPic: ; 95500 (25:5500) 
 	INCBIN "gfx/billboard/mon_pics/grimer.2bpp"
-GrimerSilhouettePic: ; 0x95680
+GrimerSilhouettePic: ; 95680 (25:5680) 
 	INCBIN "gfx/billboard/mon_silhouettes/grimer.2bpp"
-MukPic: ; 0x95800
+MukPic: ; 95800 (25:5800) 
 	INCBIN "gfx/billboard/mon_pics/muk.2bpp"
-MukSilhouettePic: ; 0x95980
+MukSilhouettePic: ; 95980 (25:5980) 
 	INCBIN "gfx/billboard/mon_silhouettes/muk.2bpp"
-ShellderPic: ; 0x95b00
+ShellderPic: ; 95b00 (25:5b00) 
 	INCBIN "gfx/billboard/mon_pics/shellder.2bpp"
-ShellderSilhouettePic: ; 0x95c80
+ShellderSilhouettePic: ; 95c80 (25:5c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/shellder.2bpp"
-CloysterPic: ; 0x95e00
+CloysterPic: ; 95e00 (25:5e00) 
 	INCBIN "gfx/billboard/mon_pics/cloyster.2bpp"
-CloysterSilhouettePic: ; 0x95f80
+CloysterSilhouettePic: ; 95f80 (25:5f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/cloyster.2bpp"
-GastlyPic: ; 0x96100
+GastlyPic: ; 96100 (25:6100) 
 	INCBIN "gfx/billboard/mon_pics/gastly.2bpp"
-GastlySilhouettePic: ; 0x96280
+GastlySilhouettePic: ; 96280 (25:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/gastly.2bpp"
-HaunterPic: ; 0x96400
+HaunterPic: ; 96400 (25:6400) 
 	INCBIN "gfx/billboard/mon_pics/haunter.2bpp"
-HaunterSilhouettePic: ; 0x96580
+HaunterSilhouettePic: ; 96580 (25:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/haunter.2bpp"
-GengarPic: ; 0x96700
+GengarPic: ; 96700 (25:6700) 
 	INCBIN "gfx/billboard/mon_pics/gengar.2bpp"
-GengarSilhouettePic: ; 0x96880
+GengarSilhouettePic: ; 96880 (25:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/gengar.2bpp"
-OnixPic: ; 0x96a00
+OnixPic: ; 96a00 (25:6a00) 
 	INCBIN "gfx/billboard/mon_pics/onix.2bpp"
-OnixSilhouettePic: ; 0x96b80
+OnixSilhouettePic: ; 96b80 (25:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/onix.2bpp"
-DrowzeePic: ; 0x96d00
+DrowzeePic: ; 96d00 (25:6d00) 
 	INCBIN "gfx/billboard/mon_pics/drowzee.2bpp"
-DrowzeeSilhouettePic: ; 0x96e80
+DrowzeeSilhouettePic: ; 96e80 (25:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/drowzee.2bpp"
 
 INCBIN "baserom.gbc",$97000,$97a00 - $97000
 
-StageRedFieldTopGfx3: ; 0x97a00
+StageRedFieldTopGfx3: ; 97a00 (25:7a00) 
     INCBIN "gfx/stage/red_top/red_top_3.2bpp"
-StageRedFieldTopGfx1: ; 0x97ba0
+StageRedFieldTopGfx1: ; 97ba0 (25:7ba0) 
     INCBIN "gfx/stage/red_top/red_top_1.2bpp"
-StageRedFieldTopGfx2: ; 0x97e00
+StageRedFieldTopGfx2: ; 97e00 (25:7e00) 
     INCBIN "gfx/stage/red_top/red_top_2.2bpp"
 
 
 SECTION "bank26", ROMX, BANK[$26]
 
-AlakazamPic: ; 0x98000
+AlakazamPic: ; 98000 (26:4000) 
 	INCBIN "gfx/billboard/mon_pics/alakazam.2bpp"
-AlakazamSilhouettePic: ; 0x98180
+AlakazamSilhouettePic: ; 98180 (26:4180) 
 	INCBIN "gfx/billboard/mon_silhouettes/alakazam.2bpp"
-MachopPic: ; 0x98300
+MachopPic: ; 98300 (26:4300) 
 	INCBIN "gfx/billboard/mon_pics/machop.2bpp"
-MachopSilhouettePic: ; 0x98480
+MachopSilhouettePic: ; 98480 (26:4480) 
 	INCBIN "gfx/billboard/mon_silhouettes/machop.2bpp"
-MachokePic: ; 0x98600
+MachokePic: ; 98600 (26:4600) 
 	INCBIN "gfx/billboard/mon_pics/machoke.2bpp"
-MachokeSilhouettePic: ; 0x98780
+MachokeSilhouettePic: ; 98780 (26:4780) 
 	INCBIN "gfx/billboard/mon_silhouettes/machoke.2bpp"
-MachampPic: ; 0x98900
+MachampPic: ; 98900 (26:4900) 
 	INCBIN "gfx/billboard/mon_pics/machamp.2bpp"
-MachampSilhouettePic: ; 0x98a80
+MachampSilhouettePic: ; 98a80 (26:4a80) 
 	INCBIN "gfx/billboard/mon_silhouettes/machamp.2bpp"
-BellsproutPic: ; 0x98c00
+BellsproutPic: ; 98c00 (26:4c00) 
 	INCBIN "gfx/billboard/mon_pics/bellsprout.2bpp"
-BellsproutSilhouettePic: ; 0x98d80
+BellsproutSilhouettePic: ; 98d80 (26:4d80) 
 	INCBIN "gfx/billboard/mon_silhouettes/bellsprout.2bpp"
-WeepinbellPic: ; 0x98f00
+WeepinbellPic: ; 98f00 (26:4f00) 
 	INCBIN "gfx/billboard/mon_pics/weepinbell.2bpp"
-WeepinbellSilhouettePic: ; 0x97080
+WeepinbellSilhouettePic: ; 97080 (25:7080) 
 	INCBIN "gfx/billboard/mon_silhouettes/weepinbell.2bpp"
-VictreebellPic: ; 0x97200
+VictreebellPic: ; 97200 (25:7200) 
 	INCBIN "gfx/billboard/mon_pics/victreebell.2bpp"
-VictreebellSilhouettePic:  ; 0x97380
+VictreebellSilhouettePic:  ; 97380 (25:7380) 
 	INCBIN "gfx/billboard/mon_silhouettes/victreebell.2bpp"
-TentacoolPic: ; 0x97500
+TentacoolPic: ; 97500 (25:7500) 
 	INCBIN "gfx/billboard/mon_pics/tentacool.2bpp"
-TentacoolSilhouettePic: ; 0x97680
+TentacoolSilhouettePic: ; 97680 (25:7680) 
 	INCBIN "gfx/billboard/mon_silhouettes/tentacool.2bpp"
-TentacruelPic: ; 0x97800
+TentacruelPic: ; 97800 (25:7800) 
 	INCBIN "gfx/billboard/mon_pics/tentacruel.2bpp"
-TentacruelSilhouettePic: ; 0x97980
+TentacruelSilhouettePic: ; 97980 (25:7980) 
 	INCBIN "gfx/billboard/mon_silhouettes/tentacruel.2bpp"
-GeodudePic: ; 0x97b00
+GeodudePic: ; 97b00 (25:7b00) 
 	INCBIN "gfx/billboard/mon_pics/geodude.2bpp"
-GeodudeSilhouettePic: ; 0x97c80
+GeodudeSilhouettePic: ; 97c80 (25:7c80) 
 	INCBIN "gfx/billboard/mon_silhouettes/geodude.2bpp"
-GravelerPic: ; 0x97e00
+GravelerPic: ; 97e00 (25:7e00) 
 	INCBIN "gfx/billboard/mon_pics/graveler.2bpp"
-GravelerSilhouettePic: ; 0x97f80
+GravelerSilhouettePic: ; 97f80 (25:7f80) 
 	INCBIN "gfx/billboard/mon_silhouettes/graveler.2bpp"
-GolemPic: ; 0x9a100
+GolemPic: ; 9a100 (26:6100) 
 	INCBIN "gfx/billboard/mon_pics/golem.2bpp"
-GolemSilhouettePic: ; 0x9a280
+GolemSilhouettePic: ; 9a280 (26:6280) 
 	INCBIN "gfx/billboard/mon_silhouettes/golem.2bpp"
-PonytaPic: ; 0x9a400
+PonytaPic: ; 9a400 (26:6400) 
 	INCBIN "gfx/billboard/mon_pics/ponyta.2bpp"
-PonytaSilhouettePic: ; 0x9a580
+PonytaSilhouettePic: ; 9a580 (26:6580) 
 	INCBIN "gfx/billboard/mon_silhouettes/ponyta.2bpp"
-RapidashPic: ; 0x9a700
+RapidashPic: ; 9a700 (26:6700) 
 	INCBIN "gfx/billboard/mon_pics/rapidash.2bpp"
-RapidashSilhouettePic: ; 0x9a880
+RapidashSilhouettePic: ; 9a880 (26:6880) 
 	INCBIN "gfx/billboard/mon_silhouettes/rapidash.2bpp"
-SlowpokePic: ; 0x9aa00
+SlowpokePic: ; 9aa00 (26:6a00) 
 	INCBIN "gfx/billboard/mon_pics/slowpoke.2bpp"
-SlowpokeSilhouettePic: ; 0x9ab80
+SlowpokeSilhouettePic: ; 9ab80 (26:6b80) 
 	INCBIN "gfx/billboard/mon_silhouettes/slowpoke.2bpp"
-SlowbroPic: ; 0x9ad00
+SlowbroPic: ; 9ad00 (26:6d00) 
 	INCBIN "gfx/billboard/mon_pics/slowbro.2bpp"
-SlowbroSilhouettePic: ; 0x9ae80
+SlowbroSilhouettePic: ; 9ae80 (26:6e80) 
 	INCBIN "gfx/billboard/mon_silhouettes/slowbro.2bpp"
 
-INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 0x9b000
+INCBIN "baserom.gbc",$9b000,$9c000 - $9b000 ; 9b000 (26:7000) 
 
 
 SECTION "bank27", ROMX, BANK[$27]
 
-StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 0x9c000
+StageRedFieldTopStatusBarSymbolsGfx_GameBoyColor: ; 9c000 (27:4000) 
     INCBIN "gfx/stage/red_top/status_bar_symbols_gameboycolor.2bpp"
 
 INCBIN "baserom.gbc",$9c100,$9c2a0 - $9c100
 
-StageRedFieldTopBaseGameBoyColorGfx: ; 0x9c2a0
+StageRedFieldTopBaseGameBoyColorGfx: ; 9c2a0 (27:42a0) 
     INCBIN "gfx/stage/red_top/red_top_base_gameboycolor.2bpp"
 
-StageRedFieldTopGfx4: ; 0x9d000
+StageRedFieldTopGfx4: ; 9d000 (27:5000) 
     INCBIN "gfx/stage/red_top/red_top_4.2bpp"
 
 INCBIN "baserom.gbc",$9e000,$a0000 - $9e000
@@ -50733,194 +50732,194 @@ SECTION "bank28", ROMX, BANK[$28]
 
 INCBIN "baserom.gbc",$a0000,$a2000 - $a0000
 
-StageRedFieldBottomBaseGameBoyColorGfx: ; 0xa2000
+StageRedFieldBottomBaseGameBoyColorGfx: ; a2000 (28:6000) 
     INCBIN "gfx/stage/red_bottom/red_bottom_base_gameboycolor.2bpp"
 
-StageRedFieldBottomGfx5: ; 0xa3000
+StageRedFieldBottomGfx5: ; a3000 (28:7000) 
     INCBIN "gfx/stage/red_bottom/red_bottom_5.2bpp"
 
 
 SECTION "bank29", ROMX, BANK[$29]
 
-INCBIN "baserom.gbc",$a4000,$a6000 - $a4000 ; 0xa4000
+INCBIN "baserom.gbc",$a4000,$a6000 - $a4000 ; a4000 (29:4000) 
 
-PalletTownPic: ; 0xa6000
+PalletTownPic: ; a6000 (29:6000) 
 	INCBIN "gfx/billboard/maps/pallettown.2bpp"
-ViridianCityPic: ; 0xa6180
+ViridianCityPic: ; a6180 (29:6180) 
 	INCBIN "gfx/billboard/maps/viridiancity.2bpp"
-ViridianForestPic: ; 0xa6300
+ViridianForestPic: ; a6300 (29:6300) 
 	INCBIN "gfx/billboard/maps/viridianforest.2bpp"
-PewterCityPic: ; 0xa6480
+PewterCityPic: ; a6480 (29:6480) 
 	INCBIN "gfx/billboard/maps/pewtercity.2bpp"
-MtMoonPic: ; 0xa6600
+MtMoonPic: ; a6600 (29:6600) 
 	INCBIN "gfx/billboard/maps/mtmoon.2bpp"
-CeruleanCityPic: ; 0xa6780
+CeruleanCityPic: ; a6780 (29:6780) 
 	INCBIN "gfx/billboard/maps/ceruleancity.2bpp"
-VermilionCitySeasidePic: ; 0xa6900
+VermilionCitySeasidePic: ; a6900 (29:6900) 
 	INCBIN "gfx/billboard/maps/vermilioncityseaside.2bpp"
-VermilionCityStreetsPic: ; 0xa6a80
+VermilionCityStreetsPic: ; a6a80 (29:6a80) 
 	INCBIN "gfx/billboard/maps/vermilioncitystreets.2bpp"
-RockMountainPic: ; 0xa6c00
+RockMountainPic: ; a6c00 (29:6c00) 
 	INCBIN "gfx/billboard/maps/rockmountain.2bpp"
-LavenderTownPic: ; 0xa6d80
+LavenderTownPic: ; a6d80 (29:6d80) 
 	INCBIN "gfx/billboard/maps/lavendertown.2bpp"
-CeladonCityPic: ; 0xa6f00
+CeladonCityPic: ; a6f00 (29:6f00) 
 	INCBIN "gfx/billboard/maps/celadoncity.2bpp"
-CyclingRoadPic: ; 0xa7080
+CyclingRoadPic: ; a7080 (29:7080) 
 	INCBIN "gfx/billboard/maps/cyclingroad.2bpp"
-FuchsiaCityPic: ; 0xa7200
+FuchsiaCityPic: ; a7200 (29:7200) 
 	INCBIN "gfx/billboard/maps/fuchsiacity.2bpp"
-SafariZonePic: ; 0xa7380
+SafariZonePic: ; a7380 (29:7380) 
 	INCBIN "gfx/billboard/maps/safarizone.2bpp"
-SaffronCityPic: ; 0xa7500
+SaffronCityPic: ; a7500 (29:7500) 
 	INCBIN "gfx/billboard/maps/saffroncity.2bpp"
-SeafoamIslandsPic: ; 0xa7680
+SeafoamIslandsPic: ; a7680 (29:7680) 
 	INCBIN "gfx/billboard/maps/seafoamislands.2bpp"
-CinnabarIslandPic: ; 0xa7800
+CinnabarIslandPic: ; a7800 (29:7800) 
 	INCBIN "gfx/billboard/maps/cinnabarisland.2bpp"
-IndigoPlateauPic: ; 0xa7980
+IndigoPlateauPic: ; a7980 (29:7980) 
 	INCBIN "gfx/billboard/maps/indigoplateau.2bpp"
 
-INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; 0xa7b00
+INCBIN "baserom.gbc",$a7b00,$a8000 - $a7b00 ; a7b00 (29:7b00) 
 
 SECTION "bank2a", ROMX, BANK[$2a]
 
 INCBIN "baserom.gbc",$a8000,$a82c0 - $a8000
 
-PinballGreatballShakeGfx: ; 0xa82c0
+PinballGreatballShakeGfx: ; a82c0 (2a:42c0) 
     INCBIN "gfx/stage/ball_greatball_shake.w16.interleave.2bpp"
-PinballUltraballShakeGfx: ; 0xa8300
+PinballUltraballShakeGfx: ; a8300 (2a:4300) 
     INCBIN "gfx/stage/ball_ultraball_shake.w16.interleave.2bpp"
-PinballMasterballShakeGfx: ; 0xa8340
+PinballMasterballShakeGfx: ; a8340 (2a:4340) 
     INCBIN "gfx/stage/ball_masterball_shake.w16.interleave.2bpp"
-PinballPokeballShakeGfx: ; 0xa8380
+PinballPokeballShakeGfx: ; a8380 (2a:4380) 
     INCBIN "gfx/stage/ball_pokeball_shake.w16.interleave.2bpp"
 
-StageRedFieldBottomGfx4: ; 0xa83c0
+StageRedFieldBottomGfx4: ; a83c0 (2a:43c0) 
     INCBIN "gfx/stage/red_bottom/red_bottom_4.2bpp"
 
-PinballPokeballGfx: ; 0xa8400
+PinballPokeballGfx: ; a8400 (2a:4400) 
     INCBIN "gfx/stage/ball_pokeball.w32.interleave.2bpp"
 
-FlipperGfx: ; 0xa8600
+FlipperGfx: ; a8600 (2a:4600) 
     INCBIN "gfx/stage/flipper.2bpp"
 
-PikachuSaverGfx: ; 0xa8720
+PikachuSaverGfx: ; a8720 (2a:4720) 
     INCBIN "gfx/stage/pikachu_saver.2bpp"
 
 INCBIN "baserom.gbc",$a8800,$a8a00 - $a8800
 
-PinballGreatballGfx: ; 0xa8a00
+PinballGreatballGfx: ; a8a00 (2a:4a00) 
     INCBIN "gfx/stage/ball_greatball.w32.interleave.2bpp"
-PinballUltraballGfx: ; 0xa8c00
+PinballUltraballGfx: ; a8c00 (2a:4c00) 
     INCBIN "gfx/stage/ball_ultraball.w32.interleave.2bpp"
-PinballMasterballGfx: ; 0xa8e00
+PinballMasterballGfx: ; a8e00 (2a:4e00) 
     INCBIN "gfx/stage/ball_masterball.w32.interleave.2bpp"
 
-PinballPokeballMiniGfx: ; 0xa9000
+PinballPokeballMiniGfx: ; a9000 (2a:5000) 
     INCBIN "gfx/stage/ball_pokeball_mini.w32.interleave.2bpp"
-PinballGreatballMiniGfx: ; 0xa9200
+PinballGreatballMiniGfx: ; a9200 (2a:5200) 
     INCBIN "gfx/stage/ball_greatball_mini.w32.interleave.2bpp"
-PinballUltraballMiniGfx: ; 0xa9400
+PinballUltraballMiniGfx: ; a9400 (2a:5400) 
     INCBIN "gfx/stage/ball_ultraball_mini.w32.interleave.2bpp"
-PinballMasterballMiniGfx: ; 0xa9600
+PinballMasterballMiniGfx: ; a9600 (2a:5600) 
     INCBIN "gfx/stage/ball_masterball_mini.w32.interleave.2bpp"
-PinballBallMiniGfx: ; 0xa9800
+PinballBallMiniGfx: ; a9800 (2a:5800) 
     INCBIN "gfx/stage/ball_mini.w32.interleave.2bpp"
 
 INCBIN "baserom.gbc",$a9a00,$abb00 - $a9a00
 
-PaletteTownBillboardBGPaletteMap: ; 0xabb00
+PaletteTownBillboardBGPaletteMap: ; abb00 (2a:7b00) 
     db $6, $7, $7, $7, $7, $7
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $7, $7
 
-ViridianCityBillboardBGPaletteMap: ; 0xabb18
+ViridianCityBillboardBGPaletteMap: ; abb18 (2a:7b18) 
     db $6, $6, $6, $6, $7, $6
     db $6, $6, $6, $6, $7, $6
     db $7, $7, $7, $7, $7, $6
     db $7, $7, $7, $7, $7, $6
 
-ViridianForestBillboardBGPaletteMap: ; 0xabb30
+ViridianForestBillboardBGPaletteMap: ; abb30 (2a:7b30) 
     db $6, $7, $6, $6, $7, $6
     db $7, $7, $7, $7, $7, $6
     db $6, $7, $6, $6, $7, $6
     db $6, $7, $7, $7, $7, $6
 
-PewterCityBillboardBGPaletteMap: ; 0xabb48
+PewterCityBillboardBGPaletteMap: ; abb48 (2a:7b48) 
     db $7, $7, $7, $7, $7, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MtMoonBillboardBGPaletteMap: ; 0xabb60
+MtMoonBillboardBGPaletteMap: ; abb60 (2a:7b60) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-CeruleanCityBillboardBGPaletteMap: ; 0xabb78
+CeruleanCityBillboardBGPaletteMap: ; abb78 (2a:7b78) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-VermilionSeasideBillboardBGPaletteMap: ; 0xabb90
+VermilionSeasideBillboardBGPaletteMap: ; abb90 (2a:7b90) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $6, $6, $6
 
-VermilionStreetsBillboardBGPaletteMap: ; 0xabba8
+VermilionStreetsBillboardBGPaletteMap: ; abba8 (2a:7ba8) 
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $7, $7, $7, $7
     db $6, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-RockMountainBillboardBGPaletteMap: ; 0xabbc0
+RockMountainBillboardBGPaletteMap: ; abbc0 (2a:7bc0) 
     db $7, $7, $7, $7, $7, $7
     db $6, $6, $7, $7, $7, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-LavenderTownBillboardBGPaletteMap: ; 0xabbd8
+LavenderTownBillboardBGPaletteMap: ; abbd8 (2a:7bd8) 
     db $6, $7, $7, $6, $6, $6
     db $6, $7, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-CeladonCityBillboardBGPaletteMap: ; 0xabbf0
+CeladonCityBillboardBGPaletteMap: ; abbf0 (2a:7bf0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $7, $7
     db $6, $6, $7, $7, $7, $7
 
-CyclingRoadBillboardBGPaletteMap: ; 0xabc08
+CyclingRoadBillboardBGPaletteMap: ; abc08 (2a:7c08) 
     db $7, $7, $7, $7, $6, $6
     db $7, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $7, $7
 
-FuchsiaCityBillboardBGPaletteMap: ; 0xabc20
+FuchsiaCityBillboardBGPaletteMap: ; abc20 (2a:7c20) 
     db $7, $6, $6, $6, $6, $6
     db $7, $6, $6, $6, $6, $6
     db $7, $7, $7, $6, $6, $7
     db $7, $7, $7, $7, $7, $7
 
-SafariZoneBillboardBGPaletteMap: ; 0xabc38
+SafariZoneBillboardBGPaletteMap: ; abc38 (2a:7c38) 
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-SaffronCityBillboardBGPaletteMap: ; 0xabc50
+SaffronCityBillboardBGPaletteMap: ; abc50 (2a:7c50) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $6, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
+SeafoamIslandsBillboardBGPaletteMap: ; abc68 (2a:7c68) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $6, $7, $7, $7
     db $7, $7, $7, $6, $7, $7
@@ -50928,177 +50927,177 @@ SeafoamIslandsBillboardBGPaletteMap: ; 0xabc68
 
 INCBIN "baserom.gbc",$abc80,$abf00 - $abc80
 
-BulbasaurAnimatedObjPalette1: ; 0xabf00
+BulbasaurAnimatedObjPalette1: ; abf00 (2a:7f00) 
     RGB 31, 31, 31
     RGB 5, 21, 30
     RGB 1, 3, 22
     RGB 0, 0, 0
-BulbasaurAnimatedObjPalette2: ; 0xabf08
+BulbasaurAnimatedObjPalette2: ; abf08 (2a:7f08) 
     RGB 31, 31, 31
     RGB 0, 21, 15
     RGB 0, 12, 6
     RGB 0, 0, 0
 
-CharmanderAnimatedObjPalette1: ; 0xabf10
+CharmanderAnimatedObjPalette1: ; abf10 (2a:7f10) 
     RGB 31, 31, 31
     RGB 31, 17, 0
     RGB 26, 1, 0
     RGB 0, 0, 0
-CharmanderAnimatedObjPalette2: ; 0xabf18
+CharmanderAnimatedObjPalette2: ; abf18 (2a:7f18) 
     RGB 31, 31, 31
     RGB 31, 17, 0
     RGB 26, 1, 0
     RGB 0, 0, 0
 
-SquirtleAnimatedObjPalette1: ; 0xabf20
+SquirtleAnimatedObjPalette1: ; abf20 (2a:7f20) 
     RGB 31, 31, 31
     RGB 4, 19, 31
     RGB 1, 5, 17
     RGB 0, 0, 0
-SquirtleAnimatedObjPalette2: ; 0xabf28
+SquirtleAnimatedObjPalette2: ; abf28 (2a:7f28) 
     RGB 31, 31, 31
     RGB 31, 20, 11
     RGB 14, 9, 3
     RGB 0, 0, 0
 
-CaterpieAnimatedObjPalette1: ; 0xabf30
+CaterpieAnimatedObjPalette1: ; abf30 (2a:7f30) 
     RGB 31, 31, 31
     RGB 0, 25, 9
     RGB 27, 13, 0
     RGB 0, 0, 0
-CaterpieAnimatedObjPalette2: ; 0xabf38
+CaterpieAnimatedObjPalette2: ; abf38 (2a:7f38) 
     RGB 31, 31, 31
     RGB 0, 25, 9
     RGB 27, 13, 0
     RGB 0, 0, 0
 
-WeedleAnimatedObjPalette1: ; 0xabf40
+WeedleAnimatedObjPalette1: ; abf40 (2a:7f40) 
     RGB 31, 31, 31
     RGB 31, 25, 3
     RGB 25, 9, 7
     RGB 0, 0, 0
-WeedleAnimatedObjPalette2: ; 0xabf48
+WeedleAnimatedObjPalette2: ; abf48 (2a:7f48) 
     RGB 31, 31, 31
     RGB 31, 25, 3
     RGB 25, 9, 7
     RGB 0, 0, 0
 
-PidgeyAnimatedObjPalette1: ; 0xabf50
+PidgeyAnimatedObjPalette1: ; abf50 (2a:7f50) 
     RGB 31, 31, 31
     RGB 31, 20, 11
     RGB 21, 10, 4
     RGB 0, 0, 0
-PidgeyAnimatedObjPalette2: ; 0xabf58
+PidgeyAnimatedObjPalette2: ; abf58 (2a:7f58) 
     RGB 31, 31, 31
     RGB 31, 20, 11
     RGB 21, 10, 4
     RGB 0, 0, 0
 
-RattataAnimatedObjPalette1: ; 0xabf60
+RattataAnimatedObjPalette1: ; abf60 (2a:7f60) 
     RGB 31, 31, 31
     RGB 30, 12, 23
     RGB 20, 4, 8
     RGB 0, 0, 0
-RattataAnimatedObjPalette2: ; 0xabf68
+RattataAnimatedObjPalette2: ; abf68 (2a:7f68) 
     RGB 31, 31, 31
     RGB 30, 12, 23
     RGB 20, 4, 8
     RGB 0, 0, 0
 
-SpearowAnimatedObjPalette1: ; 0xabf70
+SpearowAnimatedObjPalette1: ; abf70 (2a:7f70) 
     RGB 31, 31, 31
     RGB 31, 22, 14
     RGB 24, 4, 2
     RGB 0, 0, 0
-SpearowAnimatedObjPalette2: ; 0xabf78
+SpearowAnimatedObjPalette2: ; abf78 (2a:7f78) 
     RGB 31, 31, 31
     RGB 31, 22, 14
     RGB 24, 4, 2
     RGB 0, 0, 0
 
-EkansAnimatedObjPalette1: ; 0xabf80
+EkansAnimatedObjPalette1: ; abf80 (2a:7f80) 
     RGB 31, 31, 31
     RGB 30, 26, 12
     RGB 20, 7, 12
     RGB 0, 0, 0
-EkansAnimatedObjPalette2: ; 0xabf88
+EkansAnimatedObjPalette2: ; abf88 (2a:7f88) 
     RGB 31, 31, 31
     RGB 30, 26, 12
     RGB 20, 7, 12
     RGB 0, 0, 0
 
-PikachuAnimatedObjPalette1: ; 0xabf90
+PikachuAnimatedObjPalette1: ; abf90 (2a:7f90) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 23, 10, 0
     RGB 3, 3, 0
-PikachuAnimatedObjPalette2: ; 0xabf98
+PikachuAnimatedObjPalette2: ; abf98 (2a:7f98) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 23, 10, 0
     RGB 3, 3, 0
 
-SandshrewAnimatedObjPalette1: ; 0xabfa0
+SandshrewAnimatedObjPalette1: ; abfa0 (2a:7fa0) 
     RGB 31, 31, 31
     RGB 30, 25, 3
     RGB 19, 11, 0
     RGB 0, 0, 0
-SandshrewAnimatedObjPalette2: ; 0xabfa8
+SandshrewAnimatedObjPalette2: ; abfa8 (2a:7fa8) 
     RGB 31, 31, 31
     RGB 30, 25, 3
     RGB 19, 11, 0
     RGB 0, 0, 0
 
-NidoranFAnimatedObjPalette1: ; 0xabfb0
+NidoranFAnimatedObjPalette1: ; abfb0 (2a:7fb0) 
     RGB 31, 31, 31
     RGB 19, 23, 30
     RGB 8, 8, 24
     RGB 0, 0, 0
-NidoranFAnimatedObjPalette2: ; 0xabfb8
+NidoranFAnimatedObjPalette2: ; abfb8 (2a:7fb8) 
     RGB 31, 31, 31
     RGB 19, 23, 30
     RGB 8, 8, 24
     RGB 0, 0, 0
 
-NidoranMAnimatedObjPalette1: ; 0xabfc0
+NidoranMAnimatedObjPalette1: ; abfc0 (2a:7fc0) 
     RGB 31, 31, 31
     RGB 28, 16, 25
     RGB 20, 5, 12
     RGB 0, 0, 0
-NidoranMAnimatedObjPalette2: ; 0xabfc8
+NidoranMAnimatedObjPalette2: ; abfc8 (2a:7fc8) 
     RGB 31, 31, 31
     RGB 28, 16, 25
     RGB 20, 5, 12
     RGB 0, 0, 0
 
-ClefairyAnimatedObjPalette1: ; 0xabfd0
+ClefairyAnimatedObjPalette1: ; abfd0 (2a:7fd0) 
     RGB 31, 31, 31
     RGB 31, 20, 20
     RGB 23, 5, 6
     RGB 0, 0, 0
-ClefairyAnimatedObjPalette2: ; 0xabfd8
+ClefairyAnimatedObjPalette2: ; abfd8 (2a:7fd8) 
     RGB 31, 31, 31
     RGB 31, 20, 20
     RGB 23, 5, 6
     RGB 0, 0, 0
 
-VulpixAnimatedObjPalette1: ; 0xabfe0
+VulpixAnimatedObjPalette1: ; abfe0 (2a:7fe0) 
     RGB 31, 31, 31
     RGB 30, 20, 13
     RGB 27, 8, 0
     RGB 0, 0, 0
-VulpixAnimatedObjPalette2: ; 0xabfe8
+VulpixAnimatedObjPalette2: ; abfe8 (2a:7fe8) 
     RGB 31, 31, 31
     RGB 30, 20, 13
     RGB 27, 8, 0
     RGB 0, 0, 0
 
-JigglypuffAnimatedObjPalette1: ; 0xabff0
+JigglypuffAnimatedObjPalette1: ; abff0 (2a:7ff0) 
     RGB 31, 31, 31
     RGB 31, 18, 18
     RGB 7, 6, 27
     RGB 0, 0, 0
-JigglypuffAnimatedObjPalette2: ; 0xabff8
+JigglypuffAnimatedObjPalette2: ; abff8 (2a:7ff8) 
     RGB 31, 31, 31
     RGB 31, 18, 18
     RGB 7, 6, 27
@@ -51107,12 +51106,12 @@ JigglypuffAnimatedObjPalette2: ; 0xabff8
 
 SECTION "bank2b", ROMX, BANK[$2b]
 
-TitlescreenFadeInGfx: ; 0xac000
+TitlescreenFadeInGfx: ; ac000 (2b:4000) 
     INCBIN "gfx/titlescreen/titlescreen_fade_in.2bpp"
 
 INCBIN "baserom.gbc",$ad800,$af000 - $ad800
 
-StageBlueFieldBottomCollisionMasks: ; 0xaf000
+StageBlueFieldBottomCollisionMasks: ; af000 (2b:7000) 
     INCBIN "data/collision/masks/blue_stage_bottom.masks"
 
 INCBIN "baserom.gbc",$af800,$b0000 - $af800
@@ -51122,267 +51121,267 @@ SECTION "bank2c", ROMX, BANK[$2c]
 
 INCBIN "baserom.gbc",$b0000,$b3000 - $b0000
 
-StageRedFieldTopCollisionAttributes6: ; 0xb3000
+StageRedFieldTopCollisionAttributes6: ; b3000 (2c:7000) 
     INCBIN "data/collision/maps/red_stage_top_6.collision"
 
 INCBIN "baserom.gbc",$b3400,$b3800 - $b3400
 
-FieldSelectTilemap: ; 0xb3800
+FieldSelectTilemap: ; b3800 (2c:7800) 
     INCBIN "gfx/tilemaps/field_select.map"
-FieldSelectBGAttributes: ; 0xb3c00
+FieldSelectBGAttributes: ; b3c00 (2c:7c00) 
     INCBIN "gfx/bgattr/field_select.bgattr"
 
 
 SECTION "bank2d", ROMX, BANK[$2d]
 
-TitlescreenGfx: ; 0xb4000
+TitlescreenGfx: ; b4000 (2d:4000) 
     INCBIN "gfx/titlescreen/titlescreen.2bpp"
 
 OptionMenuAndKeyConfigGfx:
-OptionMenuBlankGfx: ; 0xb5800
+OptionMenuBlankGfx: ; b5800 (2d:5800) 
     INCBIN "gfx/option_menu/blank.2bpp"
-OptionMenuArrowGfx: ; 0xb5a00
+OptionMenuArrowGfx: ; b5a00 (2d:5a00) 
     INCBIN "gfx/option_menu/arrow.2bpp"
-OptionMenuPikaBubbleGfx: ; 0xb5a20
+OptionMenuPikaBubbleGfx: ; b5a20 (2d:5a20) 
     INCBIN "gfx/option_menu/pika_bubble.2bpp"
-OptionMenuBouncingPokeballGfx: ; 0xb5a80
+OptionMenuBouncingPokeballGfx: ; b5a80 (2d:5a80) 
     INCBIN "gfx/option_menu/bouncing_pokeball.2bpp"
-OptionMenuRumblePikachuAnimationGfx: ; 0xb5b40
+OptionMenuRumblePikachuAnimationGfx: ; b5b40 (2d:5b40) 
     INCBIN "gfx/option_menu/rumble_pikachu_animation.2bpp"
-OptionMenuPsyduckGfx: ; 0xb5c00
+OptionMenuPsyduckGfx: ; b5c00 (2d:5c00) 
     INCBIN "gfx/option_menu/psyduck.2bpp"
-OptionMenuBoldArrowGfx: ; 0xb5fc0
+OptionMenuBoldArrowGfx: ; b5fc0 (2d:5fc0) 
     INCBIN "gfx/option_menu/bold_arrow.2bpp"
-OptionMenuUnknownGfx: ; 0xb5fd0
+OptionMenuUnknownGfx: ; b5fd0 (2d:5fd0) 
     INCBIN "baserom.gbc",$b5fd0,$b6020 - $b5fd0
-OptionMenuOptionTextGfx: ; 0xb6020
+OptionMenuOptionTextGfx: ; b6020 (2d:6020) 
     INCBIN "gfx/option_menu/option_text.2bpp"
-OptionMenuPikachuGfx: ; 0xb6080
+OptionMenuPikachuGfx: ; b6080 (2d:6080) 
     INCBIN "gfx/option_menu/pikachu.2bpp"
-OptionMenuPsyduckFeetGfx: ; 0xb6170
+OptionMenuPsyduckFeetGfx: ; b6170 (2d:6170) 
     INCBIN "gfx/option_menu/psyduck_feet.2bpp"
-OptionMenuUnknown2Gfx: ; 0xb6200
+OptionMenuUnknown2Gfx: ; b6200 (2d:6200) 
     INCBIN "baserom.gbc",$b6200,$b6250 - $b6200
-OptionMenuRumbleTextGfx: ; 0xb6250
+OptionMenuRumbleTextGfx: ; b6250 (2d:6250) 
     INCBIN "gfx/option_menu/rumble_text.2bpp"
-OptionMenuUnknown3Gfx: ; 0xb62b0
+OptionMenuUnknown3Gfx: ; b62b0 (2d:62b0) 
     INCBIN "baserom.gbc",$b62b0,$b6320 - $b62b0
-OptionMenuKeyCoTextGfx: ; 0xb6320
+OptionMenuKeyCoTextGfx: ; b6320 (2d:6320) 
     INCBIN "gfx/option_menu/key_co_text.2bpp"
-OptionMenuSoundTestDigitsGfx: ; 0xb6370
+OptionMenuSoundTestDigitsGfx: ; b6370 (2d:6370) 
     INCBIN "gfx/option_menu/sound_test_digits.2bpp"
-OptionMenuNfigTextGfx: ; 0xb6470
+OptionMenuNfigTextGfx: ; b6470 (2d:6470) 
     INCBIN "gfx/option_menu/nfig_text.2bpp"
-OptionMenuUnknown4Gfx: ; 0xb64a0
+OptionMenuUnknown4Gfx: ; b64a0 (2d:64a0) 
     INCBIN "baserom.gbc",$b64a0,$b6500 - $b64a0
 
-KeyConfigResetTextGfx: ; 0xb6500
+KeyConfigResetTextGfx: ; b6500 (2d:6500) 
     INCBIN "gfx/key_config/reset_text.2bpp"
-KeyConfigBallStartTextGfx: ; 0xb6560
+KeyConfigBallStartTextGfx: ; b6560 (2d:6560) 
     INCBIN "gfx/key_config/ball_start_text.2bpp"
-KeyConfigLeftFlipperTextGfx: ; 0xb65f0
+KeyConfigLeftFlipperTextGfx: ; b65f0 (2d:65f0) 
     INCBIN "gfx/key_config/left_flipper_text.2bpp"
-KeyConfigRightFlipperTextGfx: ; 0xb6680
+KeyConfigRightFlipperTextGfx: ; b6680 (2d:6680) 
     INCBIN "gfx/key_config/right_flipper_text.2bpp"
-KeyConfigTiltTextGfx: ; 0xb6710
+KeyConfigTiltTextGfx: ; b6710 (2d:6710) 
     INCBIN "gfx/key_config/tilt_text.2bpp"
-KeyConfigMenuTextGfx: ; 0xb6810
+KeyConfigMenuTextGfx: ; b6810 (2d:6810) 
     INCBIN "gfx/key_config/menu_text.2bpp"
-KeyConfigKeyConfigTextGfx: ; 0xb6880
+KeyConfigKeyConfigTextGfx: ; b6880 (2d:6880) 
     INCBIN "gfx/key_config/key_config_text.2bpp"
-KeyConfigIconsGfx: ; 0xb6900
+KeyConfigIconsGfx: ; b6900 (2d:6900) 
     INCBIN "gfx/key_config/icons.2bpp"
 
-OptionMenuSoundTextTextGfx: ; 0xb6a40
+OptionMenuSoundTextTextGfx: ; b6a40 (2d:6a40) 
     INCBIN "gfx/option_menu/sound_test_text.2bpp"
-OptionMenuOnOffTextGfx: ; 0xb6ad0
+OptionMenuOnOffTextGfx: ; b6ad0 (2d:6ad0) 
     INCBIN "gfx/option_menu/on_off_text.2bpp"
-OptionMenuBGMSETextGfx: ; 0xb6b10
+OptionMenuBGMSETextGfx: ; b6b10 (2d:6b10) 
     INCBIN "gfx/option_menu/bgm_se_text.2bpp"
 
-StageRedFieldTopCollisionAttributes5: ; 0xb6c00
+StageRedFieldTopCollisionAttributes5: ; b6c00 (2d:6c00) 
     INCBIN "data/collision/maps/red_stage_top_5.collision"
 
 INCBIN "baserom.gbc",$b7000,$b7400 - $b7000
 
-StageRedFieldTopCollisionAttributes4: ; 0xb7400
+StageRedFieldTopCollisionAttributes4: ; b7400 (2d:7400) 
     INCBIN "data/collision/maps/red_stage_top_4.collision"
 
 INCBIN "baserom.gbc",$b7800,$b7c00 - $b7800
 
-PidgeottoBillboardBGPaletteMap: ; 0xb7c00
+PidgeottoBillboardBGPaletteMap: ; b7c00 (2d:7c00) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-PidgeotBillboardBGPaletteMap: ; 0xb7c18
+PidgeotBillboardBGPaletteMap: ; b7c18 (2d:7c18) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-RattataBillboardBGPaletteMap: ; 0xb7c30
+RattataBillboardBGPaletteMap: ; b7c30 (2d:7c30) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-RaticateBillboardBGPaletteMap: ; 0xb7c48
+RaticateBillboardBGPaletteMap: ; b7c48 (2d:7c48) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-SpearowBillboardBGPaletteMap: ; 0xb7c60
+SpearowBillboardBGPaletteMap: ; b7c60 (2d:7c60) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-FearowBillboardBGPaletteMap: ; 0xb7c78
+FearowBillboardBGPaletteMap: ; b7c78 (2d:7c78) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-EkansBillboardBGPaletteMap: ; 0xb7c90
+EkansBillboardBGPaletteMap: ; b7c90 (2d:7c90) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-ArbokBillboardBGPaletteMap: ; 0xb7ca8
+ArbokBillboardBGPaletteMap: ; b7ca8 (2d:7ca8) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-PikachuBillboardBGPaletteMap: ; 0xb7cc0
+PikachuBillboardBGPaletteMap: ; b7cc0 (2d:7cc0) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-RaichuBillboardBGPaletteMap: ; 0xb7cd8
+RaichuBillboardBGPaletteMap: ; b7cd8 (2d:7cd8) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-SandshrewBillboardBGPaletteMap: ; 0xb7cf0
+SandshrewBillboardBGPaletteMap: ; b7cf0 (2d:7cf0) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-SandslashBillboardBGPaletteMap: ; 0xb7d08
+SandslashBillboardBGPaletteMap: ; b7d08 (2d:7d08) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidoranFBillboardBGPaletteMap: ; 0xb7d20
+NidoranFBillboardBGPaletteMap: ; b7d20 (2d:7d20) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidorinaBillboardBGPaletteMap: ; 0xb7d38
+NidorinaBillboardBGPaletteMap: ; b7d38 (2d:7d38) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidoqueenBillboardBGPaletteMap: ; 0xb7d50
+NidoqueenBillboardBGPaletteMap: ; b7d50 (2d:7d50) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-NidoranMBillboardBGPaletteMap: ; 0xb7d68
+NidoranMBillboardBGPaletteMap: ; b7d68 (2d:7d68) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-INCBIN "baserom.gbc",$b7d80,$b8000 - $b7d80 ; 0xb7d80
+INCBIN "baserom.gbc",$b7d80,$b8000 - $b7d80 ; b7d80 (2d:7d80) 
 
 
 SECTION "bank2e", ROMX, BANK[$2e]
 
-StageRedFieldTopCollisionAttributes3: ; 0xb8000
+StageRedFieldTopCollisionAttributes3: ; b8000 (2e:4000) 
     INCBIN "data/collision/maps/red_stage_top_3.collision"
 
 INCBIN "baserom.gbc",$b8400,$b8800 - $b8400
 
-StageRedFieldTopCollisionAttributes2: ; 0xb8800
+StageRedFieldTopCollisionAttributes2: ; b8800 (2e:4800) 
     INCBIN "data/collision/maps/red_stage_top_2.collision"
 
 INCBIN "baserom.gbc",$b8c00,$b9000 - $b8c00
 
-StageRedFieldTopCollisionAttributes1: ; 0xb9000
+StageRedFieldTopCollisionAttributes1: ; b9000 (2e:5000) 
     INCBIN "data/collision/maps/red_stage_top_1.collision"
 
 INCBIN "baserom.gbc",$b9400,$b9800 - $b9400
 
-StageRedFieldTopCollisionAttributes0: ; 0xb9800
+StageRedFieldTopCollisionAttributes0: ; b9800 (2e:5800) 
     INCBIN "data/collision/maps/red_stage_top_0.collision"
 
 INCBIN "baserom.gbc",$b9c00,$ba000 - $b9c00
 
-StageRedFieldTopTilemap_GameBoy: ; 0xba000
+StageRedFieldTopTilemap_GameBoy: ; ba000 (2e:6000) 
     INCBIN "gfx/tilemaps/stage_red_field_top_gameboy.map"
 
 INCBIN "baserom.gbc",$ba400,$ba800 - $ba400
 
-StageRedFieldBottomTilemap_GameBoy: ; 0xba800
+StageRedFieldBottomTilemap_GameBoy: ; ba800 (2e:6800) 
     INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboy.map"
 
 INCBIN "baserom.gbc",$bac00,$bb000 - $bac00
 
-StageRedFieldTopCollisionMasks0: ; 0xbb000
+StageRedFieldTopCollisionMasks0: ; bb000 (2e:7000) 
     INCBIN "data/collision/masks/red_stage_top_0.masks"
 
-StageRedFieldTopCollisionMasks1: ; 0xbb800
+StageRedFieldTopCollisionMasks1: ; bb800 (2e:7800) 
     INCBIN "data/collision/masks/red_stage_top_1.masks"
 
 
 SECTION "bank2f", ROMX, BANK[$2f]
 
-StageRedFieldTopCollisionMasks2: ; 0xbc000
+StageRedFieldTopCollisionMasks2: ; bc000 (2f:4000) 
     INCBIN "data/collision/masks/red_stage_top_2.masks"
 
-StageRedFieldTopCollisionMasks3: ; 0xbc800
+StageRedFieldTopCollisionMasks3: ; bc800 (2f:4800) 
     INCBIN "data/collision/masks/red_stage_top_3.masks"
 
-StageRedFieldTopCollisionAttributes7: ; 0xbd000
+StageRedFieldTopCollisionAttributes7: ; bd000 (2f:5000) 
     INCBIN "data/collision/maps/red_stage_top_7.collision"
 
 INCBIN "baserom.gbc",$bd400,$bd800 - $bd400
 
-StageRedFieldBottomCollisionAttributes: ; 0xbd800
+StageRedFieldBottomCollisionAttributes: ; bd800 (2f:5800) 
     INCBIN "data/collision/maps/red_stage_bottom.collision"
 
 INCBIN "baserom.gbc",$bdc00,$be000 - $bdc00
 
-StageRedFieldTopTilemap_GameBoyColor: ; 0xbe000
+StageRedFieldTopTilemap_GameBoyColor: ; be000 (2f:6000) 
     INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor.map"
 
-StageRedFieldTopTilemap2_GameBoyColor: ; 0xbe400
+StageRedFieldTopTilemap2_GameBoyColor: ; be400 (2f:6400) 
     INCBIN "gfx/tilemaps/stage_red_field_top_gameboycolor_2.map"
 
-StageRedFieldBottomTilemap_GameBoyColor: ; 0xbe800
+StageRedFieldBottomTilemap_GameBoyColor: ; be800 (2f:6800) 
     INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboycolor.map"
 
-StageRedFieldBottomTilemap2_GameBoyColor: ; 0xbec00
+StageRedFieldBottomTilemap2_GameBoyColor: ; bec00 (2f:6c00) 
     INCBIN "gfx/tilemaps/stage_red_field_bottom_gameboycolor_2.map"
 
 INCBIN "baserom.gbc",$bf000,$bf800 - $bf000
 
-EraseAllDataTilemap: ; 0xbf800
+EraseAllDataTilemap: ; bf800 (2f:7800) 
     INCBIN "gfx/tilemaps/erase_all_data.map"
-EraseAllDataBGAttributes: ; 0xbfc00
+EraseAllDataBGAttributes: ; bfc00 (2f:7c00) 
     INCBIN "gfx/bgattr/erase_all_data.bgattr"
 
 
@@ -51390,63 +51389,63 @@ SECTION "bank30", ROMX, BANK[$30]
 
 INCBIN "baserom.gbc",$c0000,$c0800 - $c0000
 
-StageBlueFieldTopCollisionMasks: ; 0xc0800
+StageBlueFieldTopCollisionMasks: ; c0800 (30:4800) 
     INCBIN "data/collision/masks/blue_stage_top.masks"
 
-StageBlueFieldTopCollisionAttributesBallEntrance: ; 0xc1000
+StageBlueFieldTopCollisionAttributesBallEntrance: ; c1000 (30:5000) 
     INCBIN "data/collision/maps/blue_stage_top_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$c1400,$c2800 - $c1400
 
-StageBlueFieldTopCollisionAttributes: ; 0xc2800
+StageBlueFieldTopCollisionAttributes: ; c2800 (30:6800) 
     INCBIN "data/collision/maps/blue_stage_top.collision"
 
 INCBIN "baserom.gbc",$c2c00,$c3800 - $c2c00
 
-OptionMenuTilemap: ; 0xc3800
+OptionMenuTilemap: ; c3800 (30:7800) 
     INCBIN "gfx/tilemaps/option_menu.map"
 
-INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; 0xc3a40
+INCBIN "baserom.gbc",$c3a40,$c4000 - $c3a40 ; c3a40 (30:7a40) 
 
 
 SECTION "bank31", ROMX, BANK[$31]
 
-StageBlueFieldBottomCollisionAttributes: ; 0xc4000
+StageBlueFieldBottomCollisionAttributes: ; c4000 (31:4000) 
     INCBIN "data/collision/maps/blue_stage_bottom.collision"
 
 INCBIN "baserom.gbc",$c4400,$c5800 - $c4400
 
-TitlescreenTilemap: ; 0xc5800
+TitlescreenTilemap: ; c5800 (31:5800) 
     INCBIN "gfx/tilemaps/titlescreen.map"
-TitlescreenBGAttributes: ; 0xc5c00
+TitlescreenBGAttributes: ; c5c00 (31:5c00) 
     INCBIN "gfx/bgattr/titlescreen.bgattr"
 
 INCBIN "baserom.gbc",$c5e40,$c6000 - $c5e40
 
-CopyrightScreenTilemap: ; 0xc6000
+CopyrightScreenTilemap: ; c6000 (31:6000) 
     INCBIN "gfx/tilemaps/copyright_screen.map"
-CopyrightScreenBGAttributes: ; 0xc6400
+CopyrightScreenBGAttributes: ; c6400 (31:6400) 
     INCBIN "gfx/bgattr/copyright_screen.bgattr"
 
 INCBIN "baserom.gbc",$c6800,$c7800 - $c6800
 
-StageGengarBonusCollisionAttributesBallEntrance: ; 0xc7800
+StageGengarBonusCollisionAttributesBallEntrance: ; c7800 (31:7800) 
     INCBIN "data/collision/maps/gengar_bonus_ball_entrance.collision"
 
 
 SECTION "bank32", ROMX, BANK[$32]
 
-StageGengarBonusCollisionAttributes: ; 0xc8000
+StageGengarBonusCollisionAttributes: ; c8000 (32:4000) 
     INCBIN "data/collision/maps/gengar_bonus.collision"
 
 INCBIN "baserom.gbc",$c8400,$ca000 - $c8400
 
-StageMewtwoBonusCollisionAttributesBallEntrance: ; 0xca000
+StageMewtwoBonusCollisionAttributesBallEntrance: ; ca000 (32:6000) 
     INCBIN "data/collision/maps/mewtwo_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$ca400,$ca800 - $ca400
 
-StageMewtwoBonusCollisionAttributes: ; 0xca800
+StageMewtwoBonusCollisionAttributes: ; ca800 (32:6800) 
     INCBIN "data/collision/maps/mewtwo_bonus.collision"
 
 INCBIN "baserom.gbc",$cac00,$cc000 - $cac00
@@ -51456,22 +51455,22 @@ SECTION "bank33", ROMX, BANK[$33]
 
 INCBIN "baserom.gbc",$cc000,$cc800 - $cc000
 
-StageMeowthBonusCollisionAttributesBallEntrance: ; 0xcc800
+StageMeowthBonusCollisionAttributesBallEntrance: ; cc800 (33:4800) 
     INCBIN "data/collision/maps/meowth_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$ccc00,$cd000 - $ccc00
 
-StageMeowthBonusCollisionAttributes: ; 0xcd000
+StageMeowthBonusCollisionAttributes: ; cd000 (33:5000) 
     INCBIN "data/collision/maps/meowth_bonus.collision"
 
 INCBIN "baserom.gbc",$cd400,$ce800 - $cd400
 
-StageDiglettBonusCollisionAttributesBallEntrance: ; 0xce800
+StageDiglettBonusCollisionAttributesBallEntrance: ; ce800 (33:6800) 
     INCBIN "data/collision/maps/diglett_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$cec00,$cf000 - $cec00
 
-StageDiglettBonusCollisionAttributes: ; 0xcf000
+StageDiglettBonusCollisionAttributes: ; cf000 (33:7000) 
     INCBIN "data/collision/maps/diglett_bonus.collision"
 
 INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
@@ -51479,294 +51478,294 @@ INCBIN "baserom.gbc",$cf400,$d0000 - $cf400
 
 SECTION "bank34", ROMX, BANK[$34]
 
-MagikarpAnimatedCollisionMask: ; 0xd04000
+MagikarpAnimatedCollisionMask: ; d0400 (34:4400) 
     INCBIN "data/collision/mon_masks/magikarp_collision.1bpp"
-LaprasAnimatedCollisionMask: ; 0xd04080
+LaprasAnimatedCollisionMask: ; d0408 (34:4408) 
     INCBIN "data/collision/mon_masks/lapras_collision.1bpp"
-DittoAnimatedCollisionMask: ; 0xd04100
+DittoAnimatedCollisionMask: ; d0410 (34:4410) 
     INCBIN "data/collision/mon_masks/ditto_collision.1bpp"
-EeveeAnimatedCollisionMask: ; 0xd04180
+EeveeAnimatedCollisionMask: ; d0418 (34:4418) 
     INCBIN "data/collision/mon_masks/eevee_collision.1bpp"
-PorygonAnimatedCollisionMask: ; 0xd04200
+PorygonAnimatedCollisionMask: ; d0420 (34:4420) 
     INCBIN "data/collision/mon_masks/porygon_collision.1bpp"
-OmanyteAnimatedCollisionMask: ; 0xd04280
+OmanyteAnimatedCollisionMask: ; d0428 (34:4428) 
     INCBIN "data/collision/mon_masks/omanyte_collision.1bpp"
-KabutoAnimatedCollisionMask: ; 0xd04300
+KabutoAnimatedCollisionMask: ; d0430 (34:4430) 
     INCBIN "data/collision/mon_masks/kabuto_collision.1bpp"
-AerodactylAnimatedCollisionMask: ; 0xd04380
+AerodactylAnimatedCollisionMask: ; d0438 (34:4438) 
     INCBIN "data/collision/mon_masks/aerodactyl_collision.1bpp"
-SnorlaxAnimatedCollisionMask: ; 0xd04400
+SnorlaxAnimatedCollisionMask: ; d0440 (34:4440) 
     INCBIN "data/collision/mon_masks/snorlax_collision.1bpp"
-ArticunoAnimatedCollisionMask: ; 0xd04480
+ArticunoAnimatedCollisionMask: ; d0448 (34:4448) 
     INCBIN "data/collision/mon_masks/articuno_collision.1bpp"
-ZapdosAnimatedCollisionMask: ; 0xd04500
+ZapdosAnimatedCollisionMask: ; d0450 (34:4450) 
     INCBIN "data/collision/mon_masks/zapdos_collision.1bpp"
-MoltresAnimatedCollisionMask: ; 0xd04580
+MoltresAnimatedCollisionMask: ; d0458 (34:4458) 
     INCBIN "data/collision/mon_masks/moltres_collision.1bpp"
-DratiniAnimatedCollisionMask: ; 0xd04600
+DratiniAnimatedCollisionMask: ; d0460 (34:4460) 
     INCBIN "data/collision/mon_masks/dratini_collision.1bpp"
-MewtwoAnimatedCollisionMask: ; 0xd04680
+MewtwoAnimatedCollisionMask: ; d0468 (34:4468) 
     INCBIN "data/collision/mon_masks/mewtwo_collision.1bpp"
-MewAnimatedCollisionMask: ; 0xd04700
+MewAnimatedCollisionMask: ; d0470 (34:4470) 
     INCBIN "data/collision/mon_masks/mew_collision.1bpp"
 
 INCBIN "baserom.gbc",$d0780,$80
 
-LickitungAnimatedCollisionMask: ; 0xd04800
+LickitungAnimatedCollisionMask: ; d0480 (34:4480) 
     INCBIN "data/collision/mon_masks/lickitung_collision.1bpp"
-KoffingAnimatedCollisionMask: ; 0xd04880
+KoffingAnimatedCollisionMask: ; d0488 (34:4488) 
     INCBIN "data/collision/mon_masks/koffing_collision.1bpp"
-RhyhornAnimatedCollisionMask: ; 0xd04900
+RhyhornAnimatedCollisionMask: ; d0490 (34:4490) 
     INCBIN "data/collision/mon_masks/rhyhorn_collision.1bpp"
-ChanseyAnimatedCollisionMask: ; 0xd04980
+ChanseyAnimatedCollisionMask: ; d0498 (34:4498) 
     INCBIN "data/collision/mon_masks/chansey_collision.1bpp"
-TangelaAnimatedCollisionMask: ; 0xd04A00
+TangelaAnimatedCollisionMask: ; d04A0 (34:44a0) 
     INCBIN "data/collision/mon_masks/tangela_collision.1bpp"
-KangaskhanAnimatedCollisionMask: ; 0xd04A80
+KangaskhanAnimatedCollisionMask: ; d04A8 (34:44a8) 
     INCBIN "data/collision/mon_masks/kangaskhan_collision.1bpp"
-HorseaAnimatedCollisionMask: ; 0xd04B00
+HorseaAnimatedCollisionMask: ; d04B0 (34:44b0) 
     INCBIN "data/collision/mon_masks/horsea_collision.1bpp"
-GoldeenAnimatedCollisionMask: ; 0xd04B80
+GoldeenAnimatedCollisionMask: ; d04B8 (34:44b8) 
     INCBIN "data/collision/mon_masks/goldeen_collision.1bpp"
-StaryuAnimatedCollisionMask: ; 0xd04C00
+StaryuAnimatedCollisionMask: ; d04C0 (34:44c0) 
     INCBIN "data/collision/mon_masks/staryu_collision.1bpp"
-MrMimeAnimatedCollisionMask: ; 0xd04C80
+MrMimeAnimatedCollisionMask: ; d04C8 (34:44c8) 
     INCBIN "data/collision/mon_masks/mrmime_collision.1bpp"
-ScytherAnimatedCollisionMask: ; 0xd04D00
+ScytherAnimatedCollisionMask: ; d04D0 (34:44d0) 
     INCBIN "data/collision/mon_masks/scyther_collision.1bpp"
-JynxAnimatedCollisionMask: ; 0xd04D80
+JynxAnimatedCollisionMask: ; d04D8 (34:44d8) 
     INCBIN "data/collision/mon_masks/jynx_collision.1bpp"
-ElectabuzzAnimatedCollisionMask: ; 0xd04E00
+ElectabuzzAnimatedCollisionMask: ; d04E0 (34:44e0) 
     INCBIN "data/collision/mon_masks/electabuzz_collision.1bpp"
-MagmarAnimatedCollisionMask: ; 0xd04E80
+MagmarAnimatedCollisionMask: ; d04E8 (34:44e8) 
     INCBIN "data/collision/mon_masks/magmar_collision.1bpp"
-PinsirAnimatedCollisionMask: ; 0xd04F00
+PinsirAnimatedCollisionMask: ; d04F0 (34:44f0) 
     INCBIN "data/collision/mon_masks/pinsir_collision.1bpp"
-TaurosAnimatedCollisionMask: ; 0xd04F80
+TaurosAnimatedCollisionMask: ; d04F8 (34:44f8) 
     INCBIN "data/collision/mon_masks/tauros_collision.1bpp"
-SlowpokeAnimatedCollisionMask: ; 0xd05000
+SlowpokeAnimatedCollisionMask: ; d0500 (34:4500) 
     INCBIN "data/collision/mon_masks/slowpoke_collision.1bpp"
-MagnemiteAnimatedCollisionMask: ; 0xd05080
+MagnemiteAnimatedCollisionMask: ; d0508 (34:4508) 
     INCBIN "data/collision/mon_masks/magnemite_collision.1bpp"
-FarfetchdAnimatedCollisionMask: ; 0xd05100
+FarfetchdAnimatedCollisionMask: ; d0510 (34:4510) 
     INCBIN "data/collision/mon_masks/farfetchd_collision.1bpp"
-DoduoAnimatedCollisionMask: ; 0xd05180
+DoduoAnimatedCollisionMask: ; d0518 (34:4518) 
     INCBIN "data/collision/mon_masks/doduo_collision.1bpp"
-SeelAnimatedCollisionMask: ; 0xd05200
+SeelAnimatedCollisionMask: ; d0520 (34:4520) 
     INCBIN "data/collision/mon_masks/seel_collision.1bpp"
-GrimerAnimatedCollisionMask: ; 0xd05280
+GrimerAnimatedCollisionMask: ; d0528 (34:4528) 
     INCBIN "data/collision/mon_masks/grimer_collision.1bpp"
-ShellderAnimatedCollisionMask: ; 0xd05300
+ShellderAnimatedCollisionMask: ; d0530 (34:4530) 
     INCBIN "data/collision/mon_masks/shellder_collision.1bpp"
-GastlyAnimatedCollisionMask: ; 0xd05380
+GastlyAnimatedCollisionMask: ; d0538 (34:4538) 
     INCBIN "data/collision/mon_masks/gastly_collision.1bpp"
-OnixAnimatedCollisionMask: ; 0xd05400
+OnixAnimatedCollisionMask: ; d0540 (34:4540) 
     INCBIN "data/collision/mon_masks/onix_collision.1bpp"
-DrowzeeAnimatedCollisionMask: ; 0xd05480
+DrowzeeAnimatedCollisionMask: ; d0548 (34:4548) 
     INCBIN "data/collision/mon_masks/drowzee_collision.1bpp"
-KrabbyAnimatedCollisionMask: ; 0xd05500
+KrabbyAnimatedCollisionMask: ; d0550 (34:4550) 
     INCBIN "data/collision/mon_masks/krabby_collision.1bpp"
-VoltorbAnimatedCollisionMask: ; 0xd05580
+VoltorbAnimatedCollisionMask: ; d0558 (34:4558) 
     INCBIN "data/collision/mon_masks/voltorb_collision.1bpp"
-ExeggcuteAnimatedCollisionMask: ; 0xd05600
+ExeggcuteAnimatedCollisionMask: ; d0560 (34:4560) 
     INCBIN "data/collision/mon_masks/exeggcute_collision.1bpp"
-CuboneAnimatedCollisionMask: ; 0xd05680
+CuboneAnimatedCollisionMask: ; d0568 (34:4568) 
     INCBIN "data/collision/mon_masks/cubone_collision.1bpp"
-HitmonleeAnimatedCollisionMask: ; 0xd05700
+HitmonleeAnimatedCollisionMask: ; d0570 (34:4570) 
     INCBIN "data/collision/mon_masks/hitmonlee_collision.1bpp"
-HitmonchanAnimatedCollisionMask: ; 0xd05780
+HitmonchanAnimatedCollisionMask: ; d0578 (34:4578) 
     INCBIN "data/collision/mon_masks/hitmonchan_collision.1bpp"
-ZubatAnimatedCollisionMask: ; 0xd05800
+ZubatAnimatedCollisionMask: ; d0580 (34:4580) 
     INCBIN "data/collision/mon_masks/zubat_collision.1bpp"
-OddishAnimatedCollisionMask: ; 0xd05880
+OddishAnimatedCollisionMask: ; d0588 (34:4588) 
     INCBIN "data/collision/mon_masks/oddish_collision.1bpp"
-ParasAnimatedCollisionMask: ; 0xd05900
+ParasAnimatedCollisionMask: ; d0590 (34:4590) 
     INCBIN "data/collision/mon_masks/paras_collision.1bpp"
-VenonatAnimatedCollisionMask: ; 0xd05980
+VenonatAnimatedCollisionMask: ; d0598 (34:4598) 
     INCBIN "data/collision/mon_masks/venonat_collision.1bpp"
-DiglettAnimatedCollisionMask: ; 0xd05A00
+DiglettAnimatedCollisionMask: ; d05A0 (34:45a0) 
     INCBIN "data/collision/mon_masks/diglett_collision.1bpp"
-MeowthAnimatedCollisionMask: ; 0xd05A80
+MeowthAnimatedCollisionMask: ; d05A8 (34:45a8) 
     INCBIN "data/collision/mon_masks/meowth_collision.1bpp"
-PsyduckAnimatedCollisionMask: ; 0xd05B00
+PsyduckAnimatedCollisionMask: ; d05B0 (34:45b0) 
     INCBIN "data/collision/mon_masks/psyduck_collision.1bpp"
-MankeyAnimatedCollisionMask: ; 0xd05B80
+MankeyAnimatedCollisionMask: ; d05B8 (34:45b8) 
     INCBIN "data/collision/mon_masks/mankey_collision.1bpp"
-GrowlitheAnimatedCollisionMask: ; 0xd05C00
+GrowlitheAnimatedCollisionMask: ; d05C0 (34:45c0) 
     INCBIN "data/collision/mon_masks/growlithe_collision.1bpp"
-PoliwagAnimatedCollisionMask: ; 0xd05C80
+PoliwagAnimatedCollisionMask: ; d05C8 (34:45c8) 
     INCBIN "data/collision/mon_masks/poliwag_collision.1bpp"
-AbraAnimatedCollisionMask: ; 0xd05D00
+AbraAnimatedCollisionMask: ; d05D0 (34:45d0) 
     INCBIN "data/collision/mon_masks/abra_collision.1bpp"
-MachopAnimatedCollisionMask: ; 0xd05D80
+MachopAnimatedCollisionMask: ; d05D8 (34:45d8) 
     INCBIN "data/collision/mon_masks/machop_collision.1bpp"
-BellsproutAnimatedCollisionMask: ; 0xd05E00
+BellsproutAnimatedCollisionMask: ; d05E0 (34:45e0) 
     INCBIN "data/collision/mon_masks/bellsprout_collision.1bpp"
-TentacoolAnimatedCollisionMask: ; 0xd05E80
+TentacoolAnimatedCollisionMask: ; d05E8 (34:45e8) 
     INCBIN "data/collision/mon_masks/tentacool_collision.1bpp"
-GeodudeAnimatedCollisionMask: ; 0xd05F00
+GeodudeAnimatedCollisionMask: ; d05F0 (34:45f0) 
     INCBIN "data/collision/mon_masks/geodude_collision.1bpp"
-PonytaAnimatedCollisionMask: ; 0xd05F80
+PonytaAnimatedCollisionMask: ; d05F8 (34:45f8) 
     INCBIN "data/collision/mon_masks/ponyta_collision.1bpp"
-BulbasaurAnimatedCollisionMask: ; 0xd06000
+BulbasaurAnimatedCollisionMask: ; d0600 (34:4600) 
     INCBIN "data/collision/mon_masks/bulbasaur_collision.1bpp"
-CharmanderAnimatedCollisionMask: ; 0xd06080
+CharmanderAnimatedCollisionMask: ; d0608 (34:4608) 
     INCBIN "data/collision/mon_masks/charmander_collision.1bpp"
-SquirtleAnimatedCollisionMask: ; 0xd06100
+SquirtleAnimatedCollisionMask: ; d0610 (34:4610) 
     INCBIN "data/collision/mon_masks/squirtle_collision.1bpp"
-CaterpieAnimatedCollisionMask: ; 0xd06180
+CaterpieAnimatedCollisionMask: ; d0618 (34:4618) 
     INCBIN "data/collision/mon_masks/caterpie_collision.1bpp"
-WeedleAnimatedCollisionMask: ; 0xd06200
+WeedleAnimatedCollisionMask: ; d0620 (34:4620) 
     INCBIN "data/collision/mon_masks/weedle_collision.1bpp"
-PidgeyAnimatedCollisionMask: ; 0xd06280
+PidgeyAnimatedCollisionMask: ; d0628 (34:4628) 
     INCBIN "data/collision/mon_masks/pidgey_collision.1bpp"
-RattataAnimatedCollisionMask: ; 0xd06300
+RattataAnimatedCollisionMask: ; d0630 (34:4630) 
     INCBIN "data/collision/mon_masks/rattata_collision.1bpp"
-SpearowAnimatedCollisionMask: ; 0xd06380
+SpearowAnimatedCollisionMask: ; d0638 (34:4638) 
     INCBIN "data/collision/mon_masks/spearow_collision.1bpp"
-EkansAnimatedCollisionMask: ; 0xd06400
+EkansAnimatedCollisionMask: ; d0640 (34:4640) 
     INCBIN "data/collision/mon_masks/ekans_collision.1bpp"
-PikachuAnimatedCollisionMask: ; 0xd06480
+PikachuAnimatedCollisionMask: ; d0648 (34:4648) 
     INCBIN "data/collision/mon_masks/pikachu_collision.1bpp"
-SandshrewAnimatedCollisionMask: ; 0xd06500
+SandshrewAnimatedCollisionMask: ; d0650 (34:4650) 
     INCBIN "data/collision/mon_masks/sandshrew_collision.1bpp"
-NidoranfAnimatedCollisionMask: ; 0xd06580
+NidoranfAnimatedCollisionMask: ; d0658 (34:4658) 
     INCBIN "data/collision/mon_masks/nidoranf_collision.1bpp"
-NidoranmAnimatedCollisionMask: ; 0xd06600
+NidoranmAnimatedCollisionMask: ; d0660 (34:4660) 
     INCBIN "data/collision/mon_masks/nidoranm_collision.1bpp"
-ClefairyAnimatedCollisionMask: ; 0xd06680
+ClefairyAnimatedCollisionMask: ; d0668 (34:4668) 
     INCBIN "data/collision/mon_masks/clefairy_collision.1bpp"
-VulpixAnimatedCollisionMask: ; 0xd06700
+VulpixAnimatedCollisionMask: ; d0670 (34:4670) 
     INCBIN "data/collision/mon_masks/vulpix_collision.1bpp"
-JigglypuffAnimatedCollisionMask: ; 0xd06780
+JigglypuffAnimatedCollisionMask: ; d0678 (34:4678) 
     INCBIN "data/collision/mon_masks/jigglypuff_collision.1bpp"
 
-INCBIN "baserom.gbc",$d2800,$d4000 - $d2800 ; 0xd0000
+INCBIN "baserom.gbc",$d2800,$d4000 - $d2800 ; d0000 (34:4000) 
 
 
 SECTION "bank35", ROMX, BANK[$35]
 
-StageSeelBonusCollisionAttributesBallEntrance: ; 0xd4000
+StageSeelBonusCollisionAttributesBallEntrance: ; d4000 (35:4000) 
     INCBIN "data/collision/maps/seel_bonus_ball_entrance.collision"
 
 INCBIN "baserom.gbc",$d4400,$d4800 - $d4400
 
-StageSeelBonusCollisionAttributes: ; 0xd4800
+StageSeelBonusCollisionAttributes: ; d4800 (35:4800) 
     INCBIN "data/collision/maps/seel_bonus.collision"
 
 INCBIN "baserom.gbc",$d4c00,$d6000 - $d4c00
 
-Alphabet1Gfx: ; 0xd6000
+Alphabet1Gfx: ; d6000 (35:6000) 
     INCBIN "gfx/stage/alphabet_1.2bpp"
 
 INCBIN "baserom.gbc",$d61a0,$d6200 - $d61a0
 
-Alphabet2Gfx: ; 0xd6200
+Alphabet2Gfx: ; d6200 (35:6200) 
     INCBIN "gfx/stage/alphabet_2.2bpp"
 
 INCBIN "baserom.gbc",$d63a0,$d6450 - $d63a0
 
-InGameMenuSymbolsGfx: ; 0xd6450
+InGameMenuSymbolsGfx: ; d6450 (35:6450) 
     INCBIN "gfx/stage/menu_symbols.2bpp"
 
 INCBIN "baserom.gbc",$d6490,$d6c00 - $d6490
 
-StageRedJapaneseCharactersGfx: ; 0xd6c00
+StageRedJapaneseCharactersGfx: ; d6c00 (35:6c00) 
     INCBIN "gfx/stage/red_bottom/japanese_characters.2bpp"
-StageRedJapaneseCharactersGfx2: ; 0xd7000
+StageRedJapaneseCharactersGfx2: ; d7000 (35:7000) 
     INCBIN "gfx/stage/red_bottom/japanese_characters_2.2bpp"
 
-NidorinoBillboardBGPaletteMap: ; 0xd7200
+NidorinoBillboardBGPaletteMap: ; d7200 (35:7200) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-NidokingBillboardBGPaletteMap: ; 0xd7218
+NidokingBillboardBGPaletteMap: ; d7218 (35:7218) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ClefairyBillboardBGPaletteMap: ; 0xd7230
+ClefairyBillboardBGPaletteMap: ; d7230 (35:7230) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ClefableBillboardBGPaletteMap: ; 0xd7248
+ClefableBillboardBGPaletteMap: ; d7248 (35:7248) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-VulpixBillboardBGPaletteMap: ; 0xd7260
+VulpixBillboardBGPaletteMap: ; d7260 (35:7260) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-NinetalesBillboardBGPaletteMap: ; 0xd7278
+NinetalesBillboardBGPaletteMap: ; d7278 (35:7278) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-JigglypuffBillboardBGPaletteMap: ; 0xd7290
+JigglypuffBillboardBGPaletteMap: ; d7290 (35:7290) 
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $6, $6, $6, $6, $6
 
-WigglytuffBillboardBGPaletteMap: ; 0xd72a8
+WigglytuffBillboardBGPaletteMap: ; d72a8 (35:72a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $7, $6, $6
     db $6, $7, $6, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ZubatBillboardBGPaletteMap: ; 0xd72c0
+ZubatBillboardBGPaletteMap: ; d72c0 (35:72c0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GolbatBillboardBGPaletteMap: ; 0xd72d8
+GolbatBillboardBGPaletteMap: ; d72d8 (35:72d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-OddishBillboardBGPaletteMap: ; 0xd72f0
+OddishBillboardBGPaletteMap: ; d72f0 (35:72f0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $7, $7, $7, $7, $6
 
-GloomBillboardBGPaletteMap: ; 0xd7308
+GloomBillboardBGPaletteMap: ; d7308 (35:7308) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $7, $6
     db $7, $7, $7, $7, $7, $7
 
-VileplumeBillboardBGPaletteMap: ; 0xd7320
+VileplumeBillboardBGPaletteMap: ; d7320 (35:7320) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $6, $7, $7, $7, $6
 
-ParasBillboardBGPaletteMap: ; 0xd7338
+ParasBillboardBGPaletteMap: ; d7338 (35:7338) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ParasectBillboardBGPaletteMap: ; 0xd7350
+ParasectBillboardBGPaletteMap: ; d7350 (35:7350) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-VenonatBillboardBGPaletteMap: ; 0xd7368
+VenonatBillboardBGPaletteMap: ; d7368 (35:7368) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -51774,97 +51773,97 @@ VenonatBillboardBGPaletteMap: ; 0xd7368
 
 INCBIN "baserom.gbc",$d7380,$d7600 - $d7380
 
-VenomothBillboardBGPaletteMap: ; 0xd7600
+VenomothBillboardBGPaletteMap: ; d7600 (35:7600) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DiglettBillboardBGPaletteMap: ; 0xd7618
+DiglettBillboardBGPaletteMap: ; d7618 (35:7618) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $7, $7, $6, $6
 
-DugtrioBillboardBGPaletteMap: ; 0xd7630
+DugtrioBillboardBGPaletteMap: ; d7630 (35:7630) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MeowthBillboardBGPaletteMap: ; 0xd7648
+MeowthBillboardBGPaletteMap: ; d7648 (35:7648) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
 
-PersianBillboardBGPaletteMap: ; 0xd7660
+PersianBillboardBGPaletteMap: ; d7660 (35:7660) 
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PsyduckBillboardBGPaletteMap: ; 0xd7678
+PsyduckBillboardBGPaletteMap: ; d7678 (35:7678) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GolduckBillboardBGPaletteMap: ; 0xd7690
+GolduckBillboardBGPaletteMap: ; d7690 (35:7690) 
     db $6, $7, $7, $7, $6, $6
     db $6, $7, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MankeyBillboardBGPaletteMap: ; 0xd76a8
+MankeyBillboardBGPaletteMap: ; d76a8 (35:76a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PrimeapeBillboardBGPaletteMap: ; 0xd76c0
+PrimeapeBillboardBGPaletteMap: ; d76c0 (35:76c0) 
     db $6, $6, $6, $6, $6, $6
     db $7, $6, $6, $6, $6, $7
     db $7, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $6
 
-GrowlitheBillboardBGPaletteMap: ; 0xd76d8
+GrowlitheBillboardBGPaletteMap: ; d76d8 (35:76d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $6, $6, $6
 
-ArcanineBillboardBGPaletteMap: ; 0xd76f0
+ArcanineBillboardBGPaletteMap: ; d76f0 (35:76f0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PoliwagBillboardBGPaletteMap: ; 0xd7708
+PoliwagBillboardBGPaletteMap: ; d7708 (35:7708) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PoliwhirlBillboardBGPaletteMap: ; 0xd7720
+PoliwhirlBillboardBGPaletteMap: ; d7720 (35:7720) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PoliwrathBillboardBGPaletteMap: ; 0xd7738
+PoliwrathBillboardBGPaletteMap: ; d7738 (35:7738) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-AbraBillboardBGPaletteMap: ; 0xd7750
+AbraBillboardBGPaletteMap: ; d7750 (35:7750) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-KadabraBillboardBGPaletteMap: ; 0xd7768
+KadabraBillboardBGPaletteMap: ; d7768 (35:7768) 
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $6, $6, $6, $6
     db $6, $7, $6, $6, $6, $6
@@ -51872,97 +51871,97 @@ KadabraBillboardBGPaletteMap: ; 0xd7768
 
 INCBIN "baserom.gbc",$d7780,$d7a00 - $d7780
 
-AlakazamBillboardBGPaletteMap: ; 0xd7a00
+AlakazamBillboardBGPaletteMap: ; d7a00 (35:7a00) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $6, $6, $7, $6
     db $6, $6, $6, $6, $6, $6
 
-MachopBillboardBGPaletteMap: ; 0xd7a18
+MachopBillboardBGPaletteMap: ; d7a18 (35:7a18) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MachokeBillboardBGPaletteMap: ; 0xd7a30
+MachokeBillboardBGPaletteMap: ; d7a30 (35:7a30) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MachampBillboardBGPaletteMap: ; 0xd7a48
+MachampBillboardBGPaletteMap: ; d7a48 (35:7a48) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-BellsproutBillboardBGPaletteMap: ; 0xd7a60
+BellsproutBillboardBGPaletteMap: ; d7a60 (35:7a60) 
     db $6, $6, $6, $6, $7, $7
     db $6, $7, $7, $6, $7, $7
     db $6, $7, $7, $6, $6, $7
     db $6, $6, $6, $6, $7, $7
 
-WeepinbellBillboardBGPaletteMap: ; 0xd7a78
+WeepinbellBillboardBGPaletteMap: ; d7a78 (35:7a78) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $6, $6, $6
     db $7, $7, $7, $6, $6, $6
 
-VictreebellBillboardBGPaletteMap: ; 0xd7a90
+VictreebellBillboardBGPaletteMap: ; d7a90 (35:7a90) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $7, $7, $7, $7
     db $6, $6, $6, $6, $6, $6
 
-TentacoolBillboardBGPaletteMap: ; 0xd7aa8
+TentacoolBillboardBGPaletteMap: ; d7aa8 (35:7aa8) 
     db $6, $7, $6, $6, $7, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-TentacruelBillboardBGPaletteMap: ; 0xd7ac0
+TentacruelBillboardBGPaletteMap: ; d7ac0 (35:7ac0) 
     db $6, $6, $7, $6, $7, $6
     db $6, $6, $6, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GeodudeBillboardBGPaletteMap: ; 0xd7ad8
+GeodudeBillboardBGPaletteMap: ; d7ad8 (35:7ad8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GravelerBillboardBGPaletteMap: ; 0xd7af0
+GravelerBillboardBGPaletteMap: ; d7af0 (35:7af0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GolemBillboardBGPaletteMap: ; 0xd7b08
+GolemBillboardBGPaletteMap: ; d7b08 (35:7b08) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $6, $6, $6
     db $6, $7, $7, $6, $6, $6
 
-PonytaBillboardBGPaletteMap: ; 0xd7b20
+PonytaBillboardBGPaletteMap: ; d7b20 (35:7b20) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $6, $6, $7
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $6
 
-RapidashBillboardBGPaletteMap: ; 0xd7b38
+RapidashBillboardBGPaletteMap: ; d7b38 (35:7b38) 
     db $7, $7, $7, $7, $7, $6
     db $7, $7, $7, $6, $7, $6
     db $7, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
 
-SlowpokeBillboardBGPaletteMap: ; 0xd7b50
+SlowpokeBillboardBGPaletteMap: ; d7b50 (35:7b50) 
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $7, $6, $6
     db $7, $7, $7, $7, $6, $6
     db $7, $7, $7, $7, $6, $6
 
-SlowbroBillboardBGPaletteMap: ; 0xd7b68
+SlowbroBillboardBGPaletteMap: ; d7b68 (35:7b68) 
     db $7, $7, $7, $7, $7, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -51975,97 +51974,97 @@ SECTION "bank36", ROMX, BANK[$36]
 
 INCBIN "baserom.gbc",$d8000,$d8400 - $d8000
 
-MagnemiteBillboardBGPaletteMap: ; 0xd8400
+MagnemiteBillboardBGPaletteMap: ; d8400 (36:4400) 
     db $7, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $6, $6
 
-MagnetonBillboardBGPaletteMap: ; 0xd8418
+MagnetonBillboardBGPaletteMap: ; d8418 (36:4418) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-FarfetchdBillboardBGPaletteMap: ; 0xd8430
+FarfetchdBillboardBGPaletteMap: ; d8430 (36:4430) 
     db $6, $6, $6, $6, $7, $7
     db $6, $6, $6, $6, $7, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DoduoBillboardBGPaletteMap: ; 0xd8448
+DoduoBillboardBGPaletteMap: ; d8448 (36:4448) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DodrioBillboardBGPaletteMap: ; 0xd8460
+DodrioBillboardBGPaletteMap: ; d8460 (36:4460) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-SeelBillboardBGPaletteMap: ; 0xd8478
+SeelBillboardBGPaletteMap: ; d8478 (36:4478) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $7, $7, $6
     db $6, $6, $7, $7, $7, $6
 
-DewgongBillboardBGPaletteMap: ; 0xd8490
+DewgongBillboardBGPaletteMap: ; d8490 (36:4490) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GrimerBillboardBGPaletteMap: ; 0xd84a8
+GrimerBillboardBGPaletteMap: ; d84a8 (36:44a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MukBillboardBGPaletteMap: ; 0xd84c0
+MukBillboardBGPaletteMap: ; d84c0 (36:44c0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ShellderBillboardBGPaletteMap: ; 0xd84d8
+ShellderBillboardBGPaletteMap: ; d84d8 (36:44d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $6, $6
 
-CloysterBillboardBGPaletteMap: ; 0xd84f0
+CloysterBillboardBGPaletteMap: ; d84f0 (36:44f0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GastlyBillboardBGPaletteMap: ; 0xd8508
+GastlyBillboardBGPaletteMap: ; d8508 (36:4508) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-HaunterBillboardBGPaletteMap: ; 0xd8520
+HaunterBillboardBGPaletteMap: ; d8520 (36:4520) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GengarBillboardBGPaletteMap: ; 0xd8538
+GengarBillboardBGPaletteMap: ; d8538 (36:4538) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $7, $6
     db $6, $6, $6, $6, $6, $6
 
-OnixBillboardBGPaletteMap: ; 0xd8550
+OnixBillboardBGPaletteMap: ; d8550 (36:4550) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DrowzeeBillboardBGPaletteMap: ; 0xd8568
+DrowzeeBillboardBGPaletteMap: ; d8568 (36:4568) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -52073,97 +52072,97 @@ DrowzeeBillboardBGPaletteMap: ; 0xd8568
 
 INCBIN "baserom.gbc",$d8580,$d8800 - $d8580
 
-HypnoBillboardBGPaletteMap: ; 0xd8800
+HypnoBillboardBGPaletteMap: ; d8800 (36:4800) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $7, $7
     db $7, $6, $6, $6, $7, $7
     db $7, $6, $6, $6, $7, $7
 
-KrabbyBillboardBGPaletteMap: ; 0xd8818
+KrabbyBillboardBGPaletteMap: ; d8818 (36:4818) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-KinglerBillboardBGPaletteMap: ; 0xd8830
+KinglerBillboardBGPaletteMap: ; d8830 (36:4830) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-VoltorbBillboardBGPaletteMap: ; 0xd8848
+VoltorbBillboardBGPaletteMap: ; d8848 (36:4848) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $7
     db $6, $6, $6, $6, $7, $7
     db $7, $6, $6, $7, $7, $7
 
-ElectrodeBillboardBGPaletteMap: ; 0xd8860
+ElectrodeBillboardBGPaletteMap: ; d8860 (36:4860) 
     db $6, $6, $6, $7, $7, $6
     db $6, $6, $6, $7, $7, $7
     db $6, $6, $6, $6, $7, $7
     db $6, $6, $6, $6, $6, $6
 
-ExeggcuteBillboardBGPaletteMap: ; 0xd8878
+ExeggcuteBillboardBGPaletteMap: ; d8878 (36:4878) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ExeggutorBillboardBGPaletteMap: ; 0xd8890
+ExeggutorBillboardBGPaletteMap: ; d8890 (36:4890) 
     db $6, $6, $6, $6, $6, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $7, $7, $7, $7, $6
     db $6, $7, $7, $7, $7, $6
 
-CuboneBillboardBGPaletteMap: ; 0xd88a8
+CuboneBillboardBGPaletteMap: ; d88a8 (36:48a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $7, $7, $7, $6
 
-MarowakBillboardBGPaletteMap: ; 0xd88c0
+MarowakBillboardBGPaletteMap: ; d88c0 (36:48c0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $7, $7
 
-HitmonleeBillboardBGPaletteMap: ; 0xd88d8
+HitmonleeBillboardBGPaletteMap: ; d88d8 (36:48d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-HitmonchanBillboardBGPaletteMap: ; 0xd88f0
+HitmonchanBillboardBGPaletteMap: ; d88f0 (36:48f0) 
     db $6, $6, $7, $7, $7, $7
     db $6, $6, $6, $7, $7, $7
     db $6, $6, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-LickitungBillboardBGPaletteMap: ; 0xd8908
+LickitungBillboardBGPaletteMap: ; d8908 (36:4908) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $7, $6, $6
 
-KoffingBillboardBGPaletteMap: ; 0xd8920
+KoffingBillboardBGPaletteMap: ; d8920 (36:4920) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-WeezingBillboardBGPaletteMap: ; 0xd8938
+WeezingBillboardBGPaletteMap: ; d8938 (36:4938) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-RhyhornBillboardBGPaletteMap: ; 0xd8950
+RhyhornBillboardBGPaletteMap: ; d8950 (36:4950) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-RhydonBillboardBGPaletteMap: ; 0xd8968
+RhydonBillboardBGPaletteMap: ; d8968 (36:4968) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -52171,105 +52170,105 @@ RhydonBillboardBGPaletteMap: ; 0xd8968
 
 INCBIN "baserom.gbc",$d8980,$d8c00 - $d8980
 
-SaverTextOffGfx: ; 0xd8c00
+SaverTextOffGfx: ; d8c00 (36:4c00) 
     INCBIN "gfx/stage/saver_off.2bpp"
 
 INCBIN "baserom.gbc",$d8c40,$d9000 - $d8c40
 
-StageRedFieldBottomCollisionMasks: ; 0xd9000
+StageRedFieldBottomCollisionMasks: ; d9000 (36:5000) 
     INCBIN "data/collision/masks/red_stage_bottom.masks"
 
-MagikarpBillboardBGPaletteMap: ; 0xd9400
+MagikarpBillboardBGPaletteMap: ; d9400 (36:5400) 
     db $6, $6, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
 
-GyaradosBillboardBGPaletteMap: ; 0xd9418
+GyaradosBillboardBGPaletteMap: ; d9418 (36:5418) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $7, $7, $6, $6
 
-LaprasBillboardBGPaletteMap: ; 0xd9430
+LaprasBillboardBGPaletteMap: ; d9430 (36:5430) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DittoBillboardBGPaletteMap: ; 0xd9448
+DittoBillboardBGPaletteMap: ; d9448 (36:5448) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-EeveeBillboardBGPaletteMap: ; 0xd9460
+EeveeBillboardBGPaletteMap: ; d9460 (36:5460) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-VaporeonBillboardBGPaletteMap: ; 0xd9478
+VaporeonBillboardBGPaletteMap: ; d9478 (36:5478) 
     db $7, $7, $7, $6, $6, $6
     db $7, $7, $6, $6, $7, $7
     db $7, $7, $6, $6, $7, $7
     db $6, $6, $6, $6, $6, $6
 
-JolteonBillboardBGPaletteMap: ; 0xd9490
+JolteonBillboardBGPaletteMap: ; d9490 (36:5490) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-FlareonBillboardBGPaletteMap: ; 0xd94a8
+FlareonBillboardBGPaletteMap: ; d94a8 (36:54a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PorygonBillboardBGPaletteMap: ; 0xd94c0
+PorygonBillboardBGPaletteMap: ; d94c0 (36:54c0) 
     db $6, $6, $6, $6, $7, $6
     db $6, $6, $7, $6, $6, $7
     db $6, $7, $7, $6, $6, $7
     db $6, $7, $7, $7, $6, $6
 
-OmanyteBillboardBGPaletteMap: ; 0xd94d8
+OmanyteBillboardBGPaletteMap: ; d94d8 (36:54d8) 
     db $6, $7, $6, $6, $6, $6
     db $6, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
     db $7, $7, $6, $6, $6, $6
 
-OmastarBillboardBGPaletteMap: ; 0xd94f0
+OmastarBillboardBGPaletteMap: ; d94f0 (36:54f0) 
     db $6, $6, $6, $6, $7, $6
     db $6, $6, $6, $6, $7, $7
     db $6, $7, $7, $6, $6, $7
     db $6, $6, $7, $6, $6, $7
 
-KabutoBillboardBGPaletteMap: ; 0xd9508
+KabutoBillboardBGPaletteMap: ; d9508 (36:5508) 
     db $6, $6, $6, $7, $7, $6
     db $6, $6, $7, $7, $7, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-KabutopsBillboardBGPaletteMap: ; 0xd9520
+KabutopsBillboardBGPaletteMap: ; d9520 (36:5520) 
     db $7, $6, $6, $6, $6, $7
     db $7, $6, $6, $6, $7, $7
     db $7, $6, $6, $7, $6, $7
     db $6, $6, $7, $7, $6, $6
 
-AerodactylBillboardBGPaletteMap: ; 0xd9538
+AerodactylBillboardBGPaletteMap: ; d9538 (36:5538) 
     db $7, $7, $6, $6, $7, $7
     db $7, $7, $6, $7, $7, $7
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-SnorlaxBillboardBGPaletteMap: ; 0xd9550
+SnorlaxBillboardBGPaletteMap: ; d9550 (36:5550) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ArticunoBillboardBGPaletteMap: ; 0xd9568
+ArticunoBillboardBGPaletteMap: ; d9568 (36:5568) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -52277,43 +52276,43 @@ ArticunoBillboardBGPaletteMap: ; 0xd9568
 
 INCBIN "baserom.gbc",$d9580,$d9800 - $d9580
 
-ZapdosBillboardBGPaletteMap: ; 0xd9800
+ZapdosBillboardBGPaletteMap: ; d9800 (36:5800) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MoltresBillboardBGPaletteMap: ; 0xd9818
+MoltresBillboardBGPaletteMap: ; d9818 (36:5818) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DratiniBillboardBGPaletteMap: ; 0xd9830
+DratiniBillboardBGPaletteMap: ; d9830 (36:5830) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DragonairBillboardBGPaletteMap: ; 0xd9848
+DragonairBillboardBGPaletteMap: ; d9848 (36:5848) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-DragoniteBillboardBGPaletteMap: ; 0xd9860
+DragoniteBillboardBGPaletteMap: ; d9860 (36:5860) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $7, $6, $6, $6, $6, $7
     db $7, $7, $6, $6, $7, $7
 
-MewtwoBillboardBGPaletteMap: ; 0xd9878
+MewtwoBillboardBGPaletteMap: ; d9878 (36:5878) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MewBillboardBGPaletteMap: ; 0xd9890
+MewBillboardBGPaletteMap: ; d9890 (36:5890) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
@@ -52321,100 +52320,100 @@ MewBillboardBGPaletteMap: ; 0xd9890
 
 INCBIN "baserom.gbc",$d98a8,$da000 - $d98a8
 
-CopyrightTextGfx: ; 0xda000
+CopyrightTextGfx: ; da000 (36:6000) 
     INCBIN "gfx/copyright_text.2bpp"
 
-ChanseyBillboardBGPaletteMap: ; 0xda400
+ChanseyBillboardBGPaletteMap: ; da400 (36:6400) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-TangelaBillboardBGPaletteMap: ; 0xda418
+TangelaBillboardBGPaletteMap: ; da418 (36:6418) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-KangaskhanBillboardBGPaletteMap: ; 0xda430
+KangaskhanBillboardBGPaletteMap: ; da430 (36:6430) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-HorseaBillboardBGPaletteMap: ; 0xda448
+HorseaBillboardBGPaletteMap: ; da448 (36:6448) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $7, $7
 
-SeadraBillboardBGPaletteMap: ; 0xda460
+SeadraBillboardBGPaletteMap: ; da460 (36:6460) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-GoldeenBillboardBGPaletteMap: ; 0xda478
+GoldeenBillboardBGPaletteMap: ; da478 (36:6478) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-SeakingBillboardBGPaletteMap: ; 0xda490
+SeakingBillboardBGPaletteMap: ; da490 (36:6490) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-StaryuBillboardBGPaletteMap: ; 0xda4a8
+StaryuBillboardBGPaletteMap: ; da4a8 (36:64a8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-StarmieBillboardBGPaletteMap: ; 0xda4c0
+StarmieBillboardBGPaletteMap: ; da4c0 (36:64c0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MrMimeBillboardBGPaletteMap: ; 0xda4d8
+MrMimeBillboardBGPaletteMap: ; da4d8 (36:64d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-ScytherBillboardBGPaletteMap: ; 0xda4f0
+ScytherBillboardBGPaletteMap: ; da4f0 (36:64f0) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-JynxBillboardBGPaletteMap: ; 0xda508
+JynxBillboardBGPaletteMap: ; da508 (36:6508) 
     db $6, $7, $7, $7, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
 
-ElectabuzzBillboardBGPaletteMap: ; 0xda520
+ElectabuzzBillboardBGPaletteMap: ; da520 (36:6520) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MagmarBillboardBGPaletteMap: ; 0xda538
+MagmarBillboardBGPaletteMap: ; da538 (36:6538) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-PinsirBillboardBGPaletteMap: ; 0xda550
+PinsirBillboardBGPaletteMap: ; da550 (36:6550) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $7, $6, $6, $6
     db $6, $6, $6, $6, $7, $7
 
-TaurosBillboardBGPaletteMap: ; 0xda568
+TaurosBillboardBGPaletteMap: ; da568 (36:6568) 
     db $7, $7, $6, $6, $7, $7
     db $7, $7, $6, $7, $7, $7
     db $6, $7, $6, $6, $6, $6
@@ -52422,97 +52421,97 @@ TaurosBillboardBGPaletteMap: ; 0xda568
 
 INCBIN "baserom.gbc",$da580,$da800 - $da580
 
-BulbasaurBillboardBGPaletteMap: ; 0xda800
+BulbasaurBillboardBGPaletteMap: ; da800 (36:6800) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $6, $7, $7
     db $7, $7, $7, $6, $6, $7
 
-IvysaurBillboardBGPaletteMap: ; 0xda818
+IvysaurBillboardBGPaletteMap: ; da818 (36:6818) 
     db $6, $7, $7, $7, $7, $7
     db $7, $6, $6, $6, $6, $7
     db $6, $6, $6, $7, $6, $7
     db $6, $6, $6, $7, $7, $7
 
-VenusaurBillboardBGPaletteMap: ; 0xda830
+VenusaurBillboardBGPaletteMap: ; da830 (36:6830) 
     db $7, $7, $6, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $6, $6, $6, $6, $7
     db $7, $7, $6, $6, $6, $7
 
-CharmanderBillboardBGPaletteMap: ; 0xda848
+CharmanderBillboardBGPaletteMap: ; da848 (36:6848) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-CharmeleonBillboardBGPaletteMap: ; 0xda860
+CharmeleonBillboardBGPaletteMap: ; da860 (36:6860) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-CharizardBillboardBGPaletteMap: ; 0xda878
+CharizardBillboardBGPaletteMap: ; da878 (36:6878) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-SquirtleBillboardBGPaletteMap: ; 0xda890
+SquirtleBillboardBGPaletteMap: ; da890 (36:6890) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $6, $6, $7, $7
 
-WartortleBillboardBGPaletteMap: ; 0xda8a8
+WartortleBillboardBGPaletteMap: ; da8a8 (36:68a8) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $6, $6, $7, $7
     db $7, $6, $6, $6, $7, $7
 
-BlastoiseBillboardBGPaletteMap: ; 0xda8c0
+BlastoiseBillboardBGPaletteMap: ; da8c0 (36:68c0) 
     db $6, $6, $6, $6, $7, $7
     db $6, $7, $7, $7, $7, $7
     db $6, $6, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-CaterpieBillboardBGPaletteMap: ; 0xda8d8
+CaterpieBillboardBGPaletteMap: ; da8d8 (36:68d8) 
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
     db $6, $6, $6, $6, $6, $6
 
-MetapodBillboardBGPaletteMap: ; 0xda8f0
+MetapodBillboardBGPaletteMap: ; da8f0 (36:68f0) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-ButterfreeBillboardBGPaletteMap: ; 0xda908
+ButterfreeBillboardBGPaletteMap: ; da908 (36:6908) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $6, $6, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-WeedleBillboardBGPaletteMap: ; 0xda920
+WeedleBillboardBGPaletteMap: ; da920 (36:6920) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-KakunaBillboardBGPaletteMap: ; 0xda938
+KakunaBillboardBGPaletteMap: ; da938 (36:6938) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-BeedrillBillboardBGPaletteMap: ; 0xda950
+BeedrillBillboardBGPaletteMap: ; da950 (36:6950) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
 
-PidgeyBillboardBGPaletteMap: ; 0xda968
+PidgeyBillboardBGPaletteMap: ; da968 (36:6968) 
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
     db $7, $7, $7, $7, $7, $7
@@ -52520,899 +52519,899 @@ PidgeyBillboardBGPaletteMap: ; 0xda968
 
 INCBIN "baserom.gbc",$da980,$dac00 - $da980
 
-StageRedFieldBottomGfx1: ; 0xdac00
+StageRedFieldBottomGfx1: ; dac00 (36:6c00) 
     INCBIN "gfx/stage/red_bottom/red_bottom_1.2bpp"
 
 INCBIN "baserom.gbc",$dad60,$dade0 - $dad60
 
-StageRedFieldBottomGfx3: ; 0xdade0
+StageRedFieldBottomGfx3: ; dade0 (36:6de0) 
     INCBIN "gfx/stage/red_bottom/red_bottom_3.2bpp"
 
-StageRedFieldTopGfx5: ; 0xdae00
+StageRedFieldTopGfx5: ; dae00 (36:6e00) 
     INCBIN "gfx/stage/red_top/red_top_5.2bpp"
 
 INCBIN "baserom.gbc",$db000,$db200 - $db000
 
-TimerDigitsGfx: ; 0xdb200
+TimerDigitsGfx: ; db200 (36:7200) 
     INCBIN "gfx/stage/timer_digits.2bpp"
 
 INCBIN "baserom.gbc",$db360,$db600 - $db360
 
-StageGengarBonusCollisionMasks: ; 0xdb600
+StageGengarBonusCollisionMasks: ; db600 (36:7600) 
     INCBIN "data/collision/masks/gengar_bonus.masks"
 
-ZubatAnimatedObjPalette1: ; 0xdb780
+ZubatAnimatedObjPalette1: ; db780 (36:7780) 
     RGB 31, 31, 31
     RGB 15, 19, 31
     RGB 14, 9, 21
     RGB 0, 0, 0
-ZubatAnimatedObjPalette2: ; 0xdb3788
+ZubatAnimatedObjPalette2: ; db378 (36:7378) 
     RGB 31, 31, 31
     RGB 15, 19, 31
     RGB 14, 9, 21
     RGB 0, 0, 0
 
-OddishAnimatedObjPalette1: ; 0xdb790
+OddishAnimatedObjPalette1: ; db790 (36:7790) 
     RGB 31, 31, 31
     RGB 27, 29, 5
     RGB 5, 16, 0
     RGB 0, 0, 0
-OddishAnimatedObjPalette2: ; 0xdb798
+OddishAnimatedObjPalette2: ; db798 (36:7798) 
     RGB 31, 31, 31
     RGB 27, 29, 5
     RGB 5, 16, 0
     RGB 0, 0, 0
 
-ParasAnimatedObjPalette1: ; 0xdb7a0
+ParasAnimatedObjPalette1: ; db7a0 (36:77a0) 
     RGB 31, 31, 31
     RGB 31, 15, 1
     RGB 22, 5, 2
     RGB 0, 0, 0
-ParasAnimatedObjPalette2: ; 0xdb7a8
+ParasAnimatedObjPalette2: ; db7a8 (36:77a8) 
     RGB 31, 31, 31
     RGB 31, 15, 1
     RGB 22, 5, 2
     RGB 0, 0, 0
 
-VenonatAnimatedObjPalette1: ; 0xdb7b0
+VenonatAnimatedObjPalette1: ; db7b0 (36:77b0) 
     RGB 31, 31, 31
     RGB 24, 15, 28
     RGB 12, 5, 18
     RGB 0, 0, 0
-VenonatAnimatedObjPalette2: ; 0xdb7b8
+VenonatAnimatedObjPalette2: ; db7b8 (36:77b8) 
     RGB 31, 31, 31
     RGB 24, 15, 28
     RGB 12, 5, 18
     RGB 0, 0, 0
 
-DiglettAnimatedObjPalette1: ; 0xdb7c0
+DiglettAnimatedObjPalette1: ; db7c0 (36:77c0) 
     RGB 31, 31, 31
     RGB 31, 18, 1
     RGB 24, 9, 3
     RGB 0, 0, 0
-DiglettAnimatedObjPalette2: ; 0xdb7c8
+DiglettAnimatedObjPalette2: ; db7c8 (36:77c8) 
     RGB 31, 31, 31
     RGB 31, 18, 1
     RGB 24, 9, 3
     RGB 0, 0, 0
 
-MeowthAnimatedObjPalette1: ; 0xdb7d0
+MeowthAnimatedObjPalette1: ; db7d0 (36:77d0) 
     RGB 31, 31, 31
     RGB 30, 25, 16
     RGB 23, 12, 6
     RGB 0, 0, 0
-MeowthAnimatedObjPalette2: ; 0xdb7d8
+MeowthAnimatedObjPalette2: ; db7d8 (36:77d8) 
     RGB 31, 31, 31
     RGB 30, 25, 16
     RGB 23, 12, 6
     RGB 0, 0, 0
 
-PsyduckAnimatedObjPalette1: ; 0xdb7e0
+PsyduckAnimatedObjPalette1: ; db7e0 (36:77e0) 
     RGB 31, 31, 31
     RGB 31, 31, 0
     RGB 19, 17, 0
     RGB 0, 0, 0
-PsyduckAnimatedObjPalette2: ; 0xdb7e8
+PsyduckAnimatedObjPalette2: ; db7e8 (36:77e8) 
     RGB 31, 31, 31
     RGB 31, 31, 0
     RGB 19, 17, 0
     RGB 0, 0, 0
 
-MankeyAnimatedObjPalette1: ; 0xdb7f0
+MankeyAnimatedObjPalette1: ; db7f0 (36:77f0) 
     RGB 31, 31, 31
     RGB 31, 21, 19
     RGB 23, 8, 4
     RGB 0, 0, 0
-MankeyAnimatedObjPalette2: ; 0xdb7f8
+MankeyAnimatedObjPalette2: ; db7f8 (36:77f8) 
     RGB 31, 31, 31
     RGB 31, 21, 19
     RGB 23, 8, 4
     RGB 0, 0, 0
 
-GrowlitheAnimatedObjPalette1: ; 0xdb800
+GrowlitheAnimatedObjPalette1: ; db800 (36:7800) 
     RGB 31, 31, 31
     RGB 31, 18, 1
     RGB 24, 9, 3
     RGB 0, 0, 0
-GrowlitheAnimatedObjPalette2: ; 0xdb808
+GrowlitheAnimatedObjPalette2: ; db808 (36:7808) 
     RGB 31, 31, 31
     RGB 31, 18, 1
     RGB 24, 9, 3
     RGB 0, 0, 0
 
-PoliwagAnimatedObjPalette1: ; 0xdb810
+PoliwagAnimatedObjPalette1: ; db810 (36:7810) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
-PoliwagAnimatedObjPalette2: ; 0xdb818
+PoliwagAnimatedObjPalette2: ; db818 (36:7818) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
 
-AbraAnimatedObjPalette1: ; 0xdb820
+AbraAnimatedObjPalette1: ; db820 (36:7820) 
     RGB 31, 31, 31
     RGB 30, 24, 0
     RGB 17, 10, 4
     RGB 0, 0, 0
-AbraAnimatedObjPalette2: ; 0xdb828
+AbraAnimatedObjPalette2: ; db828 (36:7828) 
     RGB 31, 31, 31
     RGB 30, 24, 0
     RGB 17, 10, 4
     RGB 0, 0, 0
 
-MachopAnimatedObjPalette1: ; 0xdb830
+MachopAnimatedObjPalette1: ; db830 (36:7830) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
-MachopAnimatedObjPalette2: ; 0xdb838
+MachopAnimatedObjPalette2: ; db838 (36:7838) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
 
-BellsproutAnimatedObjPalette1: ; 0xdb840
+BellsproutAnimatedObjPalette1: ; db840 (36:7840) 
     RGB 31, 31, 31
     RGB 29, 26, 5
     RGB 5, 16, 0
     RGB 0, 0, 0
-BellsproutAnimatedObjPalette2: ; 0xdb848
+BellsproutAnimatedObjPalette2: ; db848 (36:7848) 
     RGB 31, 31, 31
     RGB 29, 26, 5
     RGB 5, 16, 0
     RGB 0, 0, 0
 
-TentacoolAnimatedObjPalette1: ; 0xdb850
+TentacoolAnimatedObjPalette1: ; db850 (36:7850) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 0, 11, 22
     RGB 0, 0, 0
-TentacoolAnimatedObjPalette2: ; 0xdb858
+TentacoolAnimatedObjPalette2: ; db858 (36:7858) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 0, 11, 22
     RGB 0, 0, 0
 
-GeodudeAnimatedObjPalette1: ; 0xdb860
+GeodudeAnimatedObjPalette1: ; db860 (36:7860) 
     RGB 31, 31, 31
     RGB 19, 23, 20
     RGB 8, 11, 7
     RGB 0, 0, 0
-GeodudeAnimatedObjPalette2: ; 0xdb868
+GeodudeAnimatedObjPalette2: ; db868 (36:7868) 
     RGB 31, 31, 31
     RGB 19, 23, 20
     RGB 8, 11, 7
     RGB 0, 0, 0
 
-PonytaAnimatedObjPalette1: ; 0xdb870
+PonytaAnimatedObjPalette1: ; db870 (36:7870) 
     RGB 31, 31, 31
     RGB 31, 28, 11
     RGB 31, 6, 0
     RGB 0, 0, 0
-PonytaAnimatedObjPalette2: ; 0xdb878
+PonytaAnimatedObjPalette2: ; db878 (36:7878) 
     RGB 31, 31, 31
     RGB 31, 28, 11
     RGB 31, 6, 0
     RGB 0, 0, 0
 
-SlowpokeAnimatedObjPalette1: ; 0xdb880
+SlowpokeAnimatedObjPalette1: ; db880 (36:7880) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
-SlowpokeAnimatedObjPalette2: ; 0xdb888
+SlowpokeAnimatedObjPalette2: ; db888 (36:7888) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
 
-MagnemiteAnimatedObjPalette1: ; 0xdb890
+MagnemiteAnimatedObjPalette1: ; db890 (36:7890) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
-MagnemiteAnimatedObjPalette2: ; 0xdb898
+MagnemiteAnimatedObjPalette2: ; db898 (36:7898) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
 
-FarfetchdAnimatedObjPalette1: ; 0xdb8a0
+FarfetchdAnimatedObjPalette1: ; db8a0 (36:78a0) 
     RGB 31, 31, 31
     RGB 31, 22, 5
     RGB 19, 11, 4
     RGB 0, 0, 0
-FarfetchdAnimatedObjPalette2: ; 0xdb8a8
+FarfetchdAnimatedObjPalette2: ; db8a8 (36:78a8) 
     RGB 31, 31, 31
     RGB 31, 22, 5
     RGB 19, 11, 4
     RGB 0, 0, 0
 
-DoduoAnimatedObjPalette1: ; 0xdb8b0
+DoduoAnimatedObjPalette1: ; db8b0 (36:78b0) 
     RGB 31, 31, 31
     RGB 30, 20, 5
     RGB 22, 5, 2
     RGB 0, 0, 0
-DoduoAnimatedObjPalette2: ; 0xdb8b8
+DoduoAnimatedObjPalette2: ; db8b8 (36:78b8) 
     RGB 31, 31, 31
     RGB 30, 20, 5
     RGB 22, 5, 2
     RGB 0, 0, 0
 
-SeelAnimatedObjPalette1: ; 0xdb8c0
+SeelAnimatedObjPalette1: ; db8c0 (36:78c0) 
     RGB 31, 31, 31
     RGB 20, 24, 29
     RGB 8, 11, 20
     RGB 0, 0, 0
-SeelAnimatedObjPalette2: ; 0xdb8c8
+SeelAnimatedObjPalette2: ; db8c8 (36:78c8) 
     RGB 31, 31, 31
     RGB 20, 24, 29
     RGB 8, 11, 20
     RGB 0, 0, 0
 
-GrimerAnimatedObjPalette1: ; 0xdb8d0
+GrimerAnimatedObjPalette1: ; db8d0 (36:78d0) 
     RGB 31, 31, 31
     RGB 27, 15, 31
     RGB 16, 7, 19
     RGB 0, 0, 0
-GrimerAnimatedObjPalette2: ; 0xdb8d8
+GrimerAnimatedObjPalette2: ; db8d8 (36:78d8) 
     RGB 31, 31, 31
     RGB 27, 15, 31
     RGB 16, 7, 19
     RGB 0, 0, 0
 
-ShellderAnimatedObjPalette1: ; 0xdb8e0
+ShellderAnimatedObjPalette1: ; db8e0 (36:78e0) 
     RGB 31, 31, 31
     RGB 26, 19, 29
     RGB 15, 11, 17
     RGB 0, 0, 0
-ShellderAnimatedObjPalette2: ; 0xdb8e8
+ShellderAnimatedObjPalette2: ; db8e8 (36:78e8) 
     RGB 31, 31, 31
     RGB 26, 19, 29
     RGB 15, 11, 17
     RGB 0, 0, 0
 
-GastlyAnimatedObjPalette1: ; 0xdb8f0
+GastlyAnimatedObjPalette1: ; db8f0 (36:78f0) 
     RGB 31, 31, 31
     RGB 25, 17, 28
     RGB 12, 7, 15
     RGB 0, 0, 0
-GastlyAnimatedObjPalette2: ; 0xdb8f8
+GastlyAnimatedObjPalette2: ; db8f8 (36:78f8) 
     RGB 31, 31, 31
     RGB 31, 23, 17
     RGB 23, 8, 4
     RGB 0, 0, 0
 
-OnixAnimatedObjPalette1: ; 0xdb900
+OnixAnimatedObjPalette1: ; db900 (36:7900) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
-OnixAnimatedObjPalette2: ; 0xdb908
+OnixAnimatedObjPalette2: ; db908 (36:7908) 
     RGB 31, 31, 31
     RGB 17, 19, 23
     RGB 9, 10, 12
     RGB 0, 0, 0
 
-DrowzeeAnimatedObjPalette1: ; 0xdb910
+DrowzeeAnimatedObjPalette1: ; db910 (36:7910) 
     RGB 31, 31, 31
     RGB 30, 24, 0
     RGB 17, 10, 4
     RGB 0, 0, 0
-DrowzeeAnimatedObjPalette2: ; 0xdb918
+DrowzeeAnimatedObjPalette2: ; db918 (36:7918) 
     RGB 31, 31, 31
     RGB 30, 24, 0
     RGB 17, 10, 4
     RGB 0, 0, 0
 
-KrabbyAnimatedObjPalette1: ; 0xdb920
+KrabbyAnimatedObjPalette1: ; db920 (36:7920) 
     RGB 31, 31, 31
     RGB 31, 20, 8
     RGB 28, 6, 0
     RGB 0, 0, 0
-KrabbyAnimatedObjPalette2: ; 0xdb928
+KrabbyAnimatedObjPalette2: ; db928 (36:7928) 
     RGB 31, 31, 31
     RGB 31, 20, 8
     RGB 28, 6, 0
     RGB 0, 0, 0
 
-VoltorbAnimatedObjPalette1: ; 0xdb930
+VoltorbAnimatedObjPalette1: ; db930 (36:7930) 
     RGB 31, 31, 31
     RGB 31, 17, 14
     RGB 31, 0, 0
     RGB 0, 0, 0
-VoltorbAnimatedObjPalette2: ; 0xdb938
+VoltorbAnimatedObjPalette2: ; db938 (36:7938) 
     RGB 31, 31, 31
     RGB 31, 17, 14
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-ExeggcuteAnimatedObjPalette1: ; 0xdb940
+ExeggcuteAnimatedObjPalette1: ; db940 (36:7940) 
     RGB 31, 31, 31
     RGB 31, 17, 16
     RGB 20, 8, 5
     RGB 0, 0, 0
-ExeggcuteAnimatedObjPalette2: ; 0xdb948
+ExeggcuteAnimatedObjPalette2: ; db948 (36:7948) 
     RGB 31, 31, 31
     RGB 31, 17, 16
     RGB 20, 8, 5
     RGB 0, 0, 0
 
-CuboneAnimatedObjPalette1: ; 0xdb950
+CuboneAnimatedObjPalette1: ; db950 (36:7950) 
     RGB 31, 31, 31
     RGB 30, 15, 5
     RGB 18, 9, 4
     RGB 0, 0, 0
-CuboneAnimatedObjPalette2: ; 0xdb958
+CuboneAnimatedObjPalette2: ; db958 (36:7958) 
     RGB 31, 31, 31
     RGB 20, 22, 29
     RGB 13, 8, 6
     RGB 0, 0, 0
 
-HitmonleeAnimatedObjPalette1: ; 0xdb960
+HitmonleeAnimatedObjPalette1: ; db960 (36:7960) 
     RGB 31, 31, 31
     RGB 26, 13, 7
     RGB 16, 10, 7
     RGB 0, 0, 0
-HitmonleeAnimatedObjPalette2: ; 0xdb968
+HitmonleeAnimatedObjPalette2: ; db968 (36:7968) 
     RGB 31, 31, 31
     RGB 26, 13, 7
     RGB 16, 10, 7
     RGB 0, 0, 0
 
-HitmonchanAnimatedObjPalette1: ; 0xdb970
+HitmonchanAnimatedObjPalette1: ; db970 (36:7970) 
     RGB 31, 31, 31
     RGB 27, 17, 10
     RGB 24, 4, 2
     RGB 0, 0, 0
-HitmonchanAnimatedObjPalette2: ; 0xdb978
+HitmonchanAnimatedObjPalette2: ; db978 (36:7978) 
     RGB 31, 31, 31
     RGB 27, 17, 10
     RGB 24, 4, 2
     RGB 0, 0, 0
 
-LickitungAnimatedObjPalette1: ; 0xdb980
+LickitungAnimatedObjPalette1: ; db980 (36:7980) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
-LickitungAnimatedObjPalette2: ; 0xdb988
+LickitungAnimatedObjPalette2: ; db988 (36:7988) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
 
-KoffingAnimatedObjPalette1: ; 0xdb990
+KoffingAnimatedObjPalette1: ; db990 (36:7990) 
     RGB 31, 31, 31
     RGB 26, 19, 29
     RGB 15, 11, 17
     RGB 0, 0, 0
-KoffingAnimatedObjPalette2: ; 0xdb998
+KoffingAnimatedObjPalette2: ; db998 (36:7998) 
     RGB 31, 31, 31
     RGB 26, 19, 29
     RGB 15, 11, 17
     RGB 0, 0, 0
 
-RhyhornAnimatedObjPalette1: ; 0xdb9a0
+RhyhornAnimatedObjPalette1: ; db9a0 (36:79a0) 
     RGB 31, 31, 31
     RGB 26, 13, 24
     RGB 15, 4, 14
     RGB 0, 0, 0
-RhyhornAnimatedObjPalette2: ; 0xdb9a8
+RhyhornAnimatedObjPalette2: ; db9a8 (36:79a8) 
     RGB 31, 31, 31
     RGB 26, 13, 24
     RGB 15, 4, 14
     RGB 0, 0, 0
 
-ChanseyAnimatedObjPalette1: ; 0xdb9b0
+ChanseyAnimatedObjPalette1: ; db9b0 (36:79b0) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
-ChanseyAnimatedObjPalette2: ; 0xdb9b8
+ChanseyAnimatedObjPalette2: ; db9b8 (36:79b8) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 31, 11, 9
     RGB 0, 0, 0
 
-TangelaAnimatedObjPalette1: ; 0xdb9c0
+TangelaAnimatedObjPalette1: ; db9c0 (36:79c0) 
     RGB 31, 31, 31
     RGB 13, 19, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
-TangelaAnimatedObjPalette2: ; 0xdb9c8
+TangelaAnimatedObjPalette2: ; db9c8 (36:79c8) 
     RGB 31, 31, 31
     RGB 13, 19, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
 
-KangaskhanAnimatedObjPalette1: ; 0xdb9d0
+KangaskhanAnimatedObjPalette1: ; db9d0 (36:79d0) 
     RGB 31, 31, 31
     RGB 28, 21, 11
     RGB 16, 10, 5
     RGB 0, 0, 0
-KangaskhanAnimatedObjPalette2: ; 0xdb9d8
+KangaskhanAnimatedObjPalette2: ; db9d8 (36:79d8) 
     RGB 31, 31, 31
     RGB 28, 21, 11
     RGB 16, 10, 5
     RGB 0, 0, 0
 
-HorseaAnimatedObjPalette1: ; 0xdb9e0
+HorseaAnimatedObjPalette1: ; db9e0 (36:79e0) 
     RGB 31, 31, 31
     RGB 13, 19, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
-HorseaAnimatedObjPalette2: ; 0xdb9e8
+HorseaAnimatedObjPalette2: ; db9e8 (36:79e8) 
     RGB 31, 31, 31
     RGB 13, 19, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
 
-GoldeenAnimatedObjPalette1: ; 0xdb9f0
+GoldeenAnimatedObjPalette1: ; db9f0 (36:79f0) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 29, 0, 0
     RGB 0, 0, 0
-GoldeenAnimatedObjPalette2: ; 0xdb9f8
+GoldeenAnimatedObjPalette2: ; db9f8 (36:79f8) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 29, 0, 0
     RGB 0, 0, 0
 
-StaryuAnimatedObjPalette1: ; 0xdba00
+StaryuAnimatedObjPalette1: ; dba00 (36:7a00) 
     RGB 31, 31, 31
     RGB 31, 22, 5
     RGB 19, 7, 1
     RGB 0, 0, 0
-StaryuAnimatedObjPalette2: ; 0xdba08
+StaryuAnimatedObjPalette2: ; dba08 (36:7a08) 
     RGB 31, 31, 31
     RGB 31, 22, 5
     RGB 19, 7, 1
     RGB 0, 0, 0
 
-MrMimeAnimatedObjPalette1: ; 0xdba10
+MrMimeAnimatedObjPalette1: ; dba10 (36:7a10) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 29, 0, 0
     RGB 0, 0, 0
-MrMimeAnimatedObjPalette2: ; 0xdba18
+MrMimeAnimatedObjPalette2: ; dba18 (36:7a18) 
     RGB 31, 31, 31
     RGB 31, 18, 16
     RGB 29, 0, 0
     RGB 0, 0, 0
 
-ScytherAnimatedObjPalette1: ; 0xdba20
+ScytherAnimatedObjPalette1: ; dba20 (36:7a20) 
     RGB 31, 31, 31
     RGB 22, 29, 5
     RGB 6, 17, 1
     RGB 0, 0, 0
-ScytherAnimatedObjPalette2: ; 0xdba28
+ScytherAnimatedObjPalette2: ; dba28 (36:7a28) 
     RGB 31, 31, 31
     RGB 22, 29, 5
     RGB 6, 17, 1
     RGB 0, 0, 0
 
-JynxAnimatedObjPalette1: ; 0xdba30
+JynxAnimatedObjPalette1: ; dba30 (36:7a30) 
     RGB 31, 31, 31
     RGB 31, 16, 16
     RGB 25, 1, 3
     RGB 0, 0, 0
-JynxAnimatedObjPalette2: ; 0xdba38
+JynxAnimatedObjPalette2: ; dba38 (36:7a38) 
     RGB 31, 31, 31
     RGB 31, 16, 16
     RGB 25, 1, 3
     RGB 0, 0, 0
 
-ElectabuzzAnimatedObjPalette1: ; 0xdba40
+ElectabuzzAnimatedObjPalette1: ; dba40 (36:7a40) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 21, 14, 1
     RGB 0, 0, 0
-ElectabuzzAnimatedObjPalette2: ; 0xdba48
+ElectabuzzAnimatedObjPalette2: ; dba48 (36:7a48) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 21, 14, 1
     RGB 0, 0, 0
 
-MagmarAnimatedObjPalette1: ; 0xdba50
+MagmarAnimatedObjPalette1: ; dba50 (36:7a50) 
     RGB 31, 31, 31
     RGB 31, 23, 2
     RGB 31, 3, 0
     RGB 0, 0, 0
-MagmarAnimatedObjPalette2: ; 0xdba58
+MagmarAnimatedObjPalette2: ; dba58 (36:7a58) 
     RGB 31, 31, 31
     RGB 31, 23, 2
     RGB 31, 3, 0
     RGB 0, 0, 0
 
-PinsirAnimatedObjPalette1: ; 0xdba60
+PinsirAnimatedObjPalette1: ; dba60 (36:7a60) 
     RGB 31, 31, 31
     RGB 28, 20, 13
     RGB 17, 12, 6
     RGB 0, 0, 0
-PinsirAnimatedObjPalette2: ; 0xdba68
+PinsirAnimatedObjPalette2: ; dba68 (36:7a68) 
     RGB 31, 31, 31
     RGB 28, 20, 13
     RGB 17, 12, 6
     RGB 0, 0, 0
 
-TaurosAnimatedObjPalette1: ; 0xdba70
+TaurosAnimatedObjPalette1: ; dba70 (36:7a70) 
     RGB 31, 31, 31
     RGB 31, 21, 5
     RGB 20, 9, 3
     RGB 0, 0, 0
-TaurosAnimatedObjPalette2: ; 0xdba78
+TaurosAnimatedObjPalette2: ; dba78 (36:7a78) 
     RGB 31, 31, 31
     RGB 31, 21, 5
     RGB 20, 9, 3
     RGB 0, 0, 0
 
-PidgeottoBillboardBGPalette1: ; 0xdba80
+PidgeottoBillboardBGPalette1: ; dba80 (36:7a80) 
     RGB 31, 31, 31
     RGB 30, 21, 0
     RGB 28, 6, 1
     RGB 3, 2, 0
-PidgeottoBillboardBGPalette2: ; 0xdba88
+PidgeottoBillboardBGPalette2: ; dba88 (36:7a88) 
     RGB 31, 31, 31
     RGB 30, 21, 0
     RGB 28, 6, 1
     RGB 3, 2, 0
 
-PidgeotBillboardBGPalette1: ; 0xdba90
+PidgeotBillboardBGPalette1: ; dba90 (36:7a90) 
     RGB 31, 31, 31
     RGB 26, 23, 0
     RGB 28, 6, 1
     RGB 3, 2, 0
-PidgeotBillboardBGPalette2: ; 0xdba98
+PidgeotBillboardBGPalette2: ; dba98 (36:7a98) 
     RGB 31, 31, 31
     RGB 26, 23, 0
     RGB 28, 6, 1
     RGB 3, 2, 0
 
-RattataBillboardBGPalette1: ; 0xdbaa0
+RattataBillboardBGPalette1: ; dbaa0 (36:7aa0) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 21, 4, 7
     RGB 0, 0, 0
-RattataBillboardBGPalette2: ; 0xdbaa8
+RattataBillboardBGPalette2: ; dbaa8 (36:7aa8) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 21, 4, 7
     RGB 0, 0, 0
 
-RaticateBillboardBGPalette1: ; 0xdbab0
+RaticateBillboardBGPalette1: ; dbab0 (36:7ab0) 
     RGB 31, 31, 31
     RGB 30, 24, 7
     RGB 27, 7, 0
     RGB 3, 2, 0
-RaticateBillboardBGPalette2: ; 0xdbab8
+RaticateBillboardBGPalette2: ; dbab8 (36:7ab8) 
     RGB 31, 31, 31
     RGB 30, 24, 7
     RGB 27, 7, 0
     RGB 3, 2, 0
 
-SpearowBillboardBGPalette1: ; 0xdbac0
+SpearowBillboardBGPalette1: ; dbac0 (36:7ac0) 
     RGB 31, 31, 31
     RGB 31, 24, 2
     RGB 30, 3, 0
     RGB 0, 0, 0
-SpearowBillboardBGPalette2: ; 0xdbac8
-    RGB 31, 31, 31
-    RGB 31, 24, 2
-    RGB 30, 3, 0
-    RGB 0, 0, 0
-
-FearowBillboardBGPalette1: ; 0xdbad0
-    RGB 31, 31, 31
-    RGB 31, 24, 2
-    RGB 30, 3, 0
-    RGB 0, 0, 0
-FearowBillboardBGPalette2: ; 0xdbad8
+SpearowBillboardBGPalette2: ; dbac8 (36:7ac8) 
     RGB 31, 31, 31
     RGB 31, 24, 2
     RGB 30, 3, 0
     RGB 0, 0, 0
 
-EkansBillboardBGPalette1: ; 0xdbae0
+FearowBillboardBGPalette1: ; dbad0 (36:7ad0) 
+    RGB 31, 31, 31
+    RGB 31, 24, 2
+    RGB 30, 3, 0
+    RGB 0, 0, 0
+FearowBillboardBGPalette2: ; dbad8 (36:7ad8) 
+    RGB 31, 31, 31
+    RGB 31, 24, 2
+    RGB 30, 3, 0
+    RGB 0, 0, 0
+
+EkansBillboardBGPalette1: ; dbae0 (36:7ae0) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 21, 4, 7
     RGB 0, 0, 0
-EkansBillboardBGPalette2: ; 0xdbae8
+EkansBillboardBGPalette2: ; dbae8 (36:7ae8) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 21, 4, 7
     RGB 0, 0, 0
 
-ArbokBillboardBGPalette1: ; 0xdbaf0
+ArbokBillboardBGPalette1: ; dbaf0 (36:7af0) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 26, 1, 5
     RGB 0, 0, 0
-ArbokBillboardBGPalette2: ; 0xdbaf8
+ArbokBillboardBGPalette2: ; dbaf8 (36:7af8) 
     RGB 31, 31, 31
     RGB 30, 16, 24
     RGB 26, 1, 5
     RGB 0, 0, 0
 
-PikachuBillboardBGPalette1: ; 0xdbb00
+PikachuBillboardBGPalette1: ; dbb00 (36:7b00) 
     RGB 31, 31, 31
     RGB 30, 24, 4
     RGB 27, 7, 0
     RGB 3, 2, 0
-PikachuBillboardBGPalette2: ; 0xdbb08
+PikachuBillboardBGPalette2: ; dbb08 (36:7b08) 
     RGB 31, 31, 31
     RGB 30, 24, 4
     RGB 27, 7, 0
     RGB 3, 2, 0
 
-RaichuBillboardBGPalette1: ; 0xdbb10
+RaichuBillboardBGPalette1: ; dbb10 (36:7b10) 
     RGB 31, 31, 31
     RGB 30, 26, 3
     RGB 29, 16, 0
     RGB 3, 2, 0
-RaichuBillboardBGPalette2: ; 0xdbb18
+RaichuBillboardBGPalette2: ; dbb18 (36:7b18) 
     RGB 31, 31, 31
     RGB 30, 26, 3
     RGB 29, 16, 0
     RGB 3, 2, 0
 
-SandshrewBillboardBGPalette1: ; 0xdbb20
+SandshrewBillboardBGPalette1: ; dbb20 (36:7b20) 
     RGB 31, 31, 31
     RGB 31, 25, 7
     RGB 23, 14, 0
     RGB 0, 0, 0
-SandshrewBillboardBGPalette2: ; 0xdbb28
+SandshrewBillboardBGPalette2: ; dbb28 (36:7b28) 
     RGB 31, 31, 31
     RGB 31, 25, 7
     RGB 23, 14, 0
     RGB 0, 0, 0
 
-SandslashBillboardBGPalette1: ; 0xdbb30
+SandslashBillboardBGPalette1: ; dbb30 (36:7b30) 
     RGB 31, 31, 31
     RGB 31, 25, 7
     RGB 25, 10, 0
     RGB 3, 2, 0
-SandslashBillboardBGPalette2: ; 0xdbb38
+SandslashBillboardBGPalette2: ; dbb38 (36:7b38) 
     RGB 31, 31, 31
     RGB 31, 25, 7
     RGB 25, 10, 0
     RGB 3, 2, 0
 
-NidoranFBillboardBGPalette1: ; 0xdbb40
+NidoranFBillboardBGPalette1: ; dbb40 (36:7b40) 
     RGB 31, 31, 31
     RGB 19, 23, 31
     RGB 8, 8, 24
     RGB 0, 0, 0
-NidoranFBillboardBGPalette2: ; 0xdbb48
-    RGB 31, 31, 31
-    RGB 19, 23, 31
-    RGB 8, 8, 24
-    RGB 0, 0, 0
-
-NidorinaBillboardBGPalette1: ; 0xdbb50
-    RGB 31, 31, 31
-    RGB 19, 23, 31
-    RGB 8, 8, 24
-    RGB 0, 0, 0
-NidorinaBillboardBGPalette2: ; 0xdbb58
+NidoranFBillboardBGPalette2: ; dbb48 (36:7b48) 
     RGB 31, 31, 31
     RGB 19, 23, 31
     RGB 8, 8, 24
     RGB 0, 0, 0
 
-NidoqueenBillboardBGPalette1: ; 0xdbb60
+NidorinaBillboardBGPalette1: ; dbb50 (36:7b50) 
+    RGB 31, 31, 31
+    RGB 19, 23, 31
+    RGB 8, 8, 24
+    RGB 0, 0, 0
+NidorinaBillboardBGPalette2: ; dbb58 (36:7b58) 
+    RGB 31, 31, 31
+    RGB 19, 23, 31
+    RGB 8, 8, 24
+    RGB 0, 0, 0
+
+NidoqueenBillboardBGPalette1: ; dbb60 (36:7b60) 
     RGB 31, 31, 31
     RGB 10, 18, 31
     RGB 6, 5, 23
     RGB 0, 0, 0
-NidoqueenBillboardBGPalette2: ; 0xdbb68
+NidoqueenBillboardBGPalette2: ; dbb68 (36:7b68) 
     RGB 31, 31, 31
     RGB 10, 18, 31
     RGB 6, 5, 23
     RGB 0, 0, 0
 
-NidoranMBillboardBGPalette1: ; 0xdbb70
+NidoranMBillboardBGPalette1: ; dbb70 (36:7b70) 
     RGB 31, 31, 31
     RGB 28, 16, 25
     RGB 17, 1, 12
     RGB 0, 0, 0
-NidoranMBillboardBGPalette2: ; 0xdbb78
+NidoranMBillboardBGPalette2: ; dbb78 (36:7b78) 
     RGB 31, 31, 31
     RGB 28, 16, 25
     RGB 17, 1, 12
     RGB 0, 0, 0
 
-StageRedFieldTopGfx6: ; 0xdbb80
+StageRedFieldTopGfx6: ; dbb80 (36:7b80) 
     INCBIN "gfx/stage/red_top/red_top_6.2bpp"
 
 INCBIN "baserom.gbc",$dbbc0,$dbc80 - $dbbc0
 
-StageMewtwoBonusCollisionMasks: ; 0xdbc80
+StageMewtwoBonusCollisionMasks: ; dbc80 (36:7c80) 
     INCBIN "data/collision/masks/mewtwo_bonus.masks"
 
-MagikarpAnimatedObjPalette1: ; 0xdbd80
+MagikarpAnimatedObjPalette1: ; dbd80 (36:7d80) 
     RGB 31, 31, 31
     RGB 31, 16, 10
     RGB 28, 6, 0
     RGB 0, 0, 0
-MagikarpAnimatedObjPalette2: ; 0xdbd88
+MagikarpAnimatedObjPalette2: ; dbd88 (36:7d88) 
     RGB 31, 31, 31
     RGB 31, 16, 10
     RGB 28, 6, 0
     RGB 0, 0, 0
 
-LaprasAnimatedObjPalette1: ; 0xdbd90
+LaprasAnimatedObjPalette1: ; dbd90 (36:7d90) 
     RGB 31, 31, 31
     RGB 11, 22, 31
     RGB 0, 10, 30
     RGB 0, 0, 0
-LaprasAnimatedObjPalette2: ; 0xdbd98
+LaprasAnimatedObjPalette2: ; dbd98 (36:7d98) 
     RGB 31, 31, 31
     RGB 11, 22, 31
     RGB 0, 10, 30
     RGB 0, 0, 0
 
-DittoAnimatedObjPalette1: ; 0xdbda0
+DittoAnimatedObjPalette1: ; dbda0 (36:7da0) 
     RGB 31, 31, 31
     RGB 25, 18, 28
     RGB 15, 7, 16
     RGB 0, 0, 0
-DittoAnimatedObjPalette2: ; 0xdbda8
+DittoAnimatedObjPalette2: ; dbda8 (36:7da8) 
     RGB 31, 31, 31
     RGB 25, 18, 28
     RGB 15, 7, 16
     RGB 0, 0, 0
 
-EeveeAnimatedObjPalette1: ; 0xdbdb0
+EeveeAnimatedObjPalette1: ; dbdb0 (36:7db0) 
     RGB 31, 31, 31
     RGB 29, 20, 10
     RGB 17, 9, 4
     RGB 0, 0, 0
-EeveeAnimatedObjPalette2: ; 0xdbdb8
+EeveeAnimatedObjPalette2: ; dbdb8 (36:7db8) 
     RGB 31, 31, 31
     RGB 29, 20, 10
     RGB 17, 9, 4
     RGB 0, 0, 0
 
-PorygonAnimatedObjPalette1: ; 0xdbdc0
+PorygonAnimatedObjPalette1: ; dbdc0 (36:7dc0) 
     RGB 31, 31, 31
     RGB 29, 8, 20
     RGB 0, 0, 31
     RGB 0, 0, 0
-PorygonAnimatedObjPalette2: ; 0xdbdc8
+PorygonAnimatedObjPalette2: ; dbdc8 (36:7dc8) 
     RGB 31, 31, 31
     RGB 29, 8, 20
     RGB 0, 0, 31
     RGB 0, 0, 0
 
-OmanyteAnimatedObjPalette1: ; 0xdbdd0
+OmanyteAnimatedObjPalette1: ; dbdd0 (36:7dd0) 
     RGB 31, 31, 31
     RGB 13, 18, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
-OmanyteAnimatedObjPalette2: ; 0xdbdd8
+OmanyteAnimatedObjPalette2: ; dbdd8 (36:7dd8) 
     RGB 31, 31, 31
     RGB 13, 18, 31
     RGB 1, 6, 20
     RGB 0, 0, 0
 
-KabutoAnimatedObjPalette1: ; 0xdbde0
+KabutoAnimatedObjPalette1: ; dbde0 (36:7de0) 
     RGB 31, 31, 31
     RGB 29, 21, 6
     RGB 20, 7, 1
     RGB 0, 0, 0
-KabutoAnimatedObjPalette2: ; 0xdbde8
+KabutoAnimatedObjPalette2: ; dbde8 (36:7de8) 
     RGB 31, 31, 31
     RGB 29, 21, 6
     RGB 20, 7, 1
     RGB 0, 0, 0
 
-AerodactylAnimatedObjPalette1: ; 0xdbdf0
+AerodactylAnimatedObjPalette1: ; dbdf0 (36:7df0) 
     RGB 31, 31, 31
     RGB 25, 20, 29
     RGB 10, 8, 17
     RGB 0, 0, 0
-AerodactylAnimatedObjPalette2: ; 0xdbdf8
+AerodactylAnimatedObjPalette2: ; dbdf8 (36:7df8) 
     RGB 31, 31, 31
     RGB 25, 20, 29
     RGB 10, 8, 17
     RGB 0, 0, 0
 
-SnorlaxAnimatedObjPalette1: ; 0xdbe00
+SnorlaxAnimatedObjPalette1: ; dbe00 (36:7e00) 
     RGB 31, 31, 31
     RGB 31, 25, 9
     RGB 17, 7, 2
     RGB 0, 0, 0
-SnorlaxAnimatedObjPalette2: ; 0xdbe08
+SnorlaxAnimatedObjPalette2: ; dbe08 (36:7e08) 
     RGB 31, 31, 31
     RGB 31, 25, 9
     RGB 17, 7, 2
     RGB 0, 0, 0
 
-ArticunoAnimatedObjPalette1: ; 0xdbe10
+ArticunoAnimatedObjPalette1: ; dbe10 (36:7e10) 
     RGB 31, 31, 31
     RGB 11, 22, 31
     RGB 0, 4, 31
     RGB 0, 0, 0
-ArticunoAnimatedObjPalette2: ; 0xdbe18
+ArticunoAnimatedObjPalette2: ; dbe18 (36:7e18) 
     RGB 31, 31, 31
     RGB 11, 22, 31
     RGB 0, 4, 31
     RGB 0, 0, 0
 
-ZapdosAnimatedObjPalette1: ; 0xdbe20
+ZapdosAnimatedObjPalette1: ; dbe20 (36:7e20) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 22, 7, 3
     RGB 0, 0, 0
-ZapdosAnimatedObjPalette2: ; 0xdbe28
+ZapdosAnimatedObjPalette2: ; dbe28 (36:7e28) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 22, 7, 3
     RGB 0, 0, 0
 
-MoltresAnimatedObjPalette1: ; 0xdbe30
+MoltresAnimatedObjPalette1: ; dbe30 (36:7e30) 
     RGB 31, 31, 31
     RGB 31, 26, 0
     RGB 31, 3, 0
     RGB 0, 0, 0
-MoltresAnimatedObjPalette2: ; 0xdbe38
+MoltresAnimatedObjPalette2: ; dbe38 (36:7e38) 
     RGB 31, 31, 31
     RGB 31, 26, 0
     RGB 31, 3, 0
     RGB 0, 0, 0
 
-DratiniAnimatedObjPalette1: ; 0xdbe40
+DratiniAnimatedObjPalette1: ; dbe40 (36:7e40) 
     RGB 31, 31, 31
     RGB 20, 22, 31
     RGB 6, 8, 18
     RGB 0, 0, 0
-DratiniAnimatedObjPalette2: ; 0xdbe48
+DratiniAnimatedObjPalette2: ; dbe48 (36:7e48) 
     RGB 31, 31, 31
     RGB 20, 22, 31
     RGB 6, 8, 18
     RGB 0, 0, 0
 
-MewtwoAnimatedObjPalette1: ; 0xdbe50
+MewtwoAnimatedObjPalette1: ; dbe50 (36:7e50) 
     RGB 31, 31, 31
     RGB 31, 19, 27
     RGB 23, 8, 17
     RGB 0, 0, 0
-MewtwoAnimatedObjPalette2: ; 0xdbe58
+MewtwoAnimatedObjPalette2: ; dbe58 (36:7e58) 
     RGB 31, 31, 31
     RGB 31, 19, 27
     RGB 23, 8, 17
     RGB 0, 0, 0
 
-MewAnimatedObjPalette1: ; 0xdbe60
+MewAnimatedObjPalette1: ; dbe60 (36:7e60) 
     RGB 31, 31, 31
     RGB 31, 19, 27
     RGB 23, 8, 17
     RGB 0, 0, 0
-MewAnimatedObjPalette2: ; 0xdbe68
+MewAnimatedObjPalette2: ; dbe68 (36:7e68) 
     RGB 31, 31, 31
     RGB 31, 19, 27
     RGB 23, 8, 17
@@ -53423,966 +53422,966 @@ INCBIN "baserom.gbc",$dbe70,$dc000 - $dbe70
 
 SECTION "bank37", ROMX, BANK[$37]
 
-StageRedFieldBottomGfx2: ; 0xdc000
+StageRedFieldBottomGfx2: ; dc000 (37:4000) 
     INCBIN "gfx/stage/red_bottom/red_bottom_2.2bpp"
 
 INCBIN "baserom.gbc",$dc080,$dc100 - $dc080
 
-NidorinoBillboardBGPalette1: ; 0xdc100
+NidorinoBillboardBGPalette1: ; dc100 (37:4100) 
     RGB 31, 31, 31
     RGB 31, 15, 24
     RGB 21, 3, 15
     RGB 0, 0, 0
-NidorinoBillboardBGPalette2: ; 0xdc108
+NidorinoBillboardBGPalette2: ; dc108 (37:4108) 
     RGB 31, 31, 31
     RGB 31, 15, 24
     RGB 21, 3, 15
     RGB 0, 0, 0
 
-NidokingBillboardBGPalette1: ; 0xdc110
+NidokingBillboardBGPalette1: ; dc110 (37:4110) 
     RGB 31, 31, 31
     RGB 25, 14, 31
     RGB 17, 0, 26
     RGB 0, 0, 0
-NidokingBillboardBGPalette2: ; 0xdc118
+NidokingBillboardBGPalette2: ; dc118 (37:4118) 
     RGB 31, 31, 31
     RGB 25, 14, 31
     RGB 17, 0, 26
     RGB 0, 0, 0
 
-ClefairyBillboardBGPalette1: ; 0xdc120
+ClefairyBillboardBGPalette1: ; dc120 (37:4120) 
     RGB 31, 31, 31
     RGB 31, 14, 18
     RGB 20, 8, 4
     RGB 0, 0, 0
-ClefairyBillboardBGPalette2: ; 0xdc128
-    RGB 31, 31, 31
-    RGB 31, 14, 18
-    RGB 20, 8, 4
-    RGB 0, 0, 0
-
-ClefableBillboardBGPalette1: ; 0xdc130
-    RGB 31, 31, 31
-    RGB 31, 14, 18
-    RGB 20, 8, 4
-    RGB 0, 0, 0
-ClefableBillboardBGPalette2: ; 0xdc138
+ClefairyBillboardBGPalette2: ; dc128 (37:4128) 
     RGB 31, 31, 31
     RGB 31, 14, 18
     RGB 20, 8, 4
     RGB 0, 0, 0
 
-VulpixBillboardBGPalette1: ; 0xdc140
+ClefableBillboardBGPalette1: ; dc130 (37:4130) 
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+ClefableBillboardBGPalette2: ; dc138 (37:4138) 
+    RGB 31, 31, 31
+    RGB 31, 14, 18
+    RGB 20, 8, 4
+    RGB 0, 0, 0
+
+VulpixBillboardBGPalette1: ; dc140 (37:4140) 
     RGB 31, 31, 31
     RGB 31, 17, 13
     RGB 25, 6, 0
     RGB 0, 0, 0
-VulpixBillboardBGPalette2: ; 0xdc148
+VulpixBillboardBGPalette2: ; dc148 (37:4148) 
     RGB 31, 31, 31
     RGB 31, 17, 13
     RGB 25, 6, 0
     RGB 0, 0, 0
 
-NinetalesBillboardBGPalette1: ; 0xdc150
+NinetalesBillboardBGPalette1: ; dc150 (37:4150) 
     RGB 31, 31, 31
     RGB 28, 26, 0
     RGB 23, 12, 3
     RGB 0, 0, 0
-NinetalesBillboardBGPalette2: ; 0xdc158
+NinetalesBillboardBGPalette2: ; dc158 (37:4158) 
     RGB 31, 31, 31
     RGB 28, 26, 0
     RGB 23, 12, 3
     RGB 0, 0, 0
 
-JigglypuffBillboardBGPalette1: ; 0xdc160
+JigglypuffBillboardBGPalette1: ; dc160 (37:4160) 
     RGB 31, 31, 31
     RGB 31, 16, 19
     RGB 22, 6, 11
     RGB 3, 2, 0
-JigglypuffBillboardBGPalette2: ; 0xdc168
+JigglypuffBillboardBGPalette2: ; dc168 (37:4168) 
     RGB 31, 31, 31
     RGB 31, 16, 19
     RGB 13, 2, 21
     RGB 0, 0, 0
 
-WigglytuffBillboardBGPalette1: ; 0xdc170
+WigglytuffBillboardBGPalette1: ; dc170 (37:4170) 
     RGB 31, 31, 31
     RGB 31, 16, 19
     RGB 22, 6, 11
     RGB 3, 2, 0
-WigglytuffBillboardBGPalette2: ; 0xdc178
+WigglytuffBillboardBGPalette2: ; dc178 (37:4178) 
     RGB 31, 31, 31
     RGB 31, 16, 19
     RGB 13, 5, 19
     RGB 0, 0, 0
 
-ZubatBillboardBGPalette1: ; 0xdc180
+ZubatBillboardBGPalette1: ; dc180 (37:4180) 
     RGB 31, 31, 31
     RGB 14, 15, 30
     RGB 10, 5, 26
     RGB 3, 2, 0
-ZubatBillboardBGPalette2: ; 0xdc188
+ZubatBillboardBGPalette2: ; dc188 (37:4188) 
     RGB 31, 31, 31
     RGB 14, 15, 30
     RGB 10, 5, 26
     RGB 0, 0, 0
 
-GolbatBillboardBGPalette1: ; 0xdc190
+GolbatBillboardBGPalette1: ; dc190 (37:4190) 
     RGB 31, 31, 31
     RGB 15, 15, 30
     RGB 10, 5, 26
     RGB 3, 2, 0
-GolbatBillboardBGPalette2: ; 0xdc198
+GolbatBillboardBGPalette2: ; dc198 (37:4198) 
     RGB 31, 31, 31
     RGB 15, 15, 30
     RGB 10, 5, 26
     RGB 0, 0, 0
 
-OddishBillboardBGPalette1: ; 0xdc1a0
+OddishBillboardBGPalette1: ; dc1a0 (37:41a0) 
     RGB 31, 31, 31
     RGB 22, 28, 2
     RGB 7, 18, 0
     RGB 0, 0, 0
-OddishBillboardBGPalette2: ; 0xdc1a8
+OddishBillboardBGPalette2: ; dc1a8 (37:41a8) 
     RGB 31, 31, 31
     RGB 31, 6, 0
     RGB 4, 8, 14
     RGB 0, 0, 0
 
-GloomBillboardBGPalette1: ; 0xdc1b0
+GloomBillboardBGPalette1: ; dc1b0 (37:41b0) 
     RGB 31, 31, 31
     RGB 30, 19, 15
     RGB 28, 4, 0
     RGB 0, 0, 0
-GloomBillboardBGPalette2: ; 0xdc1b8
+GloomBillboardBGPalette2: ; dc1b8 (37:41b8) 
     RGB 31, 31, 31
     RGB 19, 20, 31
     RGB 4, 8, 14
     RGB 0, 0, 0
 
-VileplumeBillboardBGPalette1: ; 0xdc1c0
+VileplumeBillboardBGPalette1: ; dc1c0 (37:41c0) 
     RGB 31, 31, 31
     RGB 30, 19, 15
     RGB 28, 4, 0
     RGB 0, 0, 0
-VileplumeBillboardBGPalette2: ; 0xdc1c8
+VileplumeBillboardBGPalette2: ; dc1c8 (37:41c8) 
     RGB 31, 31, 31
     RGB 19, 20, 31
     RGB 4, 8, 14
     RGB 0, 0, 0
 
-ParasBillboardBGPalette1: ; 0xdc1d0
+ParasBillboardBGPalette1: ; dc1d0 (37:41d0) 
     RGB 31, 31, 31
     RGB 31, 20, 11
     RGB 23, 6, 3
     RGB 0, 0, 0
-ParasBillboardBGPalette2: ; 0xdc1d8
-    RGB 31, 31, 31
-    RGB 31, 20, 11
-    RGB 23, 6, 3
-    RGB 0, 0, 0
-
-ParasectBillboardBGPalette1: ; 0xdc1e0
-    RGB 31, 31, 31
-    RGB 31, 20, 11
-    RGB 23, 6, 3
-    RGB 0, 0, 0
-ParasectBillboardBGPalette2: ; 0xdc1e8
+ParasBillboardBGPalette2: ; dc1d8 (37:41d8) 
     RGB 31, 31, 31
     RGB 31, 20, 11
     RGB 23, 6, 3
     RGB 0, 0, 0
 
-VenonatBillboardBGPalette1: ; 0xdc1f0
+ParasectBillboardBGPalette1: ; dc1e0 (37:41e0) 
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+ParasectBillboardBGPalette2: ; dc1e8 (37:41e8) 
+    RGB 31, 31, 31
+    RGB 31, 20, 11
+    RGB 23, 6, 3
+    RGB 0, 0, 0
+
+VenonatBillboardBGPalette1: ; dc1f0 (37:41f0) 
     RGB 31, 31, 31
     RGB 24, 15, 28
     RGB 12, 5, 18
     RGB 0, 0, 0
-VenonatBillboardBGPalette2: ; 0xdc1f8
+VenonatBillboardBGPalette2: ; dc1f8 (37:41f8) 
     RGB 31, 31, 31
     RGB 24, 15, 28
     RGB 12, 5, 18
     RGB 0, 0, 0
 
-VenomothBillboardBGPalette1: ; 0xdc200
+VenomothBillboardBGPalette1: ; dc200 (37:4200) 
     RGB 31, 31, 31
     RGB 27, 17, 29
     RGB 17, 7, 16
     RGB 0, 0, 0
-VenomothBillboardBGPalette2: ; 0xdc208
+VenomothBillboardBGPalette2: ; dc208 (37:4208) 
     RGB 31, 31, 31
     RGB 27, 17, 29
     RGB 17, 7, 16
     RGB 0, 0, 0
 
-DiglettBillboardBGPalette1: ; 0xdc210
+DiglettBillboardBGPalette1: ; dc210 (37:4210) 
     RGB 31, 31, 31
     RGB 24, 17, 5
     RGB 15, 7, 0
     RGB 0, 0, 0
-DiglettBillboardBGPalette2: ; 0xdc218
+DiglettBillboardBGPalette2: ; dc218 (37:4218) 
     RGB 31, 31, 31
     RGB 24, 17, 5
     RGB 23, 3, 0
     RGB 0, 0, 0
 
-DugtrioBillboardBGPalette1: ; 0xdc220
+DugtrioBillboardBGPalette1: ; dc220 (37:4220) 
     RGB 31, 31, 31
     RGB 24, 17, 5
     RGB 15, 7, 0
     RGB 0, 0, 0
-DugtrioBillboardBGPalette2: ; 0xdc228
+DugtrioBillboardBGPalette2: ; dc228 (37:4228) 
     RGB 31, 31, 31
     RGB 24, 17, 5
     RGB 23, 3, 0
     RGB 0, 0, 0
 
-MeowthBillboardBGPalette1: ; 0xdc230
+MeowthBillboardBGPalette1: ; dc230 (37:4230) 
     RGB 31, 31, 31
     RGB 29, 28, 7
     RGB 19, 10, 0
     RGB 0, 0, 0
-MeowthBillboardBGPalette2: ; 0xdc238
+MeowthBillboardBGPalette2: ; dc238 (37:4238) 
     RGB 31, 31, 31
     RGB 29, 28, 7
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-PersianBillboardBGPalette1: ; 0xdc240
+PersianBillboardBGPalette1: ; dc240 (37:4240) 
     RGB 31, 31, 31
     RGB 29, 28, 7
     RGB 19, 10, 0
     RGB 0, 0, 0
-PersianBillboardBGPalette2: ; 0xdc248
+PersianBillboardBGPalette2: ; dc248 (37:4248) 
     RGB 31, 31, 31
     RGB 29, 28, 7
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-PsyduckBillboardBGPalette1: ; 0xdc250
+PsyduckBillboardBGPalette1: ; dc250 (37:4250) 
     RGB 31, 31, 31
     RGB 31, 31, 0
     RGB 19, 17, 0
     RGB 0, 0, 0
-PsyduckBillboardBGPalette2: ; 0xdc258
+PsyduckBillboardBGPalette2: ; dc258 (37:4258) 
     RGB 31, 31, 31
     RGB 31, 31, 0
     RGB 19, 17, 0
     RGB 0, 0, 0
 
-GolduckBillboardBGPalette1: ; 0xdc260
+GolduckBillboardBGPalette1: ; dc260 (37:4260) 
     RGB 31, 31, 31
     RGB 26, 25, 7
     RGB 13, 15, 27
     RGB 0, 0, 0
-GolduckBillboardBGPalette2: ; 0xdc268
+GolduckBillboardBGPalette2: ; dc268 (37:4268) 
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 13, 15, 27
     RGB 0, 0, 0
 
-MankeyBillboardBGPalette1: ; 0xdc270
+MankeyBillboardBGPalette1: ; dc270 (37:4270) 
     RGB 31, 31, 31
     RGB 28, 20, 17
     RGB 22, 9, 5
     RGB 0, 0, 0
-MankeyBillboardBGPalette2: ; 0xdc278
+MankeyBillboardBGPalette2: ; dc278 (37:4278) 
     RGB 31, 31, 31
     RGB 28, 20, 17
     RGB 22, 9, 5
     RGB 0, 0, 0
 
-PrimeapeBillboardBGPalette1: ; 0xdc280
+PrimeapeBillboardBGPalette1: ; dc280 (37:4280) 
     RGB 31, 31, 31
     RGB 28, 20, 17
     RGB 22, 9, 5
     RGB 0, 0, 0
-PrimeapeBillboardBGPalette2: ; 0xdc288
+PrimeapeBillboardBGPalette2: ; dc288 (37:4288) 
     RGB 31, 31, 31
     RGB 15, 15, 15
     RGB 22, 9, 5
     RGB 0, 0, 0
 
-GrowlitheBillboardBGPalette1: ; 0xdc290
+GrowlitheBillboardBGPalette1: ; dc290 (37:4290) 
     RGB 31, 31, 31
     RGB 28, 27, 10
     RGB 26, 12, 0
     RGB 0, 0, 0
-GrowlitheBillboardBGPalette2: ; 0xdc298
+GrowlitheBillboardBGPalette2: ; dc298 (37:4298) 
     RGB 31, 31, 31
     RGB 28, 27, 10
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-ArcanineBillboardBGPalette1: ; 0xdc2a0
+ArcanineBillboardBGPalette1: ; dc2a0 (37:42a0) 
     RGB 31, 31, 31
     RGB 28, 27, 10
     RGB 26, 12, 0
     RGB 0, 0, 0
-ArcanineBillboardBGPalette2: ; 0xdc2a8
+ArcanineBillboardBGPalette2: ; dc2a8 (37:42a8) 
     RGB 31, 31, 31
     RGB 28, 27, 10
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-PoliwagBillboardBGPalette1: ; 0xdc2b0
+PoliwagBillboardBGPalette1: ; dc2b0 (37:42b0) 
     RGB 31, 31, 31
     RGB 20, 20, 27
     RGB 11, 11, 18
     RGB 0, 0, 0
-PoliwagBillboardBGPalette2: ; 0xdc2b8
+PoliwagBillboardBGPalette2: ; dc2b8 (37:42b8) 
     RGB 31, 31, 31
     RGB 31, 17, 14
     RGB 11, 11, 18
     RGB 0, 0, 0
 
-PoliwhirlBillboardBGPalette1: ; 0xdc2c0
+PoliwhirlBillboardBGPalette1: ; dc2c0 (37:42c0) 
     RGB 31, 31, 31
     RGB 20, 20, 27
     RGB 11, 11, 18
     RGB 0, 0, 0
-PoliwhirlBillboardBGPalette2: ; 0xdc2c8
-    RGB 31, 31, 31
-    RGB 20, 20, 27
-    RGB 11, 11, 18
-    RGB 0, 0, 0
-
-PoliwrathBillboardBGPalette1: ; 0xdc2d0
-    RGB 31, 31, 31
-    RGB 20, 20, 27
-    RGB 11, 11, 18
-    RGB 0, 0, 0
-PoliwrathBillboardBGPalette2: ; 0xdc2d8
+PoliwhirlBillboardBGPalette2: ; dc2c8 (37:42c8) 
     RGB 31, 31, 31
     RGB 20, 20, 27
     RGB 11, 11, 18
     RGB 0, 0, 0
 
-AbraBillboardBGPalette1: ; 0xdc2e0
+PoliwrathBillboardBGPalette1: ; dc2d0 (37:42d0) 
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+PoliwrathBillboardBGPalette2: ; dc2d8 (37:42d8) 
+    RGB 31, 31, 31
+    RGB 20, 20, 27
+    RGB 11, 11, 18
+    RGB 0, 0, 0
+
+AbraBillboardBGPalette1: ; dc2e0 (37:42e0) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 19, 11, 6
     RGB 0, 0, 0
-AbraBillboardBGPalette2: ; 0xdc2e8
+AbraBillboardBGPalette2: ; dc2e8 (37:42e8) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-KadabraBillboardBGPalette1: ; 0xdc2f0
+KadabraBillboardBGPalette1: ; dc2f0 (37:42f0) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 19, 11, 6
     RGB 0, 0, 0
-KadabraBillboardBGPalette2: ; 0xdc2f8
+KadabraBillboardBGPalette2: ; dc2f8 (37:42f8) 
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-HypnoBillboardBGPalette1: ; 0xdc300
+HypnoBillboardBGPalette1: ; dc300 (37:4300) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 21, 15, 5
-HypnoBillboardBGPalette2: ; 0xdc308
+HypnoBillboardBGPalette2: ; dc308 (37:4308) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 19, 23, 31
     RGB 21, 15, 5
     RGB 0, 0, 0
 
-KrabbyBillboardBGPalette1: ; 0xdc310
+KrabbyBillboardBGPalette1: ; dc310 (37:4310) 
     RGB 31, 31, 31
     RGB 31, 16, 17
     RGB 25, 6, 0
-KrabbyBillboardBGPalette2: ; 0xdc318
+KrabbyBillboardBGPalette2: ; dc318 (37:4318) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 31, 16, 17
     RGB 25, 6, 0
     RGB 0, 0, 0
 
-KinglerBillboardBGPalette1: ; 0xdc320
+KinglerBillboardBGPalette1: ; dc320 (37:4320) 
     RGB 31, 31, 31
     RGB 31, 16, 17
     RGB 25, 6, 0
-KinglerBillboardBGPalette2: ; 0xdc328
+KinglerBillboardBGPalette2: ; dc328 (37:4328) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 31, 16, 17
     RGB 25, 6, 0
     RGB 0, 0, 0
 
-VoltorbBillboardBGPalette1: ; 0xdc330
+VoltorbBillboardBGPalette1: ; dc330 (37:4330) 
     RGB 31, 31, 31
     RGB 31, 16, 17
     RGB 25, 6, 0
-VoltorbBillboardBGPalette2: ; 0xdc338
+VoltorbBillboardBGPalette2: ; dc338 (37:4338) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 19, 23, 31
     RGB 25, 6, 0
     RGB 0, 0, 0
 
-ElectrodeBillboardBGPalette1: ; 0xdc340
+ElectrodeBillboardBGPalette1: ; dc340 (37:4340) 
     RGB 31, 31, 31
     RGB 31, 15, 12
     RGB 25, 6, 0
-ElectrodeBillboardBGPalette2: ; 0xdc348
+ElectrodeBillboardBGPalette2: ; dc348 (37:4348) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 19, 23, 31
     RGB 25, 6, 0
     RGB 0, 0, 0
 
-ExeggcuteBillboardBGPalette1: ; 0xdc350
+ExeggcuteBillboardBGPalette1: ; dc350 (37:4350) 
     RGB 31, 31, 31
     RGB 31, 15, 12
     RGB 18, 8, 6
-ExeggcuteBillboardBGPalette2: ; 0xdc358
+ExeggcuteBillboardBGPalette2: ; dc358 (37:4358) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 31, 15, 12
     RGB 18, 8, 6
     RGB 0, 0, 0
 
-ExeggutorBillboardBGPalette1: ; 0xdc360
+ExeggutorBillboardBGPalette1: ; dc360 (37:4360) 
     RGB 31, 31, 31
     RGB 31, 27, 5
     RGB 7, 18, 0
-ExeggutorBillboardBGPalette2: ; 0xdc368
+ExeggutorBillboardBGPalette2: ; dc368 (37:4368) 
     RGB 3, 2, 0
     RGB 31, 31, 31
     RGB 31, 23, 5
     RGB 20, 10, 3
     RGB 0, 0, 0
 
-CuboneBillboardBGPalette1: ; 0xdc370
+CuboneBillboardBGPalette1: ; dc370 (37:4370) 
     RGB 31, 31, 31
     RGB 18, 20, 27
     RGB 20, 10, 3
-CuboneBillboardBGPalette2: ; 0xdc378
+CuboneBillboardBGPalette2: ; dc378 (37:4378) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 29, 23, 10
     RGB 20, 10, 3
     RGB 0, 0, 0
 
-MarowakBillboardBGPalette1: ; 0xdc380
+MarowakBillboardBGPalette1: ; dc380 (37:4380) 
     RGB 31, 31, 31
     RGB 18, 20, 27
     RGB 20, 10, 3
-MarowakBillboardBGPalette2: ; 0xdc388
+MarowakBillboardBGPalette2: ; dc388 (37:4388) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 29, 23, 10
     RGB 20, 10, 3
     RGB 0, 0, 0
 
-HitmonleeBillboardBGPalette1: ; 0xdc390
+HitmonleeBillboardBGPalette1: ; dc390 (37:4390) 
     RGB 31, 31, 31
     RGB 29, 23, 10
     RGB 21, 13, 3
-HitmonleeBillboardBGPalette2: ; 0xdc398
+HitmonleeBillboardBGPalette2: ; dc398 (37:4398) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 29, 23, 10
     RGB 21, 13, 3
     RGB 0, 0, 0
 
-HitmonchanBillboardBGPalette1: ; 0xdc3a0
+HitmonchanBillboardBGPalette1: ; dc3a0 (37:43a0) 
     RGB 31, 31, 31
     RGB 31, 21, 13
     RGB 23, 3, 3
-HitmonchanBillboardBGPalette2: ; 0xdc3a8
+HitmonchanBillboardBGPalette2: ; dc3a8 (37:43a8) 
     RGB 3, 2, 0
     RGB 31, 31, 31
     RGB 31, 21, 13
     RGB 22, 3, 25
     RGB 0, 0, 0
 
-LickitungBillboardBGPalette1: ; 0xdc3b0
+LickitungBillboardBGPalette1: ; dc3b0 (37:43b0) 
     RGB 31, 31, 31
     RGB 31, 21, 21
     RGB 31, 9, 8
-LickitungBillboardBGPalette2: ; 0xdc3b8
+LickitungBillboardBGPalette2: ; dc3b8 (37:43b8) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 31, 20, 12
     RGB 31, 9, 8
     RGB 0, 0, 0
 
-KoffingBillboardBGPalette1: ; 0xdc3c0
+KoffingBillboardBGPalette1: ; dc3c0 (37:43c0) 
     RGB 31, 31, 31
     RGB 21, 13, 28
     RGB 10, 7, 14
-KoffingBillboardBGPalette2: ; 0xdc3c8
+KoffingBillboardBGPalette2: ; dc3c8 (37:43c8) 
     RGB 3, 2, 0
     RGB 31, 31, 31
     RGB 21, 13, 28
     RGB 21, 4, 7
     RGB 0, 0, 0
 
-WeezingBillboardBGPalette1: ; 0xdc3d0
+WeezingBillboardBGPalette1: ; dc3d0 (37:43d0) 
     RGB 31, 31, 31
     RGB 21, 13, 28
     RGB 10, 7, 14
-WeezingBillboardBGPalette2: ; 0xdc3d8
+WeezingBillboardBGPalette2: ; dc3d8 (37:43d8) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 21, 13, 28
     RGB 21, 4, 7
     RGB 3, 2, 0
 
-RhyhornBillboardBGPalette1: ; 0xdc3e0
+RhyhornBillboardBGPalette1: ; dc3e0 (37:43e0) 
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 13, 11, 16
-RhyhornBillboardBGPalette2: ; 0xdc3e8
+RhyhornBillboardBGPalette2: ; dc3e8 (37:43e8) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 13, 11, 16
     RGB 0, 0, 0
 
-RhydonBillboardBGPalette1: ; 0xdc3f0
+RhydonBillboardBGPalette1: ; dc3f0 (37:43f0) 
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 13, 11, 16
-RhydonBillboardBGPalette2: ; 0xdc3f8
+RhydonBillboardBGPalette2: ; dc3f8 (37:43f8) 
     RGB 0, 0, 0
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 13, 11, 16
     RGB 0, 0, 0
 
-MagnemiteBillboardBGPalette1: ; 0xdc400
+MagnemiteBillboardBGPalette1: ; dc400 (37:4400) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
-MagnemiteBillboardBGPalette2: ; 0xdc408
+MagnemiteBillboardBGPalette2: ; dc408 (37:4408) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-MagnetonBillboardBGPalette1: ; 0xdc410
+MagnetonBillboardBGPalette1: ; dc410 (37:4410) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
-MagnetonBillboardBGPalette2: ; 0xdc418
+MagnetonBillboardBGPalette2: ; dc418 (37:4418) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
 
-FarfetchdBillboardBGPalette1: ; 0xdc420
+FarfetchdBillboardBGPalette1: ; dc420 (37:4420) 
     RGB 31, 31, 31
     RGB 31, 29, 13
     RGB 20, 12, 9
     RGB 0, 0, 0
-FarfetchdBillboardBGPalette2: ; 0xdc428
+FarfetchdBillboardBGPalette2: ; dc428 (37:4428) 
     RGB 31, 31, 31
     RGB 21, 31, 17
     RGB 7, 20, 6
     RGB 0, 0, 0
 
-DoduoBillboardBGPalette1: ; 0xdc430
+DoduoBillboardBGPalette1: ; dc430 (37:4430) 
     RGB 31, 31, 31
     RGB 29, 26, 14
     RGB 26, 16, 4
     RGB 0, 0, 0
-DoduoBillboardBGPalette2: ; 0xdc438
-    RGB 31, 31, 31
-    RGB 29, 26, 14
-    RGB 26, 16, 4
-    RGB 0, 0, 0
-
-DodrioBillboardBGPalette1: ; 0xdc440
-    RGB 31, 31, 31
-    RGB 29, 26, 14
-    RGB 26, 16, 4
-    RGB 0, 0, 0
-DodrioBillboardBGPalette2: ; 0xdc448
+DoduoBillboardBGPalette2: ; dc438 (37:4438) 
     RGB 31, 31, 31
     RGB 29, 26, 14
     RGB 26, 16, 4
     RGB 0, 0, 0
 
-SeelBillboardBGPalette1: ; 0xdc450
+DodrioBillboardBGPalette1: ; dc440 (37:4440) 
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+DodrioBillboardBGPalette2: ; dc448 (37:4448) 
+    RGB 31, 31, 31
+    RGB 29, 26, 14
+    RGB 26, 16, 4
+    RGB 0, 0, 0
+
+SeelBillboardBGPalette1: ; dc450 (37:4450) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
-SeelBillboardBGPalette2: ; 0xdc458
+SeelBillboardBGPalette2: ; dc458 (37:4458) 
     RGB 31, 31, 31
     RGB 29, 26, 14
     RGB 31, 11, 10
     RGB 0, 0, 0
 
-DewgongBillboardBGPalette1: ; 0xdc460
+DewgongBillboardBGPalette1: ; dc460 (37:4460) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
-DewgongBillboardBGPalette2: ; 0xdc468
+DewgongBillboardBGPalette2: ; dc468 (37:4468) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 11, 11, 20
     RGB 0, 0, 0
 
-GrimerBillboardBGPalette1: ; 0xdc470
+GrimerBillboardBGPalette1: ; dc470 (37:4470) 
     RGB 31, 31, 31
     RGB 27, 18, 30
     RGB 15, 7, 19
     RGB 0, 0, 0
-GrimerBillboardBGPalette2: ; 0xdc478
-    RGB 31, 31, 31
-    RGB 27, 18, 30
-    RGB 15, 7, 19
-    RGB 0, 0, 0
-
-MukBillboardBGPalette1: ; 0xdc480
-    RGB 31, 31, 31
-    RGB 27, 18, 30
-    RGB 15, 7, 19
-    RGB 0, 0, 0
-MukBillboardBGPalette2: ; 0xdc488
+GrimerBillboardBGPalette2: ; dc478 (37:4478) 
     RGB 31, 31, 31
     RGB 27, 18, 30
     RGB 15, 7, 19
     RGB 0, 0, 0
 
-ShellderBillboardBGPalette1: ; 0xdc490
+MukBillboardBGPalette1: ; dc480 (37:4480) 
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+MukBillboardBGPalette2: ; dc488 (37:4488) 
+    RGB 31, 31, 31
+    RGB 27, 18, 30
+    RGB 15, 7, 19
+    RGB 0, 0, 0
+
+ShellderBillboardBGPalette1: ; dc490 (37:4490) 
     RGB 31, 31, 31
     RGB 24, 21, 25
     RGB 13, 11, 15
     RGB 0, 0, 0
-ShellderBillboardBGPalette2: ; 0xdc498
+ShellderBillboardBGPalette2: ; dc498 (37:4498) 
     RGB 31, 31, 31
     RGB 24, 21, 25
     RGB 31, 13, 13
     RGB 0, 0, 0
 
-CloysterBillboardBGPalette1: ; 0xdc4a0
+CloysterBillboardBGPalette1: ; dc4a0 (37:44a0) 
     RGB 31, 31, 31
     RGB 25, 21, 26
     RGB 14, 11, 16
     RGB 0, 0, 0
-CloysterBillboardBGPalette2: ; 0xdc4a8
+CloysterBillboardBGPalette2: ; dc4a8 (37:44a8) 
     RGB 31, 31, 31
     RGB 25, 21, 26
     RGB 14, 11, 16
     RGB 0, 0, 0
 
-GastlyBillboardBGPalette1: ; 0xdc4b0
+GastlyBillboardBGPalette1: ; dc4b0 (37:44b0) 
     RGB 31, 31, 31
     RGB 26, 18, 27
     RGB 15, 8, 16
     RGB 0, 0, 0
-GastlyBillboardBGPalette2: ; 0xdc4b8
+GastlyBillboardBGPalette2: ; dc4b8 (37:44b8) 
     RGB 31, 31, 31
     RGB 26, 18, 27
     RGB 26, 10, 8
     RGB 0, 0, 0
 
-HaunterBillboardBGPalette1: ; 0xdc4c0
+HaunterBillboardBGPalette1: ; dc4c0 (37:44c0) 
     RGB 31, 31, 31
     RGB 26, 18, 27
     RGB 15, 8, 16
     RGB 0, 0, 0
-HaunterBillboardBGPalette2: ; 0xdc4c8
+HaunterBillboardBGPalette2: ; dc4c8 (37:44c8) 
     RGB 31, 31, 31
     RGB 31, 13, 13
     RGB 14, 9, 15
     RGB 0, 0, 0
 
-GengarBillboardBGPalette1: ; 0xdc4d0
+GengarBillboardBGPalette1: ; dc4d0 (37:44d0) 
     RGB 31, 31, 31
     RGB 18, 21, 23
     RGB 10, 12, 13
     RGB 0, 0, 0
-GengarBillboardBGPalette2: ; 0xdc4d8
+GengarBillboardBGPalette2: ; dc4d8 (37:44d8) 
     RGB 31, 31, 31
     RGB 31, 11, 6
     RGB 10, 12, 13
     RGB 0, 0, 0
 
-OnixBillboardBGPalette1: ; 0xdc4e0
+OnixBillboardBGPalette1: ; dc4e0 (37:44e0) 
     RGB 31, 31, 31
     RGB 20, 20, 24
     RGB 10, 10, 14
     RGB 0, 0, 0
-OnixBillboardBGPalette2: ; 0xdc4e8
+OnixBillboardBGPalette2: ; dc4e8 (37:44e8) 
     RGB 31, 31, 31
     RGB 20, 20, 24
     RGB 10, 10, 14
     RGB 0, 0, 0
 
-DrowzeeBillboardBGPalette1: ; 0xdc4f0
+DrowzeeBillboardBGPalette1: ; dc4f0 (37:44f0) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 21, 19, 0
     RGB 0, 0, 0
-DrowzeeBillboardBGPalette2: ; 0xdc4f8
+DrowzeeBillboardBGPalette2: ; dc4f8 (37:44f8) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 21, 19, 0
     RGB 0, 0, 0
 
-AlakazamBillboardBGPalette1: ; 0xdc500
+AlakazamBillboardBGPalette1: ; dc500 (37:4500) 
     RGB 31, 31, 31
     RGB 31, 30, 0
     RGB 19, 11, 6
     RGB 0, 0, 0
-AlakazamBillboardBGPalette2: ; 0xdc508
+AlakazamBillboardBGPalette2: ; dc508 (37:4508) 
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 19, 11, 6
     RGB 0, 0, 0
 
-MachopBillboardBGPalette1: ; 0xdc510
+MachopBillboardBGPalette1: ; dc510 (37:4510) 
     RGB 31, 31, 31
     RGB 19, 19, 21
     RGB 12, 12, 13
     RGB 0, 0, 0
-MachopBillboardBGPalette2: ; 0xdc518
+MachopBillboardBGPalette2: ; dc518 (37:4518) 
     RGB 31, 31, 31
     RGB 19, 19, 21
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-MachokeBillboardBGPalette1: ; 0xdc520
+MachokeBillboardBGPalette1: ; dc520 (37:4520) 
     RGB 31, 31, 31
     RGB 18, 18, 22
     RGB 11, 11, 14
     RGB 0, 0, 0
-MachokeBillboardBGPalette2: ; 0xdc528
+MachokeBillboardBGPalette2: ; dc528 (37:4528) 
     RGB 31, 31, 31
     RGB 18, 18, 22
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-MachampBillboardBGPalette1: ; 0xdc530
+MachampBillboardBGPalette1: ; dc530 (37:4530) 
     RGB 31, 31, 31
     RGB 18, 21, 22
     RGB 9, 12, 13
     RGB 0, 0, 0
-MachampBillboardBGPalette2: ; 0xdc538
+MachampBillboardBGPalette2: ; dc538 (37:4538) 
     RGB 31, 31, 31
     RGB 18, 21, 22
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-BellsproutBillboardBGPalette1: ; 0xdc540
+BellsproutBillboardBGPalette1: ; dc540 (37:4540) 
     RGB 31, 31, 31
     RGB 26, 29, 7
     RGB 11, 20, 0
     RGB 0, 0, 0
-BellsproutBillboardBGPalette2: ; 0xdc548
+BellsproutBillboardBGPalette2: ; dc548 (37:4548) 
     RGB 31, 31, 31
     RGB 26, 29, 7
     RGB 31, 11, 8
     RGB 0, 0, 0
 
-WeepinbellBillboardBGPalette1: ; 0xdc550
+WeepinbellBillboardBGPalette1: ; dc550 (37:4550) 
     RGB 31, 31, 31
     RGB 26, 29, 7
     RGB 11, 20, 0
     RGB 0, 0, 0
-WeepinbellBillboardBGPalette2: ; 0xdc558
+WeepinbellBillboardBGPalette2: ; dc558 (37:4558) 
     RGB 31, 31, 31
     RGB 26, 29, 7
     RGB 31, 11, 8
     RGB 0, 0, 0
 
-VictreebellBillboardBGPalette1: ; 0xdc560
+VictreebellBillboardBGPalette1: ; dc560 (37:4560) 
     RGB 31, 31, 31
     RGB 29, 31, 9
     RGB 11, 20, 0
     RGB 0, 0, 0
-VictreebellBillboardBGPalette2: ; 0xdc568
+VictreebellBillboardBGPalette2: ; dc568 (37:4568) 
     RGB 31, 31, 31
     RGB 29, 31, 9
     RGB 31, 11, 8
     RGB 0, 0, 0
 
-TentacoolBillboardBGPalette1: ; 0xdc570
+TentacoolBillboardBGPalette1: ; dc570 (37:4570) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 0, 11, 22
     RGB 0, 0, 0
-TentacoolBillboardBGPalette2: ; 0xdc578
+TentacoolBillboardBGPalette2: ; dc578 (37:4578) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 31, 5, 6
     RGB 0, 0, 0
 
-TentacruelBillboardBGPalette1: ; 0xdc580
+TentacruelBillboardBGPalette1: ; dc580 (37:4580) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 0, 11, 22
     RGB 0, 0, 0
-TentacruelBillboardBGPalette2: ; 0xdc588
+TentacruelBillboardBGPalette2: ; dc588 (37:4588) 
     RGB 31, 31, 31
     RGB 16, 22, 31
     RGB 31, 5, 6
     RGB 0, 0, 0
 
-GeodudeBillboardBGPalette1: ; 0xdc590
+GeodudeBillboardBGPalette1: ; dc590 (37:4590) 
     RGB 31, 31, 31
     RGB 20, 23, 22
     RGB 10, 13, 12
     RGB 0, 0, 0
-GeodudeBillboardBGPalette2: ; 0xdc598
-    RGB 31, 31, 31
-    RGB 20, 23, 22
-    RGB 10, 13, 12
-    RGB 0, 0, 0
-
-GravelerBillboardBGPalette1: ; 0xdc5a0
-    RGB 31, 31, 31
-    RGB 20, 23, 22
-    RGB 10, 13, 12
-    RGB 0, 0, 0
-GravelerBillboardBGPalette2: ; 0xdc5a8
+GeodudeBillboardBGPalette2: ; dc598 (37:4598) 
     RGB 31, 31, 31
     RGB 20, 23, 22
     RGB 10, 13, 12
     RGB 0, 0, 0
 
-GolemBillboardBGPalette1: ; 0xdc5b0
+GravelerBillboardBGPalette1: ; dc5a0 (37:45a0) 
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+GravelerBillboardBGPalette2: ; dc5a8 (37:45a8) 
+    RGB 31, 31, 31
+    RGB 20, 23, 22
+    RGB 10, 13, 12
+    RGB 0, 0, 0
+
+GolemBillboardBGPalette1: ; dc5b0 (37:45b0) 
     RGB 31, 31, 31
     RGB 26, 25, 15
     RGB 10, 13, 12
     RGB 0, 0, 0
-GolemBillboardBGPalette2: ; 0xdc5b8
+GolemBillboardBGPalette2: ; dc5b8 (37:45b8) 
     RGB 31, 31, 31
     RGB 26, 25, 15
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-PonytaBillboardBGPalette1: ; 0xdc5c0
+PonytaBillboardBGPalette1: ; dc5c0 (37:45c0) 
     RGB 31, 31, 31
     RGB 27, 26, 11
     RGB 31, 0, 0
     RGB 0, 0, 0
-PonytaBillboardBGPalette2: ; 0xdc5c8
+PonytaBillboardBGPalette2: ; dc5c8 (37:45c8) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-RapidashBillboardBGPalette1: ; 0xdc5d0
+RapidashBillboardBGPalette1: ; dc5d0 (37:45d0) 
     RGB 31, 31, 31
     RGB 27, 26, 11
     RGB 31, 0, 0
     RGB 0, 0, 0
-RapidashBillboardBGPalette2: ; 0xdc5d8
+RapidashBillboardBGPalette2: ; dc5d8 (37:45d8) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-SlowpokeBillboardBGPalette1: ; 0xdc5e0
+SlowpokeBillboardBGPalette1: ; dc5e0 (37:45e0) 
     RGB 31, 31, 31
     RGB 31, 21, 21
     RGB 31, 11, 11
     RGB 0, 0, 0
-SlowpokeBillboardBGPalette2: ; 0xdc5e8
+SlowpokeBillboardBGPalette2: ; dc5e8 (37:45e8) 
     RGB 31, 31, 31
     RGB 31, 27, 15
     RGB 31, 11, 11
     RGB 0, 0, 0
 
-SlowbroBillboardBGPalette1: ; 0xdc5f0
+SlowbroBillboardBGPalette1: ; dc5f0 (37:45f0) 
     RGB 31, 31, 31
     RGB 31, 27, 15
     RGB 31, 11, 11
     RGB 0, 0, 0
-SlowbroBillboardBGPalette2: ; 0xdc5f8
+SlowbroBillboardBGPalette2: ; dc5f8 (37:45f8) 
     RGB 31, 31, 31
     RGB 23, 23, 23
     RGB 12, 12, 12
     RGB 0, 0, 0
 
-StageMeowthBonusCollisionMasks: ; 0xdc600
+StageMeowthBonusCollisionMasks: ; dc600 (37:4600) 
     INCBIN "data/collision/masks/meowth_bonus.masks"
 
-ZapdosBillboardBGPalette1: ; 0xdc700
+ZapdosBillboardBGPalette1: ; dc700 (37:4700) 
     RGB 31, 31, 31
     RGB 29, 27, 0
     RGB 20, 6, 0
     RGB 0, 0, 0
-ZapdosBillboardBGPalette2: ; 0xdc708
+ZapdosBillboardBGPalette2: ; dc708 (37:4708) 
     RGB 31, 31, 31
     RGB 29, 27, 0
     RGB 20, 6, 0
     RGB 0, 0, 0
 
-MoltresBillboardBGPalette1: ; 0xdc710
+MoltresBillboardBGPalette1: ; dc710 (37:4710) 
     RGB 31, 31, 31
     RGB 30, 25, 0
     RGB 30, 6, 0
     RGB 0, 0, 0
-MoltresBillboardBGPalette2: ; 0xdc718
+MoltresBillboardBGPalette2: ; dc718 (37:4718) 
     RGB 31, 31, 31
     RGB 30, 25, 0
     RGB 30, 6, 0
     RGB 0, 0, 0
 
-DratiniBillboardBGPalette1: ; 0xdc720
+DratiniBillboardBGPalette1: ; dc720 (37:4720) 
     RGB 31, 31, 31
     RGB 17, 19, 24
     RGB 6, 11, 15
     RGB 0, 0, 0
-DratiniBillboardBGPalette2: ; 0xdc728
+DratiniBillboardBGPalette2: ; dc728 (37:4728) 
     RGB 31, 31, 31
     RGB 17, 19, 24
     RGB 6, 11, 15
     RGB 0, 0, 0
 
-DragonairBillboardBGPalette1: ; 0xdc730
+DragonairBillboardBGPalette1: ; dc730 (37:4730) 
     RGB 31, 31, 31
     RGB 9, 19, 30
     RGB 2, 4, 26
     RGB 0, 0, 0
-DragonairBillboardBGPalette2: ; 0xdc738
+DragonairBillboardBGPalette2: ; dc738 (37:4738) 
     RGB 31, 31, 31
     RGB 9, 19, 30
     RGB 2, 4, 26
     RGB 0, 0, 0
 
-DragoniteBillboardBGPalette1: ; 0xdc740
+DragoniteBillboardBGPalette1: ; dc740 (37:4740) 
     RGB 31, 31, 31
     RGB 31, 23, 7
     RGB 27, 11, 0
     RGB 0, 0, 0
-DragoniteBillboardBGPalette2: ; 0xdc748
+DragoniteBillboardBGPalette2: ; dc748 (37:4748) 
     RGB 31, 31, 31
     RGB 13, 22, 16
     RGB 27, 11, 0
     RGB 0, 0, 0
 
-MewtwoBillboardBGPalette1: ; 0xdc750
+MewtwoBillboardBGPalette1: ; dc750 (37:4750) 
     RGB 31, 31, 31
     RGB 28, 23, 28
     RGB 13, 7, 20
     RGB 0, 0, 0
-MewtwoBillboardBGPalette2: ; 0xdc758
+MewtwoBillboardBGPalette2: ; dc758 (37:4758) 
     RGB 31, 31, 31
     RGB 28, 23, 28
     RGB 20, 5, 18
     RGB 0, 0, 0
 
-MewBillboardBGPalette1: ; 0xdc760
+MewBillboardBGPalette1: ; dc760 (37:4760) 
     RGB 31, 31, 31
     RGB 31, 18, 24
     RGB 31, 7, 12
     RGB 0, 0, 0
-MewBillboardBGPalette2: ; 0xdc768
+MewBillboardBGPalette2: ; dc768 (37:4768) 
     RGB 31, 31, 31
     RGB 31, 18, 24
     RGB 0, 10, 31
@@ -54390,84 +54389,84 @@ MewBillboardBGPalette2: ; 0xdc768
 
 INCBIN "baserom.gbc",$dc770,$dc980 - $dc770
 
-StageRedFieldTopPalettes: ; 0xdc980
-StageRedFieldTopBGPalette0: ; 0xdc980
+StageRedFieldTopPalettes: ; dc980 (37:4980) 
+StageRedFieldTopBGPalette0: ; dc980 (37:4980) 
     RGB 31, 31, 31
     RGB 13, 20, 31
     RGB 31, 4, 4
     RGB 0, 0, 0
-StageRedFieldTopBGPalette1: ; 0xdc988
+StageRedFieldTopBGPalette1: ; dc988 (37:4988) 
     RGB 31, 31, 31
     RGB 24, 31, 0
     RGB 31, 0, 0
     RGB 3, 0, 0
-StageRedFieldTopBGPalette2: ; 0xdc990
+StageRedFieldTopBGPalette2: ; dc990 (37:4990) 
     RGB 31, 31, 31
     RGB 11, 25, 31
     RGB 0, 11, 31
     RGB 0, 0, 0
-StageRedFieldTopBGPalette3: ; 0xdc998
+StageRedFieldTopBGPalette3: ; dc998 (37:4998) 
     RGB 31, 31, 31
     RGB 31, 13, 13
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldTopBGPalette4: ; 0xdc9a0
+StageRedFieldTopBGPalette4: ; dc9a0 (37:49a0) 
     RGB 31, 31, 31
     RGB 31, 0, 31
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldTopBGPalette5: ; 0xdc9a8
+StageRedFieldTopBGPalette5: ; dc9a8 (37:49a8) 
     RGB 24, 31, 0
     RGB 31, 0, 31
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldTopBGPalette6: ; 0xdc9b0
+StageRedFieldTopBGPalette6: ; dc9b0 (37:49b0) 
     RGB 31, 31, 31
     RGB 13, 13, 31
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldTopBGPalette7: ; 0xdc9b8
+StageRedFieldTopBGPalette7: ; dc9b8 (37:49b8) 
     RGB 31, 31, 31
     RGB 31, 13, 13
     RGB 31, 0, 0
     RGB 0, 0, 0
 
-StageRedFieldTopOBJPalette0: ; 0xdc9c0
+StageRedFieldTopOBJPalette0: ; dc9c0 (37:49c0) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 31, 5, 4
     RGB 0, 0, 0
-StageRedFieldTopOBJPalette1: ; 0xdc9c8
+StageRedFieldTopOBJPalette1: ; dc9c8 (37:49c8) 
     RGB 31, 31, 31
     RGB 31, 19, 22
     RGB 21, 0, 0
     RGB 4, 0, 0
-StageRedFieldTopOBJPalette2: ; 0xdc9d0
+StageRedFieldTopOBJPalette2: ; dc9d0 (37:49d0) 
     RGB 20, 20, 20
     RGB 31, 31, 31
     RGB 31, 0, 31
     RGB 0, 0, 0
-StageRedFieldTopOBJPalette3: ; 0xdc9d8
+StageRedFieldTopOBJPalette3: ; dc9d8 (37:49d8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 22, 0
     RGB 10, 4, 0
-StageRedFieldTopOBJPalette4: ; 0xdc9e0
+StageRedFieldTopOBJPalette4: ; dc9e0 (37:49e0) 
     RGB 20, 20, 20
     RGB 18, 31, 18
     RGB 5, 19, 0
     RGB 0, 7, 0
-StageRedFieldTopOBJPalette5: ; 0xdc9e8
+StageRedFieldTopOBJPalette5: ; dc9e8 (37:49e8) 
     RGB 31, 31, 31
     RGB 31, 20, 0
     RGB 31, 15, 16
     RGB 5, 2, 0
-StageRedFieldTopOBJPalette6: ; 0xdc9f0
+StageRedFieldTopOBJPalette6: ; dc9f0 (37:49f0) 
     RGB 20, 20, 20
     RGB 0, 31, 25
     RGB 0, 18, 14
     RGB 0, 0, 0
-StageRedFieldTopOBJPalette7: ; 0xdc9f8
+StageRedFieldTopOBJPalette7: ; dc9f8 (37:49f8) 
     RGB 31, 31, 31
     RGB 31, 15, 13
     RGB 21, 0, 0
@@ -54475,84 +54474,84 @@ StageRedFieldTopOBJPalette7: ; 0xdc9f8
 
 INCBIN "baserom.gbc",$dca00,$dca80 - $dca00
 
-StageRedFieldBottomPalettes: ; 0xdca80
-StageRedFieldBottomBGPalette0: ; 0xdca80
+StageRedFieldBottomPalettes: ; dca80 (37:4a80) 
+StageRedFieldBottomBGPalette0: ; dca80 (37:4a80) 
     RGB 31, 31, 31
     RGB 13, 20, 31
     RGB 31, 4, 4
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette1: ; 0xdca88
+StageRedFieldBottomBGPalette1: ; dca88 (37:4a88) 
     RGB 31, 31, 31
     RGB 24, 31, 0
     RGB 31, 0, 0
     RGB 3, 0, 0
-StageRedFieldBottomBGPalette2: ; 0xdca90
+StageRedFieldBottomBGPalette2: ; dca90 (37:4a90) 
     RGB 31, 31, 31
     RGB 11, 25, 31
     RGB 0, 11, 31
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette3: ; 0xdca98
+StageRedFieldBottomBGPalette3: ; dca98 (37:4a98) 
     RGB 31, 31, 31
     RGB 31, 13, 13
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette4: ; 0xdcaa0
+StageRedFieldBottomBGPalette4: ; dcaa0 (37:4aa0) 
     RGB 31, 31, 31
     RGB 31, 0, 31
     RGB 31, 0, 0
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette5: ; 0xdcaa8
+StageRedFieldBottomBGPalette5: ; dcaa8 (37:4aa8) 
     RGB 31, 31, 31
     RGB 20, 20, 20
     RGB 8, 8, 8
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette6: ; 0xdcab0
+StageRedFieldBottomBGPalette6: ; dcab0 (37:4ab0) 
     RGB 29, 30, 31
     RGB 27, 20, 10
     RGB 2, 16, 1
     RGB 0, 0, 0
-StageRedFieldBottomBGPalette7: ; 0xdcab8
+StageRedFieldBottomBGPalette7: ; dcab8 (37:4ab8) 
     RGB 29, 30, 31
     RGB 5, 17, 31
     RGB 26, 3, 1
     RGB 0, 0, 0
 
-StageRedFieldBottomOBJPalette0: ; 0xdcac0
+StageRedFieldBottomOBJPalette0: ; dcac0 (37:4ac0) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 31, 5, 4
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette1: ; 0xdcac8
+StageRedFieldBottomOBJPalette1: ; dcac8 (37:4ac8) 
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 27, 21, 0
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette2: ; 0xdcad0
+StageRedFieldBottomOBJPalette2: ; dcad0 (37:4ad0) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 21, 21, 27
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette3: ; 0xdcad8
+StageRedFieldBottomOBJPalette3: ; dcad8 (37:4ad8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 8, 8, 8
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette4: ; 0xdcae0
+StageRedFieldBottomOBJPalette4: ; dcae0 (37:4ae0) 
     RGB 21, 21, 21
     RGB 31, 28, 0
     RGB 29, 0, 0
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette5: ; 0xdcae8
+StageRedFieldBottomOBJPalette5: ; dcae8 (37:4ae8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 8, 8, 8
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette6: ; 0xdcaf0
+StageRedFieldBottomOBJPalette6: ; dcaf0 (37:4af0) 
     RGB 20, 20, 20
     RGB 0, 31, 25
     RGB 0, 18, 14
     RGB 0, 0, 0
-StageRedFieldBottomOBJPalette7: ; 0xdcaf8
+StageRedFieldBottomOBJPalette7: ; dcaf8 (37:4af8) 
     RGB 31, 31, 31
     RGB 31, 30, 16
     RGB 27, 24, 8
@@ -54560,67 +54559,67 @@ StageRedFieldBottomOBJPalette7: ; 0xdcaf8
 
 INCBIN "baserom.gbc",$dcb00,$dcc00 - $dcb00
 
-PaletteData_dcc00:  ; 0xdcc00
+PaletteData_dcc00:  ; dcc00 (37:4c00) 
     RGB 31, 31, 31
     RGB 31, 28, 0
     RGB 0, 11, 31
     RGB 0, 0, 0
-PaletteData_dcc08:  ; 0xdcc08
+PaletteData_dcc08:  ; dcc08 (37:4c08) 
     RGB 31, 31, 31
     RGB 31, 28, 0
     RGB 29, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc10:  ; 0xdcc10
+PaletteData_dcc10:  ; dcc10 (37:4c10) 
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 16, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc18:  ; 0xdcc18
+PaletteData_dcc18:  ; dcc18 (37:4c18) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 15, 8, 0
     RGB 0, 0, 0
-PaletteData_dcc20:  ; 0xdcc20
+PaletteData_dcc20:  ; dcc20 (37:4c20) 
     RGB 31, 31, 31
     RGB 4, 23, 13
     RGB 29, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc28:  ; 0xdcc28
+PaletteData_dcc28:  ; dcc28 (37:4c28) 
     RGB 31, 31, 31
     RGB 29, 0, 0
     RGB 0, 0, 22
     RGB 0, 0, 0
-PaletteData_dcc30:  ; 0xdcc30
+PaletteData_dcc30:  ; dcc30 (37:4c30) 
     RGB 31, 31, 31
     RGB 31, 0, 15
     RGB 11, 0, 13
     RGB 0, 0, 0
-PaletteData_dcc38:  ; 0xdcc38
+PaletteData_dcc38:  ; dcc38 (37:4c38) 
     RGB 31, 31, 31
     RGB 11, 25, 31
     RGB 0, 11, 31
     RGB 0, 0, 0
-PaletteData_dcc40:  ; 0xdcc40
+PaletteData_dcc40:  ; dcc40 (37:4c40) 
     RGB 31, 31, 31
     RGB 15, 15, 19
     RGB 31, 0, 31
     RGB 0, 0, 0
-PaletteData_dcc48:  ; 0xdcc48
+PaletteData_dcc48:  ; dcc48 (37:4c48) 
     RGB 31, 31, 31
     RGB 31, 25, 31
     RGB 31, 0, 31
     RGB 0, 0, 0
-PaletteData_dcc50:  ; 0xdcc50
+PaletteData_dcc50:  ; dcc50 (37:4c50) 
     RGB 31, 31, 31
     RGB 31, 31, 0
     RGB 27, 11, 2
     RGB 0, 0, 0
-PaletteData_dcc58:  ; 0xdcc58
+PaletteData_dcc58:  ; dcc58 (37:4c58) 
     RGB 31, 31, 31
     RGB 31, 18, 8
     RGB 27, 0, 0
     RGB 0, 0, 0
-PaletteData_dcc60:  ; 0xdcc60
+PaletteData_dcc60:  ; dcc60 (37:4c60) 
     RGB 31, 31, 31
     RGB 20, 20, 26
     RGB 31, 11, 10
@@ -54628,84 +54627,84 @@ PaletteData_dcc60:  ; 0xdcc60
 
 INCBIN "baserom.gbc",$dcc68,$dcd80 - $dcc68
 
-EraseAllDataPalettes: ; 0xdcd80
-EraseAllDataBGPalette0: ; 0xdcd80
+EraseAllDataPalettes: ; dcd80 (37:4d80) 
+EraseAllDataBGPalette0: ; dcd80 (37:4d80) 
     RGB 31, 31, 31
     RGB 23, 23, 23
     RGB 14, 14, 14
     RGB 5, 5, 5
-EraseAllDataBGPalette1: ; 0xdcd88
+EraseAllDataBGPalette1: ; dcd88 (37:4d88) 
     RGB 31, 31, 31
     RGB 0, 0, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataBGPalette2: ; 0xdcd90
+EraseAllDataBGPalette2: ; dcd90 (37:4d90) 
     RGB 31, 31, 31
     RGB 0, 8, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataBGPalette3: ; 0xdcd98
+EraseAllDataBGPalette3: ; dcd98 (37:4d98) 
     RGB 31, 31, 31
     RGB 0, 16, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataBGPalette4: ; 0xdcda0
+EraseAllDataBGPalette4: ; dcda0 (37:4da0) 
     RGB 31, 31, 31
     RGB 0, 24, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataBGPalette5: ; 0xdcda8
+EraseAllDataBGPalette5: ; dcda8 (37:4da8) 
     RGB 31, 31, 31
     RGB 0, 31, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataBGPalette6: ; 0xdcdb0
+EraseAllDataBGPalette6: ; dcdb0 (37:4db0) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataBGPalette7: ; 0xdcdb8
+EraseAllDataBGPalette7: ; dcdb8 (37:4db8) 
     RGB 31, 29, 4
     RGB 29, 18, 0
     RGB 31, 0, 0
     RGB 5, 5, 5
 
-EraseAllDataOBJPalette0: ; 0xdcdc0
+EraseAllDataOBJPalette0: ; dcdc0 (37:4dc0) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 6, 6
     RGB 0, 0, 0
-EraseAllDataOBJPalette1: ; 0xdcdc8
+EraseAllDataOBJPalette1: ; dcdc8 (37:4dc8) 
     RGB 31, 31, 31
     RGB 31, 29, 4
     RGB 29, 18, 0
     RGB 0, 0, 0
-EraseAllDataOBJPalette2: ; 0xdcdd0
+EraseAllDataOBJPalette2: ; dcdd0 (37:4dd0) 
     RGB 20, 20, 20
     RGB 31, 31, 31
     RGB 14, 14, 14
     RGB 5, 5, 5
-EraseAllDataOBJPalette3: ; 0xdcdd8
+EraseAllDataOBJPalette3: ; dcdd8 (37:4dd8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette4: ; 0xdcde0
+EraseAllDataOBJPalette4: ; dcde0 (37:4de0) 
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 31, 31, 31
     RGB 0, 0, 0
-EraseAllDataOBJPalette5: ; 0xdcde8
+EraseAllDataOBJPalette5: ; dcde8 (37:4de8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette6: ; 0xdcdf0
+EraseAllDataOBJPalette6: ; dcdf0 (37:4df0) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-EraseAllDataOBJPalette7: ; 0xdcdf8
+EraseAllDataOBJPalette7: ; dcdf8 (37:4df8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
@@ -54713,167 +54712,167 @@ EraseAllDataOBJPalette7: ; 0xdcdf8
 
 INCBIN "baserom.gbc",$dce00,$dcf80 - $dce00
 
-TitlescreenPalettes: ; 0xdcf80
-TitlescreenBGPalette0: ; 0xdcf80
+TitlescreenPalettes: ; dcf80 (37:4f80) 
+TitlescreenBGPalette0: ; dcf80 (37:4f80) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 31, 0, 0
     RGB 0, 0, 0
-TitlescreenBGPalette1: ; 0xdcf88
+TitlescreenBGPalette1: ; dcf88 (37:4f88) 
     RGB 31, 31, 31
     RGB 0, 12, 26
     RGB 31, 0, 0
     RGB 0, 0, 0
-TitlescreenBGPalette2: ; 0xdcf90
+TitlescreenBGPalette2: ; dcf90 (37:4f90) 
     RGB 31, 31, 31
     RGB 23, 31, 24
     RGB 31, 0, 0
     RGB 0, 0, 0
-TitlescreenBGPalette3: ; 0xdcf98
+TitlescreenBGPalette3: ; dcf98 (37:4f98) 
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 0, 12, 26
     RGB 0, 0, 0
-TitlescreenBGPalette4: ; 0xdcfa0
+TitlescreenBGPalette4: ; dcfa0 (37:4fa0) 
     RGB 31, 31, 31
     RGB 20, 20, 31
     RGB 0, 12, 26
     RGB 0, 0, 0
-TitlescreenBGPalette5: ; 0xdcfa8
+TitlescreenBGPalette5: ; dcfa8 (37:4fa8) 
     RGB 31, 31, 31
     RGB 23, 31, 24
     RGB 0, 12, 26
     RGB 0, 0, 0
-TitlescreenBGPalette6: ; 0xdcfb0
+TitlescreenBGPalette6: ; dcfb0 (37:4fb0) 
     RGB 31, 31, 31
     RGB 20, 20, 31
     RGB 23, 31, 24
     RGB 0, 0, 0
-TitlescreenBGPalette7: ; 0xdcfb8
+TitlescreenBGPalette7: ; dcfb8 (37:4fb8) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
 
-TitlescreenOBJPalette0: ; 0xdcfc0
+TitlescreenOBJPalette0: ; dcfc0 (37:4fc0) 
     RGB 20, 20, 20
     RGB 31, 31, 31
     RGB 31, 29, 0
     RGB 0, 0, 0
-TitlescreenOBJPalette1: ; 0xdcfc8
+TitlescreenOBJPalette1: ; dcfc8 (37:4fc8) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 0, 0, 0
-TitlescreenOBJPalette2: ; 0xdcfd0
+TitlescreenOBJPalette2: ; dcfd0 (37:4fd0) 
     RGB 20, 20, 20
     RGB 31, 31, 31
     RGB 23, 23, 27
     RGB 0, 0, 0
-TitlescreenOBJPalette3: ; 0xdcfd8
+TitlescreenOBJPalette3: ; dcfd8 (37:4fd8) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
-TitlescreenOBJPalette4: ; 0xdcfe0
+TitlescreenOBJPalette4: ; dcfe0 (37:4fe0) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
-TitlescreenOBJPalette5: ; 0xdcfe8
+TitlescreenOBJPalette5: ; dcfe8 (37:4fe8) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
-TitlescreenOBJPalette6: ; 0xdcff0
+TitlescreenOBJPalette6: ; dcff0 (37:4ff0) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
-TitlescreenOBJPalette7: ; 0xdcff8
+TitlescreenOBJPalette7: ; dcff8 (37:4ff8) 
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
     RGB 0, 6, 0
 
-CopyrightScreenPalettes: ; 0xdd000
-CopyrightScreenBGPalette0: ; 0xdd000
+CopyrightScreenPalettes: ; dd000 (37:5000) 
+CopyrightScreenBGPalette0: ; dd000 (37:5000) 
     RGB 31, 31, 31
     RGB 22, 22, 22
     RGB 11, 11, 11
     RGB 0, 0, 0
-CopyrightScreenBGPalette1: ; 0xdd008
+CopyrightScreenBGPalette1: ; dd008 (37:5008) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette2: ; 0xdd010
+CopyrightScreenBGPalette2: ; dd010 (37:5010) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette3: ; 0xdd018
+CopyrightScreenBGPalette3: ; dd018 (37:5018) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette4: ; 0xdd020
+CopyrightScreenBGPalette4: ; dd020 (37:5020) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette5: ; 0xdd028
+CopyrightScreenBGPalette5: ; dd028 (37:5028) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette6: ; 0xdd030
+CopyrightScreenBGPalette6: ; dd030 (37:5030) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenBGPalette7: ; 0xdd038
+CopyrightScreenBGPalette7: ; dd038 (37:5038) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
 
-CopyrightScreenOBJPalette0: ; 0xdd040
+CopyrightScreenOBJPalette0: ; dd040 (37:5040) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 22, 22, 22
     RGB 0, 0, 0
-CopyrightScreenOBJPalette1: ; 0xdd048
+CopyrightScreenOBJPalette1: ; dd048 (37:5048) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 11, 11, 11
     RGB 0, 0, 0
-CopyrightScreenOBJPalette2: ; 0xdd050
+CopyrightScreenOBJPalette2: ; dd050 (37:5050) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenOBJPalette3: ; 0xdd058
+CopyrightScreenOBJPalette3: ; dd058 (37:5058) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenOBJPalette4: ; 0xdd060
+CopyrightScreenOBJPalette4: ; dd060 (37:5060) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenOBJPalette5: ; 0xdd068
+CopyrightScreenOBJPalette5: ; dd068 (37:5068) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenOBJPalette6: ; 0xdd070
+CopyrightScreenOBJPalette6: ; dd070 (37:5070) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
-CopyrightScreenOBJPalette7: ; 0xdd078
+CopyrightScreenOBJPalette7: ; dd078 (37:5078) 
     RGB 31, 31, 31
     RGB 31, 31, 31
     RGB 31, 31, 31
@@ -54881,92 +54880,92 @@ CopyrightScreenOBJPalette7: ; 0xdd078
 
 INCBIN "baserom.gbc",$dd080,$dd100 - $dd080
 
-FieldSelectScreenPalettes: ; 0xdd100
-FieldSelectScreenBGPalette0: ; 0xdd100
+FieldSelectScreenPalettes: ; dd100 (37:5100) 
+FieldSelectScreenBGPalette0: ; dd100 (37:5100) 
     RGB 31, 31, 31
     RGB 31, 20, 0
     RGB 31, 0, 0
     RGB 0, 0, 0
-FieldSelectScreenBGPalette1: ; 0xdd108
+FieldSelectScreenBGPalette1: ; dd108 (37:5108) 
     RGB 31, 31, 31
     RGB 0, 22, 31
     RGB 0, 0, 31
     RGB 0, 0, 0
-FieldSelectScreenBGPalette2: ; 0xdd110
+FieldSelectScreenBGPalette2: ; dd110 (37:5110) 
     RGB 31, 31, 31
     RGB 31, 0, 0
     RGB 0, 25, 0
     RGB 0, 0, 0
-FieldSelectScreenBGPalette3: ; 0xdd118
+FieldSelectScreenBGPalette3: ; dd118 (37:5118) 
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
-FieldSelectScreenBGPalette4: ; 0xdd120
+FieldSelectScreenBGPalette4: ; dd120 (37:5120) 
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
-FieldSelectScreenBGPalette5: ; 0xdd128
+FieldSelectScreenBGPalette5: ; dd128 (37:5128) 
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
-FieldSelectScreenBGPalette6: ; 0xdd130
+FieldSelectScreenBGPalette6: ; dd130 (37:5130) 
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
-FieldSelectScreenBGPalette7: ; 0xdd138
+FieldSelectScreenBGPalette7: ; dd138 (37:5138) 
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
     RGB 31, 0, 31
 
-FieldSelectScreenOBJPalette0: ; 0xdd140
+FieldSelectScreenOBJPalette0: ; dd140 (37:5140) 
     RGB 10, 10, 10
     RGB 31, 31, 31
     RGB 21, 21, 21
     RGB 0, 0, 0
 
-CinnabarIslandBillboardBGPalette1: ; 0xdd148
+CinnabarIslandBillboardBGPalette1: ; dd148 (37:5148) 
     RGB 31, 31, 31
     RGB 14, 21, 0
     RGB 0, 10, 31
     RGB 0, 0, 0
-CinnabarIslandBillboardBGPalette2: ; 0xdd150
+CinnabarIslandBillboardBGPalette2: ; dd150 (37:5150) 
     RGB 31, 31, 31
     RGB 14, 21, 0
     RGB 2, 11, 1
     RGB 0, 0, 0
 
-IndigoPlateauBillboardBGPalette1: ; 0xdd158
+IndigoPlateauBillboardBGPalette1: ; dd158 (37:5158) 
     RGB 31, 31, 31
     RGB 11, 18, 31
     RGB 7, 9, 19
     RGB 0, 0, 0
-IndigoPlateauBillboardBGPalette2: ; 0xdd160
+IndigoPlateauBillboardBGPalette2: ; dd160 (37:5160) 
     RGB 31, 31, 31
     RGB 11, 18, 31
     RGB 9, 20, 0
     RGB 0, 0, 0
 
-PokeBallObjPalette: ; 0xdd168
+PokeBallObjPalette: ; dd168 (37:5168) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 31,  5,  4
     RGB  0,  0,  0
-GreatBallObjPalette: ; 0xdd170
+GreatBallObjPalette: ; dd170 (37:5170) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB  2,  8, 31
     RGB  0,  0,  0
-UltraBallObjPalette: ; 0xdd178
+UltraBallObjPalette: ; dd178 (37:5178) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 27, 21,  0
     RGB  0,  0,  0
-MasterBallObjPalette: ; 0xdd180
+MasterBallObjPalette: ; dd180 (37:5180) 
     RGB 21, 21, 21
     RGB 31, 31, 31
     RGB 21,  3, 21
@@ -54977,39 +54976,39 @@ INCBIN "baserom.gbc",$dd188,$e0000 - $dd188
 
 SECTION "bank38", ROMX, BANK[$38]
 
-INCBIN "baserom.gbc",$e0000,$e4000 - $e0000 ; 0xe0000
+INCBIN "baserom.gbc",$e0000,$e4000 - $e0000 ; e0000 (38:4000) 
 
 
 SECTION "bank39", ROMX, BANK[$39]
 
-INCBIN "baserom.gbc",$e4000,$e8000 - $e4000 ; 0xe4000
+INCBIN "baserom.gbc",$e4000,$e8000 - $e4000 ; e4000 (39:4000) 
 
 
 SECTION "bank3a", ROMX, BANK[$3a]
 
-INCBIN "baserom.gbc",$e8000,$ec000 - $e8000 ; 0xe8000
+INCBIN "baserom.gbc",$e8000,$ec000 - $e8000 ; e8000 (3a:4000) 
 
 
 SECTION "bank3b", ROMX, BANK[$3b]
 
-INCBIN "baserom.gbc",$ec000,$f0000 - $ec000 ; 0xec000
+INCBIN "baserom.gbc",$ec000,$f0000 - $ec000 ; ec000 (3b:4000) 
 
 
 SECTION "bank3c", ROMX, BANK[$3c]
 
-INCBIN "baserom.gbc",$f0000,$f4000 - $f0000 ; 0xf0000
+INCBIN "baserom.gbc",$f0000,$f4000 - $f0000 ; f0000 (3c:4000) 
 
 
 SECTION "bank3d", ROMX, BANK[$3d]
 
-INCBIN "baserom.gbc",$f4000,$f8000 - $f4000 ; 0xf4000
+INCBIN "baserom.gbc",$f4000,$f8000 - $f4000 ; f4000 (3d:4000) 
 
 
 SECTION "bank3e", ROMX, BANK[$3e]
 
-INCBIN "baserom.gbc",$f8000,$fc000 - $f8000 ; 0xf8000
+INCBIN "baserom.gbc",$f8000,$fc000 - $f8000 ; f8000 (3e:4000) 
 
 
 SECTION "bank3f", ROMX, BANK[$3f]
 
-INCBIN "baserom.gbc",$fc000,$fffff - $fc000 ; 0xfc000
+INCBIN "baserom.gbc",$fc000,$fffff - $fc000 ; fc000 (3f:4000) 
